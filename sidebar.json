@@ -1,0 +1,71 @@
+[
+    "chips/600X/index",
+    {
+      "type": "category",
+      "label": "概述",
+      "items": [
+          "chips/600X/概述/芯片/index",
+          {
+            "type": "category",
+            "label": "开发套件",
+            "items": [
+                "chips/600X/开发板/pico",
+                "chips/600X/开发板/nanokit"
+            ],
+            "collapsed": true
+          },
+          "chips/600X/概述/系统/index",
+          "chips/600X/概述/工具/index"
+      ],
+      "collapsed": true
+    },
+    {
+      "type": "category",
+      "label": "快速上手",
+      "items": [
+          "chips/600X/快速开始/start_env",
+          "chips/600X/快速开始/start_project"
+      ],
+      "collapsed": true
+    },
+    {
+      "type": "category",
+      "label": "应用开发",
+      "items": [
+        
+      ],
+      "collapsed": true
+    },
+    {
+      "type": "category",
+      "label": "系统设计",
+      "items": [
+        
+      ],
+      "collapsed": true
+    },
+    {
+      "type": "category",
+      "label": "API 文档",
+      "items": [
+        
+      ],
+      "collapsed": true
+    },
+    {
+      "type": "category",
+      "label": "CEP 计划",
+      "items": [
+        
+      ],
+      "collapsed": true
+    },
+    {
+      "type": "category",
+      "label": "版本",
+      "items": [
+        
+      ],
+      "collapsed": true
+    }
+  ]
