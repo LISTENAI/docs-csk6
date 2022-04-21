@@ -1,33 +1,13 @@
 name: test
 
 on:
-  push
+  push:
+    branches:    
+      - 'feature/**'
 
 jobs:
-  check-available:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14.x'
-      - name: "[Main Doc] checkout"
-        run: cd ~ && git clone https://github.com/LISTENAI/LSOpenWeb.git lsopenweb
-      - name: "[Main Doc] submodule sync"
-        run: cd ~/lsopenweb && git submodule update --init --recursive
-      - name: "[Main doc] Replace ssh dependency"
-        run: sed -i 's/github:ataft\/plugin-image-zoom/git+https:\/\/github.com\/flexanalytics\/plugin-image-zoom.git/' ~/lsopenweb/package.json
-      - name: "[Main Doc] prepared"
-        run: cd ~/lsopenweb && yarn
-      - name: "[Main Doc] predeploy"
-        run: cd ~/lsopenweb && yarn predeploy 
-      - name: "[Main Doc] Find submodule path"
-        id: find-submodule
-        run: |
-          submodule_path=$(node .github/workflows/find_submodule_path.js ~/lsopenweb/ $GITHUB_REPOSITORY)
-          echo ::set-output name=submodule_path::"$submodule_path"
-      - name: "[Sub Doc] Checkout doc to current commit"
-        run: cd ~/lsopenweb/${{ steps.find-submodule.outputs.submodule_path }} && git checkout "$GITHUB_SHA"
-      - name: "[Main Doc] Test build"
-        run: cd ~/lsopenweb && yarn build
+      - uses: ./.github/workflows/check_available

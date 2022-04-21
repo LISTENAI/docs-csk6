@@ -1,0 +1,36 @@
+name: check_available
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14.x'
+    - name: "[Main Doc] checkout"
+      run: cd ~ && git clone https://github.com/LISTENAI/LSOpenWeb.git lsopenweb
+      shell: bash
+    - name: "[Main Doc] submodule sync"
+      run: cd ~/lsopenweb && git submodule update --init --recursive
+      shell: bash
+    - name: "[Main doc] Replace ssh dependency"
+      run: sed -i 's/github:ataft\/plugin-image-zoom/git+https:\/\/github.com\/flexanalytics\/plugin-image-zoom.git/' ~/lsopenweb/package.json
+      shell: bash
+    - name: "[Main Doc] prepared"
+      run: cd ~/lsopenweb && yarn
+      shell: bash
+    - name: "[Main Doc] predeploy"
+      run: cd ~/lsopenweb && yarn predeploy 
+      shell: bash
+    - name: "[Main Doc] Find submodule path"
+      id: find-submodule
+      run: |
+        submodule_path=$(node .github/workflows/find_submodule_path.js ~/lsopenweb/ $GITHUB_REPOSITORY)
+        echo ::set-output name=submodule_path::"$submodule_path"
+      shell: bash
+    - name: "[Sub Doc] Checkout doc to current commit"
+      run: cd ~/lsopenweb/${{ steps.find-submodule.outputs.submodule_path }} && git checkout "$GITHUB_SHA"
+      shell: bash
+    - name: "[Main Doc] Test build"
+      run: cd ~/lsopenweb && yarn build
+      shell: bash
