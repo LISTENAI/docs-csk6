@@ -1,4 +1,5 @@
 {
+    "showInProduction": false,
     "subNavbar": {
         "to": "index",
         "label": "CSK600X"
