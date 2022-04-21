@@ -2,15 +2,14 @@
     "chips/600X/index",
     {
       "type": "category",
-      "label": "概述",
+      "label": "简介",
       "items": [
           "chips/600X/概述/芯片/index",
           {
             "type": "category",
             "label": "开发套件",
             "items": [
-                "chips/600X/开发板/pico",
-                "chips/600X/开发板/nanokit"
+                "chips/600X/概述/开发板/nanokit"
             ],
             "collapsed": true
           },
@@ -67,5 +66,6 @@
         
       ],
       "collapsed": true
-    }
+    },
+    "chips/600X/FAQ/index"
   ]

@@ -1,8 +1,4 @@
-<!-- CSK6 Documentation documentation master file, created by
-sphinx-quickstart on Fri Jan 14 11:40:27 2022.
-You can adapt this file completely to your liking, but it should at least
-contain the root `toctree` directive. -->
-# CSK 项目开发文档
+# 概述
 
 CSK 是聆思芯片的代号，本文档主要以 CSK6系 芯片为基础。
 
@@ -23,9 +19,6 @@ CSK 是聆思芯片的代号，本文档主要以 CSK6系 芯片为基础。
 
 
 * [应用开发](应用开发/index)
-
-
-* [MicroPython 应用开发](MicroPython 应用开发/index)
 
 
 * [系统设计](系统设计/index)
