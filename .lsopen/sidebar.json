@@ -1,0 +1,71 @@
+[
+  "index",
+  {
+    "type": "category",
+    "label": "简介",
+    "items": [
+        "概述/芯片/index",
+        {
+          "type": "category",
+          "label": "开发套件",
+          "items": [
+              "概述/开发板/nanokit"
+          ],
+          "collapsed": true
+        },
+        "概述/系统/index",
+        "概述/工具/index"
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "快速上手",
+    "items": [
+        "快速开始/start_env",
+        "快速开始/start_project"
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "应用开发",
+    "items": [
+      
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "系统设计",
+    "items": [
+      
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "API 文档",
+    "items": [
+      
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "CEP 计划",
+    "items": [
+      
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "版本",
+    "items": [
+      
+    ],
+    "collapsed": true
+  },
+  "FAQ/index"
+]

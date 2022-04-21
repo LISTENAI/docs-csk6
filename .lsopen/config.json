@@ -1,0 +1,7 @@
+{
+    "subNavbar": {
+        "activeBasePath": ".",
+        "to": "./index",
+        "label": "CSK600X"
+    }
+}
