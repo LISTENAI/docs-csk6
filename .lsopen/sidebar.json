@@ -2,7 +2,7 @@
   "index",
   {
     "type": "category",
-    "label": "概述",
+    "label": "简介",
     "items": [
         "overview/chips",
         "overview/nanokit",
@@ -77,8 +77,23 @@
     "type": "category",
     "label": "API 文档",
     "items": [
-      
+      {
+        "type": "category",
+        "label": "lisa zephyr 命令工具",
+        "items": [
+          "api/lisa_zep/sdk_command",
+          "api/lisa_zep/env_command",
+          "api/lisa_zep/create_command",
+          "api/lisa_zep/app_build_flash",
+          "api/lisa_zep/debug_command",
+          "api/lisa_zep/filesystem",
+          "api/lisa_zep/trouble_shooting",
+          "api/lisa_zep/release_note"
+        ],
+        "collapsed": true
+      }
     ],
     "collapsed": true
-  }
+  },
+  "faq/index"
 ]
