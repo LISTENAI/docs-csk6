@@ -2,19 +2,12 @@
   "index",
   {
     "type": "category",
-    "label": "简介",
+    "label": "概述",
     "items": [
-        "概述/芯片/index",
-        {
-          "type": "category",
-          "label": "开发套件",
-          "items": [
-              "概述/开发板/nanokit"
-          ],
-          "collapsed": true
-        },
-        "概述/系统/index",
-        "概述/工具/index"
+        "overview/chips",
+        "overview/nanokit",
+        "overview/system",
+        "overview/lisa_zep"
     ],
     "collapsed": true
   },
@@ -22,8 +15,10 @@
     "type": "category",
     "label": "快速上手",
     "items": [
-        "快速开始/start_env",
-        "快速开始/start_project"
+        "quick_start/start_env",
+        "quick_start/start_project",
+        "quick_start/debug",
+        "quick_start/doc_issue"
     ],
     "collapsed": true
   },
@@ -31,7 +26,42 @@
     "type": "category",
     "label": "应用开发",
     "items": [
-      
+      "application/overview",
+      "application/kconfig",
+      "application/os_api",
+      "application/device_tree",
+      "application/board",
+      {
+        "type": "category",
+        "label": "外设驱动",
+        "items": [
+          "application/peripheral/overview",
+          {
+            "type": "category",
+            "label": "更多使用示例",
+            "items": [
+              "application/peripheral/samples/gpio"
+            ],
+            "collapsed": true
+          }
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "组件",
+        "items": [
+          "application/modules/logger",
+          "application/modules/filesystem",
+          "application/modules/network",
+          "application/modules/audio_playback",
+          "application/modules/audio_record",
+          "application/modules/usb_class",
+          "application/modules/display",
+          "application/modules/dsp_usage"
+        ],
+        "collapsed": true
+      }
     ],
     "collapsed": true
   },
@@ -50,22 +80,5 @@
       
     ],
     "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "CEP 计划",
-    "items": [
-      
-    ],
-    "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "版本",
-    "items": [
-      
-    ],
-    "collapsed": true
-  },
-  "FAQ/index"
+  }
 ]
