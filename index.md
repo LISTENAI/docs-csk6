@@ -12,28 +12,16 @@ CSK 是聆思芯片的代号，本文档主要以 CSK6系 芯片为基础。
 ## 目录章节
 
 
-* [概述](overview/index)
+* [简介](overview/chips)
 
 
-* [快速开始](快速开始/index)
+* [快速上手](quick_start/start_env)
 
 
-* [应用开发](应用开发/index)
+* [应用开发](application/overview)
 
 
-* [系统设计](系统设计/index)
-
-
-* [工具](工具/index)
-
-
-* [API文档](API文档/index)
-
-
-* [示例](示例/index)
-
-
-* [版本信息](版本信息/index)
+* [开发工具](api/lisa_zep/sdk_command)
 
 
 * [FAQ](FAQ/index)
