@@ -27,7 +27,7 @@ $ lisa zep build -b csk6002_c3_nano
 
 以使用 **CSK-6-NanoKit开发板** 为例，使用TypeC数据线连接开发板的 **DAPLINK USB**
 
-更多的开发板使用说明，可参考 [NanoKit开发板](../概述/开发板/nanokit) 。
+更多的开发板使用说明，可参考 [NanoKit开发板](../overview/nanokit) 。
 
 ## 烧录
 
