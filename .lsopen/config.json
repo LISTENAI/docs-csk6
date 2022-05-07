@@ -1,7 +1,7 @@
 {
     "hiddenInProd": true,
     "subNavbar": {
-        "to": "index",
+        "to": "overview/chips",
         "label": "CSK600X"
     }
 }

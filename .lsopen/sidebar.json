@@ -1,5 +1,4 @@
 [
-  "index",
   {
     "type": "category",
     "label": "简介",
@@ -27,10 +26,11 @@
     "label": "应用开发",
     "items": [
       "application/overview",
+      "application/structure",
       "application/kconfig",
-      "application/os_api",
       "application/device_tree",
       "application/board",
+      "application/os_api",
       {
         "type": "category",
         "label": "外设驱动",
