@@ -1,5 +1,4 @@
 [
-  "index",
   {
     "type": "category",
     "label": "简介",
@@ -17,7 +16,7 @@
     "items": [
         "quick_start/start_env",
         "quick_start/start_project",
-        "quick_start/debug",
+        // "quick_start/debug",
         "quick_start/doc_issue"
     ],
     "collapsed": true
@@ -27,10 +26,11 @@
     "label": "应用开发",
     "items": [
       "application/overview",
+      "application/structure",
       "application/kconfig",
-      "application/os_api",
       "application/device_tree",
       "application/board",
+      "application/os_api",
       {
         "type": "category",
         "label": "外设驱动",
@@ -65,14 +65,14 @@
     ],
     "collapsed": true
   },
-  {
-    "type": "category",
-    "label": "系统设计",
-    "items": [
+  // {
+  //   "type": "category",
+  //   "label": "系统设计",
+  //   "items": [
       
-    ],
-    "collapsed": true
-  },
+  //   ],
+  //   "collapsed": true
+  // },
   {
     "type": "category",
     "label": "API 文档",
