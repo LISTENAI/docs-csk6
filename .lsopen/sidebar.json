@@ -16,7 +16,7 @@
     "items": [
         "quick_start/start_env",
         "quick_start/start_project",
-        // "quick_start/debug",
+        "quick_start/debug",
         "quick_start/doc_issue"
     ],
     "collapsed": true
@@ -65,14 +65,14 @@
     ],
     "collapsed": true
   },
-  // {
-  //   "type": "category",
-  //   "label": "系统设计",
-  //   "items": [
+  {
+    "type": "category",
+    "label": "系统设计",
+    "items": [
       
-  //   ],
-  //   "collapsed": true
-  // },
+    ],
+    "collapsed": true
+  },
   {
     "type": "category",
     "label": "API 文档",

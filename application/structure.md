@@ -11,13 +11,13 @@ CSK6应用的目录，是独立于 SDK 的。这样不仅可以保证用户目�
 
 ```
     app
-    ├── boards
-    ├── drivers
-    ├── dts
-    ├── src
+    ├── boards/ 
+    ├── drivers/ 
+    ├── dts/ 
+    ├── src/ 
     ├── prj.conf
     ├── CMakeLists.txt
-    └── KConfig
+    └── Kconfig
 ```
 
 **目录说明**
@@ -28,13 +28,13 @@ CSK6应用的目录，是独立于 SDK 的。这样不仅可以保证用户目�
 
 * CMakeLists.txt: cmake 编译脚本文件；
 
-*非必选*
+*以下为非必选项*
 
-* boards: 存放不同版型的配置(**非必选**)，具体使用可以参考：[Board 的使用](./board.md)
+* boards: 存放不同版型的配置，具体使用可以参考：[Board 的使用](./board.md)
 
-* drivers: 存放新硬件驱动的目录(**非必选**)，具体可以参考：[添加自定义驱动](../extension/custom_driver.md)
+* drivers: 存放新硬件驱动的目录，具体可以参考：[添加自定义驱动](../extension/custom_driver.md)
 
-* dts: 存放自定义设备树的目录(**非必选**)，一般配合自定义驱动使用；具体可以参考：[添加自定义驱动](../extension/custom_driver.md)
+* dts: 存放自定义设备树的目录，一般配合自定义驱动使用；具体可以参考：[添加自定义驱动](../extension/custom_driver.md)
 
-* KConfig: 应用自定义配置项，具体可以参考：[添加自定义配置](./kconfig.md#添加自定义配置)
+* Kconfig: 应用自定义配置项，具体可以参考：[添加自定义配置](./kconfig.md#添加自定义配置)
 
