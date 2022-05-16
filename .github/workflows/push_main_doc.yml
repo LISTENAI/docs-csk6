@@ -1,8 +1,6 @@
 name: push_main_doc
 
 on:
-  pull_request:
-    branches: [master]
   push:
     branches: [master]
 
