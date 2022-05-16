@@ -1,9 +1,11 @@
-# Blinky pwm
+# PWM
 
 ## 概述
-Blinky pwm是一个简单的应用程序，通过pwm控制LED灯的闪烁频率，`CSK6 SDK`提供了基础的实现示例，本章节教你如何基于`csk6002_9s_nano`开发板实现pwm控制LED灯的闪烁。
-Blinky pwm sample中通过pwm控制LED灯以1hz的频率闪烁，每4秒频率翻倍直到64hz，此后每4秒频率减半，直到恢复到1hz完成一个闪烁周期，以先快后慢的闪烁方式循环。
-部分PWM硬件无法实现1hz的频率控制，这个sample在启动时会对硬件进行校准，适当减小最大PWM周期，直到找到匹配硬件的值。
+PWM是我们常用的外设功能之一，本节我们将通过一个例程讲解PWM的使用。
+
+我们此次使用的例程是Blinky pwm， 此例程使用PWM控制LED灯以1Hz的频率闪烁，每4秒频率翻倍直到64hz，此后每4秒频率减半，直到恢复到1Hz完成一个闪烁周期，以先快后慢的闪烁方式循环。
+
+部分PWM硬件无法实现1Hz的频率控制，这个sample在启动时会对硬件进行校准，适当减小最大PWM周期，直到找到匹配硬件的值。
 
 ## 准备工作
 首先，实现Blinky_pwm示例的预期效果需要硬件开发板上必须有一个GPIO(带pwm输出功能)连接了一个LED灯，在`csk6002_9s_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_05，GPIOA_05可复用为pwm输出功能。
@@ -11,7 +13,7 @@ Blinky pwm sample中通过pwm控制LED灯以1hz的频率闪烁，每4秒频率�
 ![](./files/blinky_pwm.png)
 
 ## 创建项目
-`CSK6 SDK`提供了Blinky_pwm的sample，你可以通过一下指令创建一个Blinky_pwm项目：
+`CSK6 SDK`提供了Blinky_pwm的sample，你可以在任一期望放置项目工程的目录下输出以下指令创建一个Blinky_pwm项目：
 ```
 lisa zep create
 ```
