@@ -40,7 +40,7 @@
             "type": "category",
             "label": "更多使用示例",
             "items": [
-              "application/peripheral/samples/blinky",
+              "application/peripheral/samples/gpio",
 			  "application/peripheral/samples/pwm"
             ],
             "collapsed": true
