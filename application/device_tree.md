@@ -141,7 +141,7 @@ app
 
 ### DTS 语法
 
-DTS 语法与 Linux 设备树保持一致，更多信息可以参阅：[Devicetree spec](./resource/devicetree-specification-v0.1-20160524.pdf)。
+DTS 语法与 Linux 设备树保持一致，更多信息可以参阅：[Devicetree spec](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/PDF/devicetree-specification-v0.1-20160524.pdf)。
 
 下面我们主要简单讲解 *DTS* 的一些基本元素。
 
@@ -182,7 +182,7 @@ node1@address {
 
 其中 `node1` 是它的节点名，`address` 是节点的第一个寄存地址，如果没有寄存器 *@address* 为空。
 
-节点名长度应该小于 *31* 个字符，对于不同类型的设备，[Devicetree spec](./resource/devicetree-specification-v0.1-20160524.pdf) 有推荐对应的设备名，但并非强制。
+节点名长度应该小于 *31* 个字符，对于不同类型的设备，[Devicetree spec](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/PDF/devicetree-specification-v0.1-20160524.pdf) 有推荐对应的设备名，但并非强制。
 
 > 注意：根节点名为 */* ，根节点必须有，且只有一个。
 
