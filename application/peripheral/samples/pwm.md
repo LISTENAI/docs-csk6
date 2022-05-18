@@ -36,7 +36,7 @@ CONFIG_PWM_LOG_LEVEL_DBG=y
 CONFIG_PWM=y
 ```
 ### 设备树配置
-- 首先，我们需要在当前boad设备树中添加`pwm`的配置，即在`csk6002_9s_nano.dts`中实现`pwmleds`的配置，详细配置如下:
+- 首先，我们需要在当前board设备树中添加`pwm`的配置，即在`csk6002_9s_nano.dts`中实现`pwmleds`的配置，详细配置如下:
 ```
  {
         model = "csk6002 9s nano";
@@ -56,7 +56,9 @@ CONFIG_PWM=y
     ...
 };
 ```
-**NOTE**:在`csk6002_9s_nano.dts`设备树配置中已经默认添加了`pwmleds`的配置，所以你无需再增加，当你在适配一个新的板子创建新的boad时，需要确保`pwmleds`的配置是存在的。
+:::note
+在`csk6002_9s_nano.dts`设备树配置中已经默认添加了`pwmleds`的配置，所以你无需再增加，当你在适配一个新的板子创建新的boad时，需要确保`pwmleds`的配置是存在的。
+:::
 
 - 其次，在sample代码中获取设备树pwm_led0配置，并通过pwm输出配置实现LED闪烁频率控制
 ```
