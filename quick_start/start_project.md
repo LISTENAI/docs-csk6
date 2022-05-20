@@ -34,8 +34,12 @@ $ lisa zep build -b csk6002_9s_nano
 由于NanoKit开发板集成了DAPLINK烧录器，因此支持使用pyocd进行代码烧录，执行以下指令：
 
 ```console
-$ lisa zep flash --runner pyocd
+$ lisa zep flash
 ```
+
+:::info
+开发板 `csk6002_9s_nano` 默认使用 `pyocd` 进行烧录， 若你使用jlink烧录器或使用csk适配的串口烧录，可通过带上参数 `--runner jlink` 或 `--runner csk` 进行烧录。
+:::
 
 ## 运行
 
