@@ -41,7 +41,8 @@
             "label": "更多使用示例",
             "items": [
               "application/peripheral/samples/gpio",
-			  "application/peripheral/samples/pwm"
+			  "application/peripheral/samples/pwm",
+              "application/peripheral/samples/I2C"
             ],
             "collapsed": true
           }
