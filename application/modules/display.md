@@ -206,5 +206,5 @@ Kscan使用比较简单，在固件代码中配置好后，注册callback函数�
 
 
 :::tip
-Zephyr支持使用LVGL进行GUI界面的开发，详见 [LVGL](../lvgl)章节。
+Zephyr支持使用LVGL进行GUI界面的开发，详见 [LVGL](./lvgl)章节。
 :::
