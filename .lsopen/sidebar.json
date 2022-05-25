@@ -5,8 +5,7 @@
     "items": [
         "overview/chips",
         "overview/nanokit",
-        "overview/system",
-        "overview/lisa_zep"
+        "overview/system"
     ],
     "collapsed": true
   },
