@@ -16,7 +16,6 @@
     "items": [
         "quick_start/start_env",
         "quick_start/start_project",
-        "quick_start/debug",
         "quick_start/doc_issue"
     ],
     "collapsed": true
@@ -29,8 +28,6 @@
       "application/structure",
       "application/kconfig",
       "application/device_tree",
-      "application/board",
-      "application/os_api",
       {
         "type": "category",
         "label": "外设驱动",
@@ -54,10 +51,6 @@
         "label": "组件",
         "items": [
           "application/modules/logger",
-          "application/modules/filesystem",
-          "application/modules/network",
-          "application/modules/audio_playback",
-          "application/modules/audio_record",
           "application/modules/usb_class",
           "application/modules/display",
           "application/modules/dsp_usage"
