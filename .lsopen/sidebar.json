@@ -53,7 +53,7 @@
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display",
-          "application/modules/dsp_usage"
+          "application/modules/lvgl"
         ],
         "collapsed": true
       }

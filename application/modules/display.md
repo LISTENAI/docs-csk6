@@ -205,6 +205,6 @@ Kscan使用比较简单，在固件代码中配置好后，注册callback函数�
 如上，仅需以上配置，遍在一个应用中注册了触摸屏回调，用户可根据实际业务需要，处理callback中的设备数据。
 
 
-:::tip 	
-Zephyr支持使用LVGL进行GUI界面的开发，详见 LVGL 章节。
+:::tip
+Zephyr支持使用LVGL进行GUI界面的开发，详见 [LVGL](../lvgl)章节。
 :::
