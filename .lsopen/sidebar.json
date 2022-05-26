@@ -38,7 +38,8 @@
             "items": [
               "application/peripheral/samples/gpio",
 			  "application/peripheral/samples/pwm",
-              "application/peripheral/samples/I2C"
+              "application/peripheral/samples/I2C",
+              "application/peripheral/samples/UART"
             ],
             "collapsed": true
           }
