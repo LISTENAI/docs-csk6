@@ -1,4 +1,4 @@
-# I2C
+# UART
 
 ## 概述
 UART是我们最常用的外设功能之一，本章节将通过两个示例讲解如何使用CSK6 SDK的UART API接口实现数据的收发：
@@ -26,6 +26,7 @@ lisa zep create
 ![](./files/uart_create01.png)
 ![](./files/uart_create02.png)
 ![](./files/uart_create03.png)
+分别创建uart_interrupt和uart_polling两个sample。
 
 ## 代码实现
 ### I2C设备树配置
