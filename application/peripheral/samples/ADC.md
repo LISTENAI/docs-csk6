@@ -167,7 +167,13 @@ lisa zep build -b csk6002_9s_nano
 lisa zep flash --runner pyocd
 ```
 - **查看结果**  
-```C
+
+可通过lisa提供的`lisa term`命令查看日志：
+```
+lisa term
+```
+或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+```LOG
 *** Booting Zephyr OS build 1ce26fc41a1d  ***
 ADC Sample start
 adc_vref 3300.

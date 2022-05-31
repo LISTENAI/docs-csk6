@@ -205,7 +205,7 @@ lisa zep flash --runner pyocd
 ```
 lisa term
 ```
-或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板再电脑端使用串口调试助手查看日志，波特率为115200。
+或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
 **slave接收到master发送的数据结果应为：**
 ```C
