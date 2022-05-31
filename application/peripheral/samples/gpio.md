@@ -24,8 +24,7 @@ Blinky sample创建成功。
 ## 实现过程
 ### 组件配置
 在prj.conf文件中添加项目基础组件配置配置:
-```
-...
+```shell
 CONFIG_GPIO=y
 ```
 ### 方式1：通过LED0设备树配置完成LED控制
@@ -34,8 +33,8 @@ CONFIG_GPIO=y
 `csk6002_9s_nano.dts`是我们当前使用开发板的设备树文件，位于SDK目录的 `zephyr/board/arm/csk6002_9s_nano`文件夹中。
 :::
 - 首先我们需要在当前boad的设备树中添加led0的配置，即在`csk6002_9s_nano.dts`中实现`led0`和`GPIOA_05`的匹配,配置如下:
-```
-/ {
+```c
+{
         model = "csk6002 9s nano";
         compatible = "csk,csk6002_9s_nano";
     aliases {
@@ -58,7 +57,7 @@ CONFIG_GPIO=y
 :::
 
 - 其次，在sample代码中获取设备树led0配置信息
-```
+```c
 #include <zephyr.h>
 #include <device.h>
 #include <devicetree.h>
@@ -80,7 +79,7 @@ Unsupported board: led0 devicetree alias is not defined
 ```
 
 #### 获取GPIO设备实例并完成LED控制逻辑
-```
+```c
 void main(void)
 {
 ...
@@ -101,7 +100,7 @@ while (1) {
 ### 方式2：直接操作GPIOA_05
 基于`Zephyr-CSK-SDK`，我们可以在sample中获取`GPIOA_05`实例，并完成IO电平控制，实现方式如下：
 
-```
+```c
 #define PIN 5
 #define FLAGS 0
 
@@ -139,7 +138,7 @@ A pointer to the device object created by DEVICE_DT_DEFINE()
 那么如何获取对应的node_id呢？答案是通过label获取node_id：`DT_NODELABEL(gpioa)`。
 `gpioa`的label在`csk6002_9s_nano.dts`的配置可以找到，当然还有gpiob的`label`配置：
 
-```
+```c
 ...
 &gpioa {
         status = "okay";
@@ -165,7 +164,7 @@ lisa zep build -b csk6002_9s_nano
 - **烧录**
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 烧录成功：
 ![](./files/flash.png)

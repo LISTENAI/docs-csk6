@@ -20,22 +20,20 @@ lisa zep create
 
 ![](./files/uart_create01.png)
 依次按一下目录选择完成adc sample创建：  
-> boards/
-
-> csk6/
-
-> driver/
-
-> rtc
+> boards → csk6 → driver → rtc
 
 ## 代码实现
 ### 组件配置
 在prj.conf文件中打开uart功能配置:
-```C
+```shell
 CONFIG_STDOUT_CONSOLE=y
 CONFIG_PRINTK=y
-CONFIG_COUNTER=y/*计时器*/
-CONFIG_COUNTER_CSK6=y/*CSK6计时器*/
+
+#计时器
+CONFIG_COUNTER=y
+
+#CSK6计时器
+CONFIG_COUNTER_CSK6=y
 ```
 ### 应用逻辑实现分析 
 **应用实现逻辑：**
@@ -43,7 +41,7 @@ CONFIG_COUNTER_CSK6=y/*CSK6计时器*/
 **使用的API接口：**  
 示例中主要用到以下counter计数器API接口，更多计数器API接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__counter__interface.html)中看到。
 
-```C
+```c
 /*获取最大的定时时间，在csk6上top value为:4296508s(1193h) */
 uint32_t counter_get_top_value(const struct device * dev)	
 
@@ -58,14 +56,14 @@ counter_set_channel_alarm(rtc, 0, &alarm_cfg);
 ```
 
 **创建线程**
-```C
+```c
 int pri = k_thread_priority_get(k_current_get());
 k_thread_create(&rtc_thread_data, rtc_stack_area,
                 K_THREAD_STACK_SIZEOF(rtc_stack_area),
                 rtc_thread, NULL, NULL, NULL, pri, 0, K_NO_WAIT);
 ```
 **设置一个2S的闹钟：**  
-```C
+```c
 /*设置中断回调处理*/
 static void sec_counter_callback(const struct device *dev,
 				 uint8_t id,
@@ -117,7 +115,7 @@ lisa zep build -b csk6002_9s_nano
 
 `csk6002_9s_nano`开发板通过USB连接PC，通过烧录指完成烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 - **查看结果**  
 
@@ -126,7 +124,7 @@ lisa zep flash --runner pyocd
 lisa term
 ```
 或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
-```LOG
+```
 *** Booting Zephyr OS build fd83997719ed  ***
 RTC name: RTC_1
 RTC top value is 4296508s
@@ -136,5 +134,5 @@ Counter alarm callback at 2385 ms, id 0, ticks 2, ud 0x81820
 get counter value after alarm end: 2s
 ======RTC device alarm end======
 
- ```
+```
  从日志可以看到，闹钟在2S后触发了中断，符合示例实现的预期，以上就是本章节所提供的RTC使用示例。

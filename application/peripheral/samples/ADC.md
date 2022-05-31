@@ -1,4 +1,4 @@
-# ADC(Analog to Digital)
+# ADC
 
 ## 概述
 ADC(Analog to Digital) 模拟转数字是经常使用的外设，本章节将通过两个示例讲解如何使用CSK6 SDK的ADC接口实现外部电压的检测。
@@ -19,20 +19,15 @@ CSK6 ADC驱动具有如下特性：
 lisa zep create
 ```
 ![](./files/uart_create01.png)
-依次按一下目录选择完成adc sample创建：  
-> boards/
+依次按以下目录选择完成adc sample的创建：  
+> boards → csk6 → driver → adc
 
-> csk6/
-
-> driver/
-
-> adc
 
 ## 代码实现
 ### 设备树配置
 在`csk6002_9s_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`boad overlay`的方式完成ADC引脚和通道的配置。
 `app/board/csk6002_9s_nano.overlay`详细配置：
-```C
+```c
 /*给pinctrl_adc0_ch1_default配置对应的gpio pin脚*/
 &csk6002_9s_nano_pinctrl{
                 pinctrl_adc0_ch0_default: adc0_ch0_default{
@@ -64,15 +59,16 @@ lisa zep create
 ```
 ### 组件配置
 在prj.conf文件中打开uart功能配置:
-```C
-CONFIG_ADC=y /*adc配置*/
+```shell
+# adc配置
+CONFIG_ADC=y 
 CONFIG_LOG=y
 CONFIG_LOG_MODE_MINIMAL=y
 ```
 ### 应用逻辑实现分析  
 **API 接口**  
 主要用到以下ADC driver API接口，更多ADC driver APIs接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__adc__interface.html)中看到。
-```C
+```c
 /*配置采样通道*/
 int adc_channel_setup(const struct device * dev, const struct adc_channel_cfg *	channel_cfg)
 /*获取参考电压*/
@@ -83,7 +79,7 @@ int adc_read(const struct device * dev, const struct adc_sequence * sequence)
 int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution, int32_t *valp)
 ```  
 **adc初始化：**
-```C
+```c
 /*获取设备树中io_channels配置的通道数量*/
 #define ADC_NUM_CHANNELS    DT_PROP_LEN(DT_PATH(zephyr_user), io_channels)
 
@@ -105,7 +101,7 @@ static uint8_t channel_ids[ADC_NUM_CHANNELS] = {
 };
 ```
 **主函数实现：**
-```C
+```c
 void main(void)
 {
     /*获取adc设备实例*/
@@ -143,7 +139,7 @@ void main(void)
 }
 ```
 代码处理中在原始采样值和转换电压值前对将原始采样值减2048：
-```
+```c
 mv_value = raw_value - 2048;
 ```
 **这样处理的原因：** 
@@ -164,7 +160,7 @@ lisa zep build -b csk6002_9s_nano
 
 `csk6002_9s_nano`开发板通过USB连接PC，通过烧录指完成烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 - **查看结果**  
 
@@ -173,7 +169,7 @@ lisa zep flash --runner pyocd
 lisa term
 ```
 或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
-```LOG
+```
 *** Booting Zephyr OS build 1ce26fc41a1d  ***
 ADC Sample start
 adc_vref 3300.
