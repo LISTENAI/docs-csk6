@@ -39,7 +39,7 @@ CONFIG_COUNTER_CSK6=y
 **应用实现逻辑：**
 基于CSK6驱动提供的RTC时钟，调用counter计数器接口设置一个2S的闹钟，闹钟时间到时触发中断回调，并在回调中做响应的处理。
 **使用的API接口：**  
-示例中主要用到以下counter计数器API接口，更多计数器API接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__counter__interface.html)中看到。
+示例中主要用到以下counter计数器API接口，更多计数器API接口可以在zephyr官网[counter interface APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__counter__interface.html)中看到。
 
 ```c
 /*获取最大的定时时间，在csk6上top value为:4296508s(1193h) */
