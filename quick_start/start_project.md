@@ -19,7 +19,7 @@ $ cd hello_world
 $ lisa zep build -b csk6002_9s_nano
 ```
 
-`lisa info zephyr` 指令用于编译当前目录的项目工程，`-b csk6002_9s_nano` 指定了NanoKit开发板作为我们编译的板型。
+`lisa zep build` 指令用于编译当前目录的项目工程，`-b csk6002_9s_nano` 指定了NanoKit开发板作为我们编译的板型。
 
 执行成功后，编译产物会在当前目录下的 build 文件夹内。
 
