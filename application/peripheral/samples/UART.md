@@ -29,10 +29,10 @@ lisa zep create
 分别创建uart_interrupt和uart_polling两个sample。
 
 ## 代码实现
-### I2C设备树配置
+### UART设备树配置
 `csk6002_9s_nano`开发板提供了多组UART。本示例使用`uart0(GPIO_A_03, GPIO_A_06)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`boad overlay`的方式完成，具体实现如下：
 - 在app目录下的`csk6002_9s_nano.overlay`文件并添加如下串口配置：
-```C
+```c
 &csk6002_9s_nano_pinctrl{
     pinctrl_uart0_rx_default: uart0_rx_default{
         pinctrls = <&pinmuxa 6 2>;              //rx pin
@@ -45,7 +45,7 @@ lisa zep create
 ```
 ### 组件配置
 在prj.conf文件中打开uart功能配置:
-```C
+```shell
 CONFIG_LOG=y
 CONFIG_UART_INTERRUPT_DRIVEN=y
 CONFIG_UART_CSK6=y
@@ -58,7 +58,7 @@ CONFIG_UART_CSK6=y
 #### 轮询方式接收数据（uart polling）
 **API 接口**
 轮询获取数据的方式中主要用到以下UART API接口，`uart_poll_in`每次接收一个char，循环接收直到数据接收完成。更多Polling UART API接口描述可以在zephyr官网[Polling UART API](https://docs.zephyrproject.org/latest/doxygen/html/group__uart__polling.html)中看到。
-```C
+```c
 /*从上位机接收一个char*/
 uart_poll_in()
 /*给上位机发送一个char*/
@@ -66,7 +66,7 @@ uart_poll_out()
 ```
 
 **轮询获取数据**
-```C
+```c
 /*通过uart设备树label获取nodeid*/
 #define UART0 DT_NODELABEL(uart0)
 
@@ -86,7 +86,7 @@ void main(void)
 **API 接口**
 本示例中主要用到一下几个Interrupt UART API接口，更多API接口描述可以在zephyr官网[Interrupt-driven UART API](https://docs.zephyrproject.org/latest/doxygen/html/group__uart__interrupt.html)中看到。
 
-```C
+```c
 /*中断回调处理*/
 uart_rx_callback(const struct device *dev, void *user_data)
 /*中断回调设置*/
@@ -110,7 +110,7 @@ int uart_fifo_fill(const struct device *dev,
 
 **串口初始化**
 
-```C
+```c
 /*通过uart设备树label获取nodeid*/
 #define UART0 DT_NODELABEL(uart0)
 
@@ -129,7 +129,7 @@ void main(void)
 
 **中断回调处理：**
 
-```C
+```c
 static void uart_rx_callback(const struct device *dev, void *user_data){
     /*进入中断处理调用*/
     uart_irq_update(dev);
@@ -157,7 +157,7 @@ lisa zep build -b csk6002_9s_nano
 
 `csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 - **查看结果**  
 

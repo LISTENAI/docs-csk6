@@ -57,7 +57,7 @@ dtsi是设备树头文件，类似c语言的.h文件，一般用于描述一个�
 bindings文件在zephyr工程中是以.yaml文件形式存在，bindings顾名思义，绑定或者胶水的意思，他作为c语言和设备树之前的桥梁存在。bingdings可以解释设备树中设备节点的属性代表什么意思。前面提到的将设备树转换为c语言头文件，就是根据bindings文件中定义的规则来转换的。
 例如`CSK6 SDK\boards\arm\csk6002_9s_nano\csk6002_9s_nano.dts`中`pwmleds`的配置如下：
 
-```cpp
+```c
     pwmleds {
 		compatible = "pwm-leds";
 		green_pwm_led: green_pwm_led {
@@ -67,8 +67,9 @@ bindings文件在zephyr工程中是以.yaml文件形式存在，bindings顾名�
 
 	};
 ```
+
 对应的bindings文件`CSK6 SDK\dts\bindings\led\pwm-leds.yaml`
-```cpp
+```c
 description: PWM LEDs parent node
 
 compatible: "pwm-leds"
@@ -104,7 +105,7 @@ child-binding:
 #### 设备树头文件devicetree.h
 在zephyr中使用设备树，只要include devicetree.h头文件就可以了。这里面主要定义了设备树供c语言调用的API。
 `devicetree.h`路径 `CSK6 SDK/include/devicetree.h`
-```
+```c
 #include <devicetree_unfixed.h>
 #include <devicetree_fixups.h>
 ```
@@ -151,7 +152,7 @@ DTS 语法与 Linux 设备树保持一致，更多信息可以参阅：[Devicetr
 
 下面是 *csk6* 的 *dtsi* 的一个示例：
 
-```dts
+```c
 /{
 	sram0: memory@80000 {
 		compatible = "mmio-sram";
@@ -169,7 +170,7 @@ DTS 语法与 Linux 设备树保持一致，更多信息可以参阅：[Devicetr
 
 在设备树中，**node** 由节点名、节点内容组成的。下面是一个一个典型的形式：
 
-```
+```c
 node1@address {
     key=value;
     node2@address{
@@ -190,7 +191,7 @@ node1@address {
 
 节点的属性是键值对的形式，如：
 
-```
+```c
 reg = <0x00080000 (320*1024)>;
 ```
 
@@ -223,7 +224,7 @@ csk,pinctrl
 通过以上章节的描述，我们对设备树有了基本的了解，如何在应用开发中使用设备树？以csk6002_9s_nano开发板为例，在blinky sample中，通过调用devicetree.hAPI接口获取GPIO设实例，从而完成GPIO的控制：
 ### 设备树API接口
 - **可以在`zephyr.dts`中看到`led0`的配置片段**
-```
+```c
 /dts-v1/;
 #include <csk/csk6.dtsi>
 #include <dt-bindings/pwm/pwm.h>
@@ -251,7 +252,7 @@ csk,pinctrl
 ```
 
 - **在devicetree.h中找到相应的API**
-```
+```c
 #define DT_NODE_HAS_STATUS(node_id, status) \
 	DT_NODE_HAS_STATUS_INTERNAL(node_id, status)
 
@@ -259,7 +260,7 @@ csk,pinctrl
 ```
 - **在devicetree_unfixed.h 宏定义片段**
 
-```
+```c
 /* Existence and alternate IDs: */
 #define DT_N_S_leds_S_board_led_2_EXISTS 1
 #define DT_N_ALIAS_led0            DT_N_S_leds_S_board_led_2
@@ -271,7 +272,7 @@ csk,pinctrl
 - **方式1：通过`DEVICE_DT_GET(node_id)`这个接口传入`gpioa`的设备树`node_id`来获取`gpioa`实例**
 
 代码实现如下：
-```
+```c
 #define LED0_NODE_ID DT_NODELABEL(gpioa)
 
 void main(void)
@@ -284,7 +285,7 @@ void main(void)
 我们可以通过`devicetree.h`提供的`DT_NODELABEL(label)`这个API接口找到`gpioa`设备树节点：
 
 `gpioa`的`label`可以在`zephyr.dts`中`gpioa`的设备树配置中找到：
-```
+```c
 gpioa: gpio@45900000 {
         compatible = "listenai,csk-gpio";
         reg = < 0x45900000 0x100000 >;
@@ -296,8 +297,9 @@ gpioa: gpio@45900000 {
         phandle = < 0x6 >;
     };
 ```
+
 拿到`gpioa`设备树节点后，可通GPIO控制接口指定需要操作的GPIO的PIN脚来实现对GPIO的控制：
-```
+```c
 #define PIN 5
 #define FLAGS 0
 
@@ -311,7 +313,7 @@ gpio_pin_set(dev, PIN, 1);//拉高GPIOA_5
 
 - **方式2：通过DT_ALIAS()API找到`led0`设备树配置，并解析`led0`的属性信息：**
 在`zephyr.dts`中`led0`的配置信息如下：
-```
+```c
         aliases {
                 led0 = &board_led_2;
                 sw0 = &user_button_0;
@@ -329,7 +331,7 @@ gpio_pin_set(dev, PIN, 1);//拉高GPIOA_5
         };
 ```
 我们在blinky实现代码中可以通过以下方式获取`led0`的属性信息：
-```
+```c
 #define LED0_NODE DT_ALIAS(led0)//通过alias标签获取led0 node_id
 
 //通过led0 node_id解析led0 lable下的属性信息

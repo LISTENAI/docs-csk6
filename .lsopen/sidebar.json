@@ -32,19 +32,12 @@
         "label": "外设驱动",
         "items": [
           "application/peripheral/overview",
-          {
-            "type": "category",
-            "label": "更多使用示例",
-            "items": [
-              "application/peripheral/samples/gpio",
-			  "application/peripheral/samples/pwm",
-              "application/peripheral/samples/UART",
-              "application/peripheral/samples/I2C",
-              "application/peripheral/samples/ADC",
-              "application/peripheral/samples/RTC"
-            ],
-            "collapsed": true
-          }
+          "application/peripheral/samples/gpio",
+		  "application/peripheral/samples/pwm",
+          "application/peripheral/samples/UART",
+          "application/peripheral/samples/I2C",
+          "application/peripheral/samples/ADC",
+          "application/peripheral/samples/RTC"
         ],
         "collapsed": true
       },

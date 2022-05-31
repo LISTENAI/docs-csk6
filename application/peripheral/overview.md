@@ -52,15 +52,21 @@ static inline int gpio_pin_set(const struct device *port, gpio_pin_t pin,int val
 ### 外设驱动的使用
 当我们在业务开发过程中想要使用某个外设驱动时，一般可采用以下步骤对指定外设驱动进行调用：
 - Step 1：在业务代码文件中增加对应外设驱动的头文件
-> #include <drivers/xxx.h>
- 
+```c
+ #include <drivers/xxx.h>
+```
+
 - Step 2: 创建一个设备类型，并对设备进行绑定
-> const struct device *dev;<br/>
-> dev = device_get_binding(xxx);
+```c
+const struct device *dev;<br/>
+dev = device_get_binding(xxx);
+```
 
 - Step 3：在业务代码中调用该外设驱动提供的API接口，对指定外设进行配置与控制
-> xxx_configure(dev, xxx, xxx);<br/>
-> xxx_set(dev, xxx, xxx);
+```c
+xxx_configure(dev, xxx, xxx);
+xxx_set(dev, xxx, xxx);
+```
 
 :::note
 通过本节内容，我们大致了解了驱动外设在CSK6 SDK中使用方式，在接下来的章节里我们将提供更多常用的外设驱动使用示例讲解，来帮助大家进一步掌握常用外设驱动的使用。

@@ -126,7 +126,7 @@ lisa zep flash --runner pyocd
 
 需要注意的是，需要烧录产物中设置支持，才能选择不同的烧录工具进行烧录。
 
-当前烧录产物支持哪些 `runner`，以及默认设置的是什么，可查看 `bui1ld\\zephyr\\runners.yaml` 文件。
+当前烧录产物支持哪些 `runner`，以及默认设置的是什么，可查看 `build\\zephyr\\runners.yaml` 文件。
 
 :::info
 官方开发板 csk6002_c3_nano 支持的 runner

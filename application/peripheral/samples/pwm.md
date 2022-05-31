@@ -25,7 +25,7 @@ Blinky pwm sample创建成功。
 ## 实现过程
 ### 组件配置
 在prj.conf文件中添加项目基础组件配置配置:
-```
+```shell
 CONFIG_STDOUT_CONSOLE=y
 CONFIG_PRINTK=y
 CONFIG_LOG=y
@@ -37,7 +37,7 @@ CONFIG_PWM=y
 ```
 ### 设备树配置
 - 首先，我们需要在当前board设备树中添加`pwm`的配置，即在`csk6002_9s_nano.dts`中实现`pwmleds`的配置，详细配置如下:
-```
+```c
  {
         model = "csk6002 9s nano";
         compatible = "csk,csk6002_9s_nano";
@@ -61,7 +61,7 @@ CONFIG_PWM=y
 :::
 
 - 其次，在sample代码中获取设备树pwm_led0配置，并通过pwm输出配置实现LED闪烁频率控制
-```
+```c
 #define PWM_LED0_NODE	DT_ALIAS(pwm_led0)
 #if DT_NODE_HAS_STATUS(PWM_LED0_NODE, okay)
 #define PWM_CTLR	DT_PWMS_CTLR(PWM_LED0_NODE)
@@ -72,12 +72,12 @@ CONFIG_PWM=y
 ```
 ### pwm输出配置及逻辑控制 
 - 获取`pwm_led0`设备实例
-```
+```c
 const struct device *pwm;
 pwm = DEVICE_DT_GET(PWM_CTLR);
 ```
 对硬件进行校准，适当减小最大PWM周期，到找匹配硬件的值:
-```
+```c
 /*
     * In case the default MAX_PERIOD_USEC value cannot be set for
     * some PWM hardware, decrease its value until it can.
@@ -99,7 +99,7 @@ while (pwm_pin_set_usec(pwm, PWM_CHANNEL,
 }
 ```
 - pwm输出配置实现LED闪烁频率控制：
-```
+```c
 period = max_period;
 	while (0) {
 		ret = pwm_pin_set_usec(pwm, PWM_CHANNEL,
@@ -129,7 +129,7 @@ lisa zep build -b csk6002_9s_nano
 - **烧录**
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 烧录成功：
 ![](./files/flash.png)

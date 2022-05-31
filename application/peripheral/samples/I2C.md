@@ -42,7 +42,7 @@ lisa zep create
 ### I2C设备树配置
 `csk6002_9s_nano`开发板提供了多组I2C。本示例使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可通过`boad overlay`的方式完成I2C引脚的配置。
 - 在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
-```
+```c
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -91,7 +91,7 @@ lisa zep create
 - master每隔10S发送一次256个字节数据并以此循环，slave接收数据并打印输出
 
 本示例中主要用到3个I2C API接口：
-```C
+```c
 /*i2c控制器配置*/
 i2c_configure()
 /*i2c写数据*/
@@ -100,7 +100,7 @@ i2c_write()
 i2c_read()
 ```
 **I2C初始化：**
-```C
+```c
 /*定义一个I2C设备名称，并通过设备树接口获取I2C的设备树信息*/
 #define I2C0_DEV_NAME DT_LABEL(DT_ALIAS(i2c_0)) 
 
@@ -137,7 +137,7 @@ void main(void)
 ```
 **master和slave数据收发实现**
 i2c_master_thread实现：
-```C
+```c
 void i2c_master_thread(void *v1, void *v2, void *v3)
 {
     /* data0填充数据 */
@@ -159,7 +159,7 @@ void i2c_master_thread(void *v1, void *v2, void *v3)
 }
 ```
 i2c_slave_thread实现：
-```C
+```c
 void i2c_slave_thread(void *v1, void *v2, void *v3)
 {
     /* master发送数据，slave接收 */
@@ -197,7 +197,7 @@ lisa zep build -b csk6002_9s_nano
 
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 - **查看结果**  
 
@@ -208,7 +208,7 @@ lisa term
 或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
 **slave接收到master发送的数据结果应为：**
-```C
+```
 data1[0]: 0
 data1[1]: 1
 data1[2]: 2
@@ -220,7 +220,7 @@ data1[254]: 254
 data1[255]: 0
 ```
 **master接收到slave发送的数据结果应为：**
-```C
+```
 slave send data
 data0[0]: 0
 data0[1]: 255

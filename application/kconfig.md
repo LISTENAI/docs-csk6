@@ -16,7 +16,7 @@ CSK6 SDK 提供了很多功能，这些功能并不会全部启用。当想要�
 
 执行以下命令，可以开始对一个项目进行配置：
 
-```shell
+```
 cd hello_world
 lisa zep build -t menuconfig -b csk6002_9s_nano
 ```
@@ -52,7 +52,7 @@ lisa zep build -t menuconfig -b csk6002_9s_nano
 
 *prj.conf* 是应用目录下的配置文件。在这个文件里直接添加相关配置，可以对整个项目生效。如：
 
-```
+```shell
 CONFIG_WIFI=y
 ```
 
@@ -60,7 +60,7 @@ CONFIG_WIFI=y
 
 如果针对某一个 *Board* ，需要增加一些特殊的配置，比如这个项目在使用 *-b csk6002_9s_nano* 时，想要默认打开 PSRAM 时，那么可以在 *app/boards/* 目录下，创建一个 *csk6002_9s_nano.conf* 文件，在这个文件里，添加以下配置：
 
-```
+```shell
 CONFIG_CSK6_PSRAM=y
 ```
 
@@ -112,7 +112,7 @@ source "Kconfig.zephyr"
 
 项目的自定义配置使用方式，与 SDK 的配置是一样的。
 
-```shell
+```
 cd hello_world
 lisa zep build -t menuconfig -b csk6002_9s_nano
 ```
