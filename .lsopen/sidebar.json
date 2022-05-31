@@ -40,7 +40,8 @@
 			  "application/peripheral/samples/pwm",
               "application/peripheral/samples/UART",
               "application/peripheral/samples/I2C",
-              "application/peripheral/samples/ADC"
+              "application/peripheral/samples/ADC",
+              "application/peripheral/samples/RTC"
             ],
             "collapsed": true
           }
