@@ -9,7 +9,7 @@
 你可以通过LSCloud与我们建立联系，反馈以上问题。
 
 ## 提交步骤
-- Setp1：访问[SDK托管平台](https://cloud.listenai.com/zephyr/)，点击右上角图标进行登录
+- Setp1：访问[SDK托管平台](https://cloud.listenai.com/zephyr/zephyr)， 点击右上角图标进行登录
 - Setp2：点击左侧工具栏，点击工单，依次选择 【新建工单】-> 【通用工单】
 ![image](./images/issue_1.png)
 
