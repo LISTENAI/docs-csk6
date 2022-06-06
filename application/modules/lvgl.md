@@ -41,7 +41,6 @@ LVGL全称Light and Versatile Graphics Library，是一个开源的GUI库，具�
 ```
 lisa zep create
 ```
-![](./files/uart_create01.png)
 依次按以下目录选择完成adc sample的创建：  
 > boards → csk6 → subsys → display → lvgl
 
