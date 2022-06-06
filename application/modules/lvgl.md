@@ -7,10 +7,9 @@
 - 在CSK6开发板上运行一个LVGL Sample
 
 :::info 
-本章节使用的实验硬件平台为 **扫描笔开发板**，对应SDK板型为 **csk6012_9s_scanpen**
+本章节使用的实验硬件平台为 **扫描笔开发板**，对应SDK板型为 **csk6012_9s_nano**
 
-使用的Sample为 samples/subsys/display/lvgl ，使用以上硬件平台进行本实验时，请与FAE确认使用的SDK版本。
-
+使用的Sample为 samples/boards/csk6/subsys/display/lvgl ，使用以上硬件平台进行本实验时，需要准备ST7789V显示屏和SPI转接板，通过杜邦线完成接线，具体连接方式请与FAE确认。
 后续NanoKit开发板将提供用于LVGL实验的配件板，敬请期待。
 :::
 
@@ -36,31 +35,66 @@ LVGL全称Light and Versatile Graphics Library，是一个开源的GUI库，具�
 
 ## LVGL Sample运行
 
-我们先在我们的开发板上运行一个LVGL Sample。
-
 **Step 1： 创建Sample**
 
-从SDK的  ``samples/subsys/display`` 目录下拷贝 ``lvgl`` 文件夹至一个位置，这是SDK中提供的一个LVGL Sample工程。
+通过Lisa命令创建项目：
+```
+lisa zep create
+```
+依次按以下目录选择完成adc sample的创建：  
+> boards → csk6 → subsys → display → lvgl
 
-**Step 2： 修改配置**
+**Step 2： 组件配置**
 
-进入 ``lvgl`` 目录，打开工程配置文件 ``prj.conf`` ，在文件中增加以下配置选项：
+``lvgl`` 工程通用配置文件 ``prj.conf`` ，在文件中增加以下配置选项：
 ```shell
-	
-	# 开发板使用的屏幕是 ST7789V
-	CONFIG_LVGL_DISPLAY_DEV_NAME="ST7789V"
-	# 启用ST7789V设备(关联设备驱动文件)
-	CONFIG_ST7789V=y
-	# 启用SPI驱动(屏幕使用SPI作为数据总线)
-	CONFIG_SPI=y
-	# 启用GPIO驱动(屏幕控制引脚使用)
-	CONFIG_GPIO=y
 
+    CONFIG_HEAP_MEM_POOL_SIZE=16384
+    CONFIG_MAIN_STACK_SIZE=2048
+
+    CONFIG_DISPLAY=y
+    CONFIG_DISPLAY_LOG_LEVEL_ERR=y
+
+    CONFIG_LOG=y
+    CONFIG_LOG_STRDUP_BUF_COUNT=16
+
+    CONFIG_LVGL=y
+    CONFIG_LVGL_USE_LABEL=y
+    CONFIG_LVGL_USE_CONT=y
+    CONFIG_LVGL_USE_BTN=y
+    CONFIG_LVGL_USE_THEME_MATERIAL=y
+
+	# 启用GPIO驱动(屏幕控制引脚使用)
+    CONFIG_GPIO=y
+    # 启用SPI驱动(屏幕使用SPI作为数据总线)
+    CONFIG_SPI=y
+    # 启用ST7789V设备(关联设备驱动文件)
+    CONFIG_ST7789V=y
+
+    CONFIG_I2C=y
+    CONFIG_KSCAN_BL6XXX=y
+```
+针对csk6002_9s_nano开发板的硬件配置：
+``lvgl`` 工程目录下`boards/csk6002_9s_nano.conf`增加如下配置：   
+```shell
+    CONFIG_KSCAN=y
+    CONFIG_LVGL_POINTER_KSCAN_SWAP_XY=y
+    CONFIG_LVGL_POINTER_KSCAN=y
+    CONFIG_LVGL_POINTER_KSCAN_DEV_NAME="BL6XXX"
+
+    CONFIG_DISPLAY=y
+	# 开发板使用的屏幕是 ST7789V
+    CONFIG_LVGL_DISPLAY_DEV_NAME="ST7789V"
+    # 开发板使用的屏幕宽
+    CONFIG_LVGL_HOR_RES_MAX=320
+    # 开发板使用的屏幕高
+    CONFIG_LVGL_VER_RES_MAX=170
+    CONFIG_LVGL_DPI=100
 ```
 
 **Step 3： 编译**
 
-在当前工程目录中执行 ``lisa zep build -b csk6012_9s_scanpen`` 指令，指定我们使用的开发板板型进行编译。
+在当前工程目录中执行 ``lisa zep build -b csk6012_9s_nano`` 指令，指定我们使用的开发板板型进行编译。
 
 **Step 4： 烧录&观察屏幕输出内容**
 
@@ -73,10 +107,9 @@ LVGL全称Light and Versatile Graphics Library，是一个开源的GUI库，具�
 ## Sample代码说明
 LVGL Sample简单展示了object的创建和lable控件的使用，主要代码及注释如下：
 ```c
-	// 创建两个对象
+	// 创建两个label对象
 	lv_obj_t *hello_world_label;
 	lv_obj_t *count_label;
-
 
 	// 创建一个display设备
 	const struct device *display_dev;
