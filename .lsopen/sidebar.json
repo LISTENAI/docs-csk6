@@ -38,7 +38,16 @@
           "application/peripheral/samples/I2C",
           "application/peripheral/samples/ADC",
           "application/peripheral/samples/RTC",
-          "application/peripheral/samples/watchdog"
+          "application/peripheral/samples/watchdog",
+          "application/peripheral/samples/display_kscan"
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "内核",
+        "items": [
+          "application/kernel/synchronization"
         ],
         "collapsed": true
       },
