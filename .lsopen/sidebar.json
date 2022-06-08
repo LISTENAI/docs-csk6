@@ -47,7 +47,7 @@
         "type": "category",
         "label": "内核",
         "items": [
-          "application/kernel/syncthread"
+          "application/kernel/syncthread",
           "application/kernel/syncsemaphore",
           "application/kernel/syncmutex",
           "application/kernel/syncpoll"
