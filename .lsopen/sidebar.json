@@ -47,7 +47,10 @@
         "type": "category",
         "label": "内核",
         "items": [
-          "application/kernel/synchronization"
+          "application/kernel/sync-thread"
+          "application/kernel/sync-semaphore",
+          "application/kernel/sync-mutex",
+          "application/kernel/sync-poll"
         ],
         "collapsed": true
       },
