@@ -38,8 +38,7 @@
           "application/peripheral/samples/I2C",
           "application/peripheral/samples/ADC",
           "application/peripheral/samples/RTC",
-          "application/peripheral/samples/watchdog",
-          "application/peripheral/samples/display_kscan"
+          "application/peripheral/samples/watchdog"
         ],
         "collapsed": true
       },
@@ -60,7 +59,7 @@
         "items": [
           "application/modules/logger",
           "application/modules/usb_class",
-          "application/modules/display",
+          "application/modules/display_kscan",
           "application/modules/lvgl"
         ],
         "collapsed": true
