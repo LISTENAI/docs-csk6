@@ -1,4 +1,4 @@
-# Display kscan
+# DisplayKscan
 
 ## 概述
 本节将主要通过显示&触控综合Sample来介绍基于CSK6 SDK的显示屏和触控屏的基本使用。通过本章节学习，您将了解到：
@@ -21,7 +21,7 @@ SPI转接板和`csk6002_9s_nano`开发板具体连接方式请与FAE确认。后
 lisa zep create
 ```
 
-![](./files/uart_create01.png)
+![](./images/uart_create01.png)
 依次按以下目录选择完成display_kscan sample创建：  
 > boards → csk6 → driver → display_kscan
 
@@ -41,7 +41,7 @@ lisa zep flash --runner pyocd
 - **查看结果**  
 
 烧录完成后，可观察到设备显示屏出现【白色背景+三静态方块+一动态方块】的图像，如图：
-![](./files/display_screen.png)
+![](./images/display_screen.png)
 
 打开调试串口，可观察到当用手触摸屏幕时，屏幕会实时输出触摸点的坐标与状态，日志信息如下：
 
@@ -116,7 +116,7 @@ CONFIG_ST7789V=y
 **显示屏显示逻辑**  
 在display_kscan这个例程中，主程序对显示屏进行了初始化，并依次展示简单图形的绘制和图形的动态灰度调整功能，其主要流程如下(暂不包含触摸屏KSCAN相关)：
 
-![](./files/display_flow.jpg)
+![](./images/display_flow.jpg)
 
 如上，此例程调用了display驱动模型中若干核心的显示接口进行内容显示，开发者可根据自己需要，绘制自己的UI页面。
 
@@ -227,5 +227,5 @@ kscan_enable_callback(kscan_dev);
 如上，仅需增加回调配置，即可在一个应用中注册触摸屏回调，开发者可根据实际业务需要，处理callback中的设备数据。
 
 :::tip
-csk6 skd支持LVGL组件进行GUI界面的开发，可以让界面开发更方便快捷，详见[LVGL](../../modules/lvgl.md)章节。
+csk6 skd支持LVGL组件进行GUI界面的开发，可以让界面开发更方便快捷，详见[LVGL](./lvgl.md)章节。
 :::
