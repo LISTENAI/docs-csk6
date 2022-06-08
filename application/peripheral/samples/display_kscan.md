@@ -1,4 +1,4 @@
-# Display kscan
+# DisplayKscan
 
 ## 概述
 本节将主要通过显示&触控综合Sample来介绍基于CSK6 SDK的显示屏和触控屏的基本使用。通过本章节学习，您将了解到：
