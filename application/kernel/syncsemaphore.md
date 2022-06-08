@@ -99,7 +99,7 @@ lisa zep create
 完成`hello_world`项目创建，参考以下**代码实现**完成应用逻辑开发。
 
 :::tip
-csk6 sdk中提供了该信号量示例的sample，路径`samples-->synchronization`，如果您想快速体验实现结果，可使用`lisa zep create`命令完成sample创建。
+csk6 sdk中提供了该信号量示例的sample，如果您想快速体验实现结果，可使用`lisa zep create`命令完成sample创建，示例路径`samples-->synchronization`。
 :::
 
 ## 代码实现 
