@@ -6,10 +6,9 @@
 - 对LVGL一些关键概念的理解
 - 在CSK6开发板上运行一个LVGL Sample
 
-:::info 
-本章节使用的实验硬件平台为 **扫描笔开发板**，对应SDK板型为 **csk6012_9s_nano**
-
-使用的Sample为 samples/boards/csk6/subsys/display/lvgl ，使用以上硬件平台进行本实验时，需要准备ST7789V显示屏和SPI转接板，通过杜邦线完成接线，具体连接方式请与FAE确认。
+:::tip 
+本章节使用的实验硬件平台为 **扫描笔开发板**，对应SDK板型为 **csk6002_9s_nano**，对应的sdk版本未**csk6 sdk v1.0.2**以上版本。 
+使用的Sample路径为`samples/boards/csk6/subsys/display/lvgl`，使用以上硬件平台进行本实验时，需要准备ST7789V显示屏和SPI转接板，通过杜邦线完成接线，具体连接方式请与FAE确认。   
 后续NanoKit开发板将提供用于LVGL实验的配件板，敬请期待。
 :::
 
@@ -94,7 +93,7 @@ lisa zep create
 
 **Step 3： 编译**
 
-在当前工程目录中执行 ``lisa zep build -b csk6012_9s_nano`` 指令，指定我们使用的开发板板型进行编译。
+在当前工程目录中执行 ``lisa zep build -b csk6002_9s_nano`` 指令，指定我们使用的开发板板型进行编译。
 
 **Step 4： 烧录&观察屏幕输出内容**
 
