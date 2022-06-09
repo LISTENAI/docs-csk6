@@ -197,7 +197,7 @@ lisa zep build -b csk6002_9s_nano
 
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash
+lisa zep flash --runner pyocd
 ```
 - **查看结果**  
 
