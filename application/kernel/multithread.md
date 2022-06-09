@@ -1,14 +1,15 @@
-# 同步之多线程
+# 多线程
 
 ## 概述
 
-在zephyr系统中，应用开发必定会使用到多线程，多线程在同时运行时会被调度器同时调度，从系统层面来看线程是并行运行，系统对并行运行的线程有先后执行的要求，多线程间需要资源共享或配合时就需要线程同步功能。嵌入式操作系统都会提供线程同步手段，Zephyr也不例外，Zephyr提供了信号量，互斥锁，轮询三种内核对象作为多线程同步的方式。
+在应用开发的过程中经常会使用到多线程，配合内核提供的同步机制，可以实现多线程之间的同步，从而实现更加灵活的应用业务逻辑。
+
 本章节给开发者介绍Zephyr系统线程同步中多线程的实现，通过本章节学习，开发者可以了解到：
 - 多线程基本信息和使用场景
 - 多线程的实现方法
 
-## 多线程
-多线程在项目中主要用来解决并发任务执行，本章节我们通过一个简单的示例来说明多线程的实现，示例中创建两个线程`threadA`和`threadB`，并在每个线程中循环打印`Hello World`。
+## 多线程简介
+多线程在项目中主要用来解决并发任务执行，本章节将通过一个简单的示例来说明多线程的实现，示例中创建两个线程`threadA`和`threadB`，并在每个线程中分别循环打印`Hello World`。
 
 :::tip
 本章节需要开发者基于csk6 sdk提供的`hello_world`示例基础上实现多线程开发，以增强对csk6 sdk的了解和提升实操能力。
@@ -24,7 +25,9 @@ lisa zep create
 完成`hello_world`项目创建后，可参考以下章节**API接口**和**代码实现**完成多线程示例的实现。
 
 
-### 项目配置 
+### 项目配置
+在 `prj.conf` 文件中增加以下配置：
+ 
 ```shell
 CONFIG_STDOUT_CONSOLE=y
 # enable to use thread names
@@ -54,20 +57,37 @@ void k_thread_start(k_tid_t thread)
 /*设置线程名称*/
 int k_thread_name_set(k_tid_t thread, const char * str)
 ```
-更多`thread API`接口可以在zephyr官网[Thread APIS](https://docs.zephyrproject.org/latest/doxygen/html/group__thread__apis.html)中找到。
+更多 **线程thread API** 使用方法可以参照Zephyr官网[Thread APIS](https://docs.zephyrproject.org/latest/doxygen/html/group__thread__apis.html)。
 
 ### 代码实现
+
 ```c
 /* 线程堆栈空间 */
 #define STACKSIZE 1024
 /* 线程优先级 */
 #define PRIORITY 7
-/* 延迟时间（ms） */
-#define SLEEPTIME 500
+
+
+/* 线程A */
+void threadA(void *dummy1, void *dummy2, void *dummy3)
+{
+	/* 作为示例，本线程没用到dummy这三个参数，使用ARG_UNUSED进行声明，可避免编译时提示Warn */
+	ARG_UNUSED(dummy1);
+	ARG_UNUSED(dummy2);
+	ARG_UNUSED(dummy3);
+
+    while (1){
+		/* 每隔两秒打印一次Hello World */
+        k_msleep(1000);
+        printk("threadA: Hello World on %s!\n", CONFIG_BOARD);
+    }
+    
+}
 
 /* 线程B */
 void threadB(void *dummy1, void *dummy2, void *dummy3)
 {
+
 	ARG_UNUSED(dummy1);
 	ARG_UNUSED(dummy2);
 	ARG_UNUSED(dummy3);
@@ -78,19 +98,13 @@ void threadB(void *dummy1, void *dummy2, void *dummy3)
     }
 }
 
-/* 线程A */
-void threadA(void *dummy1, void *dummy2, void *dummy3)
-{
-	ARG_UNUSED(dummy1);
-	ARG_UNUSED(dummy2);
-	ARG_UNUSED(dummy3);
+/* 定义线程堆栈空间 */
+K_THREAD_STACK_DEFINE(threadA_stack_area, STACKSIZE);
+static struct k_thread threadA_data;
 
-    while (1){
-        k_msleep(1000);
-        printk("threadA: Hello World on %s!\n", CONFIG_BOARD);
-    }
-    
-}
+K_THREAD_STACK_DEFINE(threadB_stack_area, STACKSIZE);
+static struct k_thread threadB_data;
+
 
 void main(void)
 {
