@@ -1,9 +1,11 @@
 # 音频播放
 ## 概述
-本节介绍CSK6 SDK的提供的aplay音频播放组件，通过示例调用aplay API接口实现音频播放，aplay是CSK6 SDK提供的最基本的音频播放接口，开发者可基于aplay完成符合业务开发需要的音频播放器。通过本章节学习，您将了解到：
+aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播放接口。本节通过示例调用aplay API接口实现音频播放，开发者可基于aplay完成符合业务开发需要的音频播放器。通过本章节学习，您将了解到：
 - aplay音频API接口的基本使用
 
-aplay支持的音频格式：16bit48kwav格式。
+:::note
+当前aplay支持的音频格式：16bit48kwav格式。
+:::
 
 ## 准备工作
 本示例基于 `csk6002_9s_nano`开发板实现，开发者需要做如下准备：
@@ -23,33 +25,40 @@ lisa zep create
 ![](./images/uart_create01.png)
 依次按一下目录选择完成aplay sample创建：  
 > boards → csk6 → subsys → avf → audio → aplay
+
+
 ## 应用实现
-**内置音频文件**   
+### 内置音频文件  
 应用加载音频文件的步骤如下：  
-- 音频文件存放在示例的`resource\earthquake_48k_16bit.wav`目录下。
-- 通过Cmake将音频文件编译加载到flash
-    `CMakeLists.txt`编译时加载到`test_audio.inc`头文件
-    ```shell
-    generate_inc_file_for_target(
+**Step1：**音频文件存放在示例的`resource\earthquake_48k_16bit.wav`目录下。
+
+**Step2：**通过Cmake文件将音频文件进行编译加载，`CMakeLists.txt`编译时加载到`test_audio.inc`头文件
+
+
+```shell
+generate_inc_file_for_target(
     app
     resource/earthquake_48k_16bit.wav
     ${gen_dir}/test_audio.inc
-    )
-    ```
-    在`dsp_resource.h`引用`test_audio.inc`
-    ```shell
+)
+```
+    
+在`dsp_resource.h`引用`test_audio.inc`
+
+```shell
     static const unsigned char test_audio[] = {
     #include "test_audio.inc"
     };
-    ```
-    在`main.c`引用`dsp_resource.h`:  
-    ```c
-    #include "dsp_resource.h"
-    ```
-- 
+```
 
+**Step3：**在`main.c`引用`dsp_resource.h`:  
+
+```c
+    #include "dsp_resource.h"
+```
+
+### 设备树配置
  
-**设备树配置**   
 在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，因此需要在sample中重写`boad overlay`完成设备树配置。
 ```c
  / {
@@ -74,7 +83,8 @@ lisa zep create
  
  };
 ```
-**组件配置**   
+### 组件配置
+   
 ```shell
 # LOG 配置，属于系统配置项
 CONFIG_PRINTK=y
@@ -119,10 +129,11 @@ sof 全称：sound open firmware，系统音频框架
 avf和sof的关系：avf是一个host端的业务框架，avf的底层驱动会引用sof提供的接口。
 :::
 
-**主程序实现逻辑**  
+### 主程序实现逻辑
 基于csk6 sdk提供的aplay API接口，示例sample运行后加载本地wav音频并完成播放。
 
-**API接口**  
+#### API接口
+ 
 ```c
 /*创建一个aplay实例*/
 aplay_t* aplay_create(aplyer_type_e type);
@@ -164,9 +175,10 @@ int aplay_destroy(aplay_t* handle);
 /*将音频数据写入播放器*/
 int aplay_writei(aplay_t* handle,char* data,uint32_t len);
 ```   
-更多aplay API接口描述可以在csk6 sdk`\modules\lib\sof_host\include\avf\modules\audio\aplay.h`头文件中看到。
+更多aplay API接口描述可以在csk6 sdk `\modules\lib\sof_host\include\avf\modules\audio\aplay.h` 头文件中看到。
 
-**主程序实现过程**
+#### 主程序实现过程
+
 ```c
 /*拆分音频数据，以便循环写入aplay*/
 #define PERIOD_BYTES(fmt) amedia_frames_to_bytes(fmt, 1000)
@@ -248,19 +260,19 @@ void main(void)
 }
 ```
 ## 编译和烧录
-- **编译**  
+### 编译
 
 在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-- **烧录**     
+### 烧录   
 
 `csk6002_9s_nano`开发板通过USB连接PC，通过烧录指完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-- **查看结果**  
+### 查看结果
 
 可通过lisa提供的`lisa term`命令查看日志：
 ```
