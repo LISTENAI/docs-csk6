@@ -46,10 +46,10 @@
         "type": "category",
         "label": "内核",
         "items": [
-          "application/kernel/syncthread",
-          "application/kernel/syncsemaphore",
-          "application/kernel/syncmutex",
-          "application/kernel/syncpoll"
+          "application/kernel/multithread",
+          "application/kernel/sync_semaphore",
+          "application/kernel/sync_mutex",
+          "application/kernel/sync_poll"
         ],
         "collapsed": true
       },
@@ -60,7 +60,8 @@
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
-          "application/modules/lvgl"
+          "application/modules/lvgl",
+          "application/modules/audio_playback"
         ],
         "collapsed": true
       }

@@ -24,7 +24,7 @@ lisa zep create
 
 ## 代码实现
 ### 组件配置
-在prj.conf文件中打开uart功能配置:
+在prj.conf文件中打开rtc功能配置:
 ```shell
 CONFIG_STDOUT_CONSOLE=y
 CONFIG_PRINTK=y
