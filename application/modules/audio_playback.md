@@ -3,7 +3,7 @@
 本节介绍CSK6 SDK的提供的aplay音频播放组件，通过示例调用aplay API接口实现音频播放，aplay是CSK6 SDK提供的最基本的音频播放接口，开发者可基于aplay完成符合业务开发需要的音频播放器。通过本章节学习，您将了解到：
 - aplay音频API接口的基本使用
 
-aplay支持的音频格式：16bit-48k-pcm格式。
+aplay支持的音频格式：16bit48kwav格式。
 
 ## 准备工作
 本示例基于 `csk6002_9s_nano`开发板实现，开发者需要做如下准备：
@@ -112,7 +112,7 @@ CONFIG_CACHE_MANAGEMENT=y
 ```
 
 :::tip
-名词说明：
+名词说明：   
 avf 全称：audio video framework，系统音视频框架   
 sof 全称：sound open firmware，系统音频框架  
 
