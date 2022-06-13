@@ -1,7 +1,7 @@
 # GDB调试
 
 ## 概述
-Zephyr提供了多种debug调试方式，本文主要介绍如何使用VS Code和J-link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
+Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍如何使用VS Code和J-link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
 - Windows下如何进行应用程序的调试
 - 使用J-Link调试CSK6芯片
 
