@@ -70,6 +70,14 @@
   },
   {
     "type": "category",
+    "label": "调试",
+    "items": [
+        "debug/debug.md"
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
     "label": "系统设计",
     "items": [
       
@@ -80,14 +88,6 @@
     "type": "category",
     "label": "API 文档",
     "items": [
-    ],
-    "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "调试",
-    "items": [
-        "debug/debug.md"
     ],
     "collapsed": true
   },
