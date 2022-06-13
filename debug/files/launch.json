@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "name": "Venus_demo_lisa_test",
+            "executable": "E:\\csk6\\blinky\\build\\zephyr\\zephyr.elf",
+            "device": "Cortex-M33",
+            "servertype": "jlink",
+            "rtos": "Zephyr",
+            "serverpath": "C:/Users/xiaoqingqin/.listenai/lisa-zephyr/packages/node_modules/@binary/jlink-venus/binary/JLinkGDBServerCL.exe",
+            "armToolchainPath": "C:/Users/xiaoqingqin/.listenai/lisa-zephyr/packages/node_modules/@binary/gcc-arm-none-eabi-9/binary/bin",
+            "toolchainPrefix": "arm-none-eabi",
+            "interface": "swd",
+            "showDevDebugOutput": false,
+            "runToMain": true,
+            "runToEntryPoint": "main",
+            "serverArgs": [
+                "-timeout",
+                "0",
+                "-strict",
+                "-singlerun",
+                "-vd",
+                "-ir",
+                "-localhostonly",
+                "1",
+                "-endian",
+                "little"
+            ],
+            "preLaunchCommands": [
+                "monitor flash erase",
+                "monitor clrbp",
+                "monitor reset"
+            ],
+            "preRestartCommands": [],
+            "postLaunchCommands": [
+              //  "set substitute-path /mnt/d/02-work/02-CSK600x D:/02-work/02-CSK600x",
+                "set $sp=((int*)_vector_table)[0]"
+            ]
+        }
+    ]
+}
