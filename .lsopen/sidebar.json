@@ -44,7 +44,7 @@
       },
       {
         "type": "category",
-        "label": "内核",
+        "label": "系统接口",
         "items": [
           "application/kernel/multithread",
           "application/kernel/sync_semaphore",
