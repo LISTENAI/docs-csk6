@@ -32,7 +32,7 @@ Windows系统和Ubuntu系统下配置的基本一致，
 **步骤三：** 在`csk6-develop`文件夹下使用`lisa zep create`命令创建`hello_world`项目，并使用`lisa zep build -b csk6002_9s_nano`命令完成编译。
 **步骤四：** 修改`luncher.json`文件`executable`、`serverpath`、 `armToolchainPath`三项配置，具体如下：
 
-```json 
+```c 
 # 需要debug应用的zephyr.elf文件路径，本示例为`hello_world`项目的zephyr.elf路径
  "executable": "E:\\csk6-develop\\hello_world\\build\\zephyr\\zephyr.elf",
 
