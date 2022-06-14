@@ -72,7 +72,7 @@
     "type": "category",
     "label": "调试",
     "items": [
-        "debug/gdb_debug.md"
+        "gdbdebug/gdbdebug.md"
     ],
     "collapsed": true
   },
