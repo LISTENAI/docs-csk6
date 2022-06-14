@@ -6,7 +6,7 @@ Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍
 - 使用J-Link调试CSK6芯片
 
 :::note
-Windows系统和Ubuntu系统下配置的基本一致，
+Windows系统和Ubuntu系统下配置的基本一致。
 :::
 
 ## 准备工作
@@ -28,8 +28,11 @@ Windows系统和Ubuntu系统下配置的基本一致，
 #### 创建`hello_world`项目并完成debug环境配置
 
 **步骤一：** 在Windows下新建一个文件夹，如 `csk6-develop`，并将其导入VS Code。
+
 **步骤二：** 在`csk6-develop`目录下新建.vscode目录，将[launch.json](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/launch.json)文件放置到该目录下。
+
 **步骤三：** 在`csk6-develop`文件夹下使用`lisa zep create`命令创建`hello_world`项目，并使用`lisa zep build -b csk6002_9s_nano`命令完成编译。
+
 **步骤四：** 修改`luncher.json`文件`executable`、`serverpath`、 `armToolchainPath`三项配置，具体如下：
 
 ```c 
@@ -83,23 +86,24 @@ lisa zep flash --runner jlink
 :::
 
 #### 步骤三：断点调试
-**增加断点**
+##### 增加断点
 
 点击VC Code 运行和调试按钮进入调试模式，在main函数的第12行和第17行左侧单击鼠标左键增加两个断点，如下图示：
 ![](./files/venus-debug_rundebug.png)
 
 
-**开始调试**   
+##### 开始调试  
 增加断点后点击运行调试按钮(F5)开始运行，变量值及监控变量可以在运行调试过程中显示，如下图示：
 
 ![](./files/venus-debug_rundebug02.png)
 
 从上图可看到，当开始F5运行调试后，程序会停在第一个断点，此时F5继续执行后程序输出`Hello world！`并调到第二个断点等待继续，此后每按一次F5继续执行则while循环中count自增并循环输出日志等待继续执行，同时在侧边栏可以看到count在调试过程中值的变化。
 
-**调试操作按钮：**
+##### 调试操作按钮
+
 ![](./files/debug_but.png)
 
-**常用调试快捷键：**
+##### 常用调试快捷键
 - F5 继续(执行到下一个断点)
 - F10 单步调过
 - F11 单步调试
