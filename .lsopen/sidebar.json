@@ -46,10 +46,11 @@
         "type": "category",
         "label": "系统接口",
         "items": [
-          "application/kernel/multithread",
-          "application/kernel/sync_semaphore",
-          "application/kernel/sync_mutex",
-          "application/kernel/sync_poll"
+            "application/kernel/timer",
+            "application/kernel/multithread",
+            "application/kernel/sync_semaphore",
+            "application/kernel/sync_mutex",
+            "application/kernel/sync_poll"
         ],
         "collapsed": true
       },
