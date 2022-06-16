@@ -131,7 +131,7 @@ void main(void)
     k_timer_start(&reset_counter_timer, K_MSEC(1000), K_MSEC(2000));
 
     k_msleep(10000);
-    /* 10s 后获取timer触发的次数 */
+    /* 10s 后获取timer触发的次数,每次读取后status都会被清0 */
     int status = k_timer_status_get(&reset_counter_timer);
     printk("timer status %d\n", status);
 
@@ -199,7 +199,7 @@ timer不能保证精确的定时，但其精度比k_sleep/k_usleep高，测量�
 void work_handler(struct k_work *work)
 {
     while(int i=0, i<100, i++){
-        printk("do somthing  \n");
+        printk("do something \n");
     }
 }
 
