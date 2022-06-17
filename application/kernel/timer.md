@@ -13,27 +13,31 @@ Timer计时器是Zephyr RTOS中的一个内核对象，它使用内核的系统�
 
 ### timer的特性
 
-- **timer可定义的数量：**
-在内存足够的前提下，内核不限制timer的数量。
+- **timer可定义的数量：**     
+
+    在内存足够的前提下，内核不限制timer的数量。
 
 - **timer关键参数：**
-duration：设定timer第一次到期的时间。
-period: timer第一次到期后的触发时间间隔。
+
+    duration：设定timer第一次到期的时间。
+    period: timer第一次到期后的触发时间间隔。
 
 - **timer回调注册：**
-可注册到期回调函数，在duration或period到期后在时钟中断中回调该函数。
-可注册停止回调函数，在执行stop timer的线程中回调该函数。
+
+    可注册到期回调函数，在duration或period到期后在时钟中断中回调该函数。
+    可注册停止回调函数，在执行stop timer的线程中回调该函数。
 
 - **timer计数状态获取：**
-timer提供了一个status值，用来标记上一次读取状态到当前这个时间段内timer到期了多少次。
+
+    timer提供了一个status值，用来标记上一次读取状态到当前这个时间段内timer到期了多少次。
 
 
 ### Timer工作的示例图
 
 ![](./files/timer.png)
-duration：设定timer第一次到期的时间。
-period: timer第一次到期后的触发时间间隔。
-expiry：触发回调。
+duration：设定timer第一次到期的时间。    
+period: timer第一次到期后的触发时间间隔。    
+expiry：触发回调。    
 
 
 ## 常用API接口
@@ -85,6 +89,7 @@ uint32_t k_timer_remaining_get(struct k_timer *timer)
 
 ### Timer功能使用
 初始化timer有两种方式：
+
 **方式一：**
 
 ```c
@@ -92,6 +97,7 @@ uint32_t k_timer_remaining_get(struct k_timer *timer)
 struct k_timer reset_counter_timer;
 k_timer_init(&reset_counter_timer, timer_handler_expiry, timer_handler_stop);
 ```
+
 **方式二：** 
 
 ```c
