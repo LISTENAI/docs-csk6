@@ -23,7 +23,7 @@ lisa zep fs:init
 ```bash
 lisa zep fs:flash
 ```
-
+<!-- 
 ## 分区文件夹初始化
 
 …
@@ -34,8 +34,20 @@ lisa zep fs:flash
 
 ## 打包：自定义分区文件夹
 
-…
+… -->
 
-## 烧录
+## 串口烧录
 
-…
+:::tip
+该功能特性仅在插件 `1.5.2` 及以上版本支持，执行 `lisa info zephyr` 检查本地的插件版本，并可通过 `lisa update zephyr` 更新到最新插件版本。
+:::
+
+```bash
+lisa zep fs:flash --runner csk --port [port]
+```
+
+例如，windows下：
+
+```bash
+lisa zep fs:flash --runner csk --port "\\.\COM36"
+```

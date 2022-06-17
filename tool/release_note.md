@@ -1,6 +1,16 @@
 # 版本更新日志
 
-## v1.5.0 (latest)
+## v1.5.2 (latest)
+
+#### New features:
+
+* `fs:flash` 支持 `--runner` 为 `csk`，实现文件系统的串口烧录。
+
+#### Bug fixes:
+
+* 应用级提货单：修复 `init-app` 时，`.west/config` 缺少 `zephyr base` 的问题。
+
+## v1.5.0
 
 #### New features:
 
