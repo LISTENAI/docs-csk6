@@ -9,7 +9,7 @@
 :::
 
 :::tip
-该功能特性仅在插件 `1.5.0` 及以上版本支持，执行 `lisa info zephyr` 检查本地的插件版本，并可通过 `lisa update zephyr` 更新到最新插件版本。
+该功能特性仅在插件 `1.5.1` 及以上版本支持，执行 `lisa info zephyr` 检查本地的插件版本，并可通过 `lisa update zephyr` 更新到最新插件版本。
 :::
 
 ## 应用获取
@@ -28,11 +28,11 @@ lisa zep create --from-git https://cloud.listenai.com/listenai_zbzhao/test_sampl
 
 ![image](./images/app_proj_1.png)
 
-- `test_sample` 目录下，为一个应用级的项目。
+- `scanpen_csk6_offline` 目录下，为一个应用级的项目。
 
-- 应用代码存放在 `app` 目录中。
+- 提货单的project均存放在 `.sdk` 目录中。
 
-- 配置存放在 `.west/config` 中，如图中所示，提货单为 `app/west.yml`，整个项目都基于该提货单进行拉取对应modules。该项目的 sdk 代码存放在 `zephyr` 中。
+- 配置存放在 `.sdk/.west/config` 中，如图中所示，提货单为 `./west.yml`，整个项目都基于该提货单进行拉取对应modules。该项目的 sdk 代码存放在 `.sdk/zephyr` 中。
 
 - 其余目录均为提货单中配置的该项目所需。
 
