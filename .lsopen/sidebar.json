@@ -74,8 +74,9 @@
     "type": "category",
     "label": "烧录&调试",
     "items": [
-        "gdbdebug/gdbdebug",
-        "gdbdebug/csk6_load"
+        "gdbdebug/csk6_load",
+        "gdbdebug/gdbdebug"
+        
     ],
     "collapsed": true
   },

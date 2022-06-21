@@ -482,7 +482,7 @@ lisa zep flash
 ```
 
 :::tip
-如果您的硬件板型不带daplink，可通过J-link或串口烧录，详细的烧录方式可在[csk6 烧录]()章节中查看。
+如果您的硬件板型不带daplink，可通过J-link或串口烧录，详细的烧录方式可在[csk6 烧录](../gdbdebug/csk6_load.md)章节中查看。
 :::
 
 #### 查看结果 
