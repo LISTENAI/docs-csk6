@@ -27,6 +27,7 @@
       "application/structure",
       "application/kconfig",
       "application/device_tree",
+      "application/board",
       {
         "type": "category",
         "label": "外设驱动",
@@ -71,9 +72,11 @@
   },
   {
     "type": "category",
-    "label": "调试",
+    "label": "烧录&调试",
     "items": [
+        "gdbdebug/csk6_load",
         "gdbdebug/gdbdebug"
+        
     ],
     "collapsed": true
   },
