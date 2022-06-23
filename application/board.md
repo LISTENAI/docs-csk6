@@ -1,13 +1,17 @@
-# 自定义开发板
+# 自定义板型
 
 ## 概述
-csk6 sdk默认支持了`csk6002_9s_nano`板型，但在实际的应用场景中，开发者需要适配不同硬件板型，这就需要为各种定制的硬件板型添加新的board，为方便应用开发和项目代码集中管理，csk6 sdk支持开发者在app目录下新增board。
+在前面的[设备树](./device_tree.md)章节中描述了硬件板型资源的层级数据结构和使用方法，csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。
 
-在[设备树](./device_tree.md)章节中描述了硬件板型资源的层级数据结构和使用方法，通过本章节的学习，您将了解到：
-- 如何基于新的硬件新增board
+但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，为方便应用开发和项目代码集中管理，开发者可能需要根据自己的硬件情况新增一个板型。
+
+csk6 sdk支持开发者在app应用目录下新增一个应用级别的board，通过本章节的学习，您将了解到：
+- 新增一个板型的正确方法
+- 如何基于新的硬件新增一个board
 
 
 ## 添加自定义board
+
 csk6 sdk适配了`csk6002_9s_nano`开发板，对应的board配置文件在`zephyr\boards\arm\csk6002_9s_nano`目录下，目录文件结构如下：
 ```
 └── csk6002_9s_nano
@@ -20,88 +24,96 @@ csk6 sdk适配了`csk6002_9s_nano`开发板，对应的board配置文件在`zeph
     ├──  Kconfig.board
     └──  Kconfig.defconfig
 ```
-同样，在app目录下添加boards板型文件时也必须遵守`boards/<arch>/<board_name>`格式，本章节以添加新板型`csk6002_x5_nano`为例，在app目录下完成新增board的实现。
-添加board一般的做法是在`zephyr/boards`目录下找相同soc的board然后根据硬件对dts和配置文件进行修改，Zephyr sdk也提供了添加board的sample，在`zephyr/samples/application_development/out_of_tree_board`目录下。
-本章节基于csk6 sdk 提供的blinky sample项目，实现在新的硬件板`csk6002_x5_nano`上运行的目标，开发者可以从csk6 sdk中拷贝`csk6002_9s_nano`的板型配置文件并在此基础上进行修改。具体方法如下：
 
-### 步骤一：创建应用项目，在`csk6002_9s_nano`上成功运行
+同样，在app目录下添加boards板型文件时也必须遵守`boards/<arch>/<board_name>`格式，本章节以添加新板型`csk6002_myboard`为例，在app目录下完成新增board的实现。
+
+添加board一般的做法是在SDK的`zephyr/boards`目录下寻找一个使用相同soc的board作为模板，再根据硬件的差异对dts和配置文件进行修改，Zephyr sdk也提供了添加board的sample，位于`zephyr/samples/application_development/out_of_tree_board`目录下。
+
+本章节将基于csk6 sdk 提供的blinky sample项目，新建一个名为`csk6002_myboard`的板型，并使用这个新的板型对blinky sample进行编译与运行。
+
+### 步骤一：创建应用项目
 创建blinky sample项目步骤如下：  
 ![](./peripheral/samples/files/blinky_pwm01.png)
 依次按以下目录选择完成blinky sample创建：  
 > basic → blinky
 
-编译、烧录和运行结果可以在[gpio](./peripheral/samples/gpio.md)章节中查看。
+编译、烧录和运行结果可以在[GPIO](./peripheral/samples/gpio.md)章节中查看。
 
-### 步骤二：在app目录下为新的板型`csk6002_x5_nano`添加板型配置文件
-从`zephyr\boards\arm\csk6002_9s_nano`目录拷贝全部文件到app目录下，将所有`csk6002_9s_nano`名称修改为`csk6002_x5_nano`。
+### 步骤二：在app目录下为新的板型`csk6002_myboard`添加板型配置文件
+
+在刚创建的blinky sample的工程目录下创建 `boards\arm\csk6002_myboard`目录
+
+将SDK的 `zephyr\boards\arm\csk6002_9s_nano` 目录下的所有内容拷贝到`csk6002_myboard`目录下，并把文件的所有 **csk6002_9s_nano** 名称修改为 **csk6002_myboard**。
 
 ```
-app
-└── csk6002_x5_nano
-        └── csk6002_x5_nano
+app目录
+└── boards
+	└── arm
+        └── csk6002_myboard
             ├──  board.cmake
             ├──  CMakeLists.txt
-            ├──  csk6002_x5_nano_defconfig
-            ├──  csk6002_x5_nano_pinctrl.dtsi
-            ├──  csk6002_x5_nano.dts
-            ├──  csk6002_x5_nano.yaml
+            ├──  csk6002_myboard_defconfig
+            ├──  csk6002_myboard_pinctrl.dtsi
+            ├──  csk6002_myboard.dts
+            ├──  csk6002_myboard.yaml
             ├──  Kconfig.board
             └──  Kconfig.defconfig
 ```
-配置文件中的`csk6002_9s_nano`字段需要同步改成`csk6002_x5_nano`。
+配置文件中的`csk6002_9s_nano`字段需要同步改成`csk6002_myboard`。
 
-- csk6002_x5_nano_defconfig文件
-
-```
-CONFIG_BOARD_CSK6002_X5_NANO=y
-```
-
-- csk6002_x5_nano_pinctrl.dtsi文件
+- csk6002_myboard_defconfig文件
 
 ```
-csk6002_x5_nano_pinctrl:csk6002_pinctrl
+CONFIG_BOARD_csk6002_myboard=y
 ```
 
-- csk6002_x5_nano.dts文件  
+- csk6002_myboard_pinctrl.dtsi文件
 
 ```
-#include "csk6002_x5_nano_pinctrl.dtsi"
+csk6002_myboard_pinctrl:csk6002_pinctrl
+```
+
+- csk6002_myboard.dts文件  
+
+```
+#include "csk6002_myboard_pinctrl.dtsi"
 
 / {
         model = "csk6002 x5 nano";
-        compatible = "csk,csk6002_x5_nano";
+        compatible = "csk,csk6002_myboard";
 ```
 
-- csk6002_x5_nano.yaml文件
+- csk6002_myboard.yaml文件
 
 ```
-identifier: csk6002_x5_nano
+identifier: csk6002_myboard
 ```
 
 - Kconfig.board文件
 
 ```
-config BOARD_CSK6002_X5_NANO
+config BOARD_csk6002_myboard
 ```
 
 - Kconfig.defconfig文件
 
 ```
-if BOARD_CSK6002_X5_NANO
+if BOARD_csk6002_myboard
 config BOARD
-   default "csk6002_x5_nano"
-endif # BOARD_CSK6002_X5_NANO
+   default "csk6002_myboard"
+endif # BOARD_csk6002_myboard
 ```
 
 ### 步骤三：修改dts和配置文件
 #### .dtsi文件修改
-在[设备树](./device_tree.md)章节中可学习到`.dtsi`文件是被dts包含的文件，是soc或者驱动级的公用描述，如CPU架构、主频、各外设寄存器地址范围等。
+在[设备树](./device_tree.md)章节中我们了解到`.dtsi`文件是被dts包含的文件，是soc或者驱动级的公用描述，如CPU架构、主频、各外设寄存器地址范围等。
+
 参考`csk6002_9s_nano`配置在该文件中完成`uart0`、`i2c0`、`spi0`、 `pwm5`等外设的`pinctrl`配置。
 ```shell
 /* SPDX-License-Identifier: Apache-2.0 */
 
 / {
-        csk6002_x5_nano_pinctrl:csk6002_pinctrl{
+        csk6002_myboard_pinctrl:csk6002_pinctrl{
                 compatible = "listenai,csk-pinctrl";
 
                 /* UART alternate function */
@@ -226,11 +238,11 @@ endif # BOARD_CSK6002_X5_NANO
 /dts-v1/;
 #include <csk/csk6.dtsi>
 #include <dt-bindings/pwm/pwm.h>
-#include "csk6002_x5_nano_pinctrl.dtsi"
+#include "csk6002_myboard_pinctrl.dtsi"
 
 / {
         model = "csk6002 x5 nano";
-        compatible = "csk,csk6002_x5_nano";
+        compatible = "csk,csk6002_myboard";
         aliases {
                 led0 = &board_led_2;
                 sw0 = &user_button_0;
@@ -470,13 +482,13 @@ target_sources(app PRIVATE src/main.c)
 ### 步骤四：编译烧录
 #### 编译 
 
-在app根目录下通过一下指令完成编译，编译时指定配置好的新board板型`csk6002_x5_nano`：
+在app根目录下通过一下指令完成编译，编译时指定配置好的新board板型`csk6002_myboard`：
 ```
-lisa zep build -b csk6002_x5_nano
+lisa zep build -b csk6002_myboard
 ```
 #### 烧录  
 
-`csk6002_x5_nano`开发板通过USB连接PC，通过烧录指令烧录：
+`csk6002_myboard`开发板通过USB连接PC，通过烧录指令烧录：
 ```
 lisa zep flash
 ```
@@ -491,6 +503,6 @@ lisa zep flash
 ```
 lisa term
 ```
-或者将`csk6002_x5_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+或者将`csk6002_myboard`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
-以上即为基于csk6 sdk适配`csk6002_x5_nano`开发板的过程。
+以上即为基于csk6 sdk适配`csk6002_myboard`开发板的过程。
