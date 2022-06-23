@@ -70,7 +70,7 @@ debug-runner: pyocd
 
 从配置文件可以看到，当不指定烧录工具时默认pyocd作为烧录工具。
 
-#### 方式一：指定pyocd作为烧录工具
+### 烧录方式一：使用pyocd作为烧录工具
 CSK6-NanoKit板载了DAPLink调试器芯片，开发者可通过DAPLink USB接口对CSK6芯片进行固件烧录。
 
 **烧录指令：**
@@ -86,7 +86,7 @@ lisa zep flash --runner pyocd
 该烧录方式仅支持带DAPLink调试器芯片的硬件板，若无板载DAPLink的硬件请选择其他烧录工具进行烧录。
 :::
 
-#### 方式二：指定jlink作为烧录工具
+### 烧录方式二：使用jlink作为烧录工具
 CSK6-NanoKit开发板预留了SWD烧录接口，开发者可以通过SWD接口将J-link仿真器和开发板连接。
 
 **烧录指令：**
@@ -108,7 +108,7 @@ lisa zep flash --runner jlink
 该烧录方式需要硬件板子预留SWD接口。
 :::
 
-#### 方式三：指定csk(串口)作为烧录工具
+### 烧录方式三：使用csk(串口)作为烧录工具
 CSK6-NanoKit板载了DAPLink调试器芯片，DAPLink虚拟了一个串口，开发者可通过指定的虚拟串口对csk6进行烧录。
 
 **烧录指令：**
