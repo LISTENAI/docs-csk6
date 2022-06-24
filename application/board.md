@@ -483,7 +483,7 @@ target_sources(app PRIVATE src/main.c)
 #### 编译 
 
 在app根目录下通过一下指令完成编译，编译时指定配置好的新board板型`csk6002_myboard`：
-```
+```以下
 lisa zep build -b csk6002_myboard
 ```
 #### 烧录  

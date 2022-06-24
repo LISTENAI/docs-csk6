@@ -143,7 +143,7 @@ void main(void)
     }
 }
 ```
-代码处理中在原始采样值和转换电压值前对将原始采样值减2048：
+代码处理中在原始采样值和转换电压值前将原始采样值减2048：
 ```c
 mv_value = raw_value - 2048;
 ```
@@ -166,7 +166,7 @@ lisa zep build -b csk6002_9s_nano
 ```
 - **烧录**     
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指完成烧录：
+`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```

@@ -85,7 +85,7 @@ uint32_t k_timer_remaining_get(struct k_timer *timer)
 ## Timer使用示例
 ### 创建一个`hello_world`
 开发者可基于`hello_world`项目按照以下步骤添加timer的代码并运行，以此更好的掌握csk6 sdk提供的timer的使用方法。
-首先创建一个`hello_world`项目，可参考快速上周上手章节：[开始新项目](../../quick_start/start_project.md)。
+首先创建一个`hello_world`项目，可参考快速上手章节：[开始新项目](../../quick_start/start_project.md)。
 
 ### Timer功能使用
 初始化timer有两种方式：
@@ -154,7 +154,7 @@ void main(void)
 ## 编译和烧录
 - **编译** 
 
-在app根目录下通过一下指令完成编译：
+在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
