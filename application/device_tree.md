@@ -13,7 +13,7 @@ Zephyr官网针对设备树进行了详细的说明，如果您喜欢查阅Zephy
 
 ## 设备树编译流程 
 ### 设备树编译整体流程描述
-zephyr工程直接将设备树通过脚本处理成c语言头文件，设备树输入文件有两种类型:`.dts source`文件和`.ymal binding`文件。`source`文件包含了设备树的配置信息，`binding`文件描述设备树的规则包括据数据类型等。构建系统使用devicetree源文件和binding来生成生成的C头文件`devicetree.h`，所有包括设备驱动程序、应用程序、测试、内核等开发都可以通过include`devicetree.h`来使用设备树。
+zephyr工程直接将设备树通过脚本处理成c语言头文件，设备树输入文件有两种类型:`.dts source`文件和`.ymal binding`文件。`source`文件包含了设备树的配置信息，`binding`文件描述设备树的规则包括据数据类型等。构建系统使用devicetree源文件和binding来生成的C头文件`devicetree.h`，所有包括设备驱动程序、应用程序、测试、内核等开发都可以通过include`devicetree.h`来使用设备树。
 以下是该过程的简化视图:
 ![](images/devicedree_build.png)
 ### 设备树编译的输入输出文件

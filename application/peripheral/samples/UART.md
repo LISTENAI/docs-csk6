@@ -2,7 +2,7 @@
 
 ## 概述
 UART是我们最常用的外设功能之一，本章节将通过两个示例讲解如何使用CSK6 SDK的UART API接口实现数据的收发：
-- uart_polling 轮寻方式获取串口数据。
+- uart_polling 轮询方式获取串口数据。
 - uart_interrupt 中断回调的方式获取串口数据。
 
 CSK6 芯片有4组UART硬件外设。  
@@ -26,9 +26,12 @@ lisa zep create
 ![](./files/uart_create01.png)
 ![](./files/uart_create02.png)
 ![](./files/uart_create03.png)
-分别创建uart_interrupt和uart_polling两个sample。
 
-## 代码实现
+:::tip
+csk6 sdk提供了uart_interrupt和uart_polling两个sample，需要分别创建。
+:::
+
+## 示例实现
 ### UART设备树配置
 `csk6002_9s_nano`开发板提供了多组UART。本示例使用`uart0(GPIO_A_03, GPIO_A_06)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`boad overlay`的方式完成，具体实现如下：
 - 在app目录下的`csk6002_9s_nano.overlay`文件并添加如下串口配置：
@@ -50,9 +53,9 @@ CONFIG_LOG=y
 CONFIG_UART_INTERRUPT_DRIVEN=y
 CONFIG_UART_CSK6=y
 ```
-### 应用逻辑实现分析
+### 应用实现逻辑
 上文提到有两种数据接收的实现方式，下面我们来详细介绍两种数据接收方式的实现：  
-- 通过轮训的方式读取上位机发送给CSK6的数据，每次读一个char类型数据，并将接收到的数据发送给上位机。
+- 通过轮询的方式读取上位机发送给CSK6的数据，每次读一个char类型数据，并将接收到的数据发送给上位机。
 - 通过中断回调的方式读取上位机发送给CSK6的数据，并将接收到的数据发送给上位机。
 
 #### 轮询方式接收数据（uart polling）
@@ -148,18 +151,18 @@ static void uart_rx_callback(const struct device *dev, void *user_data){
 ```
 
 ## 编译和烧录
-- **编译**
+### 编译
 在app根目录下通过一下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-- **烧录**   
+### 烧录
 
 `csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-- **查看结果**  
+### 查看结果
 
 上位机给CSK6发送一串指令：`FF 01 02 03 04 05 06 07 08 09 0A FF`，CSK6接收指令并给上位机回传，如下图示：
 ![](./files/uart_result.png)
