@@ -87,7 +87,7 @@ void main(void)
 ```
 #### 中断回调方式接收数据 （uart interrupt）
 **API 接口**
-本示例中主要用到一下几个Interrupt UART API接口，更多API接口描述可以在zephyr官网[Interrupt-driven UART API](https://docs.zephyrproject.org/latest/doxygen/html/group__uart__interrupt.html)中看到。
+本示例中主要用到以下几个Interrupt UART API接口，更多API接口描述可以在zephyr官网[Interrupt-driven UART API](https://docs.zephyrproject.org/latest/doxygen/html/group__uart__interrupt.html)中看到。
 
 ```c
 /*中断回调处理*/
@@ -152,7 +152,7 @@ static void uart_rx_callback(const struct device *dev, void *user_data){
 
 ## 编译和烧录
 ### 编译
-在app根目录下通过一下指令完成编译：
+在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```

@@ -19,7 +19,7 @@ lisa zep create
 ```
 
 ![](./files/uart_create01.png)
-依次按一下目录选择完成adc sample创建：  
+依次按以下目录选择完成adc sample创建：  
 > boards → csk6 → driver → rtc
 
 ## 示例实现
@@ -119,7 +119,7 @@ lisa zep build -b csk6002_9s_nano
 ```
 ### 烧录   
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指完成烧录：
+`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```

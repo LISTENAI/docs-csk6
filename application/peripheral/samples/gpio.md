@@ -8,7 +8,7 @@ GPIO的使用使我们最常用的外设操作之一，本章节将通过一个�
 ![](./files/led_pin.png)
 
 ## 创建项目
-`CSK6 SDK`提供了Blinky的sample，你可以通过一下指令创建一个Blinky项目：
+`CSK6 SDK`提供了Blinky的sample，你可以通过以下指令创建一个Blinky项目：
 ```
 lisa zep create
 ```
@@ -165,7 +165,7 @@ while (1) {
 
 ## 编译和烧录
 ### 编译
-在sample根目录下通过一下指令完成编译：
+在sample根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```

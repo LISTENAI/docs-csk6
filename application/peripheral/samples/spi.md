@@ -21,7 +21,7 @@ CSK6 I2C驱动功能特性如下：
 lisa zep create
 ```
 ![](./files/uart_create01.png)
-依次按一下目录选择完成adc sample创建：  
+依次按以下目录选择完成adc sample创建：  
 > boards → csk6 → driver → spi_master_slave
 
 
@@ -314,7 +314,7 @@ void main(void)
 ### 编译
 
 分别配置`MASTER_MODE`为1和0并烧录到两个CSK6-NanoKit开发板上。
-在app根目录下通过一下指令完成编译：
+在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```

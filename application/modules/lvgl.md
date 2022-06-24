@@ -20,7 +20,7 @@ LVGL全称Light and Versatile Graphics Library，是一个开源的GUI库，具�
 
 ## LVGL关键概念
 
-在开始LVGL的Sample实验前，让我们先简单了解一下LVGL一些比较重要的概念，方便对后续Sample验证的理解。
+在开始LVGL的Sample实验前，让我们先简单了解以下LVGL一些比较重要的概念，方便对后续Sample验证的理解。
 
 **Display：** 在LVGL中一个物理显示器对应一个Display，LVGL支持多个物理显示器，如果开发的是像扫描词典笔这类只有一个屏幕设备，则在这个LVGL工程只有一个Display。
 

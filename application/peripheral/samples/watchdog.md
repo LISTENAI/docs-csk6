@@ -15,7 +15,7 @@ lisa zep create
 ```
 
 ![](./files/uart_create01.png)
-依次按一下目录选择完成watchdog sample创建：  
+依次按以下目录选择完成watchdog sample创建：  
 > boards/ --> csk6/ --> driver/ --> wdt
 
 ## 示例实现
