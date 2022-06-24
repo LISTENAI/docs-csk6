@@ -20,7 +20,9 @@ CSK6 I2C驱动功能特性如下：
 - `i2c0(GPIO_A_04, GPIO_A_05)`作为主设备(master)
 - `i2c1(GPIO_A_06, GPIO_A_07)`作为从设备(slave)
 使用杜邦线将`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`通连接，如下图示：
+
 ![](./files/i2c_pin_conect.png)
+
 
 :::tip
 通常I2C通讯SCL和SDA之间都需要接上拉电阻(大小由速度和容性负载决定一般在3.3K-10K之间)以保证数据的稳定性，减少干扰，如下图示:

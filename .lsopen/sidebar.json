@@ -67,6 +67,14 @@
           "application/modules/audio_playback"
         ],
         "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "网络",
+        "items": [
+          "application/network/wifi_connect"
+        ],
+        "collapsed": true
       }
     ],
     "collapsed": true
