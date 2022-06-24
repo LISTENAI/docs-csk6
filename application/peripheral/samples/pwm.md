@@ -22,7 +22,7 @@ lisa zep create
 ![](./files/blinky_pwm03.png)
 Blinky pwm sample创建成功。
 
-## 实现过程
+## 示例实现
 ### 组件配置
 在prj.conf文件中添加项目基础组件配置配置:
 ```shell
@@ -38,9 +38,9 @@ CONFIG_PWM=y
 ### 设备树配置
 - 首先，我们需要在当前board设备树中添加`pwm`的配置，即在`csk6002_9s_nano.dts`中实现`pwmleds`的配置，详细配置如下:
 ```c
- {
-        model = "csk6002 9s nano";
-        compatible = "csk,csk6002_9s_nano";
+{
+    model = "csk6002 9s nano";
+    compatible = "csk,csk6002_9s_nano";
     aliases {
             ...
             pwm-led0 = &green_pwm_led;
@@ -119,21 +119,22 @@ period = max_period;
 ```
 
 ## 编译和烧录
-- **编译**
+### 编译
 在sample根目录下通过一下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
 编译成功：
 ![](./files/blinky_pwm_build.png)
-- **烧录**
+### 烧录
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
 烧录成功：
 ![](./files/flash.png)
-- **效果**  
+
+### 查看结果 
 
 预期的效果应如下视频所示，开发板上的LED灯(绿)以先快后慢的方式循环闪烁，如果在你的卡发板上实现了这个效果，那么恭喜，你顺利的完成了LED的控制，在CSK6的开发上又迈出了一步！
 

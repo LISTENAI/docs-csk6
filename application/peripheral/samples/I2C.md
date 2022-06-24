@@ -1,7 +1,7 @@
 # I2C
 
 ## 概述
-I2C是我们常用的外设功能之一，CSK6 SDK I2C外设驱动采用标准的I2C总线协议，本节我们将通过示例讲解如何使用CSK6 SDK的I2C API接口实现数据的收发，更多关于I2C API描述可以在zephyr官网[I2C Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__i2c__interface.html)中看到。
+I2C是我们常用的外设功能之一，CSK6 SDK I2C外设驱动采用标准的I2C总线协议，本节我们将通过示例讲解如何使用CSK6 SDK的I2C API接口实现数据的收发。
 
 CSK6 芯片有两个I2C 硬件外设。
 CSK6 I2C驱动功能特性如下：
@@ -38,10 +38,18 @@ lisa zep create
 ![](./files/lisa_create_04.png)
 
 
-## 代码实现
+## 示例实现
+### 组件配置
+```
+CONFIG_STDOUT_CONSOLE=y
+CONFIG_PRINTK=y
+# I2C配置
+CONFIG_I2C=y
+```
 ### I2C设备树配置
 `csk6002_9s_nano`开发板提供了多组I2C。本示例使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可通过`boad overlay`的方式完成I2C引脚的配置。
-- 在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
+
+在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
 ```c
 /*
  * SPDX-License-Identifier: Apache-2.0
@@ -82,13 +90,16 @@ lisa zep create
 };
 ```
 :::note
-如果您对想了解更多关于设备树的信息，请查看[设备树](../../device_tree.md)章节。
+如果您想了解更多关于设备树的信息，请学习[设备树](../../device_tree.md)章节。
 :::
-### 应用逻辑实现分析
+### 应用逻辑
+
 本实例中主要实现了以下数据收发：
 - master一次向slave发送256个字节数据，slave接收256字节数据并通过串口打印输出
 - slave一次向master发送256个字节数据，master接收256字节数据并通过串口打印输出
 - master每隔10S发送一次256个字节数据并以此循环，slave接收数据并打印输出
+
+### API接口
 
 本示例中主要用到3个I2C API接口：
 ```c
@@ -99,7 +110,11 @@ i2c_write()
 /*i2c读数据*/
 i2c_read()
 ```
+更多I2C API接口请访问zephyr官网[I2C Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__i2c__interface.html)。
+
+### 应用逻辑实现
 **I2C初始化：**
+
 ```c
 /*定义一个I2C设备名称，并通过设备树接口获取I2C的设备树信息*/
 #define I2C0_DEV_NAME DT_LABEL(DT_ALIAS(i2c_0)) 
@@ -135,7 +150,9 @@ void main(void)
                     NULL, NULL, pri, 0, K_NO_WAIT);
 }
 ```
+
 **master和slave数据收发实现**
+
 i2c_master_thread实现：
 ```c
 void i2c_master_thread(void *v1, void *v2, void *v3)
@@ -187,25 +204,25 @@ void i2c_slave_thread(void *v1, void *v2, void *v3)
 }
 ```
 ## 编译和烧录
-- **编译**
+### 编译
 
 在app根目录下通过一下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-- **烧录**   
+### 烧录
 
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-- **查看结果**  
+### 查看结果
 
-可通过lisa提供的`lisa term`命令查看日志：
-```
-lisa term
-```
-或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+**查看串口日志**
+
+CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+- 通过lisa提供的`lisa term`命令查看日志
+- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 **slave接收到master发送的数据结果应为：**
 ```

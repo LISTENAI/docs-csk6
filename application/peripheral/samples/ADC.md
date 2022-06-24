@@ -23,7 +23,7 @@ lisa zep create
 > boards → csk6 → driver → adc
 
 
-## 代码实现
+## 示例实现
 ### 设备树配置
 在`csk6002_9s_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`boad overlay`的方式完成ADC引脚和通道的配置。
 `app/board/csk6002_9s_nano.overlay`详细配置：
@@ -65,9 +65,9 @@ CONFIG_ADC=y
 CONFIG_LOG=y
 CONFIG_LOG_MODE_MINIMAL=y
 ```
-### 应用逻辑实现分析  
-**API 接口**  
-主要用到以下ADC driver API接口，更多ADC driver APIs接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__adc__interface.html)中看到。
+### API 接口  
+
+主要用到以下ADC driver API接口：
 ```c
 /*配置采样通道*/
 int adc_channel_setup(const struct device * dev, const struct adc_channel_cfg *	channel_cfg)
@@ -78,7 +78,11 @@ int adc_read(const struct device * dev, const struct adc_sequence * sequence)
 /*采样值转电压(mV)*/
 int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution, int32_t *valp)
 ```  
+更多ADC driver APIs接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__adc__interface.html)中看到。
+
+### 应用逻辑实现
 **adc初始化：**
+
 ```c
 /*获取设备树中io_channels配置的通道数量*/
 #define ADC_NUM_CHANNELS    DT_PROP_LEN(DT_PATH(zephyr_user), io_channels)
@@ -101,6 +105,7 @@ static uint8_t channel_ids[ADC_NUM_CHANNELS] = {
 };
 ```
 **主函数实现：**
+
 ```c
 void main(void)
 {
@@ -142,12 +147,15 @@ void main(void)
 ```c
 mv_value = raw_value - 2048;
 ```
+
 **这样处理的原因：**    
+
 通常被采集电压为0V ~ 3.3V，为匹配运算，在采样值转电压值前减2048采样值，并将采样精度设置为11bit，通过`adc_raw_to_millivolts`接口转换后的电压值(mV)范围及为0V ~ 3.3V。    
 | 参考电压 | 待采样电压值范围 | 采样精度 | 采样值 |0V对应的采样值 |
 | --------------| -------------- | -------- | -------------| -------------|
 | 3.3V | -3.3V~3.3V | 12it | 0~4096 | 2048 |
 | 3.3V | 0V~3.3V | 11bit | 0~2048 | 0 |
+
 
 ## 编译和烧录
 - **编译**  
@@ -164,11 +172,10 @@ lisa zep flash --runner pyocd
 ```
 - **查看结果**  
 
-可通过lisa提供的`lisa term`命令查看日志：
-```
-lisa term
-```
-或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+- 通过lisa提供的`lisa term`命令查看日志
+- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+
 ```
 *** Booting Zephyr OS build 1ce26fc41a1d  ***
 ADC Sample start

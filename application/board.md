@@ -499,10 +499,8 @@ lisa zep flash
 
 #### 查看结果 
 
-可通过lisa提供的`lisa term`命令查看日志：
-```
-lisa term
-```
-或者将`csk6002_myboard`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+- 通过lisa提供的`lisa term`命令查看日志
+- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 以上即为基于csk6 sdk适配`csk6002_myboard`开发板的过程。
