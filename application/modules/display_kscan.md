@@ -28,7 +28,7 @@ lisa zep create
 ## 编译和烧录
 - **编译** 
 
-在app根目录下通过一下指令完成编译：
+在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
