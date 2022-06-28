@@ -21,7 +21,7 @@ lisa zep <command> [opts] <args>
 以下是 **Lisa Plugin Zephyr** 的v1.3.0版本的章节文档，并提供了有关该工具的更多背景信息。
 
 
-* [获取](install)
+<!-- * [获取](install) -->
 
 
 * [版本更新日志](release_note)
