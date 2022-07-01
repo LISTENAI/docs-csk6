@@ -120,6 +120,7 @@ i2c_read()
 ```c
 /*定义一个I2C设备名称，并通过设备树接口获取I2C的设备树信息*/
 #define I2C0_DEV_NAME DT_LABEL(DT_ALIAS(i2c_0)) 
+#define I2C1_DEV_NAME DT_LABEL(DT_ALIAS(i2c_1))
 
 /* 从机地址：csk6默认的从机地址为:0x35*/
 #define SLAVE_ADDRESS (0x35) 
