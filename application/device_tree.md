@@ -298,13 +298,7 @@ ranges属性值可以为空或者按照(child-bus-address,parent-bus-address,len
 
 当ranges属性值为空值时，子地址空间和父地址空间完全相同，不需要进行地址转换。
 
-
-### 设备树DTS语法
-DTS 语法与 Linux 设备树保持一致，更多信息可以参阅：[Devicetree spec](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/PDF/devicetree-specification-v0.1-20160524.pdf)。
-
-
-
-### zephyr系统中设备树相关文件
+## Zephyr SDK中的设备树文件
 
 ```c
 # 设备树源文件
@@ -313,11 +307,12 @@ zephyr/boards/arm/csk6002_9s_nano/csk6002_9s_nano.dts
 zephyr/boards/arm/csk6002_9s_nano/csk6002_9s_nano_pinctrl.dtsi 
 # 设备树绑定文件
 zephyr/dts/bindings/xxx/xxx.yaml  
-# 设备树头文件
+# 设备树的头文件
 zephyr/include/devicetree.h 
-# 设备树应用配置文件
+# 应用项目设备树配置文件
 app/boards/csk6002_9s_nano.overlay  
 ```
+
 zephyr工程直接将设备树通过脚本处理成C头文件`devicetree.h`，设备树输入文件有两种类型:`source`(.dts)文件和`binding`(.ymal)文件。`source`文件包含了设备树的配置信息，`binding`文件描述设备树的规则包括据数据类型等。所有包括设备驱动程序、应用程序、测试、内核等开发都可以通过include`devicetree.h`来使用设备树。
 以下是该过程的简化视图:
 ![](images/devicedree_build2.png)
@@ -378,12 +373,12 @@ csk6 sdk/include/devicetree.h
 
 void main(void)
 {
-	const struct device *dev;
-	bool led_is_on = true;
-	int ret;
+    const struct device *dev;
+    bool led_is_on = true;
+    int ret;
 
     /* 获取gpio实例 */
-	dev = device_get_binding(LED0);
+    dev = device_get_binding(LED0);
 }
 ```
 #### 应用项目中的dts文件(.overlay文件)
@@ -426,7 +421,7 @@ zephyr sdk中的.dts对硬件板型进行了基础的设备树配置，但在应
         pinctrl-names = "default";
 };
 ```
-### zephyr系统中设备树编译的输入输出文件
+### zephyr系统中设备树编译流程
 ![](images/zephyr_dt_inputs_outputs.png)
 
 编译输入文件:
@@ -551,8 +546,7 @@ void main(void)
 };
 ```
 
-在sample实现代码中使用设备树API接口完成I2C实例
-
+在sample实现代码中使用设备树API接口并完成I2C接口操作：
 ```c
 /*定义一个I2C设备名称，并通过设备树接口获取I2C的设备树信息*/
 #define I2C0_DEV_NAME DT_LABEL(DT_ALIAS(i2c_0)) 
@@ -574,26 +568,26 @@ void i2c_master_init(void){
     i2c0_dev = device_get_binding(I2C0_DEV_NAME);
     ...
     /* i2c master configure */
-	if (i2c_configure(i2c0_dev, i2c0_cfg)) {
-		printk("I2C0 config failed\n");
-		return;
-	}
+    if (i2c_configure(i2c0_dev, i2c0_cfg)) {
+        printk("I2C0 config failed\n");
+        return;
+    }
 }
 
 /* i2c slave 初始化 */
 void i2c_slave_init(void)
 {   
     /* 获取I2C设备实例 */
-	i2c1_dev = device_get_binding(I2C1_DEV_NAME);
-	if (i2c1_dev == NULL) {
-		printk("I2C1: Device is not found.\n");
-	}
+    i2c1_dev = device_get_binding(I2C1_DEV_NAME);
+    if (i2c1_dev == NULL) {
+        printk("I2C1: Device is not found.\n");
+    }
     ...
-	/* i2c slave configure */
-	if (i2c_configure(i2c1_dev, i2c1_cfg)) {
-		printk("I2C1 config failed\n");
-		return;
-	}
+    /* i2c slave configure */
+    if (i2c_configure(i2c1_dev, i2c1_cfg)) {
+        printk("I2C1 config failed\n");
+        return;
+    }
 }
 
 /* i2c_master_thread实现：*/
@@ -612,9 +606,8 @@ void i2c_master_thread(void *v1, void *v2, void *v3)
     
     ...
 }
-```
+
 /* i2c_slave_thread实现 */
-```c
 void i2c_slave_thread(void *v1, void *v2, void *v3)
 {
     /* master发送数据，slave接收 */
@@ -632,6 +625,8 @@ void main(void)
     k_thread_create(&slave_thread_data, slave_stack_area,
                     K_THREAD_STACK_SIZEOF(slave_stack_area),
                     i2c_slave_thread, NULL, NULL, NULL, pri, 0, K_NO_WAIT);
+    
+    
     /*创建一个线程，用于处理主设备的数据收发*/
     k_thread_create(&master_thread_data, master_stack_area,
                     K_THREAD_STACK_SIZEOF(master_stack_area), i2c_master_thread, NULL,
@@ -639,9 +634,10 @@ void main(void)
 }
 ```
 
+I2C sample更多内容请看[I2C外设使用示例](./peripheral/samples/i2c)。
+
 ### 根据新的硬件配置板型文件(.dts)
-csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。
-但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，开发者可能需要根据自己的硬件情况新增一个板型，具体实现请学习[自定义板型](./board.md)章节。
+csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，开发者可能需要根据自己的硬件情况新增一个板型，具体实现请学习[自定义板型](./board)章节。
 
 
 以上就是设备树的描述和使用示例，通过本章节的学习，您是否掌握了设备树的基本使用方法？如果您对设备树还有疑问或者有更深刻的理解，可以通过工单的形式向我们反馈，期待您的参与。
