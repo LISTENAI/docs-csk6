@@ -638,7 +638,7 @@ void main(void)
                     NULL, NULL, pri, 0, K_NO_WAIT);
 }
 ```
-I2C sample更多内容请看[I2C外设使用示例](./peripheral/samples/i2c.md)。
+I2C sample更多内容请看[I2C](./peripheral/samples/i2c.md)。
 
 ### 根据新的硬件配置板型文件(.dts)
 csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，开发者可能需要根据自己的硬件情况新增一个板型，具体实现请学习[自定义板型](./board.md)章节。
