@@ -318,6 +318,7 @@ zephyr/include/devicetree.h
 # 应用项目设备树配置文件
 app/boards/csk6002_9s_nano.overlay  
 ```
+
 zephyr工程直接将设备树通过脚本处理成C头文件`devicetree.h`，设备树输入文件有两种类型:`source`(.dts)文件和`binding`(.ymal)文件。`source`文件包含了设备树的配置信息，`binding`文件描述设备树的规则包括据数据类型等。所有包括设备驱动程序、应用程序、测试、内核等开发都可以通过include`devicetree.h`来使用设备树。
 以下是该过程的简化视图:
 ![](images/devicedree_build2.png)
@@ -378,12 +379,12 @@ csk6 sdk/include/devicetree.h
 
 void main(void)
 {
-	const struct device *dev;
-	bool led_is_on = true;
-	int ret;
+    const struct device *dev;
+    bool led_is_on = true;
+    int ret;
 
     /* 获取gpio实例 */
-	dev = device_get_binding(LED0);
+    dev = device_get_binding(LED0);
 }
 ```
 #### 应用项目中的dts文件(.overlay文件)
@@ -638,7 +639,8 @@ void main(void)
                     NULL, NULL, pri, 0, K_NO_WAIT);
 }
 ```
-I2C sample更多内容请看[I2C](./peripheral/samples/i2c.md)。
+
+I2C sample更多内容请看I2C[示例说明](./peripheral/samples/i2c.md)。
 
 ### 根据新的硬件配置板型文件(.dts)
 csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，开发者可能需要根据自己的硬件情况新增一个板型，具体实现请学习[自定义板型](./board.md)章节。
