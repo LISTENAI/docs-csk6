@@ -339,7 +339,7 @@ dtsi是设备树头文件，类似c语言的.h文件，一般用于描述一个�
 #include <csk/csk6.dtsi>
 #include "csk6002_9s_nano_pinctrl.dtsi"
 ```
-##### 设备树绑定文件(.yaml文件)
+#### 设备树绑定文件(.yaml文件)
 bindings文件在csk6 sdk中的路径：
 `csk6 sdk/dts/bindings/xxx/xxx.yaml`，例如pwm-leds的bindings文件目录为：`csk6 sdk/dts/bindings/led/pwm-leds.yaml`
 
@@ -360,7 +360,7 @@ dts通过note内的compatible属性指和yaml文件名进行匹配
 ```
 `compatible = "pwm-leds"`指定green_pwm_led的规则文件为`pwm-leds.yaml`，那么它就会去`csk6 sdk/dts/bindings/`去找`led/pwm-leds.yaml`文件来绑定。
 
-##### 设备树头文件(devicetree.h文件)
+#### 设备树头文件(devicetree.h文件)
 `devicetree.h`路径：
 ```
 csk6 sdk/include/devicetree.h
@@ -386,7 +386,7 @@ void main(void)
 	dev = device_get_binding(LED0);
 }
 ```
-##### 应用项目中的dts文件(.overlay文件)
+#### 应用项目中的dts文件(.overlay文件)
 dts在应用项目中通常以.overlay的形式存在：
 ```c
 app/boards/csk6002_9s_nano.overlay
@@ -457,9 +457,9 @@ app/build/zephyr/include/generated/devicetree_unfixed.h
 
 `csk6 sdk/include/devicetree.h`即为设备驱动程序、应用程序、测试、内核等最终引用的头文件。
 
-### 在应用开发中使用设备树
+## 在应用开发中使用设备树
 
-通过以上章节的描述，我们对设备树有了基本的了解，如何在应用开发中使用设备树？以csk6002_9s_nano开发板为例，在blinky sample中，通过调用devicetree.hAPI接口获取GPIO设实例，从而完成GPIO的控制：
+通过以上章节的描述，我们对设备树有了基本的了解，如何在应用开发中使用设备树？下面通过几个示例来说明：
 ### 设备树API接口
 应用开发中常用的设备树API接口：
 ```c
@@ -474,7 +474,7 @@ app/build/zephyr/include/generated/devicetree_unfixed.h
 ```
 更多device tree API接口可以在zephyr官网[devicetree.h File Reference](https://docs.zephyrproject.org/latest/doxygen/html/devicetree_8h.html)中查看。
 
-### 在应用开发中使用设备树API接口
+### 应用项目中使用设备树API接口获取设备实例
 以blinky sample为例，通过DT_ALIAS()API找到`led0`设备树配置，并解析`led0`的属性信息：
 在`zephyr.dts`中`led0`的配置信息如下：
 ```c
@@ -514,7 +514,7 @@ void main(void)
     gpio_pin_set(dev, PIN, 1);
 }
 ```
-### 在应用开发中重写(.overlay)完成硬件配置
+### 在应用项目开发中重写(.overlay文件)完成引脚功能复用
 在I2C sample中使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口作为I2C的master和slave接口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可在` .overlay`中添加设备树配置的方式完成GPIO复用I2C功能的配置。
 
 在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
@@ -551,7 +551,7 @@ void main(void)
 };
 ```
 
-在sample实现代码中使用设备树API接口完成I2C实例获取和控制：
+在sample实现代码中使用设备树API接口完成I2C实例
 
 ```c
 /*定义一个I2C设备名称，并通过设备树接口获取I2C的设备树信息*/
@@ -638,6 +638,11 @@ void main(void)
                     NULL, NULL, pri, 0, K_NO_WAIT);
 }
 ```
+
+### 根据新的硬件配置板型文件(.dts)
+csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。
+但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，开发者可能需要根据自己的硬件情况新增一个板型，具体实现请学习[自定义板型](./board.md)章节。
+
 
 以上就是设备树的描述和使用示例，通过本章节的学习，您是否掌握了设备树的基本使用方法？如果您对设备树还有疑问或者有更深刻的理解，可以通过工单的形式向我们反馈，期待您的参与。
 
