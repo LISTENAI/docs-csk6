@@ -298,12 +298,6 @@ ranges属性值可以为空或者按照(child-bus-address,parent-bus-address,len
 
 当ranges属性值为空值时，子地址空间和父地址空间完全相同，不需要进行地址转换。
 
-:::note
-设备树DTS语法
-DTS 语法与 Linux 设备树保持一致，更多信息可以参阅：[Devicetree spec](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/PDF/devicetree-specification-v0.1-20160524.pdf)。
-:::
-
-
 ## Zephyr SDK中的设备树文件
 
 ```c
@@ -574,26 +568,26 @@ void i2c_master_init(void){
     i2c0_dev = device_get_binding(I2C0_DEV_NAME);
     ...
     /* i2c master configure */
-	if (i2c_configure(i2c0_dev, i2c0_cfg)) {
-		printk("I2C0 config failed\n");
-		return;
-	}
+    if (i2c_configure(i2c0_dev, i2c0_cfg)) {
+        printk("I2C0 config failed\n");
+        return;
+    }
 }
 
 /* i2c slave 初始化 */
 void i2c_slave_init(void)
 {   
     /* 获取I2C设备实例 */
-	i2c1_dev = device_get_binding(I2C1_DEV_NAME);
-	if (i2c1_dev == NULL) {
-		printk("I2C1: Device is not found.\n");
-	}
+    i2c1_dev = device_get_binding(I2C1_DEV_NAME);
+    if (i2c1_dev == NULL) {
+        printk("I2C1: Device is not found.\n");
+    }
     ...
-	/* i2c slave configure */
-	if (i2c_configure(i2c1_dev, i2c1_cfg)) {
-		printk("I2C1 config failed\n");
-		return;
-	}
+    /* i2c slave configure */
+    if (i2c_configure(i2c1_dev, i2c1_cfg)) {
+        printk("I2C1 config failed\n");
+        return;
+    }
 }
 
 /* i2c_master_thread实现：*/
@@ -640,7 +634,7 @@ void main(void)
 }
 ```
 
-I2C sample更多内容请看I2C[示例说明](./peripheral/samples/i2c.md)。
+I2C sample更多内容请看[I2C外设使用示例](./peripheral/samples/i2c.md)。
 
 ### 根据新的硬件配置板型文件(.dts)
 csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。但在实际的应用场景中，开发者往往会基于CSK6芯片构建自己的硬件产品，开发者可能需要根据自己的硬件情况新增一个板型，具体实现请学习[自定义板型](./board.md)章节。
