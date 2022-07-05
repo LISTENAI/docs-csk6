@@ -46,8 +46,9 @@
       },
       {
         "type": "category",
-        "label": "系统接口",
+        "label": "系统内核",
         "items": [
+            "application/kernel/overview",
             "application/kernel/timer",
             "application/kernel/multithread",
             "application/kernel/sync_semaphore",
@@ -58,8 +59,9 @@
       },
       {
         "type": "category",
-        "label": "组件",
+        "label": "系统组件",
         "items": [
+          "application/modules/overview",
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
@@ -72,6 +74,7 @@
         "type": "category",
         "label": "网络",
         "items": [
+          "application/network/overview",
           "application/network/wifi_connect"
         ],
         "collapsed": true

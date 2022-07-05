@@ -1,4 +1,4 @@
-# 基于DAPlink的GDB调试
+# 基于J-link的GDB调试
 
 ## 概述
 Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍如何基于VS Code和J-link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
