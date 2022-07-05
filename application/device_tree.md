@@ -2,25 +2,35 @@
 
 
 ## 概述  
-设备树(Device Tree)一种描述硬件资源的数据结构。它通过bootloader将硬件资源传给内核，使得内核和硬件资源描述相对独立。
+设备树(Device Tree)一种描述硬件资源的数据结构，在嵌入式Linux、Zephyr等操作系统中，设备树的使用让内核和硬件资源描述相对独立。
 
 通过本章节我们将了解到：
-1.什么是设备树
-2.设备树由什么组成
-3.设备树与应用代码的关系
-4.如果在开发中使用设备树
+
+- 1.什么是设备树
+- 2.如何看懂设备树文件
+- *2.设备树包含、描述了什么内容
+- 3.设备树与应用代码的关系
+- 4.如何在开发中使用设备树
 
 ## 什么是设备树
 
-设备树(Device Tree)，将这个词分开就是"设备"和"树"，描述设备树的文件叫做DTS(Device Tree Source)，这个DTS文件用来描述目标板硬件信息的源文件，也就是开发板上的设备信息。比如CPU 数量、 内存基地址、IIC 接口上接了哪些设备、SPI 接口上接了哪些设备等等。
-树的主干就是系统总线，IIC 控制器、GPIO 控制器、SPI 控制器等都是接到系统主线上的分支。DTS文件的主要功能就是按照图所示的结构来描述板子上的设备信息。
+顾名思义，设备树(Device Tree)是用来描述 设备信息 的 "树" ，这棵 "树" 的主干就是系统总线，而我们熟悉的各种芯片上的关键外设驱动如I2C控制器、GPIO控制器、SPI控制器等都是这棵树上的分支，每个分支上还挂着不同的设备：
 
-设备树的主要优势：对于同一SOC的不同主板，只需更换设备树文件.dtb即可实现不同主板的无差异支持，而无需更换内核文件。
+![](images/devicetree_like.png)
+
+描述设备树的是后缀为dts(Device Tree Source)的文件，内容为树状结构，树上的每一个Node(节点)代表硬件描述里的一个Device(设备)，一个 Node 会包含多个 Properties(属性)，Properties描述了与这个设备相关的信息，如寄存器地址、硬件配置信息等。
+
+![](images/devicetree_code1.png)
+
+在上述片段中，我们可看到在 gpio_key 这一节点下，还有 button_0 这一子节点，代表着硬件板型上的一个用户按键，而这个子节点下面的 lable(标签) 和 gpios(使用的IO口) 这两个属性这描述了这个用户按键的关键信息。
+
+如果我们想在目前这个板子上增加一个用户按键，无非是在gpio_key这个节点下，再 "长出" 一个 button_1 的子节点，并在这个节点的属性中描述这个新增的按键的关键信息。如：
+
+![](images/devicetree_code2.png)
+
+
 
 ## Zephyr中的设备树
-设备树(DeviceTree)作为一种用来描述板载硬件资源的层级数据结构，由两种元素组成：Node(节点)、Property(属性)。Zephyr使用他来表示支持板子上的可用资源，当然，还包括一些硬件的初始化配置信息。
-
-Linux 内核从3.x版本之后开始支持使用设备树，而Zephyr从设计之初就引入了设备树。在此之前，与硬件设备相关的具体信息需要写在驱动代码中，如果外设发生相应的变化，那么驱动代码就需要改动。
 
 zephyr类似于Linux通过设备树来管理硬件，与Linux不同的是，zephyr不直接使用DTB(设备树编译后的二进制文件)，因为运行zephyrOS的硬件大部分是资源受限的嵌入式系统，很多MCU的资源都不够支撑运行一个DTB框架，所以zephyr工程直接将设备树通过脚本处理成c语言头文件，给应用程序调用的设备树API都是一些宏定义或宏函数。
 
@@ -36,6 +46,7 @@ zephyr类似于Linux通过设备树来管理硬件，与Linux不同的是，zeph
 / {  /* 设备树根节点 */   
         model = "csk6002 9s nano";/* board板型名称 */
         compatible = "csk,csk6002_9s_nano";
+		
         /* 定义设备树某个硬件设备的别名，方便通过aliases访问节点的信息 */
         aliases {
                 led0 = &board_led_2;
@@ -55,7 +66,7 @@ zephyr类似于Linux通过设备树来管理硬件，与Linux不同的是，zeph
                 /* other chosen settings  for your hardware */
         };
         
-        /* led灯的设备树配置 */
+        /* led的设备树配置 */
         leds {
                 compatible = "gpio-leds";
                 board_led_2: board_led_2 {
@@ -64,7 +75,7 @@ zephyr类似于Linux通过设备树来管理硬件，与Linux不同的是，zeph
                 };
         };
 
-        /* pwm led灯的设备树配置 */
+        /* pwm led的设备树配置 */
         pwmleds {
 		    compatible = "pwm-leds";
 		    green_pwm_led: green_pwm_led {
