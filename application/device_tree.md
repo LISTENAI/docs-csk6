@@ -34,6 +34,10 @@
 
 zephyr类似于Linux通过设备树来管理硬件，与Linux不同的是，zephyr不直接使用DTB(设备树编译后的二进制文件)，因为运行zephyrOS的硬件大部分是资源受限的嵌入式系统，很多MCU的资源都不够支撑运行一个DTB框架，所以zephyr工程直接将设备树通过脚本处理成c语言头文件，给应用程序调用的设备树API都是一些宏定义或宏函数。
 
+zephyr工程直接将设备树通过脚本处理成C头文件`devicetree.h`，设备树输入文件有两种类型:`source`(.dts)文件和`binding`(.ymal)文件。`source`文件包含了设备树的配置信息，`binding`文件描述设备树的规则包括据数据类型等。所有包括设备驱动程序、应用程序、测试、内核等开发都可以通过include`devicetree.h`来使用设备树。
+以下是该过程的简化视图:
+![](images/devicedree_build2.png)
+
 我们直接来看csk6 sdk `csk6002_9s_nano.dts` 设备树源文件，部分配置内容如下：
 ```c
 /* dts语法版本version 1 */
@@ -134,53 +138,32 @@ foo = <3>;
 label = "SUBNODE";
 ```
 
-#### 节点名称和属性的取值
-- 节点名称
-
-在设备树中，node 由节点名、节点内容组成的。下面是一个一个典型的形式：
+####  设备树的label(标签)
+这个设备节点名称根据Zephyr的设备驱动模型(Device Driver Model)来定义，在应用程序开发中，可以通过`device_get_binding()`接口带入label名称来获取对应硬件设备的设备实例，例如：
+在`csk6.dtsi`中i2c的设备树配置如下：
 ```c
-node1@address {
-    key=value;
-    node2@address{
-        key=value;
-    }
+    i2c0: i2c@45600000 {
+        compatible = "listenai,csk-i2c";
+        reg = <0x45600000 0x100000>;
+        interrupts = <14 2>;
+        #address-cells = <1>;
+        #size-cells = <0>;
+        label = "I2C_0";
+    };
+```
+
+应用开发中可通过I2C的label：`label = "I2C_0"`来获取`I2C0`设备的实例：
+```c
+const struct device *i2c0_dev = NULL;
+void main(void){
+    /* 通过label获取i2c0设备实例 */
+    i2c0_dev = device_get_binding("I2C_0");
+    /* 通过I2C设备实例操作I2C API接口 */
+    i2c_write(i2c0_dev, data0, sizeof(data0) - 1, SLAVE_ADDRESS);
 }
 ```
-其中 node1 是它的节点名，address 是节点的第一个寄存地址，如果没有寄存器 @address 为空。
-节点名长度应该小于 31 个字符，对于不同类型的设备，Devicetree spec 有推荐对应的设备名，但并非强制。
 
-- 节点属性
-
-节点的属性是键值对的形式，如：
-```c
-gpios = <&gpiob 5 0>;
-```
-
-其中 *reg* 是属性名，<0x00080000 (320*1024)> 是属性值。
-
-- 节点属性名称
-
-属性名有两种情况，一种是**标准**属性名，一种是**非标准**属性名。对于非标准属性名，一般会添加前缀来进行区分，比如：
-
-```
-csk,wifi_module
-csk,pinctrl
-```
-
-- 属性值 
-
-属性值有 7 种类型：
-
-| 属性值 | 属性值描述 | 
-| --------------| -------------- |
-| u32 | big-endian 32位整形，如：`current-speed = <115200>;` |
-| u64 | big-endian 64位整形，分为两个32位整形，如：`reg = <0x00080000 0x00010000>;` |
-| string | 字符串类型，如：`label = "storage";` |
-| phandle-sss |  节点引用，如：`i2c-0 = &i2c0;`|
-| prop-encoded-array |  任意数量的列表，如：`gpios = <&gpiob 5 0>;`|
-| stringlist |  字符串列表|
-
-#### 两个特殊的节点：
+#### `Aliases`和`chosen`节点
 
 - `Aliases`节点
 
@@ -209,30 +192,6 @@ chosen 并不是一个真实的设备，chosen节点主要是为uboot向Linux内
                 zephyr,flash_controller = &flash;
                 /* other chosen settings  for your hardware */
         };
-```
-####  设备树的`label`标签
-这个设备节点名称根据Zephyr的设备驱动模型(Device Driver Model)来定义，在应用程序开发中，可以通过`device_get_binding()`接口带入label名称来获取对应硬件设备的设备实例，例如：
-在`csk6.dtsi`中i2c的设备树配置如下：
-```c
-    i2c0: i2c@45600000 {
-        compatible = "listenai,csk-i2c";
-        reg = <0x45600000 0x100000>;
-        interrupts = <14 2>;
-        #address-cells = <1>;
-        #size-cells = <0>;
-        label = "I2C_0";
-    };
-```
-
-应用开发中可通过I2C的label：`label = "I2C_0"`来获取`I2C0`设备的实例：
-```c
-const struct device *i2c0_dev = NULL;
-void main(void){
-    /* 通过label获取i2c0设备实例 */
-    i2c0_dev = device_get_binding("I2C_0");
-    /* 通过I2C设备实例操作I2C API接口 */
-    i2c_write(i2c0_dev, data0, sizeof(data0) - 1, SLAVE_ADDRESS);
-}
 ```
 #### 设备树的几个标准属性
 节点是由一堆的属性组成，节点都是具体的设备，不同的设备需要的属性不同，用户可以自定义属性。除了用户自定义属性，有很多属性是标准属性，Linux 下的很多外设驱动都会使用这些标准属性，几个常用的标准属性：
@@ -269,45 +228,40 @@ status属性用来描述设备状态信息。
 | fail | 设备不可操作，检测到设备发生错误，切不可恢复 |
 | fail-sss |  含义同fail，sss为错误内容|
 
-- `reg` 属性
-reg 属性的值一般是(address，length)对。reg属性一般用于描述设备地址空间资源信息，一般用来描述外设寄存器地址范围信息。
+#### 节点名称和属性的取值
+- 节点名称
 
-- `#address-cells`和`#size-cells`属性
-
-这两个属性用于描述子节点的地址信息，可以用在拥有子节点的设备中。#address-cells属性值决定了子节点reg 属性中地址信息所占用的字长(32位)，#size-cells属性值决定了子节点reg属性中长度信息所占的字长(32位)。
-
-通常reg、#address-cells、#size-cells以组合的形式出现，例如`csk6002_9s_nano.dts`中psram0的配置里就使用到了reg、#address-cells、#size-cells来配置地址信息。
+在设备树中，node 由节点名、节点内容组成的。下面是一个一个典型的形式：
 ```c
-&psram0 {
-        reg = <0x30000000 DT_SIZE_M(8)>;
-        #address-cells = <1>;
-        #size-cells = <1>;
-
-        /*psram for cp core slot: 6MB */
-        psram_cp:psram_cp@30000000{             
-                compatible = "listenai,csk6-psram-partition";
-                reg = <0x30000000 0x600000>;
-                status = "okay";
-        };
-        ...
-};
+node1@address {
+    key=value;
+    node2@address{
+        key=value;
+    }
+}
 ```
-`#address-cells`表明address这个数据所占用的字长。
-`#size-cells`表明length这个数据所占用的字长。
-`reg`属性中起始地址所占用的字长为1，地址长度所占用的字长为1。
-以上示例配置表示psram_cp起始地址为：0x30000000，地址长度为：0x600000。
+其中 node1 是它的节点名，address 是节点的第一个寄存地址，如果没有寄存器 @address 为空。
+节点名长度应该小于 31 个字符，对于不同类型的设备，Devicetree spec 有推荐对应的设备名，但并非强制。
 
-- `ranges`属性
+- 节点属性
 
-ranges属性值可以为空或者按照(child-bus-address,parent-bus-address,length)格式编写的数字矩阵，通常是一个地址映射/转换表，主要有以下这三部分组成：
+节点的属性是键值对的形式，如：
+```c
+gpios = <&gpiob 5 0>;
+```
 
-| 参数 | 含义 | 
+- 属性值 
+
+属性值有 7 种类型：
+
+| 属性值 | 属性值描述 | 
 | --------------| -------------- |
-| child-bus-address | 子总线地址空间的物理地址，由父节点的#address-cells 确定此物理地址所占用的字长 |
-| parent-bus-address | 父总线地址空间的物理地址，同样由父节点的#address-cells 确定此物理地址所占用的字长 |
-| length | 子地址空间的长度，由父节点的#size-cells 确定此地址长度所占用的字长 |
-
-当ranges属性值为空值时，子地址空间和父地址空间完全相同，不需要进行地址转换。
+| u32 | big-endian 32位整形，如：`current-speed = <115200>;` |
+| u64 | big-endian 64位整形，分为两个32位整形，如：`reg = <0x00080000 0x00010000>;` |
+| string | 字符串类型，如：`label = "storage";` |
+| phandle-sss |  节点引用，如：`i2c-0 = &i2c0;`|
+| prop-encoded-array |  任意数量的列表，如：`gpios = <&gpiob 5 0>;`|
+| stringlist |  字符串列表|
 
 ## Zephyr SDK中的设备树文件
 
@@ -323,11 +277,6 @@ zephyr/include/devicetree.h
 # 应用项目设备树配置文件
 app/boards/csk6002_9s_nano.overlay  
 ```
-
-zephyr工程直接将设备树通过脚本处理成C头文件`devicetree.h`，设备树输入文件有两种类型:`source`(.dts)文件和`binding`(.ymal)文件。`source`文件包含了设备树的配置信息，`binding`文件描述设备树的规则包括据数据类型等。所有包括设备驱动程序、应用程序、测试、内核等开发都可以通过include`devicetree.h`来使用设备树。
-以下是该过程的简化视图:
-![](images/devicedree_build2.png)
-
 #### 设备树源文件(.dts文件)
 以`csk6002_9s_nano`板型为例.dts在csk6 sdk中的路径为：
 ```c
