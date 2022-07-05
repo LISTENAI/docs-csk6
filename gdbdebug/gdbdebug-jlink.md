@@ -1,9 +1,9 @@
-# GDB调试
+# 基于DAPlink的GDB调试
 
 ## 概述
-Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍如何使用VS Code和J-link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
-- Windows下如何进行应用程序的调试
-- 使用J-Link调试CSK6芯片
+Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍如何基于VS Code和J-link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
+- PC端如何对应用项目进行调试
+- 基于VS Code和J-Link的调试方法
 
 :::note
 Windows系统和Ubuntu系统下配置的基本一致。
@@ -35,13 +35,19 @@ Windows系统和Ubuntu系统下配置的基本一致。
 
 **步骤四：** 修改`luncher.json`文件`executable`、`serverpath`、 `armToolchainPath`三项配置，具体如下：
 
+`executable`修改为需要debug应用项目的zephyr.elf文件路径，本示例为`hello_world`项目的zephyr.elf路径：
 ```c 
 # 需要debug应用的zephyr.elf文件路径，本示例为`hello_world`项目的zephyr.elf路径
  "executable": "E:\\csk6-develop\\hello_world\\build\\zephyr\\zephyr.elf",
+```
 
-# JLinkGDBServerCL.exe路径，lisa安装时带入，需要修改为对应的路径
+`serverpath`需要修改为lisa安装时带入的JLinkGDBServerCL.exe可执行文件路径：
+```c 
 "serverpath": "C:/Users/xxxx/.listenai/lisa-zephyr/packages/node_modules/@binary/jlink-venus/binary/JLinkGDBServerCL.exe",
+```
 
+`armToolchainPath`修改为lisa安装时带入编译链的路径：
+```c 
 # 编译链路径，lisa安装时带入，需要修改为对应的路径
 "armToolchainPath": "C:/Users/xxxx/.listenai/lisa-zephyr/packages/node_modules/@binary/gcc-arm-none-eabi-9/binary/bin",
 ``` 

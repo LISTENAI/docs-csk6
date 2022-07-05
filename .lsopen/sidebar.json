@@ -83,8 +83,10 @@
     "type": "category",
     "label": "烧录&调试",
     "items": [
+        "gdbdebug/overview",
         "gdbdebug/csk6_load",
-        "gdbdebug/gdbdebug"
+        "gdbdebug/gdbdebug-daplink",
+        "gdbdebug/gdbdebug-jlink"
         
     ],
     "collapsed": true
