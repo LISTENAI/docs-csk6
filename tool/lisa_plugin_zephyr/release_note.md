@@ -1,5 +1,12 @@
 # 版本更新日志
 
+## v1.6.0 (beta)
+
+#### New features:
+
+* `lisa zep create` 重构 项目sample 创建的交互。
+* `lisa zep lpk` 新增支持打包lpk的命令，用于量产烧录。
+
 ## v1.5.2 (latest)
 
 #### New features:
