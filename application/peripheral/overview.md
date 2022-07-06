@@ -71,3 +71,20 @@ xxx_set(dev, xxx, xxx);
 :::note
 通过本节内容，我们大致了解了驱动外设在CSK6 SDK中使用方式，在接下来的章节里我们将提供更多常用的外设驱动使用示例讲解，来帮助大家进一步掌握常用外设驱动的使用。
 :::
+
+
+外设驱动及sample章节目录：
+* [GPIO](./samples/gpio)
+* [PWM](./samples/pwm)
+* [UART](./samples/uart)
+* [I2C](./samples/i2c)
+* [SPI](./samples/spi)
+* [ADC](./samples/adc)
+* [RTC](./samples/rtc)
+* [WatchDog](./samples/watchdog)
+
+
+
+
+
+
