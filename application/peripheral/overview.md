@@ -74,14 +74,14 @@ xxx_set(dev, xxx, xxx);
 
 
 外设驱动及sample章节目录：
-* [GPIO](./samples/gpio)
-* [PWM](./samples/pwm)
-* [UART](./samples/uart)
-* [I2C](./samples/i2c)
-* [SPI](./samples/spi)
-* [ADC](./samples/adc)
-* [RTC](./samples/rtc)
-* [WatchDog](./samples/watchdog)
+* 章节一:[GPIO](./samples/gpio)
+* 章节二:[PWM](./samples/pwm)
+* 章节三:[UART](./samples/uart)
+* 章节四:[I2C](./samples/i2c)
+* 章节五:[SPI](./samples/spi)
+* 章节六:[ADC](./samples/adc)
+* 章节七:[RTC](./samples/rtc)
+* 章节八:[WatchDog](./samples/watchdog)
 
 
 

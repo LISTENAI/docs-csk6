@@ -13,12 +13,11 @@ CSK6 SDK 不仅提供了 RTOS 最基础的系统功能（如线程、中断、�
 * 能力扩展相关，如：引入第三方库、自定义驱动等；
 
 章节目录：
-* [应用代码结构](./structure)
-* [应用项目配置](./Kconfig)
-* [设备树说明和使用方式](./device_tree)
-* [自定义板型及示例](./board)
-* [外设驱动说明及使用示例](./peripheral/overview)
-* [系统内核及使用示例](./kernel/overview)
-* [系统组件及使用示例](./modules/overview)
-* [网络模块及使用示例](./network/overview)
+* 章节一:[应用代码结构](./structure)
+* 章节二:[应用项目配置](./Kconfig)
+* 章节三:[自定义板型及示例](./board)
+* 章节四:[外设驱动说明及使用示例](./peripheral/overview)
+* 章节五:[系统内核及使用示例](./kernel/overview)
+* 章节六:[系统组件及使用示例](./modules/overview)
+* 章节七:[网络模块及使用示例](./network/overview)
 
