@@ -393,4 +393,4 @@ play drain finsh with timestamp 9646 ms
 ```
 
 演示效果：
-<video src="" controls="controls" width="500" height="300">您的浏览器不支持播放该视频！</video>
+<video src="https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E6%96%87%E6%A1%A3%E8%A7%86%E9%A2%91%E4%BB%93/recordandplay.mp4" controls="controls" width="500" height="300">您的浏览器不支持播放该视频！</video>
