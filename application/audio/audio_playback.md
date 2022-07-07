@@ -68,7 +68,7 @@ int aplay_writei(aplay_t* handle,char* data,uint32_t len);
 lisa zep create
 ```
 
-![](./images/uart_create01.png)
+![](./images/sample_create01.png)
 依次按以下目录选择完成aplay sample创建：  
 > boards → csk6 → subsys → avf → audio → aplay
 
