@@ -8,12 +8,29 @@ CSK6 ADC驱动具有如下特性：
 - 24MHz ADC时钟源，采样率最高1MHz。
 - 使用内部3.3V参考电压。
 
-## 准备工作
+## API 接口  
+
+主要用到以下ADC driver API接口：
+```c
+/*配置采样通道*/
+int adc_channel_setup(const struct device * dev, const struct adc_channel_cfg *	channel_cfg)
+/*获取参考电压*/
+uint16_t adc_ref_internal(const struct device *dev)
+/*获取采样值*/
+int adc_read(const struct device * dev, const struct adc_sequence * sequence)
+/*采样值转电压(mV)*/
+int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution, int32_t *valp)
+```  
+更多ADC driver APIs接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__adc__interface.html)中看到。
+
+
+## 使用示例
+### 准备工作
 本示例基于 `csk6002_9s_nano`开发板的`adc0 ch1(gpiob_7)`引脚实现外部电压检测，在运行示例前需要做如下准备：
 - 准备一个`csk6002_9s_nano`开发板，并将`adc0 ch1(gpiob_7)`引脚接稳压电源(或者把`gpiob_7`接到开发板的3.3V电源脚)。如下图示：  
 ![](./files/adc_connect.png)
 
-## 创建项目
+### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
@@ -23,7 +40,7 @@ lisa zep create
 > boards → csk6 → driver → adc
 
 
-## 示例实现
+
 ### 设备树配置
 在`csk6002_9s_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`boad overlay`的方式完成ADC引脚和通道的配置。
 `app/board/csk6002_9s_nano.overlay`详细配置：
@@ -65,20 +82,6 @@ CONFIG_ADC=y
 CONFIG_LOG=y
 CONFIG_LOG_MODE_MINIMAL=y
 ```
-### API 接口  
-
-主要用到以下ADC driver API接口：
-```c
-/*配置采样通道*/
-int adc_channel_setup(const struct device * dev, const struct adc_channel_cfg *	channel_cfg)
-/*获取参考电压*/
-uint16_t adc_ref_internal(const struct device *dev)
-/*获取采样值*/
-int adc_read(const struct device * dev, const struct adc_sequence * sequence)
-/*采样值转电压(mV)*/
-int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution, int32_t *valp)
-```  
-更多ADC driver APIs接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__adc__interface.html)中看到。
 
 ### 应用逻辑实现
 **adc初始化：**
@@ -104,6 +107,7 @@ static uint8_t channel_ids[ADC_NUM_CHANNELS] = {
 	DT_IO_CHANNELS_INPUT_BY_IDX(DT_PATH(zephyr_user), 2)
 };
 ```
+
 **主函数实现：**
 
 ```c
@@ -157,20 +161,20 @@ mv_value = raw_value - 2048;
 | 3.3V | 0V~3.3V | 11bit | 0~2048 | 0 |
 
 
-## 编译和烧录
-- **编译**  
+### 编译和烧录
+#### 编译  
 
 在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-- **烧录**     
+#### 烧录     
 
 `csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-- **查看结果**  
+#### 查看结果 
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
 - 通过lisa提供的`lisa term`命令查看日志

@@ -15,7 +15,7 @@
 本章节需要开发者基于csk6 sdk提供的`hello_world`示例基础上实现多线程开发，以增强对csk6 sdk的了解和提升实操能力。
 :::
 
-## 创建项目
+## 获取sample项目
 通过Lisa命令创建`hello_world`项目：
 ```
 lisa zep create

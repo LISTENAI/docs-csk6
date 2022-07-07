@@ -7,7 +7,8 @@
 - 驱动ST7789V SPI屏幕进行内容显示。
 - 使用I2C接口，获取BL6XXX 触控屏用户输入状态。
 
-## 准备工作
+## 使用示例
+### 准备工作
 本示例基于 `csk6002_9s_nano`开发板实现，需要准备ST7789V显示屏和BL6XXX触控屏、SPI转接板，SPI转接板通过杜邦线和`csk6002_9s_nano`开发板完成接线。
 
 :::note
@@ -15,7 +16,7 @@
 SPI转接板和CSK6-NanoKit开发板具体连接方式请与FAE确认。后续NanoKit开发板将提供用于本示例的配件板，敬请期待。
 :::
 
-## 创建项目
+### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
@@ -25,7 +26,7 @@ lisa zep create
 依次按以下目录选择完成display_kscan sample创建：  
 > boards → csk6 → driver → display_kscan
 
-## 编译和烧录
+### 编译和烧录
 - **编译** 
 
 在app根目录下通过以下指令完成编译：
@@ -62,7 +63,6 @@ row = 279 col = 15, pressed:TRUE
 row = 279 col = 15, pressed:TRUE
 ```
 
-## 代码实现分析
 ### 显示屏显示实现
 csk6 sdk 驱动模型中定义了可供上层应用调用的关键接口，如 读/写framebuffer 、开/关屏幕 、获取屏幕设备信息 、 设置亮度/对比度/像素格式/方向等。
 在csk6 sdk的`\drivers\display`目录中可看到sdk已完成了屏显设备驱动的适配，其中包含本示例中使用的`ST7789V (display_st7789v.c/.h)`，只需要在示例中完成驱动的配置即可使用改显示屏。

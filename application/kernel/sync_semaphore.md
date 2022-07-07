@@ -99,7 +99,7 @@ void consumer_thread(void)
 如果您已经完成了上一章节同步之多线程的开发示例，可以跳过**创建项目**步骤在多线程的sample上继续完成以上目标的实现。
 :::
 
-## 创建项目
+## 获取sample项目
 通过Lisa命令创建`hello_world`项目：
 ```
 lisa zep create

@@ -3,12 +3,36 @@
 ## 概述
 CSK6-NanoKit开发板提供了WiFi网络连接的能力，本章节通过示例介绍WiFi网络连接API接口的基本使用方法。
 
-## 准备工作
+## API接口
+常用WiFi API接口：
+```c
+/* CSK WiFi 驱动初始化 */
+int csk_wifi_init(void);
+
+/* 注册一个WiFi回调事件 */
+int csk_wifi_add_callback(csk_wifi_event_cb_t *wifi_event_cb);
+
+/* 注销一个WiFi回调事件 */
+int csk_wifi_remove_callback(csk_wifi_event_cb_t *wifi_event_cb);
+
+/*  扫描附近的AP设备 */
+int csk_wifi_scan_ap(csk_wifi_scan_info_t **ap_info, csk_wifi_result_t *result, k_timeout_t timeout);
+
+/* 建立WiFi连接 */
+int csk_wifi_sta_connect(csk_wifi_sta_config_t *sta_config, csk_wifi_result_t *result, k_timeout_t timeout);
+
+/* 断开WiFi连接 */
+int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
+```
+更多WiFi API接口请查看CSK6 SDK wifi头文件描述：`drivers\wifi\csk6\include\csk6\csk_wifi.h`。
+
+## 使用示例
+### 准备工作
 本示例基于CSK6-NanoKit开发板实现WiFi连接，并获取WiFi连接信息。
 - CSK6-NanoKit开发板
 - 手机或路由器设置一个WiFi热点(ssid: TP-LINK_LINGSI  pwd: a123456789)
 
-## 创建项目
+### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
@@ -17,8 +41,6 @@ lisa zep create
 依次按以下目录选择完成adc sample创建：  
 > boards → csk6 → network → wifi_sta
 
-
-## 示例实现
 ### 组件配置
 ```
 # 打开WiFi驱动配置
@@ -63,28 +85,6 @@ CONFIG_WIFI_LOG_LEVEL_DBG=y
 本示例实现以下业务逻辑：
 - 连接一个AP热点，并获取地址信息，热点配置：`ssid: TP-LINK_LINGSI  pwd: a123456789`。
 
-### API接口
-常用WiFi API接口：
-```c
-/* CSK WiFi 驱动初始化 */
-int csk_wifi_init(void);
-
-/* 注册一个WiFi回调事件 */
-int csk_wifi_add_callback(csk_wifi_event_cb_t *wifi_event_cb);
-
-/* 注销一个WiFi回调事件 */
-int csk_wifi_remove_callback(csk_wifi_event_cb_t *wifi_event_cb);
-
-/*  扫描附近的AP设备 */
-int csk_wifi_scan_ap(csk_wifi_scan_info_t **ap_info, csk_wifi_result_t *result, k_timeout_t timeout);
-
-/* 建立WiFi连接 */
-int csk_wifi_sta_connect(csk_wifi_sta_config_t *sta_config, csk_wifi_result_t *result, k_timeout_t timeout);
-
-/* 断开WiFi连接 */
-int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
-```
-更多WiFi API接口请查看CSK6 SDK wifi头文件描述：`drivers\wifi\csk6\include\csk6\csk_wifi.h`。
 ### 应用逻辑实现
 #### 主函数实现
 ```c
@@ -182,20 +182,20 @@ typedef enum {
 本示例中使用到了`net_mgmt_init_event_callback`和`net_mgmt_add_event_callback`网络接口获取ip地址等信息，此部分内容将在网络章节中讲解，敬请期待。
 :::
 
-## 编译和烧录
-### 编译
+### 编译和烧录
+#### 编译
 
 在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-### 烧录
+#### 烧录
 
 CSK6-NanoKit通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-### 查看结果 
+#### 查看结果 
 
 **查看日志：**
 

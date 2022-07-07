@@ -7,12 +7,13 @@ PWM是我们常用的外设功能之一，本节我们将通过一个例程讲�
 
 部分PWM硬件无法实现1Hz的频率控制，这个sample在启动时会对硬件进行校准，适当减小最大PWM周期，直到找到匹配硬件的值。
 
-## 准备工作
+## 使用示例
+### 准备工作
 首先，实现Blinky_pwm示例的预期效果需要硬件开发板上必须有一个GPIO(带pwm输出功能)连接了一个LED灯，在`csk6002_9s_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_05，GPIOA_05可复用为pwm输出功能。
 ![](./files/led_pin.png)
 ![](./files/blinky_pwm.png)
 
-## 创建项目
+### 获取sample项目
 `CSK6 SDK`提供了Blinky_pwm的sample，你可以在任一期望放置项目工程的目录下输出以下指令创建一个Blinky_pwm项目：
 ```
 lisa zep create
@@ -22,7 +23,6 @@ lisa zep create
 ![](./files/blinky_pwm03.png)
 Blinky pwm sample创建成功。
 
-## 示例实现
 ### 组件配置
 在prj.conf文件中添加项目基础组件配置配置:
 ```shell
@@ -118,15 +118,15 @@ period = max_period;
 	}
 ```
 
-## 编译和烧录
-### 编译
+### 编译和烧录
+#### 编译
 在sample根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
 编译成功：
 ![](./files/blinky_pwm_build.png)
-### 烧录
+#### 烧录
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
@@ -134,7 +134,7 @@ lisa zep flash --runner pyocd
 烧录成功：
 ![](./files/flash.png)
 
-### 查看结果 
+#### 查看结果 
 
 预期的效果应如下视频所示，开发板上的LED灯(绿)以先快后慢的方式循环闪烁，如果在你的卡发板上实现了这个效果，那么恭喜，你顺利的完成了LED的控制，在CSK6的开发上又迈出了一步！
 
