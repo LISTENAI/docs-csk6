@@ -65,8 +65,18 @@
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
-          "application/modules/lvgl",
-          "application/modules/audio_playback"
+          "application/modules/lvgl"
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "音频",
+        "items": [
+          "application/audio/overview",
+          "application/audio/audio_record",
+          "application/audio/audio_playback",
+          "application/audio/audio_record_play"
         ],
         "collapsed": true
       },

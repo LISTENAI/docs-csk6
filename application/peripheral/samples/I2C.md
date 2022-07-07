@@ -14,8 +14,19 @@ CSK6 I2C驱动功能特性如下：
 - 支持general call模式。
 - 支持时钟延展。
 
+## API接口
+```c
+/*i2c控制器配置*/
+i2c_configure()
+/*i2c写数据*/
+i2c_write()
+/*i2c读数据*/
+i2c_read()
+```
+更多I2C API接口请访问zephyr官网[I2C Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__i2c__interface.html)。
 
-## 准备工作
+## 使用示例
+### 准备工作
 本示例基于 `csk6002_9s_nano`开发板实现，使用了两组I2C作为主从设备进行数据的通讯，其中
 - `i2c0(GPIO_A_04, GPIO_A_05)`作为主设备(master)
 - `i2c1(GPIO_A_06, GPIO_A_07)`作为从设备(slave)
@@ -29,7 +40,7 @@ CSK6 I2C驱动功能特性如下：
 :::
 ![](./files/i2c_hardware.png)
 
-## 创建项目
+### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
@@ -40,7 +51,6 @@ lisa zep create
 ![](./files/lisa_create_04.png)
 
 
-## 示例实现
 ### 组件配置
 ```
 CONFIG_STDOUT_CONSOLE=y
@@ -101,18 +111,6 @@ CONFIG_I2C=y
 - slave一次向master发送256个字节数据，master接收256字节数据并通过串口打印输出
 - master每隔10S发送一次256个字节数据并以此循环，slave接收数据并打印输出
 
-### API接口
-
-本示例中主要用到3个I2C API接口：
-```c
-/*i2c控制器配置*/
-i2c_configure()
-/*i2c写数据*/
-i2c_write()
-/*i2c读数据*/
-i2c_read()
-```
-更多I2C API接口请访问zephyr官网[I2C Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__i2c__interface.html)。
 
 ### 应用逻辑实现
 **I2C初始化：**
@@ -206,20 +204,20 @@ void i2c_slave_thread(void *v1, void *v2, void *v3)
     }
 }
 ```
-## 编译和烧录
-### 编译
+### 编译和烧录
+#### 编译
 
 在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-### 烧录
+#### 烧录
 
 `csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-### 查看结果
+#### 查看结果
 
 **查看串口日志**
 

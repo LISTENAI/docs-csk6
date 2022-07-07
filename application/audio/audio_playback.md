@@ -1,4 +1,4 @@
-# 音频播放
+# 播音
 ## 概述
 aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播放接口。本节通过示例调用aplay API接口实现音频播放，开发者可基于aplay完成符合业务开发需要的音频播放器。通过本章节学习，您将了解到：
 - aplay音频API接口的基本使用
@@ -7,7 +7,53 @@ aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播�
 当前aplay支持的音频格式：16bit48kwav格式。
 :::
 
-## 准备工作
+## aplay API接口
+ 
+```c
+/*创建一个aplay实例*/
+aplay_t* aplay_create(aplyer_type_e type);
+参数说明：
+type：音频类型
+
+/*设置播放器数据流格式*/
+int aplay_set_fmt(aplay_t* handle, amedia_fmt_t* fmt);
+参数说明：
+typedef struct{
+    amedia_compr_t compr;   /*audio encode type*/
+    int rate;               /*sampling bit rate*/
+    int channels;           /*channel number*/
+    int bits;               /*bits */
+    int bitrate;            /*encode bitrate*/
+}amedia_fmt_t;
+
+/*注册avf流框架*/
+avf_stream_platform_t* avf_stream_platform_register(char* fw_data,uint32_t fw_size,char* tplg_data,uint32_t tplg_size);
+
+/*启动播放*/
+int aplay_start(aplay_t* handle);
+
+/*暂停播放*/
+int aplay_pause(aplay_t* handle);
+
+/*暂停播放并释放播放器*/
+int aplay_pause_release(aplay_t* handle);
+
+/*等待播放器播放完缓存数据后停止播放*/
+int aplay_drain(aplay_t* handle);
+
+/*停止播放*/
+int aplay_stop(aplay_t* handle);
+
+/*销毁aplay实例*/
+int aplay_destroy(aplay_t* handle);
+
+/*将音频数据写入播放器*/
+int aplay_writei(aplay_t* handle,char* data,uint32_t len);
+```   
+更多aplay API接口描述可以在csk6 sdk `\modules\lib\sof_host\include\avf\modules\audio\aplay.h` 头文件中看到。
+
+## 使用示例
+### 准备工作
 本示例基于 `csk6002_9s_nano`开发板实现，开发者需要做如下准备：
 - 一个`csk6002_9s_nano`开发板。
 - speaker扩展板(带功放电路和喇叭)。
@@ -16,18 +62,17 @@ aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播�
 
 ![](./images/speaker.png)
 
-## 创建项目
+### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
 ```
 
-![](./images/uart_create01.png)
+![](./images/sample_create01.png)
 依次按以下目录选择完成aplay sample创建：  
 > boards → csk6 → subsys → avf → audio → aplay
 
 
-## 应用实现
 ### 内置音频文件  
 应用加载音频文件的步骤如下：  
 **Step1：**音频文件存放在示例的`resource\earthquake_48k_16bit.wav`目录下。
@@ -132,52 +177,7 @@ avf和sof的关系：avf是一个host端的业务框架，avf的底层驱动会�
 ### 主程序实现逻辑
 基于csk6 sdk提供的aplay API接口，示例sample运行后加载本地wav音频并完成播放。
 
-#### API接口
- 
-```c
-/*创建一个aplay实例*/
-aplay_t* aplay_create(aplyer_type_e type);
-参数说明：
-type：音频类型
-
-/*设置播放器数据流格式*/
-int aplay_set_fmt(aplay_t* handle, amedia_fmt_t* fmt);
-参数说明：
-typedef struct{
-    amedia_compr_t compr;   /*audio encode type*/
-    int rate;               /*sampling bit rate*/
-    int channels;           /*channel number*/
-    int bits;               /*bits */
-    int bitrate;            /*encode bitrate*/
-}amedia_fmt_t;
-
-/*注册avf流框架*/
-avf_stream_platform_t* avf_stream_platform_register(char* fw_data,uint32_t fw_size,char* tplg_data,uint32_t tplg_size);
-
-/*启动播放*/
-int aplay_start(aplay_t* handle);
-
-/*暂停播放*/
-int aplay_pause(aplay_t* handle);
-
-/*暂停播放并释放播放器*/
-int aplay_pause_release(aplay_t* handle);
-
-/*等待播放器播放完缓存数据后停止播放*/
-int aplay_drain(aplay_t* handle);
-
-/*停止播放*/
-int aplay_stop(aplay_t* handle);
-
-/*销毁aplay实例*/
-int aplay_destroy(aplay_t* handle);
-
-/*将音频数据写入播放器*/
-int aplay_writei(aplay_t* handle,char* data,uint32_t len);
-```   
-更多aplay API接口描述可以在csk6 sdk `\modules\lib\sof_host\include\avf\modules\audio\aplay.h` 头文件中看到。
-
-#### 主程序实现过程
+### 主程序实现过程
 
 ```c
 /*拆分音频数据，以便循环写入aplay*/
@@ -249,7 +249,7 @@ void main(void)
     }
     printk("play drain finsh with timestamp %lld ms\n", k_uptime_get());
     
-    /*step6: 注销aplay实例*/
+    /*step6: 注销aplay*/
     if (0 != (iret = aplay_destroy(aplay)))
     {
         printk("aplay_destroy failed.\n");

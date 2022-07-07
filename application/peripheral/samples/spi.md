@@ -9,13 +9,44 @@ CSK6 I2C驱动功能特性如下：
 - 支持DMA硬件握手。
 - SPI时钟最高可达50MHZ。
 
-## 准备工作
+## API接口
+常用SPI API接口：
+```c
+/*SPI 发送接收*/
+int spi_transceive(const struct device * dev, 
+const struct spi_config * config, 
+const struct spi_buf_set * tx_bufs, 
+const struct spi_buf_set * rx_bufs)
+参数说明：
+dev spi设备实例
+config spi配置
+tx_bufs 发送数据的缓冲区数组，如果没有数据，则为 NULL
+rx_bufs 将要读取的数据写入的缓冲区数组，如果没有，则为 NULL
+
+/*SPI 发送*/
+int spi_write(const struct device * dev,
+const struct spi_config * config, 
+const struct spi_buf_set * tx_bufs)	
+dev spi设备实例
+config spi配置
+tx_bufs 发送数据的缓冲区数组，如果没有数据
+
+/*SPI 接收*/
+int spi_read(const struct device * dev,
+const struct spi_config * config,
+const struct spi_buf_set * rx_bufs 
+)	
+```
+更多SPI API接口请查看zephyr官网[SPI Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__spi__interface.html)。
+
+## 使用示例
+### 准备工作
 本示例基于两个CSK6-NanoKit开发板实现SPI数据的通信，其中一个作为SPI主设备，另一设备作为从设备，实现该示例需要以下准备工作:
 - 2个CSK6-NanoKit开发板
 - 使用杜邦线将`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`连接，接线方式如下图示：
 ![](./files/SPI_connect.png)
 
-## 创建项目
+### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
@@ -25,7 +56,6 @@ lisa zep create
 > boards → csk6 → driver → spi_master_slave
 
 
-## 示例实现
 ### 组件配置
 ```
 CONFIG_GPIO=y
@@ -36,7 +66,7 @@ CONFIG_HEAP_MEM_POOL_SIZE=10240
 # SPI接收处理超时时间 
 CONFIG_SPI_COMPLETION_TIMEOUT_TOLERANCE=10000
 ```
-### I2C设备树配置
+### SPI设备树配置
 CSK6-NanoKit开发板提供了两组SPI外设。本示例使用`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`作为SPI通讯接口，因此需要在设备树中将这GPIO引脚复用为SPI功能，可通过`boad overlay`的方式完成，具体如下：
 在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
 ```c
@@ -76,35 +106,6 @@ CSK6-NanoKit开发板提供了两组SPI外设。本示例使用`spi1(GPIO_A_04 s
 - SPI master设备每隔1S向slave设备发送一包`{1, 2, 3, 4, 5, 6, 7, 8, 9}`数据。
 - SPI slave设备接收数据并向master设备返回`{9, 8, 7, 6, 5, 4, 3, 2, 1}`数据。
 
-### API接口
-常用SPI API接口：
-```c
-/*SPI 发送接收*/
-int spi_transceive(const struct device * dev, 
-const struct spi_config * config, 
-const struct spi_buf_set * tx_bufs, 
-const struct spi_buf_set * rx_bufs)
-参数说明：
-dev spi设备实例
-config spi配置
-tx_bufs 发送数据的缓冲区数组，如果没有数据，则为 NULL
-rx_bufs 将要读取的数据写入的缓冲区数组，如果没有，则为 NULL
-
-/*SPI 发送*/
-int spi_write(const struct device * dev,
-const struct spi_config * config, 
-const struct spi_buf_set * tx_bufs)	
-dev spi设备实例
-config spi配置
-tx_bufs 发送数据的缓冲区数组，如果没有数据
-
-/*SPI 接收*/
-int spi_read(const struct device * dev,
-const struct spi_config * config,
-const struct spi_buf_set * rx_bufs 
-)	
-```
-更多SPI API接口请查看zephyr官网[SPI Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__spi__interface.html)。
 ### 应用逻辑实现
 #### master应用逻辑实现
 ```c
@@ -310,21 +311,21 @@ void main(void)
 本示例实现了master和slave代码逻辑，通过宏定义`MASTER_MODE`来设置master和slave模式的实现逻辑，1为master模式，0为slave模式，开发者需要分别编译master和slave模式固件烧录到两个CSK6-NanoKit开发板上。
 :::
 
-## 编译和烧录
-### 编译
+### 编译和烧录
+#### 编译
 
 分别配置`MASTER_MODE`为1和0并烧录到两个CSK6-NanoKit开发板上。
 在app根目录下通过以下指令完成编译：
 ```
 lisa zep build -b csk6002_9s_nano
 ```
-### 烧录
+#### 烧录
 
 CSK6-NanoKit通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
-### 查看结果 
+#### 查看结果 
 
 **查看日志：**
 

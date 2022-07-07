@@ -32,7 +32,7 @@ LVGL全称Light and Versatile Graphics Library，是一个开源的GUI库，具�
 更多的LVGL重要功能说明，可访问 [LVGL文档中心](https://docs.lvgl.io/7.11/overview/index.html) 进行了解。
 :::
 
-## LVGL Sample运行
+## LVGL 使用示例
 
 **Step 1： 创建Sample**
 
