@@ -38,7 +38,7 @@ CSK6 SDK 不仅提供了 RTOS 最基础的系统功能（如线程、中断、�
 [系统内核及使用示例](./kernel/overview)
 [系统组件及使用示例](./modules/overview)
 [音频组件及使用示例](./audio/overview)
-[网络模块及使用示例](./networ/overview)
+[网络模块及使用示例](./network/overview)
 
 ### 阶段四：掌握自定义板型的添加、自定义驱动等功能开发
 [自定义板型及示例](./board)
