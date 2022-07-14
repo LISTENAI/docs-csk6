@@ -1,0 +1,57 @@
+name: dev
+
+on:
+  push:
+    branches:    
+      - 'dev'
+
+jobs:
+  dev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+      - uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.DOCS_CSK6_DEPLOY }}
+      - name: "[Main Doc] checkout"
+        run: cd ~ && git clone https://github.com/LISTENAI/LSOpenWeb.git lsopenweb
+        shell: bash
+      - name: "[Main Doc] submodule sync"
+        run: cd ~/lsopenweb && git submodule update --init --recursive
+        shell: bash
+      - name: "[Main Doc] prepared"
+        run: cd ~/lsopenweb && yarn
+        shell: bash
+      - name: "[Main Doc] predeploy"
+        run: cd ~/lsopenweb && yarn predeploy 
+        shell: bash
+      - name: "[Main Doc] Find submodule path"
+        id: find-submodule
+        run: |
+          submodule_path=$(node .github/workflows/find_submodule_path.js ~/lsopenweb/ $GITHUB_REPOSITORY)
+          echo ::set-output name=submodule_path::"$submodule_path"
+        shell: bash
+      - name: "[Sub Doc] Checkout doc to current commit"
+        run: cd ~/lsopenweb/${{ steps.find-submodule.outputs.submodule_path }} && git checkout "$GITHUB_SHA"
+        shell: bash
+      - name: "[Main doc] Replace project name"
+        run: |
+          sed -i "s/projectName: 'LSOpenWeb'/projectName: 'docs-csk6'/" ~/lsopenweb/default.config.js
+          sed -i "s/baseUrl: '\/'/baseUrl: '\/docs-csk6\/'/" ~/lsopenweb/default.config.js
+          sed -i "s/staging-docs.listenai.com/listenai.github.io/" ~/lsopenweb/static/CNAME
+        shell: bash
+      - name: Release to GitHub Pages
+        env:
+          USE_SSH: true
+          GIT_USER: git
+          DEPLOY_ENV: staging
+        run: |
+          git config --global user.email "docs@listenai.com"
+          git config --global user.name "listenai-docs"
+          cd ~/lsopenweb
+          yarn deploy
+      
