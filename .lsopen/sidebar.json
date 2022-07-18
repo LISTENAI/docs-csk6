@@ -21,14 +21,25 @@
           "tool/lisa_plugin_zephyr/sdk_command",
           "tool/lisa_plugin_zephyr/env_command",
           "tool/lisa_plugin_zephyr/create_command",
-          "tool/lisa_plugin_zephyr/application_project",
           "tool/lisa_plugin_zephyr/app_build_flash",
           "tool/lisa_plugin_zephyr/debug_command",
-          "tool/lisa_plugin_zephyr/filesystem",
           "tool/lisa_plugin_zephyr/lpk",
+          "tool/lisa_plugin_zephyr/update"
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "配套命令行工具",
+        "items": [
+          "tool/lisa_plugin_zephyr/install",
+          "tool/lisa_plugin_zephyr/release_note",
           "tool/lisa_plugin_zephyr/trouble_shooting",
-          "tool/lisa_plugin_zephyr/update",
-          "tool/lisa_plugin_zephyr/release_note"
+          "tool/lisa_plugin_zephyr/basic",
+          "tool/lisa_plugin_zephyr/command_detail",
+          "tool/lisa_plugin_zephyr/build_flash_debug",
+          "tool/lisa_plugin_zephyr/filesystem",
+          "tool/lisa_plugin_zephyr/application_project"
         ],
         "collapsed": true
       }
