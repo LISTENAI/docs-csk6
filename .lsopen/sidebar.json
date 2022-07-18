@@ -10,6 +10,7 @@
     "label": "开发",
     "items": [
       "application/overview",
+      "application/getting_start",
       "application/structure",
       "application/kconfig",
       "application/device_tree",
@@ -134,7 +135,7 @@
   {
     "type": "category",
     "label": "疑难解答",
-    "items": ["FAQ/index"],
+    "items": ["FAQ/index", "quick_start/doc_issue"],
     "collapsed": true
   }
 ]
