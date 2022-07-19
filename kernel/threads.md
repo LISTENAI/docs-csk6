@@ -1,5 +1,5 @@
 # 线程
-# 概述
+## 概述
 
 This section describes kernel services for creating, scheduling, and deleting independently executable threads of instructions.
 
@@ -30,9 +30,9 @@ A thread has the following key properties:
 - 调度优先级：指示内核的调度器如何给该线程分配 CPU 时间。
 - 启动时延：线程在启动前需要等待的时间。
 
-# 生命周期
+## 生命周期
 
-## 线程创建
+### 线程创建
 
 A thread must be created before it can be used. The kernel initializes the thread control block as well as one end of the stack portion. The remainder of the thread’s stack is typically left uninitialized.
 
@@ -44,11 +44,11 @@ Specifying a start delay of [K_NO_WAIT](https://docs.zephyrproject.org/latest/k
 
 The kernel allows a delayed start to be canceled before the thread begins executing. A cancellation request has no effect if the thread has already started. A thread whose delayed start was successfully canceled must be re-spawned before it can be used.
 
-如果延迟启动的线程还未启动，内核可以取消该线程。如果线程已经启动了，则内核在尝试取消它时不会有如何效果。如果延迟启动的线程被成功地取消了，它必须被再次创建后才能再次使用。
+如果延迟启动的线程还未启动，内核可以取消该线程。如果线程已经启动了，则内核在尝试取消它时不会有任何效果。如果延迟启动的线程被成功地取消了，它必须被再次创建后才能再次使用。
 
-# 代码实现
+## 代码实现
 
-## 线程结束
+### 线程结束
 
 Once a thread is started it typically executes forever. However, a thread may synchronously end its execution by returning from its entry point function. This is known as **termination**.
 
@@ -70,7 +70,7 @@ Note that the thread must be fully terminated, which presents race conditions wh
 
 注意，线程必须完全终止，否则将出现竞争条件，即线程自己的逻辑信号在内核处理完成之前被另一个线程看到完成。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`在线程终止结束上进行同步，而不依赖于应用程序逻辑内部的信号。
 
-## 线程终止 Thread Aborting
+### 线程终止 Thread Aborting
 
 A thread may asynchronously end its execution by **aborting**. The kernel automatically aborts a thread if the thread triggers a fatal error condition, such as dereferencing a null pointer.
 
@@ -84,7 +84,7 @@ As with thread termination, the kernel does not reclaim shared resources owned b
 
 线程终止时，内核不会自动回收该线程拥有的共享资源。
 
-## 线程挂起 Thread Suspension
+### 线程挂起 Thread Suspension
 
 A thread can be prevented from executing for an indefinite period of time if it becomes **suspended**. The function [k_thread_suspend()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_suspend%20%22k_thread_suspend%22) can be used to suspend any thread, including the calling thread. Suspending a thread that is already suspended has no additional effect.
 
@@ -98,11 +98,11 @@ NOTE：A thread can prevent itself from executing for a specified period of time
 
 注解：线程可以使用 k_sleep() 睡眠一段指定的时间。不过，这与挂起不同，睡眠线程在睡眠时间完成后会自动运行。
 
-## 线程状态 Thread States
+### 线程状态 Thread States
 
 A thread that has no factors that prevent its execution is deemed to be **ready**, and is eligible to be selected as the current thread.
 
-如果一个线程没有其他条件阻止它运行，则可认为该线程处于就绪态，是可以运行的。
+如果一个线程没有其他条件阻止它运行，则可认为该线程处于**就绪状态**，具备被调度为当前线程的条件。
 
 A thread that has one or more factors that prevent its execution is deemed to be **unready**, and cannot be selected as the current thread.
 
@@ -126,7 +126,7 @@ The following factors make a thread unready:
 
 ![Thread States](https://docs.zephyrproject.org/latest/_images/thread_states.svg)
 
-# 线程栈对象 Thread Stack objects
+## 线程栈对象 Thread Stack objects
 
 Every thread requires its own stack buffer for the CPU to push context.
 
@@ -152,7 +152,7 @@ Because of this, portable code can’t simply pass an arbitrary character buffer
 
 因此，可移植代码不能简单地将缓冲区传递给`k_thread_create()`。需要使用实例化堆栈的特殊宏，以`K_KERNEL_STACK`和`K_THREAD_STACK`为前缀。
 
-## 内核栈 Kernel-only Stacks
+### 内核栈 Kernel-only Stacks
 
 If it is known that a thread will never run in user mode, or the stack is being used for special contexts like handling interrupts, it is best to define stacks using the K_KERNEL_STACK macros.
 
@@ -162,7 +162,7 @@ These stacks save memory because an MPU region will never need to be programmed 
 
 这些堆栈节省内存，因为一个MPU区域将永远不需要被编程来覆盖堆栈本身，而且内核将不需要为特权提升堆栈或只属于用户模式线程的内存管理数据结构预留额外的空间。
 
-## 线程栈 Thread stacks
+### 线程栈 Thread stacks
 
 If it is known that a stack will need to host user threads, or if this cannot be determined, define the stack with K_THREAD_STACK macros. This may use more memory but the stack object is suitable for hosting user threads.
 
@@ -170,7 +170,7 @@ If it is known that a stack will need to host user threads, or if this cannot be
 
 在没有配置`CONFIG_USERSPACE`的情况下，线程栈等同于内核栈。
 
-## 线程优先级 Thread Priorities
+### 线程优先级 Thread Priorities
 
 A thread’s priority is an integer value, and can be either negative or non-negative. Numerically lower priorities takes precedence over numerically higher values. For example, the scheduler gives thread A of priority 4 *higher* priority over thread B of priority 7; likewise thread C of priority -2 has higher priority than both thread A and thread B.
 
@@ -205,7 +205,7 @@ For example, configuring 5 cooperative priorities and 10 preemptive priorities r
 
 
 
-# 线程自定义数据 Thread Custom Data
+## 线程自定义数据 Thread Custom Data
 
 Every thread has a 32-bit custom data area, accessible only by the thread itself, and may be used by the application for any purpose it chooses. The default custom data value for a thread is zero.
 
