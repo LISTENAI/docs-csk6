@@ -36,7 +36,7 @@ A thread has the following key properties:
 
 A thread must be created before it can be used. The kernel initializes the thread control block as well as one end of the stack portion. The remainder of the thread’s stack is typically left uninitialized.
 
-线程必须先创建、再使用。创建线程时，内核将初始化线程栈区域的控制块区域以及栈的尾部。栈区域的其它部分通常都是未初始化的。
+线程必须先创建、再使用。创建线程时，内核将初始化线程栈区域的控制块区域以及栈底。栈区域的其它部分通常都是未初始化的。
 
 Specifying a start delay of [K_NO_WAIT](https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html#c.K_NO_WAIT%20%22K_NO_WAIT%22) instructs the kernel to start thread execution immediately. Alternatively, the kernel can be instructed to delay execution of the thread by specifying a timeout value – for example, to allow device hardware used by the thread to become available.
 
@@ -60,7 +60,7 @@ A thread that terminates is responsible for releasing any shared resources it ma
 
 In some cases a thread may want to sleep until another thread terminates. This can be accomplished with the [k_thread_join()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_join%20%22k_thread_join%22) API. This will block the calling thread until either the timeout expires, the target thread self-exits, or the target thread aborts (either due to a [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22) call or triggering a fatal error).
 
-在某些情况下，一个线程想休眠直到另外一个线程结束。这个功能可以通过`k_thread_join()` 来实现。这将阻塞调用线程，直到超时到期、目标线程退出或目标线程中止(由于`k_thread_abort()`调用或触发致命错误)。
+在某些情况下，一个线程想睡眠直到另外一个线程结束。这个功能可以通过`k_thread_join()` 来实现。这将阻塞调用线程，直到超时到期、目标线程退出或目标线程中止(由于`k_thread_abort()`调用或触发致命错误)。
 
 Once a thread has terminated, the kernel guarantees that no use will be made of the thread struct. The memory of such a struct can then be re-used for any purpose, including spawning a new thread. 
 
@@ -68,7 +68,7 @@ Note that the thread must be fully terminated, which presents race conditions wh
 
 一旦线程结束，内核保证不会使用该线程结构。这块结构的内存可被重用于任何目的，包括创建新线程。
 
-注意，线程必须完全终止，否则将出现竞争条件，即线程自己的逻辑信号在内核处理完成之前被另一个线程看到完成。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`在线程终止结束上进行同步，而不依赖于应用程序逻辑内部的信号。
+注意，线程必须完全终止，否则将出现竞争条件，即线程自己的逻辑信号在内核处理完成之前被另一个线程看到完成。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`同步的结束，而不依赖于应用程序逻辑内部的信号。
 
 ### 线程终止 Thread Aborting
 
@@ -142,7 +142,7 @@ Depending on configuration, there are several constraints that must be met:
 根据配置的不同，有几个必须满足的约束条件：
 
 - 可能需要为内存管理结构保留额外的内存
-- 如果启用了基于保护的堆栈溢出检测，则必须在堆栈缓冲区的前面立即设置一个小的写保护内存管理区域来捕获溢出。
+- 如果启用了基于保护的栈溢出检测，则必须在栈缓冲区的前面设置一个小的写保护内存管理区域来捕获溢出。
 
 The alignment constraints can be quite restrictive, for example some MPUs require their regions to be of some power of two in size, and aligned to its own size.
 
@@ -192,7 +192,7 @@ A thread’s initial priority value can be altered up or down after the thread h
 
 The kernel supports a virtually unlimited number of thread priority levels. The configuration options [CONFIG_NUM_COOP_PRIORITIES](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NUM_COOP_PRIORITIES%20%22CONFIG_NUM_COOP_PRIORITIES%22) and [CONFIG_NUM_PREEMPT_PRIORITIES](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NUM_PREEMPT_PRIORITIES%20%22CONFIG_NUM_PREEMPT_PRIORITIES%22) specify the number of priority levels for each class of thread, resulting in the following usable priority ranges:
 
-Zephyr内核可以支持无限上的优先级数。可以通过CONFIG_NUM_COOP_PRIORITIES 和CONFIG_NUM_PREEMPT_PRIORITIES 进行配置。产生以下可用的优先级范围:
+Zephyr内核可以支持无上限的优先级数。可以通过`CONFIG_NUM_COOP_PRIORITIES` 和`CONFIG_NUM_PREEMPT_PRIORITIES` 进行配置。产生以下可用的优先级范围:
 
 - 协作式线程: (`-CONFIG_NUM_COOP_PRIORITIES` to -1
 - 抢占式线程: 0 to (`CONFIG_NUM_PREEMPT_PRIORITIES` - 1)
@@ -247,4 +247,4 @@ int call_tracking_routine(void)
 
 Use thread custom data to allow a routine to access thread-specific information, by using the custom data as a pointer to a data structure owned by the thread.
 
-通过使用自定义数据作为线程拥有的数据结构的指针，使用线程自定义数据允许例程访问线程特定的信息。
+使用线程自定义数据，允许在线程的上下文中访问线程特定的信息，方法是将自定义数据作为指针传递给线程。
