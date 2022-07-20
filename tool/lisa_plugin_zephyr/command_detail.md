@@ -227,20 +227,18 @@ lisa zep lpk
 
 ## info zephyr
 
-查看下当前的zephyr环境
-
-```bash
+ ```bash
 lisa info zephyr
 ```
 
-**NOTE**: macOS、Linux也即将支持一体化安装包，敬请期待，这段时间辛苦你手指多运动啦~
-
-`lisa info zephyr` 指令用于查看当前Zephyr的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照FAQ章节进行解决或联系我们。
+`lisa info zephyr` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照FAQ章节进行解决或联系我们。
 
 新搭建的环境，如下图：
 
+![image](../../quick_start/images/start_1.png)
 
+:::note
+如上图所示，除 `env` 和 `ZEPHYR_BASE` 未设置外，其余环境项均安装成功，
 
-![image](../../old_doc/快速开始/images/start_1.png)
-
-除 `env` 和 `ZEPHYR_BASE` 外，其余环境项均安装成功，若存在未安装的，自行执行 `lisa zep install` 重新安装。
+若发现存在未安装的工具，请自行执行 `lisa zep install` ，该指令将对缺失的环境工具进行重新安装。
+:::

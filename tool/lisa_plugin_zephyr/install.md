@@ -59,7 +59,7 @@ lisa zep install
 
 安装 SDK 完毕后，你可能需要了解一下如何配置 SDK。那么请参考下面的章节。
 
-[基础设置](../lisa_plugin_zephyr/basic.md)
+- [基础设置](../lisa_plugin_zephyr/basic.md)
 
-[命令详解](../lisa_plugin_zephyr/command_detail.md)
+- [命令详解](../lisa_plugin_zephyr/command_detail.md)
 

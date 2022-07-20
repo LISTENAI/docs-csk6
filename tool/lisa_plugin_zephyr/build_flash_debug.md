@@ -15,7 +15,7 @@ lisa zep build -b <BOARD>
 lisa zep build -b csk6002_9s_nano
 ```
 
- `BOARD` 基于 -b 参数选填的开发板。`lisa zep build` 运行后将在工程目录下创建一个build的编译目录，编译完成后会生成应用固件程序。
+`<BOARD>` CSK SDK 支持的开发板，该命令会对当前 CSK 工程项目进行编译。另外是否支持所填的开发板，需要由 CSK SDK 支持。执行完毕后，编译产物会存放在当前目录下的 build 文件夹里。
 
 ### 设置工程项目路径
 
