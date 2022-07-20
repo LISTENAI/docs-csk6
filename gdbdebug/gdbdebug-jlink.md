@@ -1,7 +1,7 @@
-# 基于J-link的GDB调试
+# 基于 J-Link 的 GDB 调试
 
 ## 概述
-Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍如何基于VS Code和J-link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
+Zephyr提供了多种debug调试方式，支持GDB调试，本章节主要介绍如何基于VS Code和J-Link仿真器实现应用调试。通过本章节学习，开发者可以了解到：
 - PC端如何对应用项目进行调试
 - 基于VS Code和J-Link的调试方法
 
@@ -11,11 +11,11 @@ Windows系统和Ubuntu系统下配置的基本一致。
 
 ## 准备工作
 - CSK6-NanoKit开发板。
-- `J-link`仿真器，并成功安装驱动，[J-link驱动下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%B7%A5%E5%85%B7/JLink_Windows_V630d.exe)。
+- `J-Link`仿真器，并成功安装驱动，[J-Link驱动下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%B7%A5%E5%85%B7/JLink_Windows_V630d.exe)。
 - PC端安装`VS Code`，根据系统类型选择对应的windows或Linux版本，[visual studio官网下载入口](https://code.visualstudio.com/Download)。
 - `csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
-将CSK6-NanoKit开发板和J-link仿真器SWD接口按以下接线图完整连接：
+将CSK6-NanoKit开发板和J-Link仿真器SWD接口按以下接线图完整连接：
 ![](./files/connect.png)
 
 ## 调试过程

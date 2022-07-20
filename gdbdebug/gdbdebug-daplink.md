@@ -1,4 +1,4 @@
-# 基于DAPlink的GDB调试
+# 基于 DAPLink 的 GDB 调试
 
 ## 概述
 Zephyr提供了多种debug调试方式，支持gdb调试，本章节主要介绍如何基于VS Code和CSK6-NanoKit开发板板载调试器芯片DAP-link实现应用项目的调试。通过本章节学习，开发者可以了解到：
