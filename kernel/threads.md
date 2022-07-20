@@ -68,7 +68,7 @@ Note that the thread must be fully terminated, which presents race conditions wh
 
 一旦线程结束，内核保证不会使用该线程结构。这块结构的内存可被重用于任何目的，包括创建新线程。
 
-注意，线程必须完全终止，否则将出现竞争条件，即线程自己的逻辑信号在内核处理完成之前被另一个线程看到完成。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`同步的结束，而不依赖于应用程序逻辑内部的信号。
+不建议使用内部逻辑信号来判断线程是否结束，这样不能保证线程完全终止，内核可能仍在使用该线程结构的内存，出现竞争条件。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`同步的结束，而不依赖于应用程序逻辑内部的信号。
 
 ### 线程终止 Thread Aborting
 
@@ -96,7 +96,7 @@ Once suspended, a thread cannot be scheduled until another thread calls [k_thre
 
 NOTE：A thread can prevent itself from executing for a specified period of time using [k_sleep()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_sleep%20%22k_sleep%22). However, this is different from suspending a thread since a sleeping thread becomes executable automatically when the time limit is reached.
 
-注解：线程可以使用 k_sleep() 睡眠一段指定的时间。不过，这与挂起不同，睡眠线程在睡眠时间完成后会自动运行。
+注：线程可以使用`k_sleep()`睡眠一段指定的时间。不过，这与挂起不同，睡眠线程在睡眠时间完成后会自动运行。
 
 ### 线程状态 Thread States
 
@@ -166,7 +166,7 @@ These stacks save memory because an MPU region will never need to be programmed 
 
 If it is known that a stack will need to host user threads, or if this cannot be determined, define the stack with K_THREAD_STACK macros. This may use more memory but the stack object is suitable for hosting user threads.
 
-如果一个堆栈需要承载用户线程，或者无法确定，就用K_THREAD_STACK宏定义堆栈。这可能会使用更多的内存，但堆栈对象适合承载用户线程。
+如果一个堆栈需要承载用户线程，或者无法确定，就用`K_THREAD_STACK`宏定义堆栈。这可能会使用更多的内存，但堆栈对象适合承载用户线程。
 
 在没有配置`CONFIG_USERSPACE`的情况下，线程栈等同于内核栈。
 
