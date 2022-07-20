@@ -4,7 +4,7 @@
 
 CSK6 支持多种烧录方式，你可以通过：串口，[pyOCD](https://github.com/pyocd/pyOCD)，或者 [J-Link](https://www.segger.com/products/debug-probes/j-link/) 工具进行烧录。详情可参考基于 CSK6 Nanokit 开发板烧录详解：
 
-- [CSK6 烧录方式详解](../../gdbdebug/csk6_load.md)
+- [CSK6 烧录方式详解](csk6_load.md)
 
 CSK6 支持 [DAPLink](https://github.com/ARMmbed/DAPLink) 的 GDB 调试 和 [J-Link](https://www.segger.com/products/debug-probes/j-link/) 的 GDB 调试，详情可参考下列 CSK6 Nanokit 开发板基于 VSCode 在 DAPLink 和 J-Link 上调试文章：
 
