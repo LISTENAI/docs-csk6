@@ -26,7 +26,7 @@ The main thread is an essential thread while it is performing kernel initializat
 
 This thread executes when there is no other work for the system to do. If possible, the idle thread activates the board’s power management support to save power; otherwise, the idle thread simply performs a “do nothing” loop. The idle thread remains in existence as long as the system is running and never terminates.
 
-当系统没有其他工作要做时，会执行空闲线程（idel thread）。可以在空闲线程中执行电源管理模块以省电。空闲线程就会执行一个“什么都不做”的循环。只要系统在运行，空闲线程就一直存在，并且永远不会结束。
+当系统中无其他就绪线程存在时，会执行空闲线程（idle thread）。可以在空闲线程中执行电源管理模块以省电。空闲线程就会执行一个“什么都不做”的循环。只要系统在运行，空闲线程就一直存在，并且永远不会结束。
 
 The idle thread always uses the lowest configured thread priority. If this makes it a cooperative thread, the idle thread repeatedly yields the CPU to allow the application’s other threads to run when they need to.
 
@@ -34,7 +34,7 @@ The idle thread always uses the lowest configured thread priority. If this makes
 
 The idle thread is an essential thread, which means a fatal system error is raised if the thread aborts.
 
-空闲线程是一个基本线程，这意味着如果线程中止，会引发一个致命的系统错误。
+空闲线程是一个必不可少的线程，这意味着如果线程中止，会引发一个致命的系统错误。
 
 Additional system threads may also be spawned, depending on the kernel and board configuration options specified by the application. For example, enabling the system workqueue spawns a system thread that services the work items submitted to it. (See Workqueue Threads.)
 
