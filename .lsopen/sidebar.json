@@ -105,7 +105,10 @@
   {
     "type": "category",
     "label": "内核",
-    "items": ["kernel/index"],
+    "items": [
+      "kernel/index",
+      "kernel/system_threads"
+    ],
     "collapsed": true
   },
   {
