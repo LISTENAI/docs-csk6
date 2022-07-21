@@ -107,6 +107,7 @@
     "label": "内核",
     "items": [
       "kernel/index",
+      "kernel/threads",
       "kernel/system_threads"
     ],
     "collapsed": true
