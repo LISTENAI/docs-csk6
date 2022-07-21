@@ -6,22 +6,22 @@ CSK6-NanoKit开发板提供了WiFi网络连接的能力，本章节通过示例�
 ## WiFi API接口
 **CSK WiFi 驱动初始化** 
 
-```
+```c
 int csk_wifi_init(void);
 ```
 
 参数说明：
 
-| 返回值 | 说明                       |
-| ------ | -------------------------- |
-| 0      | 初始化成功                 |
-| error  | 初始化错误（详见错误状态） |
+| 返回值 | 说明                   |
+| ------ | ---------------------- |
+| 0      | 初始化成功             |
+| 其他   | 详见WiFi接口返回状态表 |
 
 <br / >
 
 **注册WiFi回调事件**
 
-```
+```c
 int csk_wifi_add_callback(csk_wifi_event_cb_t *wifi_event_cb);
 ```
 
@@ -35,7 +35,7 @@ int csk_wifi_add_callback(csk_wifi_event_cb_t *wifi_event_cb);
 
 **注销WiFi回调事件**
 
-```
+```c
 int csk_wifi_remove_callback(csk_wifi_event_cb_t *wifi_event_cb);
 ```
 
@@ -49,7 +49,7 @@ int csk_wifi_remove_callback(csk_wifi_event_cb_t *wifi_event_cb);
 
 **扫描附近的AP设备**
 
-```
+```c
 int csk_wifi_scan_ap(csk_wifi_scan_info_t **ap_info, csk_wifi_result_t *result, k_timeout_t timeout);
 ```
 
@@ -65,7 +65,7 @@ int csk_wifi_scan_ap(csk_wifi_scan_info_t **ap_info, csk_wifi_result_t *result, 
 
 **建立WiFi连接**
 
-```
+```c
 int csk_wifi_sta_connect(csk_wifi_sta_config_t *sta_config, csk_wifi_result_t *result, k_timeout_t timeout);
 ```
 
@@ -81,7 +81,7 @@ int csk_wifi_sta_connect(csk_wifi_sta_config_t *sta_config, csk_wifi_result_t *r
 
 **断开WiFi连接**
 
-```
+```c
 int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 ```
 
@@ -108,7 +108,7 @@ int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 
 <br / >
 
-更多WiFi API接口请查看CSK6 SDK wifi头文件描述：`drivers\wifi\csk6\include\csk6\csk_wifi.h`。
+更多WiFi API接口描述请查看CSK6 SDK wifi头文件描述：[`drivers\wifi\csk6\include\csk6\csk_wifi.h`](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/drivers/wifi/csk6/include/csk6/csk_wifi.h)。
 
 ## 使用示例
 
@@ -122,15 +122,15 @@ int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 
 本示例基于CSK6-NanoKit开发板实现WiFi连接，并获取WiFi连接信息。
 - CSK6-NanoKit开发板
-- 手机或路由器设置一个WiFi热点(ssid: lisatenai  pwd: a123456789)
+- 手机或路由器设置一个WiFi热点，本示例中使用热点(ssid: lisatenai，pwd: a123456789)的做测试。
 
 ### 获取sample项目
 通过Lisa命令创建项目：
 ```
 lisa zep create
 ```
-![](./files/uart_create01.png)
-按以下目录选择完成adc sample创建：  
+![](./files/liza_zep_create.png)
+按以下目录选择完成sample创建：  
 
 > boards → csk6 → network → wifi_sta
 
@@ -142,7 +142,7 @@ sample 创建完成。
 
 本示例需要打开以下件组件配置:
 
-```
+```shell
 # 打开WiFi驱动配置
 CONFIG_WIFI=y
 CONFIG_CSK_WIFI_STATION=y
@@ -245,13 +245,13 @@ void main(void)
         printk("wifi interface not available");
         return;
     }
-    /* 开启dhcp client */
+    /* 开启dhcp client，DHCP 用来分配 IP */
     net_dhcpv4_start(iface);
 }
 ```
 
 #### WiFi连接的回调
-WiFi连接回调，WiFi连接成功或失败都会触发回调：
+WiFi连接回调，回调由事件触发，这里的事件可能是连接成功、连接失败等等。更具体的事件类型可以参考下文的事件类型描述：
 
 ```c
 static void wifi_event_handler(csk_wifi_event_t events, void *event_data, uint32_t data_len, void *arg)
@@ -268,31 +268,30 @@ static void wifi_event_handler(csk_wifi_event_t events, void *event_data, uint32
 
 WiFi回调事件列表：
 
-```c
-typedef enum {
-    CSK_WIFI_EVT_STA_CONNECTED =        BIT(0),     /* WIFI-Station connected event bit */
-    CSK_WIFI_EVT_STA_DISCONNECTED =     BIT(1),     /* WIFI-Station disconnected event bit */
-    CSK_WIFI_EVT_AP_STARTED =           BIT(2),     /* WIFI-SoftAP stared event bit */
-    CSK_WIFI_EVT_AP_STOPPED =           BIT(3),     /* WIFI-SoftAP stopped event bit */
-    CSK_WIFI_EVT_AP_STACONNECTED =      BIT(4),     /* WIFI-SoftAP station connected event bit */
-    CSK_WIFI_EVT_AP_STADISCONNECTED =   BIT(5),     /* WIFI-SoftAP station disconnected event bit */
-    CSK_WIFI_EVT_SCAN_DONE =            BIT(6),     /* WIFI-SoftAP scan done event bit */
-} csk_wifi_event_t;
-```
+| 状态类型                        | 说明                                       |
+| ------------------------------- | ------------------------------------------ |
+| CSK_WIFI_EVT_STA_CONNECTED      | WIFI-Station connected event bit           |
+| CSK_WIFI_EVT_STA_DISCONNECTED   | WIFI-Station disconnected event bit        |
+| CSK_WIFI_EVT_AP_STARTED         | WIFI-SoftAP stared event bit               |
+| CSK_WIFI_EVT_AP_STOPPED         | WIFI-SoftAP stopped event bit              |
+| CSK_WIFI_EVT_AP_STACONNECTED    | WIFI-SoftAP station connected event bit    |
+| CSK_WIFI_EVT_AP_STADISCONNECTED | WIFI-SoftAP station disconnected event bit |
+| CSK_WIFI_EVT_SCAN_DONE          | WIFI-SoftAP scan done event bit            |
 
 
 
 ### 编译和烧录
+
 #### 编译
 
 在app根目录下通过以下指令完成编译：
-```
+```shell
 lisa zep build -b csk6002_9s_nano
 ```
 #### 烧录
 
 CSK6-NanoKit通过USB连接PC，通过烧录指令开始烧录：
-```
+```shell
 lisa zep flash --runner pyocd
 ```
 #### 查看结果 
@@ -300,10 +299,9 @@ lisa zep flash --runner pyocd
 **查看日志：**
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
-```
+```shell
 *** Booting Zephyr OS build 1ecc9604fbc0  ***
 wifi test
 xradio_generate_random_mac_addr, 11, generate random mac addr
@@ -350,5 +348,5 @@ Router: 192.168.43.1
 
 ```
 
-如日志所示，CSK6-NanoKit成功连接热点(`ssid: listenai  pwd: a123456789`)并获取IP地址。
+如日志所示，CSK6-NanoKit成功连接热点并获取IP地址。
 
