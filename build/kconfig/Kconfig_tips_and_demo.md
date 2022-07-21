@@ -33,7 +33,7 @@ The official Kconfig documentation is [kconfig-language.rst](https://www.kernel.
 * “Stuck” symbols in menuconfig and guiconfig
 *  [menuconfig 和 guiconfig中的"stuck"选项](#ssimag)
 *  Assignments to promptless symbols in configuration files
-*  对配置文件中非提示选项的赋值
+*  [对配置文件中非提示选项的赋值](#atpsicf)
 *  `depends on` and `string/int/hex` symbols
 *  `depends on` 和 `string/int/hex` 选项
 *  menuconfig symbols
@@ -319,7 +319,7 @@ Common sense applies, but be aware that select often causes issues in practice. 
 极少数情况例外，包括可能你确认选择中和已选择的选项的依赖关系永远同步。例如，当处理在同一个`if`中彼此相邻定义的两个简单选项时。
 这是常识，但要注意`select`通常在实践中引起问题。最干净和安全的解决方式是使用`depends on`。
 
-### <span id="loci">(缺乏)有条件包含</span>
+## <span id="loci">(缺乏)有条件包含</span>
 
 if blocks add dependencies to each item within the if, as if depends on was used.  
 `if`块将每个依赖项添加到`if`项里面，就像`depends on`使用。
@@ -362,7 +362,7 @@ Note that it is redundant to add depends on DEP to the definition of FOO in Kcon
 In general, try to avoid adding redundant dependencies. They can make the structure of the Kconfig files harder to understand, and also make changes more error-prone, since it can be hard to spot that the same dependency is added twice.  
 一般来说，尽量避免添加冗余依赖项。它们会使Kconfig文件的结构更难理解，也会使更改更容易出错，因为很难发现相同的依赖项被添加了两次。
 
-### <span id="ssimag">menuconfig 和 guiconfig中的"stuck"选项</span>
+## <span id="ssimag">menuconfig 和 guiconfig中的"stuck"选项</span>
 
 There is a common subtle gotcha related to interdependent configuration symbols with prompts. Consider these symbols:
 有一个常见的问题与相互依赖的配置选项与提示有关:
@@ -384,10 +384,59 @@ When first entering the configuration interface, the value of STACK_SIZE is 0x10
 第一次进入配置界面时，`STACK_SIZE`的值是0x100。启用`FOO`后，你认为`STACK_SIZE`的值更改为0x200，但它仍保持0x100。
 
 To understand what’s going on, remember that STACK_SIZE has a prompt, meaning it is user-configurable, and consider that all Kconfig has to go on from the initial configuration is this:  
-要了解发生了什么，请记住`STACK_SIZE`又一个提示符，这意味着它可以由用户配置，考虑到所有Kconfig必须从初始配置开始，如下所示：
+要了解发生了什么，请记住`STACK_SIZE`有一个提示符，这意味着它可以由用户配置，考虑到所有Kconfig必须从初始配置开始，如下所示：
 ```
 CONFIG_STACK_SIZE=0x100
 ```
 
-Since Kconfig can’t know if the 0x100 value came from a default or was typed in by the user, it has to assume that it came from the user. Since STACK_SIZE is user-configurable, the value from the configuration file is respected, and any symbol defaults are ignored. This is why the value of STACK_SIZE appears to be “frozen” at 0x100 when toggling FOO.
+Since Kconfig can’t know if the 0x100 value came from a default or was typed in by the user, it has to assume that it came from the user. Since STACK_SIZE is user-configurable, the value from the configuration file is respected, and any symbol defaults are ignored. This is why the value of STACK_SIZE appears to be “frozen” at 0x100 when toggling FOO.  
+由于Kconfig无法知道0x100的值来自默认值还是用户输入的，所以它必须假设它来自用户输入。由于`STACK_SIZE`是用户可配置的，因此应遵循配置文件中的值，并忽略任何符号的默认值。这就是为什么在切换`FOO`时`STACK_SIZE`仍保持在`0x100`的原因
+
+The right fix depends on what the intention is. Here’s some different scenarios with suggestions:  
+正确的解决方法取决你想做什么，下面是一些不同场景和建议:
+
+* If STACK_SIZE can always be derived automatically and does not need to be user-configurable, then just remove the prompt:
+* 如果 `STACK_SIZE` 始终可以无需用户配置自动获得，则只要删除提示符：
+    ```
+    config STACK_SIZE
+        hex
+        default 0x200 if FOO
+        default 0x100
+    ```
+    Symbols without prompts ignore any value from the saved configuration.  
+    没有提示符的选项会忽略已保存在配置中的任何值。
+
+* If STACK_SIZE should usually be user-configurable, but needs to be set to 0x200 when FOO is enabled, then disable its prompt when FOO is enabled, as described in optional prompts:
+* 如果`STACK_SIZE`通常是用户配置，但在启用`FOO`时需要设置0x200，那么在启用`FOO`时禁用它的提示符，如[可选提示符]中所述：  
+    ```
+    config STACK_SIZE
+        hex "Stack size" if !FOO
+        default 0x200 if FOO
+        default 0x100
+    ```
+
+* If STACK_SIZE should usually be derived automatically, but needs to be set to a custom value in rare circumstances, then add another option for making STACK_SIZE user-configurable:  
+* 如果`STACK_SIZE`通常是自动获得，但在极少数情况下需要设置为自定义值，则在另一个选项中使`STACK_SIZE`成为用户配置选项：
+    ```
+    config CUSTOM_STACK_SIZE
+        bool "Use a custom stack size"
+        help
+            Enable this if you need to use a custom stack size. When disabled, a
+            suitable stack size is calculated automatically.
+
+    config STACK_SIZE
+        hex "Stack size" if CUSTOM_STACK_SIZE
+        default 0x200 if FOO
+        default 0x100
+    ```
+    As long as CUSTOM_STACK_SIZE is disabled, STACK_SIZE will ignore the value from the saved configuration.  
+    只要禁用`CUSTOM_STACK_SIZE`，`STACK_SIZE`就会忽略保存在配置中的值。
+
+It is a good idea to try out changes in the menuconfig or guiconfig interface, to make sure that things behave the way you expect. This is especially true when making moderately complex changes like these.  
+尝试在`menuconfig`界面中进行更改配置是一种好的方式，它能确保你的配置能按照你的预期方式运行。这在进行类似这样复杂的配置更改时尤为重要。
+
+## <span id="atpsicf">对配置文件中非提示选项的赋值</span>
+
+Assignments to hidden (promptless, also called invisible) symbols in configuration files are always ignored. Hidden symbols get their value indirectly from other symbols, via e.g. default and select.  
+对配置文件中的非提示符号（或不可见符号）的赋值总是被忽略。非提示符号通过例如`default`和间接从`select`其他选项获取。
 
