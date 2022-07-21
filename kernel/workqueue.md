@@ -2,7 +2,7 @@
 
 A workqueue is a kernel object that uses a dedicated thread to process work items in a first in, first out manner. Each work item is processed by calling the function specified by the work item. A workqueue is typically used by an ISR or a high-priority thread to offload non-urgent processing to a lower-priority thread so it does not impact time-sensitive processing.
 
-工作队列（workqueue ）是一个使用特定线程来运行工作项（work items）的内核对象，其方式为先进先出，通过调用工作项指定的函数来处理每个工作项。工作队列的一个典型应用是在ISR或者高优先级中去分担部分工作到一个低优先级的线程中，·目的是减少ISR或高优先级任务的处理时长，所以它不影响时间敏感的处理。
+工作队列（workqueue ）是一个使用特定线程来运行工作项（work items）的内核对象，其方式为先进先出，通过调用工作项指定的函数来处理每个工作项。工作队列的典型应用是在ISR或者高优先级线程中去分担部分工作到一个低优先级的线程中，其目的是减少ISR或高优先级线程的处理时长，所以它不影响时间敏感的处理。
 
 Any number of workqueues can be defined (limited only by available RAM). Each workqueue is referenced by its memory address.
 
