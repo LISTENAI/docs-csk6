@@ -16,7 +16,7 @@ This thread performs kernel initialization, then calls the application’s main(
 
 By default, the main thread uses the highest configured preemptible thread priority (i.e. 0). If the kernel is not configured to support preemptible threads, the main thread uses the lowest configured cooperative thread priority (i.e. -1).
 
-默认情况下，主线程使用配置最高的可抢占线程优先级(即0)。如果内核没有配置支持可抢占线程，主线程使用配置最低的协作线程优先级（即-1）。
+默认情况下，主线程配置为最高的可抢占线程优先级(即0)。如果内核没有配置支持可抢占线程，主线程配置为最低的协作线程优先级（即-1）。
 
 The main thread is an essential thread while it is performing kernel initialization or executing the application’s main() function; this means a fatal system error is raised if the thread aborts. If main() is not defined, or if it executes and then does a normal return, the main thread terminates normally and no error is raised.
 
@@ -26,7 +26,7 @@ The main thread is an essential thread while it is performing kernel initializat
 
 This thread executes when there is no other work for the system to do. If possible, the idle thread activates the board’s power management support to save power; otherwise, the idle thread simply performs a “do nothing” loop. The idle thread remains in existence as long as the system is running and never terminates.
 
-当系统中无其他就绪线程存在时，会执行空闲线程（idle thread）。可以在空闲线程中执行电源管理模块以省电。空闲线程就会执行一个“什么都不做”的循环。只要系统在运行，空闲线程就一直存在，并且永远不会结束。
+当系统中无其他就绪线程存在时，会执行空闲线程（idle thread）。可以在空闲线程中执行电源管理模块以省电，否则空闲线程只会执行一个“什么都不做”的循环。只要系统在运行，空闲线程就一直存在，并且永远不会结束。
 
 The idle thread always uses the lowest configured thread priority. If this makes it a cooperative thread, the idle thread repeatedly yields the CPU to allow the application’s other threads to run when they need to.
 
