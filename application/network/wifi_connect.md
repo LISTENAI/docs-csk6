@@ -17,7 +17,7 @@ int csk_wifi_init(void);
 | 0      | 初始化成功                 |
 | error  | 初始化错误（详见错误状态） |
 
-
+<br / >
 
 **注册WiFi回调事件**
 
@@ -31,7 +31,7 @@ int csk_wifi_add_callback(csk_wifi_event_cb_t *wifi_event_cb);
 | ------------- | ---------------------- |
 | wifi_event_cb | 应用程序的回调结构指针 |
 
-
+<br / >
 
 **注销WiFi回调事件**
 
@@ -45,7 +45,7 @@ int csk_wifi_remove_callback(csk_wifi_event_cb_t *wifi_event_cb);
 | ------------- | ---------------------- |
 | wifi_event_cb | 应用程序的回调结构指针 |
 
-
+<br / >
 
 **扫描附近的AP设备**
 
@@ -61,7 +61,7 @@ int csk_wifi_scan_ap(csk_wifi_scan_info_t **ap_info, csk_wifi_result_t *result, 
 | result  | 指向WIFI操作结果的指针      |
 | timeout | 扫描超时时间                |
 
-
+<br / >
 
 **建立WiFi连接**
 
@@ -77,7 +77,7 @@ int csk_wifi_sta_connect(csk_wifi_sta_config_t *sta_config, csk_wifi_result_t *r
 | result     | 指向WIFI操作结果的指针         |
 | timeout    | 连接超时时间                   |
 
-
+<br / >
 
 **断开WiFi连接**
 
@@ -93,7 +93,7 @@ int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 | result     | 指向WIFI操作结果的指针         |
 | timeout    | 连接超时时间                   |
 
-
+<br / >
 
 **WiFi API接口状态列表：**
 
@@ -106,11 +106,9 @@ int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 | CSK_WIFI_ERR_INVALID_PASSWORD | Invalid WIFI password, will be raised in Station mode        |
 | CSK_WIFI_ERR_SCAN_FAILED      | WiFi scan neighboring AP devices failed                      |
 
-
+<br / >
 
 更多WiFi API接口请查看CSK6 SDK wifi头文件描述：`drivers\wifi\csk6\include\csk6\csk_wifi.h`。
-
-
 
 ## 使用示例
 
@@ -118,13 +116,13 @@ int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 
 本示例实现以下业务逻辑：
 
-- 连接一个AP热点，并获取地址信息，热点配置：`ssid: TP-LINK_LINGSI  pwd: a123456789`。
+- 连接一个AP热点，并获取地址信息，热点配置：ssid: lisatenai pwd: a123456789。
 
 ### 准备工作
 
 本示例基于CSK6-NanoKit开发板实现WiFi连接，并获取WiFi连接信息。
 - CSK6-NanoKit开发板
-- 手机或路由器设置一个WiFi热点(ssid: TP-LINK_LINGSI  pwd: a123456789)
+- 手机或路由器设置一个WiFi热点(ssid: lisatenai  pwd: a123456789)
 
 ### 获取sample项目
 通过Lisa命令创建项目：
