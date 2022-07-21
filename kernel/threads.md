@@ -141,7 +141,7 @@ Depending on configuration, there are several constraints that must be met:
 
 根据配置的不同，有几个必须满足的约束条件：
 
-- 可能需要为内存管理结构保留额外的内存
+- 可能需要为用于内存管理的结构体保留额外的内存
 - 如果启用了基于保护的栈溢出检测，则必须在栈缓冲区的前面设置一个小的写保护内存管理区域来捕获溢出。
 
 The alignment constraints can be quite restrictive, for example some MPUs require their regions to be of some power of two in size, and aligned to its own size.
