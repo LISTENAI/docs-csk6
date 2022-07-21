@@ -3,31 +3,125 @@
 ## 概述
 CSK6-NanoKit开发板提供了WiFi网络连接的能力，本章节通过示例介绍WiFi网络连接API接口的基本使用方法。
 
-## API接口
-常用WiFi API接口：
-```c
-/* CSK WiFi 驱动初始化 */
+## WiFi API接口
+**CSK WiFi 驱动初始化** 
+
+```
 int csk_wifi_init(void);
+```
 
-/* 注册一个WiFi回调事件 */
+参数说明：
+
+| 返回值 | 说明                       |
+| ------ | -------------------------- |
+| 0      | 初始化成功                 |
+| error  | 初始化错误（详见错误状态） |
+
+
+
+**注册WiFi回调事件**
+
+```
 int csk_wifi_add_callback(csk_wifi_event_cb_t *wifi_event_cb);
+```
 
-/* 注销一个WiFi回调事件 */
+**参数说明：**
+
+| 参数          | 说明                   |
+| ------------- | ---------------------- |
+| wifi_event_cb | 应用程序的回调结构指针 |
+
+
+
+**注销WiFi回调事件**
+
+```
 int csk_wifi_remove_callback(csk_wifi_event_cb_t *wifi_event_cb);
+```
 
-/*  扫描附近的AP设备 */
+**参数说明**
+
+| 参数          | 说明                   |
+| ------------- | ---------------------- |
+| wifi_event_cb | 应用程序的回调结构指针 |
+
+
+
+**扫描附近的AP设备**
+
+```
 int csk_wifi_scan_ap(csk_wifi_scan_info_t **ap_info, csk_wifi_result_t *result, k_timeout_t timeout);
+```
 
-/* 建立WiFi连接 */
+**参数说明：**
+
+| 参数    | 说明                        |
+| ------- | --------------------------- |
+| ap_info | 指向 WiFi AP 信息结构的指针 |
+| result  | 指向WIFI操作结果的指针      |
+| timeout | 扫描超时时间                |
+
+
+
+**建立WiFi连接**
+
+```
 int csk_wifi_sta_connect(csk_wifi_sta_config_t *sta_config, csk_wifi_result_t *result, k_timeout_t timeout);
+```
 
-/* 断开WiFi连接 */
+**参数说明：**
+
+| 参数       | 说明                           |
+| ---------- | ------------------------------ |
+| sta_config | 指向WIFI Station配置结构的指针 |
+| result     | 指向WIFI操作结果的指针         |
+| timeout    | 连接超时时间                   |
+
+
+
+**断开WiFi连接**
+
+```
 int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 ```
+
+**参数说明：**
+
+| 参数       | 说明                           |
+| ---------- | ------------------------------ |
+| sta_config | 指向WIFI Station配置结构的指针 |
+| result     | 指向WIFI操作结果的指针         |
+| timeout    | 连接超时时间                   |
+
+
+
+**WiFi API接口状态列表：**
+
+| 状态类型                      | 说明                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| CSK_WIFI_SUCCESS              | WIFI operation successful                                    |
+| CSK_WIFI_ERR_STA_FAILED       | Unknown Station exception, will be raised in Station mode. TODO: remove it |
+| CSK_WIFI_ERR_AP_FAILED        | Unknown SoftAP exception, will be raised in SoftAP mode. TODO: remove it |
+| CSK_WIFI_ERR_AP_NOT_FOUND     | AP ssid not found, will be raised in Station mode            |
+| CSK_WIFI_ERR_INVALID_PASSWORD | Invalid WIFI password, will be raised in Station mode        |
+| CSK_WIFI_ERR_SCAN_FAILED      | WiFi scan neighboring AP devices failed                      |
+
+
+
 更多WiFi API接口请查看CSK6 SDK wifi头文件描述：`drivers\wifi\csk6\include\csk6\csk_wifi.h`。
 
+
+
 ## 使用示例
+
+### 实现逻辑
+
+本示例实现以下业务逻辑：
+
+- 连接一个AP热点，并获取地址信息，热点配置：`ssid: TP-LINK_LINGSI  pwd: a123456789`。
+
 ### 准备工作
+
 本示例基于CSK6-NanoKit开发板实现WiFi连接，并获取WiFi连接信息。
 - CSK6-NanoKit开发板
 - 手机或路由器设置一个WiFi热点(ssid: TP-LINK_LINGSI  pwd: a123456789)
@@ -38,10 +132,18 @@ int csk_wifi_sta_disconnect(csk_wifi_result_t *result, k_timeout_t timeout);
 lisa zep create
 ```
 ![](./files/uart_create01.png)
-依次按以下目录选择完成adc sample创建：  
+按以下目录选择完成adc sample创建：  
+
 > boards → csk6 → network → wifi_sta
 
-### 组件配置
+sample 创建完成。
+
+### 示例项目组件配置
+
+组件配置文件路径：`sample/prj.conf`
+
+本示例需要打开以下件组件配置:
+
 ```
 # 打开WiFi驱动配置
 CONFIG_WIFI=y
@@ -56,12 +158,15 @@ CONFIG_NET_SOCKETS=y
 CONFIG_TEST_RANDOM_GENERATOR=y
 CONFIG_NET_SOCKETS_POSIX_NAMES=y
 
+# 网络管理配置
 CONFIG_NET_MGMT=y
 CONFIG_NET_MGMT_EVENT=y
 CONFIG_NET_MGMT_EVENT_STACK_SIZE=4096
 
+# 网络线程栈配置
 CONFIG_NET_RX_STACK_SIZE=2048
 CONFIG_NET_TX_STACK_SIZE=2048
+# 网络的内存池配置
 CONFIG_NET_PKT_RX_COUNT=16
 CONFIG_NET_PKT_TX_COUNT=16
 CONFIG_NET_BUF_RX_COUNT=64
@@ -71,7 +176,9 @@ CONFIG_NET_CONTEXT_NET_PKT_POOL=y
 # 引用名为newlib的libc标准库
 CONFIG_NEWLIB_LIBC=y
 
+# SYSTEM WORKQUEU线程栈
 CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=2048
+# 系统堆，分配内存，可根据实际使用配置
 CONFIG_HEAP_MEM_POOL_SIZE=35840
 CONFIG_MAIN_STACK_SIZE=4096
 CONFIG_INIT_STACKS=y
@@ -81,11 +188,10 @@ CONFIG_LOG=y
 CONFIG_WIFI_LOG_LEVEL_DBG=y
 ```
 
-### 示例实现逻辑
-本示例实现以下业务逻辑：
-- 连接一个AP热点，并获取地址信息，热点配置：`ssid: TP-LINK_LINGSI  pwd: a123456789`。
 
-### 应用逻辑实现
+
+### 应用实现
+
 #### 主函数实现
 ```c
 void main(void)
@@ -101,10 +207,10 @@ void main(void)
     /* 注册WiFi回调事件 */
     csk_wifi_add_callback(&wifi_event_cb);
 
-    /* 获取预设的WiFi ssid 和 pwd */
+    /* WiFi参数跑配置 */
     csk_wifi_sta_config_t sta_config = {
-        .ssid = CONFIG_EXAMPLE_WIFI_SSID,
-        .pwd = CONFIG_EXAMPLE_WIFI_PASSWORD,
+        .ssid = "listenai",
+        .pwd = "a123456789",
         .encryption_mode = CSK_WIFI_AUTH_WPA2_PSK
     };
 
@@ -133,7 +239,7 @@ void main(void)
         sta_config.ssid, sta_config.pwd, sta_config.bssid, sta_config.channel,
         sta_config.rssi);
     printk("------------------------------------------------------------------------\n");
-    /* 获取ip地址等信息 */
+    /* 初始化并注册 DHCP BOUND 事件，设备获取 ipv4 地址后产生回调 */
     net_mgmt_init_event_callback(&dhcp_cb, handler_cb, NET_EVENT_IPV4_DHCP_BOUND);
     net_mgmt_add_event_callback(&dhcp_cb);
     struct net_if *iface = net_if_get_default();
@@ -141,12 +247,13 @@ void main(void)
         printk("wifi interface not available");
         return;
     }
+    /* 开启dhcp client */
     net_dhcpv4_start(iface);
 }
 ```
 
-#### WiFi回调事件
-WiFi回调事件，WiFi连接成功或失败都会触发回调事件：
+#### WiFi连接的回调
+WiFi连接回调，WiFi连接成功或失败都会触发回调：
 
 ```c
 static void wifi_event_handler(csk_wifi_event_t events, void *event_data, uint32_t data_len, void *arg)
@@ -161,12 +268,9 @@ static void wifi_event_handler(csk_wifi_event_t events, void *event_data, uint32
 }
 ```
 
-WiFi回调事件汇总：
+WiFi回调事件列表：
 
 ```c
-/**
- * @brief CSK WiFi events structure
- */
 typedef enum {
     CSK_WIFI_EVT_STA_CONNECTED =        BIT(0),     /* WIFI-Station connected event bit */
     CSK_WIFI_EVT_STA_DISCONNECTED =     BIT(1),     /* WIFI-Station disconnected event bit */
@@ -178,9 +282,7 @@ typedef enum {
 } csk_wifi_event_t;
 ```
 
-:::tip
-本示例中使用到了`net_mgmt_init_event_callback`和`net_mgmt_add_event_callback`网络接口获取ip地址等信息，此部分内容将在网络章节中讲解，敬请期待。
-:::
+
 
 ### 编译和烧录
 #### 编译
@@ -250,6 +352,5 @@ Router: 192.168.43.1
 
 ```
 
-如日志所示，CSK6-NanoKit成功连接热点(`ssid: TP-LINK_LINGSI  pwd: a123456789`)并获取IP地址。
-
+如日志所示，CSK6-NanoKit成功连接热点(`ssid: listenai  pwd: a123456789`)并获取IP地址。
 
