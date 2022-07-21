@@ -152,6 +152,7 @@
     "type": "category",
     "label": "构建与配置系统",
     "items": [
+      "build/cmake/index",
       {
         "type": "category",
         "label": "设备树",
