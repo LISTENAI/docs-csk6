@@ -58,7 +58,7 @@ A delayable work item may be scheduled (K_WORK_DELAYED) to a workqueue; see Dela
 
 A work item will be running (K_WORK_RUNNING) when it is running on a work queue, and may also be canceling (K_WORK_CANCELING) if it started running before a thread has requested that it be cancelled.
 
-当工作队列正在运行时，工作项可被执行（`K_WORK_CANCELING`）。如果该工作项还未被执行，也可被取消（`K_WORK_CANCELING`）。
+当工作队列正在运行时，工作项可被执行（`K_WORK_RUNNING`）。如果该工作项还未被执行，也可被取消（`K_WORK_CANCELING`）。
 
 A work item can be in multiple states; for example it can be:
 
@@ -80,7 +80,7 @@ all simultaneously. A work item that is in any of these states is pending (k_wor
 
 A handler function can use any kernel API available to threads. However, operations that are potentially blocking (e.g. taking a semaphore) must be used with care, since the workqueue cannot process subsequent work items in its queue until the handler function finishes executing.
 
-处理函数可以调用任何适用于线程的内核API。但是，带阻塞相关的接口（如`k_sem_take`）需要斟酌使用。
+处理函数可以调用任何适用于线程的内核API。但是，带阻塞相关的接口（如`k_sem_take`）需要斟酌使用。这是因为，在当前处理函数执行完成之前，工作队列无法处理其队列中的后续工作项。
 
 The single argument that is passed to a handler function can be ignored if it is not required. If the handler function requires additional information about the work it is to perform, the work item can be embedded in a larger data structure. The handler function can then use the argument value to compute the address of the enclosing data structure with CONTAINER_OF, and thereby obtain access to the additional information it needs.
 
@@ -103,7 +103,7 @@ An ISR or a thread may need to schedule a work item that is to be processed only
 
 A delayable work item contains a standard work item but adds fields that record when and where the item should be submitted.
 
-一个可延迟工作项结构在标准工作项结构的基础上额外添加字段，用于描述何时将在工作项添加到制定的队列。
+一个可延迟工作项结构在标准工作项结构的基础上额外添加字段，用于描述何时将工作项添加到指定的队列。
 
 A delayable work item is initialized and scheduled to a workqueue in a similar manner to a standard work item, although different kernel APIs are used. 
 
@@ -111,7 +111,7 @@ A delayable work item is initialized and scheduled to a workqueue in a similar m
 
 When the schedule request is made the kernel initiates a timeout mechanism that is triggered after the specified delay has elapsed. Once the timeout occurs the kernel submits the work item to the specified workqueue, where it remains queued until it is processed in the standard manner.
 
-在工作项添加完成后，内核启动超时机制，在指定的延迟后被触发。一旦超时发生，内核就会把工作项目提交给指定的工作队列，工作项一直被排在工作队列中，以标准工作项方式被处理。
+在工作项被添加后，内核启动超时机制，在指定的延迟后被触发。一旦超时发生，内核就会把工作项目提交给指定的工作队列，工作项一直被排在工作队列中，以标准工作项方式被处理。
 
 Note that work handler used for delayable still receives a pointer to the underlying non-delayable work structure, which is not publicly accessible from k_work_delayable. To get access to an object that contains the delayable work object use this idiom:
 
