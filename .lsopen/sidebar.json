@@ -142,7 +142,19 @@
   {
     "type": "category",
     "label": "构建与配置系统",
-    "items": ["build/index"],
+    "items": [{
+      "type": "category",
+      "label": "Kconfig配置系统",
+      "items": [
+        "build/kconfig/overview",
+        "build/kconfig/Kconfig_gui",
+        "build/kconfig/Kconfig_configuration",
+        "build/kconfig/Kconfig_tips_and_demo",
+        "build/kconfig/Kconfig_custom",
+        "build/kconfig/Kconfig_extension"
+      ],
+      "collapsed": true
+    }],
     "collapsed": true
   },
   {
