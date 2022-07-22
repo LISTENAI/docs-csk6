@@ -108,8 +108,20 @@
     "label": "内核",
     "items": [
       "kernel/index",
-      "kernel/threads",
-      "kernel/system_threads"
+      {
+        "type": "category",
+        "label": "内核服务",
+        "items": [
+          {
+            "type": "category",
+            "label": "调度、中断与同步",
+            "items": [
+              "kernel/threads",
+              "kernel/system_threads"
+            ]
+          }
+        ]
+      }
     ],
     "collapsed": true
   },
