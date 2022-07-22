@@ -9,7 +9,7 @@ GPIO的使用我们最常用的外设操作之一，本章节主要介绍GPIO的
 
 **物理电平(physical leve)**：一般情况下我们将0当做gpio的低电平，1当做gpio的高电平，这是物理电平。
 
-**逻辑电平(logic level)**：在软件上由于逻辑实现上的可移植或是代码的易读性我们会引入逻辑电平。
+**逻辑电平(logic level)**：在软件上为提高业务代码的可移植性或易读性，我们会引入逻辑电平，即自行定义0和1对应的电平状态。
 
 在`csk-sdk\include\dt-bindings\gpio\gpio.h`中用两个宏flag表示逻辑电平对应的物理电平:
 
@@ -20,7 +20,7 @@ GPIO的使用我们最常用的外设操作之一，本章节主要介绍GPIO的
 #define GPIO_ACTIVE_HIGH        (0 << 0)
 ```
 
-在zephyr开发中通过`gpio_config(struct device *port, gpio_pin_t pin, gpio_flags_t flags)`接口的flags标志对GPIO进行逻辑电平的模式配置，根据宏flag的定义，GPIO逻辑电平和物理电平的对应关系如下：
+在Zephyr开发中通过`gpio_config(struct device *port, gpio_pin_t pin, gpio_flags_t flags)`接口的flags标志对GPIO进行逻辑电平的模式配置，根据宏flag的定义，GPIO逻辑电平和物理电平的对应关系如下：
 
 **当GPIO被配置为GPIO_ACTIVE_LOW时：GPIO上出现低电平时表示逻辑电平1**
 
@@ -46,11 +46,11 @@ GPIO的使用我们最常用的外设操作之一，本章节主要介绍GPIO的
 
 :::note
 
-了解GPIO逻辑电平和物理电平的对应关系对本章节后续的GPIO引脚的配置和读写操作很有帮助，GPIO逻辑电平的读和写操作接口都会依赖配置的GPIO_ACTIVE_LOW/GPIO_ACTIVE_HIGH标志。
+了解GPIO逻辑电平和物理电平的对应关系对本章节后续的GPIO引脚的配置和读写操作很有帮助，GPIO逻辑电平的读和写操作接口都会依赖配置的GPIO_ACTIVE_LOW、GPIO_ACTIVE_HIGH标志。
 
 :::
 
-## GPIO的flag标志
+## GPIO的常见配置标志
 ### GPIO的输入/输出标志
 | flag              |说明                                 |
 | ----------------- | ------------------------------------ |
@@ -66,13 +66,13 @@ GPIO的使用我们最常用的外设操作之一，本章节主要介绍GPIO的
 
 ### GPIO的中断标志
 
-中断配置标志`(GPIO_INT_*)`用来指定作为输入的GPIO引脚以何种方式触发中断。中断可由PIN脚的物理电平或逻辑水平触发。GPIO中断的触发也会根据配置的GPIO_ACTIVE_LOW/GPIO_ACTIVE_HIGH标志来判断。
+中断配置标志`(GPIO_INT_*)`用来指定作为输入的GPIO引脚以何种方式触发中断。中断可由PIN脚的物理电平或逻辑水平触发。GPIO中断的触发也会根据配置的GPIO_ACTIVE_LOW、GPIO_ACTIVE_HIGH标志来判断。
 
 | flag              | 说明                                 |
 | ----------------- | ------------------------------------ |
 | GPIO_INT_DISABLE   | 禁用 GPIO 管脚中断 |
 | GPIO_INT_EDGE_RISING  | 将GPIO中断配置为引脚上升沿触发|
-| GPIO_INT_EDGE_FALLING | 将 GPIO 中断配置为在引脚下降沿上触发 |
+| GPIO_INT_EDGE_FALLING | 将 GPIO 中断配置为在引脚下降沿触发 |
 | GPIO_INT_EDGE_BOTH    | 将GPIO中断配置为在引脚上升或下降时触发|
 | GPIO_INT_LEVEL_LOW    | 将GPIO中断配置为引脚物理电平拉低并保持|
 | GPIO_INT_LEVEL_HIGH   | 将GPIO中断配置为引脚物理电平拉高并保持|
@@ -81,9 +81,9 @@ GPIO的使用我们最常用的外设操作之一，本章节主要介绍GPIO的
 | GPIO_INT_LEVEL_INACTIVE | 将GPIO中断配置为管脚逻辑电平0时触发 |
 | GPIO_INT_LEVEL_ACTIVE | 将GPIO中断配置为管脚逻辑电平1时触发 |
 
+flag配置对应的内容可以在`csk-sdk\include\dt-bindings\gpio\gpio.h`中查看。
 
-
-### GPIO 引脚偏置
+### GPIO 引脚上下拉配置
 
 | 状态              | 属性                                 |
 | ----------------- | ------------------------------------ |
@@ -96,7 +96,7 @@ GPIO的使用我们最常用的外设操作之一，本章节主要介绍GPIO的
 
 ### GPIO配置
 
-**配置GPIO**
+#### **配置GPIO**
 
 ```c
 int gpio_pin_configure(const struct device *port, gpio_pin_t pin, gpio_flags_t flags)
@@ -105,13 +105,13 @@ int gpio_pin_configure(const struct device *port, gpio_pin_t pin, gpio_flags_t f
 
 | 字段  | 说明                                                         |
 | ----- | ------------------------------------------------------------ |
-| Port  | 指向GPIO设备实例的指针                                       |
+| ort   | 指向GPIO设备实例的指针                                       |
 | pin   | 要配置的引脚编号                                             |
 | flags | 引脚配置的标志:  GPIO 输入/输出配置标志， GPIO 引脚驱动标志， GPIO 引脚偏置标志 |
 
 <br/>
 
-**通过设备树配置GPIO**
+#### **通过设备树配置GPIO**
 
 ```c
 int gpio_pin_configure_dt(const struct gpio_dt_spec *spec, gpio_flags_t extra_flags)
@@ -125,7 +125,7 @@ int gpio_pin_configure_dt(const struct gpio_dt_spec *spec, gpio_flags_t extra_fl
 
 <br/>
 
-**配置GPIO的中断**
+#### **配置GPIO的中断**
 
 ```c
 int gpio_pin_interrupt_configure(const struct device *port, gpio_pin_t pin, gpio_flags_t flags)
@@ -140,7 +140,7 @@ int gpio_pin_interrupt_configure(const struct device *port, gpio_pin_t pin, gpio
 
 <br/>
 
-**通过设备树配置GPIO中断**
+#### **通过设备树配置GPIO中断**
 
 ```c
 int gpio_pin_interrupt_configure_dt(const struct gpio_dt_spec *spec, gpio_flags_t flags)
@@ -168,7 +168,7 @@ struct gpio_dt_spec {
 
 ### 写GPIO
 
-**写输出GPIO逻辑电平**
+#### **写输出GPIO逻辑电平**
 
 写gpio逻辑电平操作需要参考GPIO_ACTIVE_LOW或GPIO_ACTIVE_HIGH配置下逻辑电平和物理电平的对应关系，例如当GPIO配置为GPIO_ACTIVE_LOW时，设置逻辑电平为1则GPIO输出低电平。当GPIO配置为GPIO_ACTIVE_HIGH时，设置逻辑电平1则GPIO输出高电平。
 
@@ -185,7 +185,7 @@ int gpio_pin_set(const struct device *port, gpio_pin_t pin, int value)
 
 <br/>
 
-**写输出GPIO物理电平**
+#### **写输出GPIO物理电平**
 
 给GPIO写物理电平不需要参考GPIO_ACTIVE_LOW或GPIO_ACTIVE_HIGH配置。
 
@@ -202,7 +202,7 @@ int gpio_pin_set_raw(const struct device *port, gpio_pin_t pin, int value)
 
 <br/>  
 
-**通过设备树写输出GPIO逻辑电平**
+#### **通过设备树写输出GPIO逻辑电平**
 
 ```c
 int gpio_pin_set_dt(const struct gpio_dt_spec *spec, int value)
@@ -222,12 +222,12 @@ int gpio_pin_set_dt(const struct gpio_dt_spec *spec, int value)
 
 ### 读GPIO
 
-**获取输入引脚的逻辑电平**
+#### **读输入引脚的逻辑电平**
 
 ```c
 int gpio_pin_get(const struct device *port, gpio_pin_t pin)
 ```
-获取GPIO逻辑电平，同时考虑到 GPIO_ACTIVE_LOW/GPIO_ACTIVE_HIGH标志。如果将GPIO配置为GPIO_ACTIVE_HIGH，则GPIO为物理低电平时通过该接口获取的逻辑电平为0。如果将GPIO配置为GPIO_ACTIVE_LOW，则GPIO为物理低电平时通过接口过去的逻辑电平为1。
+获取GPIO逻辑电平，同时考虑到 GPIO_ACTIVE_LOW、GPIO_ACTIVE_HIGH标志。如果将GPIO配置为GPIO_ACTIVE_HIGH，则GPIO为物理低电平时通过该接口获取的逻辑电平为0。如果将GPIO配置为GPIO_ACTIVE_LOW，则GPIO为物理低电平时通过接口过去的逻辑电平为1。
 
 **参数说明**
 
@@ -238,7 +238,7 @@ int gpio_pin_get(const struct device *port, gpio_pin_t pin)
 
 <br/>
 
-**通过设备树获取输入引脚的逻辑电平**
+#### **通过设备树读输入引脚的逻辑电平**
 
 ```c
 int gpio_pin_get_dt(const struct gpio_dt_spec *spec)
@@ -251,7 +251,7 @@ int gpio_pin_get_dt(const struct gpio_dt_spec *spec)
 
 <br/>
 
-**获取输入引脚的物理电平**
+#### **读输入引脚的物理电平**
 
 ```c
 int gpio_pin_get_raw(const struct device *port, gpio_pin_t pin)
@@ -269,7 +269,7 @@ int gpio_pin_get_raw(const struct device *port, gpio_pin_t pin)
 如果GPIO配置为GPIO_ACTIVE_HIGH，则gpio_pin_get()等效于gpio_pin_get_raw()。
 :::
 
-更多GPIO API接口请看zephyr官网[GPIO Driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__gpio__interface.html)描述。
+更多GPIO API接口请看Zephyr官网[GPIO Driver APIs](https://docs.Zephyrproject.org/latest/doxygen/html/group__gpio__interface.html)描述。
 
 ## 使用示例
 ### 示例1：GPIO作为输出引脚
@@ -283,10 +283,10 @@ int gpio_pin_get_raw(const struct device *port, gpio_pin_t pin)
 ```
 lisa zep create
 ```
-![](./files/create_blinky01.png)
-> basic → blinky
+![](./files/liza_zep_create.png)
+> boards→ csk6 → gpio_led
 
-Blinky sample创建成功。
+gpio_led sample创建成功。
 #### 组件配置
 在prj.conf文件中添加项目基础组件配置配置:
 ```shell
@@ -319,14 +319,18 @@ CONFIG_GPIO=y
 | board_led_2_label          | led2 设备树的 node label，可通过 node label 获取 led2 设备树的配置信息 |
 | board_led_2_nodeid         | led2 设备树的 node id，可通过 node id获取 led2 设备树的配置信息 |
 | gpios = <&gpioa 5 0>       | &gpioa 5：gpioa_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
-| label = "User BOARD_LED_2" | led2 节点 的 label 属性[(Label propert)](https://docs.zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
+| label = "User BOARD_LED_2" | led2 节点 的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
 
+:::tip
 
+更多关于设备树的内容请学习[设备树](../../device_tree.md)章节。
+
+:::
 
 #### 应用逻辑实现
 
 ```c
-#include <zephyr.h>
+#include <Zephyr.h>
 #include <device.h>
 #include <devicetree.h>
 #include <drivers/gpio.h>
@@ -377,11 +381,11 @@ lisa zep build -b csk6002_9s_nano
 ```
 lisa zep flash --runner pyocd
 ```
-烧录成功：
+完成烧录后，可看到终端输出 “烧录成功” 的提示，如图：
 ![](./files/flash.png)
 
 ##### 查看结果
-预期的效果应如下两个图片所示，开发板上的LED灯(绿)在不断的闪烁，如果在你的卡发板上实现了这个效果，那么恭喜，你顺利的完成了LED的控制，在CSK6的开发上又迈出了一步！
+预期的效果应如下两个图片所示，开发板上的LED灯(绿)在不断的闪烁，如果在你的开发板上实现了这个效果，那么恭喜，你顺利的完成了LED的控制，在CSK6的开发上又迈出了一步！
 
 ![](./files/led_on.png)
 ![](./files/led_off.png)
@@ -404,7 +408,7 @@ CSK6-NanoKit开发板的按键电路：
 ```
 lisa zep create
 ```
-![](./files/create_blinky01.png)
+![](./files/liza_zep_create.png)
 > basic → button
 
 Button sample创建成功。
@@ -427,7 +431,7 @@ Button sample创建成功。
 | user_button_0        | button0 设备树的 node label，可通过 node label 获取 button0 设备树的配置信息 |
 | button_0             | button0 设备树的 node id，可通过 node id获取 button0 设备树的配置信息 |
 | gpios = <&gpiob 5 0> | &gpiob 5：gpiob_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
-| label = "User SW0";  | button0 节点 的 label 属性[(Label propert)](https://docs.zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
+| label = "User SW0";  | button0 节点 的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
 
 
 
@@ -440,7 +444,7 @@ CONFIG_GPIO=y
 ```
 #### 应用逻辑实现
 ```c
-#include <zephyr.h>
+#include <Zephyr.h>
 #include <device.h>
 #include <drivers/gpio.h>
 #include <sys/util.h>
