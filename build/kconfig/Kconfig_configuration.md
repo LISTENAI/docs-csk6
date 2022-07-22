@@ -11,7 +11,7 @@ Before making changes to Kconfig files, it’s a good idea to also go through th
 在对 Kconfig 文件进行更改之前，最好也浏览一下Kconfig - [小贴士与最佳实践](./Kconfig_tips_and_demo.md)。
 :::
 
-## 可见选项和不可见选项
+## Kconfig 中可见与不可见的符号
 
 When making Kconfig changes, it’s important to understand the difference between visible and invisible symbols.  
 在进行Kconfig更改时，了解可见和不可见选项之间的区别非常重要
