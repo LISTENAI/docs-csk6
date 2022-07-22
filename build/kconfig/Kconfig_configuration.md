@@ -11,7 +11,7 @@ Before making changes to Kconfig files, it’s a good idea to also go through th
 在对 Kconfig 文件进行更改之前，最好也浏览一下Kconfig - [小贴士与最佳实践](./Kconfig_tips_and_demo.md)。
 :::
 
-## 可见和不可见的选项
+## 可见选项和不可见选项
 
 When making Kconfig changes, it’s important to understand the difference between visible and invisible symbols.  
 在进行Kconfig更改时，了解可见和不可见选项之间的区别非常重要
@@ -73,7 +73,7 @@ This is the format you will see in the merged configuration inzephyr/.config.
 This style is accepted for historical reasons: Kconfig configuration filescan be parsed as makefiles (though Zephyr doesn’t use this). Havingn-valued symbols correspond to unset variables simplifies tests in Make.  
 
 布尔型选项也可以设置n如下格式的注释:`# CONFIG_SOME_OTHER_BOOL is not set`
-这是您将在合并配置`zephyr/build/zephyr/.config`中看到的格式.这种风格之所以被使用是因为历史原因：Kconfig配置文件可以被解析为makefile（尽管Zephyr不使用这个）。有**n**-与未设置变量对应的值选项简化了Make中的测试。
+这是您将在合并配置`zephyr/.config`中看到的格式.这种风格之所以被使用是因为历史原因：Kconfig配置文件可以被解析为makefile（尽管Zephyr不使用这个）。有`n`-与未设置变量对应的值选项简化了Make中的测试。
 :::
 
 Other symbol types are assigned like this:  
@@ -98,50 +98,50 @@ The initial configuration for an application comes from merging configurationset
 应用程序的初始配置来自于合并三个来源设置：
 
 1. A `BOARD` -specific configuration file stored in `boards/<architecture>/<BOARD>/<BOARD>_defconfig`   
-一个 `BOARD` 特定配置文件存储在 `boards/<architecture>/<BOARD>/<BOARD>_defconfig`
+  一个 `BOARD` 特定配置文件存储在 `boards/<architecture>/<BOARD>/<BOARD>_defconfig`
 
 2. Any CMake cache entries prefix with `CONFIG_`  
-任何CMake条目的前缀为 `CONFIG_`
+  任何CMake条目的前缀为 `CONFIG_`
 
 3. The application configuration  
-应用程序设置 `./prj.conf`
+  应用程序设置 `./prj.conf`
 
 The application configuration can come from the sources below. By default,`prj.conf`is used.  
 应用程序配置可以来自一下源。默认情况下`prj.conf`使用。
 
+1. If`CONF_FILE`is set, the configuration file(s) specified in it aremerged and used as the application configuration.`CONF_FILE`can be setin various ways:  
+如果`CONF_FILE`设置后，其中指定的配置文件将合并用作应用程序配置。 `CONF_FILE` 可通过多种方式设置：
 
-1. If`CONF_FILE`is set, the configuration file(s) specified in it aremerged and used as the application configuration.`CONF_FILE`can be setin various ways: 
    1. InCMakeLists.txt, before callingfind_package(Zephyr)
+      在 `CMakeLists.txt`, 在调用之前`find_package(Zephyr)`
    2. By passing `-DCONF_FILE=<conf file(s)>` , either directly or viawest
+      通过传递 `-DCONF_FILE=<conf file(s)>`, 或`lisa zep`
    3. From the CMake variable cache
-1. 如果`CONF_FILE`设置后，其中指定的配置文件将合并用作应用程序配置。 `CONF_FILE` 可通过多种方式设置：
-    1. 在 `CMakeLists.txt`, 在调用之前`find_package(Zephyr)`
-    2. 通过传递 `-DCONF_FILE=<conf file(s)>`, 或`lisa zep`
-    3. 来自 CMake 变量缓存
+      来自 CMake 变量缓存
 
-2. Otherwise if `CONF_FILE` is set, and a single configuration file of theform `prj_<build>.conf` is used, then if file `boards/<BOARD>_<build>.conf` exists in same folder as file `prj_<build>.conf` , the result of
-2. 如果`CONF_FILE` 被设置，并且单个配置文件形式 `prj_<build>.conf` 被使用，那么如果文件 `boards/<BOARD>_<build>.conf` 与文件存在同一文件夹中  `prj_<build>.conf` ,是用 `prj_<build>.conf` 和 `boards/<BOARD>_<build>.conf` 合并而来
+1. Otherwise if `CONF_FILE` is set, and a single configuration file of theform `prj_<build>.conf` is used, then if file `boards/<BOARD>_<build>.conf` exists in same folder as file `prj_<build>.conf` , the result of merging `prj_<build>.conf ` and `boards/<BOARD>_<build>.conf` is used.  
+如果`CONF_FILE` 被设置，并且单个配置文件形式 `prj_<build>.conf` 被使用，那么如果文件 `boards/<BOARD>_<build>.conf` 与文件存在同一文件夹中  `prj_<build>.conf` ,是用 `prj_<build>.conf` 和 `boards/<BOARD>_<build>.conf` 合并而来
 
-3. Otherwise,`prj_<BOARD>.conf`is used if it exists in the applicationdirectory.  
-3. 如果`prj_<BOARD>.conf`存在应用目录中，它会被使用。
+3. Otherwise,`prj_<BOARD>.conf`is used if it exists in the applicationdirectory.   
+  如果`prj_<BOARD>.conf`存在应用目录中，它会被使用。
 
-4. Otherwise, if`boards/<BOARD>.conf`exists in the applicationdirectory, the result of merging it withprj.confis used.
-4. 如果`boards/<BOARD>.conf`存在于应用程序目录中，则结果与prj.conf合并使用。 
+4. Otherwise, if`boards/<BOARD>.conf`exists in the applicationdirectory, the result of merging it withprj.confis used.  
+  如果`boards/<BOARD>.conf`存在于应用程序目录中，则结果与prj.conf合并使用。 
 
-5. Otherwise, if board revisions are used and`boards/<BOARD>_<revision>.conf`exists in the applicationdirectory, the result of merging it with`prj.conf`and`boards/<BOARD>.conf`is used.
-5. 如果board版本使用`boards/<BOARD>_<revision>.conf`存在应用程序目录中，则结果与`prj.conf`和`boards/<BOARD>.conf`合并使用。
+5. Otherwise, if board revisions are used and`boards/<BOARD>_<revision>.conf`exists in the applicationdirectory, the result of merging it with`prj.conf`and`boards/<BOARD>.conf`is used.  
+ 如果board版本使用`boards/<BOARD>_<revision>.conf`存在应用程序目录中，则结果与`prj.conf`和`boards/<BOARD>.conf`合并使用。
 
-6. Otherwise,`prj.conf`is used if it exists in the applicationdirectory
-6. 如果`prj.conf`存在应用目录中，则使用它。
+6. Otherwise,`prj.conf`is used if it exists in the applicationdirectory  
+  如果`prj.conf`存在应用目录中，则使用它。
 
 If a symbol is assigned both in`<BOARD>_defconfig`and in theapplication configuration, the value set in the application configuration takesprecedence.  
 如果在`<BOARD>_defconfig`和应用配置中都指定了选项，则应用配置中的赋值优先使用。
 
 The merged configuration is saved tozephyr/.configin the builddirectory.  
-合并后的配置保存在`zephyr/build/zephyr/.config`构建目录中。
+合并后的配置保存在`zephyr/.config`构建目录中。
 
 As long aszephyr/.configexists and is up-to-date (is newer than anyBOARDand application configuration files), it will be used in preferenceto producing a new merged configuration.zephyr/.configis also theconfiguration that gets modified when making changes in theinteractiveconfiguration interfaces.  
-只要 `zephyr/build/zephyr/.config`存在并配置是最新的，它都优先级高于任何BOARD和应用程序配置文件的合并配置。`zephyr/build/zephyr/.config`也可在[交互式配置界面](./Kconfig_gui.md)进行更改配置。
+只要 `zephyr/.config`存在并配置是最新的，它都优先级高于任何BOARD和应用程序配置文件的合并配置。`zephyr/.config`也可在[交互式配置界面](./Kconfig_gui.md)进行更改配置。
 
 ## 配置不可见选项
 
