@@ -17,6 +17,16 @@
       "application/board",
       {
         "type": "category",
+        "label": "烧录与调试",
+        "items": [
+          "gdbdebug/overview",
+          "gdbdebug/csk6_load",
+          "gdbdebug/gdbdebug-daplink",
+          "gdbdebug/gdbdebug-jlink"
+        ]
+      },
+      {
+        "type": "category",
         "label": "配套命令行工具",
         "items": [
           "tool/lisa_plugin_zephyr/install",
