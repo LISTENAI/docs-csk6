@@ -48,8 +48,8 @@ Boolean configuration options are shown with [ ] brackets, while numeric and str
 
 * 使用箭头键导航菜单，支持常见的vim键绑定。
   
-* 使用 `space` 和 `enter` 进入菜单和切换值，出现`--->`表示表示菜单。按下`ESC`以返回父菜单。
-布尔值配置选项用 `[ ]` 括号显示,数字和字符串值用 `( )` 显示，无法更改的值用 `--` 或 `-*-` 
+* 使用 `空格` 和 `回车`键进入菜单和切换值，菜单旁边会显示`--->`。按下`ESC`以返回父菜单。
+布尔值配置选项用 `[ ]` 括号显示,数字和字符串值用 `( )` 显示，无法更改的值显示为 `--` 或 `-*-` 。
 
 :::info
 你也可以用`Y`或`N`对布尔值进行设置
@@ -68,7 +68,7 @@ Press Y to save the kernel configuration options to the default filename (zephyr
 :::info 
 The configuration file used during the build is always zephyr/.config. If you have another saved configuration that you want to build with, copy it to zephyr/.config. Make sure to back up your original configuration file.
 Also note that filenames starting with . are not listed by ls by default on Linux and macOS. Use the -a flag to see them.   
-构建期间使用的文件始终为 `zephyr/.config`. 如果你有另外一个要构建的已保存配置想构建，可将其复制到 `/build/zephyr/.config`. 复制前确保你的原始配置文件已备份  
+构建期间使用的文件始终为 `zephyr/.config`. 如果你有另外一个要构建的已保存配置想构建，可将其复制到 `zephyr/.config`. 复制前确保你的原始配置文件已备份  
 另外注意的是，在Linux和macOS上默认情况下 `.` 开头的文件不会显示，可用 `ls -a`  来查看
 :::
 
@@ -109,6 +109,6 @@ In menuconfig, you can press Ctrl-F to view the help of the currently selected i
 
 ```
 
-For more information on `menuconfig` , see the Python docstrings at the top of [menuconfig.py](https://github.com/zephyrproject-rtos/zephyr/blob/main/scripts/kconfig/menuconfig.py) .  
+For more information on `menuconfig` , see the Python docstrings at the top of [menuconfig.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/menuconfig.py) .  
 
 有关 `menuconfig` 的更多信息，请参考 [menuconfig.py](#)。
