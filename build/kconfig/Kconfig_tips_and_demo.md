@@ -35,23 +35,23 @@ The official Kconfig documentation is [kconfig-language.rst](https://www.kernel.
 *  Assignments to promptless symbols in configuration files
 *  [对配置文件中非提示选项的赋值](#atpsicf)
 *  `depends on` and `string/int/hex` symbols
-*  `depends on` 和 `string/int/hex` 选项
+*  [`depends on` 和 `string/int/hex` 选项](#doass)
 *  menuconfig symbols
-*  `menuconfig` 选项
+*  [`menuconfig` 选项](#ms)
 *  Checking changes in menuconfig/guiconfig
-*  检查 menuconfig/guiconfig 中的更改
+*  [检查 menuconfig/guiconfig 中的更改](#ccimg)
 *  Checking changes with scripts/kconfig/lint.py
-*  检查更改 `scripts/kconfig/lint.py`
+*  [检查更改 `scripts/kconfig/lint.py`](#ccws)
 *  Style recommendations and shorthands
-*  风格建议和简写
+*  [风格建议和简写](#sras)
     - Factoring out common dependencies
-    - 分解常见的依赖项
+    - [分解常见的依赖项](#focd)
     - Redundant defaults
-    - 冗余默认值
+    - [冗余默认值](#rd)
     - Common Kconfig shorthands
-    - 常用Kconfig和简写
+    - [常用Kconfig和简写](#cks)
     - Prompt strings
-    - 提示字符串
+    - [提示字符串](#ps)
     - Header comments and other nits
     - 标题注释和其他细节
 * Lesser-known/used Kconfig features
@@ -438,5 +438,293 @@ It is a good idea to try out changes in the menuconfig or guiconfig interface, t
 ## <span id="atpsicf">对配置文件中非提示选项的赋值</span>
 
 Assignments to hidden (promptless, also called invisible) symbols in configuration files are always ignored. Hidden symbols get their value indirectly from other symbols, via e.g. default and select.  
-对配置文件中的非提示符号（或不可见符号）的赋值总是被忽略。非提示符号通过例如`default`和间接从`select`其他选项获取。
+对配置文件中的非提示符号（或不可见符号）的赋值总是被忽略。非提示符号通过如`default`和间接从`select`其他选项获取。
 
+
+A common source of confusion is opening the output configuration file (zephyr/.config), seeing a bunch of assignments to hidden symbols, and assuming that those assignments must be respected when the configuration is read back in by Kconfig. In reality, all assignments to hidden symbols in zephyr/.config are ignored by Kconfig, like for other configuration files.  
+造成混乱的一个原因是打开输出的配置文件(`zephyr/.config`)，查看隐藏符号的一系列赋值，并当配置被 Kconfig 读回时必须遵循这些赋值。实际上，对于`zephyr/.config`中的隐藏符号与其他配置文件的所有赋值一样，都会被忽略。
+
+To understand why zephyr/.config still includes assignments to hidden symbols, it helps to realize that zephyr/.config serves two separate purposes:  
+要理解为什么 `zephyr/.config` 仍然包含对隐藏符号的赋值，可以知道 `zephyr/.config` 有两个不同的用途:
+
+:::info
+A minimal configuration, which can be generated from within the menuconfig interfaces, could be considered closer to just a saved configuration, without the full configuration output.
+可以从menuconfig中生成更接近保存配置的最小配置，而不需要完成的配置输出。
+:::
+
+## <span id="doass">`depends on` 和 `string/int/hex` </span>
+
+depends on works not just for bool symbols, but also for string, int, and hex symbols (and for choices).  
+`depends on` 不仅能使用`bool`符号，还能使用`string`、`int`和`hex`符号（以及choices）.
+
+The Kconfig definitions below will hide the FOO_DEVICE_FREQUENCY symbol and disable any configuration output for it when FOO_DEVICE is disabled.  
+下面的Kconfig定义将隐藏`FOO_DEVICE_FREQUENCY`符号，并禁用`FOO_DEVICE`时禁用该选项的任何输出。
+```
+config FOO_DEVICE
+     bool "Foo device"
+
+config FOO_DEVICE_FREQUENCY
+     int "Foo device frequency"
+     depends on FOO_DEVICE
+```
+In general, it’s a good idea to check that only relevant symbols are ever shown in the menuconfig/guiconfig interface. Having FOO_DEVICE_FREQUENCY show up when FOO_DEVICE is disabled (and possibly hidden) makes the relationship between the symbols harder to understand, even if code never looks at FOO_DEVICE_FREQUENCY when FOO_DEVICE is disabled.  
+通常，检查 `menuconfig` 界面中是否只显示相关选项时一个好的方案。当`FOO_DEVICE` 被禁用（隐藏），`FOO_DEVICE_FREQUENCY`显示会让选项之间的关系更难理解。即使代码在禁用`FOO_DEVICE`时从不查看`FOO_DEVICE_FREQUENCY`。
+
+
+## <span id="ms">`menuconfig` 选项 </span>
+
+If the definition of a symbol FOO is immediately followed by other symbols that depend on FOO, then those symbols become children of FOO. If FOO is defined with config FOO, then the children are shown indented relative to FOO. Defining FOO with menuconfig FOO instead puts the children in a separate menu rooted at FOO.  
+如果选项`FOO`的定义后面跟着其他依赖`FOO`的选项，那么这些选项就成为`FOO`的子项。如果`FOO`定义为`config FOO` ,则子项在`FOO`中将缩进显示。使用`menuconfig FOO`定义的`FOO`，取而代之的是把子菜单放在`FOO`的独立菜单中。
+
+menuconfig has no effect on evaluation. It’s just a display option.  
+`menuconfig`对定值没有影响，它只是一个显示选项。
+
+menuconfig can cut down on the number of menus and make the menu structure easier to navigate. For example, say you have the following definitions:  
+menuconfig可以减少菜单的数量，使菜单结构更容易导航。例如，假设你有以下定义：
+
+```
+menu "Foo subsystem"
+
+config FOO_SUBSYSTEM
+     bool "Foo subsystem"
+
+if FOO_SUBSYSTEM
+
+config FOO_FEATURE_1
+     bool "Foo feature 1"
+
+config FOO_FEATURE_2
+     bool "Foo feature 2"
+
+config FOO_FREQUENCY
+     int "Foo frequency"
+
+... lots of other FOO-related symbols
+
+endif # FOO_SUBSYSTEM
+
+endmenu
+```
+
+In this case, it’s probably better to get rid of the menu and turn FOO_SUBSYSTEM into a menuconfig symbol:  
+在这种情况下，最好去掉`menu`并把`FOO_SUBSYSTEM`转为`menuconfig`选项。
+
+```
+menuconfig FOO_SUBSYSTEM
+     bool "Foo subsystem"
+
+if FOO_SUBSYSTEM
+
+config FOO_FEATURE_1
+     bool "Foo feature 1"
+
+config FOO_FEATURE_2
+     bool "Foo feature 2"
+
+config FOO_FREQUENCY
+     int "Foo frequency"
+
+... lots of other FOO-related symbols
+
+endif # FOO_SUBSYSTEM
+```
+
+In the menuconfig interface, this will be displayed as follows:  
+在`menuconfig`界面中显示如下：
+```
+[*] Foo subsystem  --->
+```
+
+Note that making a symbol without children a menuconfig is meaningless. It should be avoided, because it looks identical to a symbol with all children invisible:  
+值得注意的是，将没有子元素的选项设为菜单配置没有意义。应该避免使用，因为它看起来跟所有子项一样，都不可见：
+```
+[*] I have no children  ----
+[*] All my children are invisible  ----
+```
+
+## <span id="ccimg">检查 menuconfig/guiconfig 中的更改</span>
+
+When adding new symbols or making other changes to Kconfig files, it is a good idea to look up the symbols in menuconfig or guiconfig afterwards. To get to a symbol quickly, use the jump-to feature (press /).  
+在添加新的符号或对 Kconfig 文件进行其他更改时，最好随后在 [menuconfig](Kconfig_gui.md) 或 guiconfig 中查找这些符号。要快速获得一个符号，使用跳转功能(按`/`)。
+
+Here are some things to check:  
+以下是一些需要检查的事项：
+
+* Are the symbols placed in a good spot? Check that they appear in a menu where they make sense, close to related symbols.
+  If one symbol depends on another, then it’s often a good idea to place it right after the symbol it depends on. It will then be shown indented relative to the symbol it depends on in the menuconfig interface. This also works if several symbols are placed after the symbol they depend on.
+* 这些符号放在合适的位置了吗？检查它们是否出现在菜单中靠近相关的选项有意义的地方。
+  如果一个选项依赖于另一个选项，那么把它放在它所依赖的选项之后通常是个好的方式。
+  在`menuconfig`界面中，它所依赖的选项将缩紧显示。如果把若干个选项放在它们以来的选项之后，也可以这样做。
+
+* Is it easy to guess what the symbols do from their prompts?
+* 是否容易从提示符中猜出选项的作用？
+* If many symbols are added, do all combinations of values they can be set to make sense?
+  For example, if two symbols FOO_SUPPORT and NO_FOO_SUPPORT are added, and both can be enabled at the same time, then that makes a nonsensical configuration. In this case, it’s probably better to have a single FOO_SUPPORT symbol.
+* 如果添加了很多选项，它们所有值的组合是否有意义？
+  例如：如果添加了两个符号`FOO_SUPPORT`和`NO_FOO_SUPPORT`,并且两个选项都同时启用，那么这样的配置就毫无意义。在这种情况下，最好使用单个`FOO_SUPPORT`。
+
+* Are there any duplicated dependencies?
+  This can be checked by selecting a symbol and pressing ? to view the symbol information. If there are duplicated dependencies, then use the Included via ... path shown in the symbol information to figure out where they come from.  
+
+* 是否有任何重复的依赖项？
+  这可以通过选择一个选项和按`?`查看选项信息来检查。如果存在重复的依赖关系，那么使用选项信息中显示`included via ...`路径来确认它们的来源。
+
+## <span id="ccws">检查更改 `scripts/kconfig/lint.py`</span>
+
+After you make Kconfig changes, you can use the scripts/kconfig/lint.py script to check for some potential issues, like unused symbols and symbols that are impossible to enable. Use --help to see available options.   
+更改Kconfig后，可以使用[scripts/kconfig/lint.py](https://github.com/zephyrproject-rtos/zephyr/blob/main/scripts/kconfig/lint.py)脚本来检查一些潜在问题，例如未使用的和无法启用的选项。使用`--help`查看可用选项。
+
+
+Some checks are necessarily a bit heuristic, so a symbol being flagged by a check does not necessarily mean there’s a problem. If a check returns a false positive e.g. due to token pasting in C (CONFIG_FOO_##index##_BAR), just ignore it.  
+有些检查必然带有一点启发性，因此检查标记的选项并不一定意味着存在问题。如果检查返回一个假建议，例如由于标记粘贴在C`(CONFIG_FOO_##index##_BAR)`中，那么就忽略它。
+
+When investigating an unknown symbol FOO_BAR, it is a good idea to run git grep FOO_BAR to look for references. It is also a good idea to search for some components of the symbol name with e.g. git grep FOO and git grep BAR, as it can help uncover token pasting.  
+当研究未知选项 `FOO_BAR` 时，最好执行`git grep FOO_BAR`来查找引用，使用`git grep FOO`和`git grep BAR`搜索选项名的某些组件也是一个好的方式，因为它可以帮助发现标记黏贴。
+
+## <span id="sras">风格建议和简写</span>
+
+This section gives some style recommendations and explains some common Kconfig shorthands.  
+本节提供一些样式建议，并解释一些常见的 Kconfig 简写。
+
+### <span id="focd">分解常见的依赖项</span>
+
+If a sequence of symbols/choices share a common dependency, the dependency can be factored out with an if.  
+如果一系列符号/选项共用一个公共依赖项，可以使用`if`。
+
+As an example, consider the following code:  
+例如，考虑以下代码：
+
+```
+config FOO
+     bool "Foo"
+     depends on DEP
+
+config BAR
+     bool "Bar"
+     depends on DEP
+
+choice
+     prompt "Choice"
+     depends on DEP
+
+config BAZ
+     bool "Baz"
+
+config QAZ
+     bool "Qaz"
+
+endchoice
+```
+
+Here, the DEP dependency can be factored out like this:  
+在这里，`DEP` 依赖关系可以像下面这样分解:
+
+```
+if DEP
+
+config FOO
+     bool "Foo"
+
+config BAR
+     bool "Bar"
+
+choice
+     prompt "Choice"
+
+config BAZ
+     bool "Baz"
+
+config QAZ
+     bool "Qaz"
+
+endchoice
+
+endif # DEP
+```
+
+:::info
+Internally, the second version of the code is transformed into the first.  
+在代码内部的第二个版本转换为第一个版本。
+:::
+
+If a sequence of symbols/choices with shared dependencies are all in the same menu, the dependency can be put on the menu itself:  
+如果具有共用依赖关系的一系列符号/选项都在同一个菜单中，那么这个依赖关系可以放在菜单本身上:
+```
+menu "Foo features"
+     depends on FOO_SUPPORT
+
+config FOO_FEATURE_1
+     bool "Foo feature 1"
+
+config FOO_FEATURE_2
+     bool "Foo feature 2"
+
+endmenu
+```
+
+If `FOO_SUPPORT` is `n`, the entire menu disappears.
+如果 `FOO_SUPPORT` 为 `n`，则整个菜单都会消失。
+
+### <span id="rd">冗余默认值</span>
+
+bool symbols implicitly default to n, and string symbols implicitly default to the empty string. Therefore, default n and default "" are (almost) always redundant.  
+`bool`符号隐式默认为`n`，`string`符号隐式默认为空字符串。因此`default n` 和 `default ""` 是冗余的。
+
+
+The recommended style in Zephyr is to skip redundant defaults for bool and string symbols. That also generates clearer documentation: (Implicitly defaults to n instead of n if <dependencies, possibly inherited>).  
+csk6中推荐的样式是跳过`bool`和`string`符号的冗余默认值。这也生成了更清晰的文档：（如果<dependencies, possibly inherited>，则隐式默认为n而不是n）。
+
+:::info 
+The one case where default n/default "" is not redundant is when defining a symbol in multiple locations and wanting to override e.g. a default y on a later definition.  
+默认值`default n `/` default ""`不冗余的一种情况是在若干个位置定义选项，并希望在以后的定义中覆盖默认值`y`。
+:::
+
+Defaults should always be given for int and hex symbols, however, as they implicitly default to the empty string. This is partly for compatibility with the C Kconfig tools, though an implicit 0 default might be less likely to be what was intended compared to other symbol types as well.  
+但是，应该始终为 `int` 和 `hex` 符号提供默认值，因为它们隐式默认为空字符串。这在一定程度上是为了与 C Kconfig 工具兼容，尽管与其他符号类型相比，隐式的0默认值不太可能达到预期效果.
+
+### <span id="cks">常用Kconfig和简写</span>
+
+Kconfig has two shorthands that deal with prompts and defaults.  
+Kconfig 有两个处理提示和默认值的简写。
+
+* `<type> "prompt" is a shorthand` for giving a symbol/choice a type and a prompt at the same time. These two definitions are equal:  
+* `<type> "prompt"` 是同时提供符号/选择类型和提示符的简写。这两个定义是相等的:
+  ```
+  config FOO
+    bool "foo"
+  ```
+  ```
+  config FOO
+    bool
+    prompt "foo"
+  ```
+
+  The first style, with the shorthand, is preferred in Zephyr.  
+  csk中首选第一种样式，它更简短。
+
+* `def_<type> <value>` is a shorthand for giving a type and a value at the same time. These two definitions are equal:
+* `def_<type> <value>` 是同时给出类型和值的缩写。这两个定义是相等的：
+  ```
+  config FOO
+    def_bool BAR && BAZ
+  ```
+  ```
+  config FOO
+    bool
+    default BAR && BAZ
+  ```
+
+Using both the `<type> "prompt"` and the `def_<type> <value>` shorthand in the same definition is redundant, since it gives the type twice.  
+在同一个定义中同时使用 `<type> "prompt"`和 `def_<type> <value>` 简写是多余的，因为它给出了两次类型。
+
+The `def_<type> <value>` shorthand is generally only useful for symbols without prompts, and somewhat obscure.  
+`def_<type> <value>`简写通常只对没有提示符的选项有用，而且不容易理解。
+
+:::info 
+For a symbol defined in multiple locations (e.g., in a Kconfig.defconfig file in Zephyr), it is best to only give the symbol type for the “base” definition of the symbol, and to use default (instead of `def_<type> value`) for the remaining definitions. That way, if the base definition of the symbol is removed, the symbol ends up without a type, which generates a warning that points to the other definitions. That makes the extra definitions easier to discover and remove.  
+在多个位置定义选项（例如在csk中的`Kconfig.defconfig`）,最好只为该选项的“base”定义提供符号类型，并对其余定义使用 `default` (而不是 `def_<type> value`)。这样，如果删除了该选项的基本定义，则该符号最终将没有类型，该类型将生成指向其他定义的警告。这使得额外的定义更容易发现和删除。
+:::
+
+### <span id="ps">提示字符串</span>
+
+For a Kconfig symbol that enables a driver/subsystem FOO, consider having just “Foo” as the prompt, instead of “Enable Foo support” or the like. It will usually be clear in the context of an option that can be toggled on/off, and makes things consistent.
