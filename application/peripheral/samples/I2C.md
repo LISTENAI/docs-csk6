@@ -21,24 +21,44 @@ CSK6 I2C驱动功能特性如下：
 
 <br/>
 
-配置主机的I2C控制器
+I2C配置
 
 ```c
 int i2c_configure(const struct device *dev, uint32_t dev_config);
 ```
+
+配置主机的i2c控制器，成功返回0，失败返回非0。
+
+**参数说明**
 
 | 字段       | 说明                    |
 | ---------- | ----------------------- |
 | dev        | 指向I2C Device的指针    |
 | dev_config | I2C运行时的配置值，32位 |
 
+**dev_config可取以下选项**
+
+| **宏定义**          | **作用**                                              |      |
+| ------------------- | ----------------------------------------------------- | ---- |
+| I2C_SPEED_STANDARD  | 标准模式：100 kHz                                     |      |
+| I2C_SPEED_FAST      | 快速模式：400 kHz                                     |      |
+| I2C_SPEED_FAST_PLUS | 快速模式+：1 MHz                                      |      |
+| I2C_SPEED_HIGH      | 高速模式：3.4 MHz                                     |      |
+| I2C_SPEED_ULTRA     | 超快速模式：5 MHz                                     |      |
+| I2C_MODE_MASTER     | 使当前控制器作为主控制器                              |      |
+| I2C_ADDR_10_BITS    | 使用10位寻址。（不推荐使用-改用I2C_MSG_ADDR_10_BITS） |      |
+
 <br/>
 
-将数据写入I2C设备
+I2C写
 
 ```c
 static int i2c_write(const struct device *dev, const uint8_t *buf, uint32_t	num_bytes, uint16_t	addr);
 ```
+
+将数据写入I2C设备，此函数写入一次会产生起始与终止信号，成功返回0，失败返回非0。
+
+**参数说明**
 
 | 参数名    | 介绍                 |
 | :-------- | :------------------- |
@@ -49,11 +69,15 @@ static int i2c_write(const struct device *dev, const uint8_t *buf, uint32_t	num_
 
 <br/>
 
-从I2C设备读取数据
+I2C读
 
 ```c
 static int i2c_read(const struct device * dev, uint8_t *buf, uint32_t num_bytes, uint16_t addr);
 ```
+
+从I2C设备读取数据，此函数读取一次会产生起始与终止信号，成功返回0，失败返回非0。
+
+**参数说明**
 
 | 参数名    | 介绍                 |
 | :-------- | :------------------- |
