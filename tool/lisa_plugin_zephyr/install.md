@@ -26,7 +26,7 @@ import TabItem from '@theme/TabItem';
 <p>2. 根据安装引导进行安装。</p>
 
 :::note
-**Lisa & Zephyr Installer** 是面向Windows操作系统的开发的CSK6开发环境一体化安装包，支持SDK一键拉取与配置，方便开发者快速构建开发环境。
+**Lisa & Zephyr Installer** 是面向Windows操作系统的开发的 CSK6 开发环境一体化安装包，支持 SDK 一键拉取与配置，方便开发者快速构建开发环境。
 :::
 
   </TabItem>
@@ -57,7 +57,7 @@ lisa zep install
   </TabItem>
 </Tabs>
 
-安装 SDK 完毕后，你可能需要了解一下如何配置 SDK。那么请参考下面的章节。
+安装 Lisa Zephyr 完毕后，你可能需要了解一下如何通过 Lisa Zephyr 去开发应用。那么请参考下面的章节。
 
 - [基础设置](../lisa_plugin_zephyr/basic.md)
 
