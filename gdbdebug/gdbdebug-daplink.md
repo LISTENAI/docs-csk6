@@ -11,7 +11,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 ## 准备工作
 - CSK6-NanoKit 开发板，DAPLink 调试 USB 口接 PC 端。
-- PC 端安装 `VS Code`，根据系统类型选择对应的 Windows 或 Linux 版本，[visual studio官网下载入口](https://code.visualstudio.com/Download)。
+- PC 端安装 `VS Code`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
 - `csk6002_9s_nano` 的日志串口 `A03 TX A02 RX` 接串口板连接电脑，以便在电脑端使用串口调试助手查看日志，波特率为 115200。
 
 ## 调试过程
