@@ -11,6 +11,7 @@
     "items": [
       "application/overview",
       "application/getting_start",
+      "application/application_development",
       "application/structure",
       "application/kconfig",
       "application/device_tree",
