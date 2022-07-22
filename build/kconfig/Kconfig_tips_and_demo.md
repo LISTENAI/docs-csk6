@@ -53,16 +53,19 @@ The official Kconfig documentation is [kconfig-language.rst](https://www.kernel.
     - Prompt strings
     - [提示字符串](#ps)
     - Header comments and other nits
-    - 标题注释和其他细节
+    - [标题注释和其他细节](#hcaon)
 * Lesser-known/used Kconfig features
-* 使用频率较低的 Kconfig 特性
+* [使用频率较低的 Kconfig 特性](#lkkf)
     - The imply statement
-    - imply 声明
+    - [imply 声明](#tis)
     - Optional prompts
-    - [可选提示](#op)
+    - [可选提示符](#op)
     - Optional choices
-    - 可选选项
+    - [可选选项](#oc)
     - visible if conditions
+    - [`visible if` 条件](#vic)
+* Other resources
+* [其他资源](#or)
 
 ## <span id="wttiko">什么能变为 Kconfig 的选项</span>
 
@@ -114,7 +117,7 @@ An alternative applicable to device drivers is to define a GPIO specifier with t
 一种可代替的方法是设备驱动程序在设备绑定中定义类型为 phandle-array 并使用C语言的GPIO设备树API。类似的建议也适用于 devicetree.h 为引用系统中的其他节点提供[特定硬件API](#)的其他情况。例如，在源代码中搜索使用这些 API 的驱动程序。
 
 An application-specific devicetree binding to identify board specific properties may be appropriate. See [tests/drivers/gpio/gpio_basic_api](#) for an example.  
-可以使用特定应用程序的设备树[绑定](#)来标记board的特定属性。有关示例，请参考[tests/drivers/gpio/gpio_basic_api](https://github.com/zephyrproject-rtos/zephyr/tree/main/tests/drivers/gpio/gpio_basic_api)
+可以使用特定应用程序的设备树[绑定](#)来标记board的特定属性。有关示例，请参考[tests/drivers/gpio/gpio_basic_api](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/tests/drivers/gpio/gpio_basic_api)
 
 For applications, see Blinky for a devicetree-based alternative.
 有关的应用程序，请参考 [Blinky](#) 了解基于设备树的替代方案。
@@ -572,7 +575,7 @@ Here are some things to check:
 ## <span id="ccws">检查更改 `scripts/kconfig/lint.py`</span>
 
 After you make Kconfig changes, you can use the scripts/kconfig/lint.py script to check for some potential issues, like unused symbols and symbols that are impossible to enable. Use --help to see available options.   
-更改Kconfig后，可以使用[scripts/kconfig/lint.py](https://github.com/zephyrproject-rtos/zephyr/blob/main/scripts/kconfig/lint.py)脚本来检查一些潜在问题，例如未使用的和无法启用的选项。使用`--help`查看可用选项。
+更改Kconfig后，可以使用[scripts/kconfig/lint.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/lint.py)脚本来检查一些潜在问题，例如未使用的和无法启用的选项。使用`--help`查看可用选项。
 
 
 Some checks are necessarily a bit heuristic, so a symbol being flagged by a check does not necessarily mean there’s a problem. If a check returns a false positive e.g. due to token pasting in C (CONFIG_FOO_##index##_BAR), just ignore it.  
@@ -727,4 +730,191 @@ For a symbol defined in multiple locations (e.g., in a Kconfig.defconfig file in
 
 ### <span id="ps">提示字符串</span>
 
-For a Kconfig symbol that enables a driver/subsystem FOO, consider having just “Foo” as the prompt, instead of “Enable Foo support” or the like. It will usually be clear in the context of an option that can be toggled on/off, and makes things consistent.
+For a Kconfig symbol that enables a driver/subsystem FOO, consider having just “Foo” as the prompt, instead of “Enable Foo support” or the like. It will usually be clear in the context of an option that can be toggled on/off, and makes things consistent.  
+对于启用驱动程序/子系统 FOO 的 Kconfig 选项，请考虑仅使用“FOO”作为提示符，而不是类似“Enable FOO support”之类的命令。它通常在一个选项的上下文是清晰的，这个选项可以打开或关闭，并保持一致。
+
+### <span id="hcaon">标题注释和其他细节</span>
+
+A few formatting nits, to help keep things consistent:  
+一些格式化上的细节帮助保持一致:
+
+* Use this format for any header comments at the top of `Kconfig` files:  
+* 将此格式用于`Kconfig`文件顶部的任何标题注释:
+  ```
+    # <Overview of symbols defined in the file, preferably in plain English>
+    (Blank line)
+    # Copyright (c) 2019 ...
+    # SPDX-License-Identifier: <License>
+    (Blank line)
+    (Kconfig definitions)
+  ```
+
+* Format comments as # Comment rather than #Comment  
+* 将注释格式化为 `# 评论` 而不是 `#评论`
+
+* Put a blank line before/after each top-level if and endif
+* 在每个顶部`if`和`endif`之前/之后放一个空行
+
+* Use a single tab for each indentation
+* 对于每个缩进使用一个tab
+
+* Indent help text with two extra spaces
+* 用两个额外空格缩进帮助文本
+
+## <span id="lkkf">使用频率较低的 Kconfig 特性</span>
+
+This section lists some more obscure Kconfig behaviors and features that might still come in handy.  
+本章节列出一些更隐晦的Kconfig行为和特性，它们可能仍然可以派上用场。
+
+### <span id="tis">imply 声明</span>
+
+The imply statement is similar to select, but respects dependencies and doesn’t force a value. For example, the following code could be used to enable USB keyboard support by default on the FOO SoC, while still allowing the user to turn it off:  
+`imply`语句和`select`类似，但遵循依赖关系并不强制使用值。例如，下面代码可以用在 FOO SoC 上默认启用 USB 键盘支持，同时仍允许用户关闭它：
+
+```
+config SOC_FOO
+     bool "FOO SoC"
+     imply USB_KEYBOARD
+
+...
+
+config USB_KEYBOARD
+     bool "USB keyboard support"
+```
+
+imply acts like a suggestion, whereas select forces a value.  
+`imply` 就像一个建议行为，而 `select` 强制使用一个值。
+
+### <span id="op">可选提示符</span>
+
+A condition can be put on a symbol’s prompt to make it optionally configurable by the user. For example, a value MASK that’s hardcoded to 0xFF on some boards and configurable on others could be expressed as follows:  
+可以在选项提示符上放一个条件，使用户可以选择配置该条件。例如，`MASK`在某些板型上硬编码为0xFF,而在其他板型上可配置的值可以表示如下：
+
+```
+config MASK
+     hex "Bitmask" if HAS_CONFIGURABLE_MASK
+     default 0xFF
+```
+
+:::info 
+This is short for the following:  
+这是以下内容的简写：
+```
+config MASK
+  hex
+  prompt "Bitmask" if HAS_CONFIGURABLE_MASK
+  default 0xFF
+```
+:::
+
+The HAS_CONFIGURABLE_MASK helper symbol would get selected by boards to indicate that MASK is configurable. When MASK is configurable, it will also default to 0xFF.  
+板子选择 `HAS_CONFIGURABLE_MASK` 帮助符号时表明它`MASK`是可配置的。当`MASK`可配置时，它也将默认为0xFF。
+
+### <span id="oc">可选选项</span>
+
+Defining a choice with the optional keyword allows the whole choice to be toggled off to select none of the symbols:  
+使用关键字`optional`定义选项, 可以不选择任何符号关闭整个选项:
+
+```
+choice
+     prompt "Use legacy protocol"
+     optional
+
+config LEGACY_PROTOCOL_1
+     bool "Legacy protocol 1"
+
+config LEGACY_PROTOCOL_2
+     bool "Legacy protocol 2"
+
+endchoice
+```
+
+In the menuconfig interface, this will be displayed e.g. as [*] Use legacy protocol (Legacy protocol 1) --->, where the choice can be toggled off to enable neither of the symbols.  
+在 `menuconfig` 界面中，这会显示为 `[*] Use legacy protocol (Legacy protocol 1) --->` ，例如，可以不使用任何符号关闭选项。
+
+### <span id="vic">`visible if` 条件</span>
+
+Putting a visible if condition on a menu hides the menu and all the symbols within it, while still allowing symbol default values to kick in.  
+在菜单上设置`visible if`会隐藏菜单和里面的所有符号，同时仍然允许符号的默认值生效。
+
+As a motivating example, consider the following code:   
+作为一个示例，可以考虑以下代码：
+
+```
+menu "Foo subsystem"
+     depends on HAS_CONFIGURABLE_FOO
+
+config FOO_SETTING_1
+     int "Foo setting 1"
+     default 1
+
+config FOO_SETTING_2
+     int "Foo setting 2"
+     default 2
+
+endmenu
+```
+
+When HAS_CONFIGURABLE_FOO is n, no configuration output is generated for FOO_SETTING_1 and FOO_SETTING_2, as the code above is logically equivalent to the following code:  
+当`HAS_CONFIGURABLE_FOO`为`n`时，不会为`FOO_SETTING_1`和`FOO_SETTING_2`生成配置输出，因为上面代码逻辑等价于下面代码：
+
+```
+config FOO_SETTING_1
+     int "Foo setting 1"
+     default 1
+     depends on HAS_CONFIGURABLE_FOO
+
+config FOO_SETTING_2
+     int "Foo setting 2"
+     default 2
+     depends on HAS_CONFIGURABLE_FOO
+```
+
+If we want the symbols to still get their default values even when HAS_CONFIGURABLE_FOO is n, but not be configurable by the user, then we can use visible if instead:  
+如果我们希望`HAS_CONFIGURABLE_FOO`为`n`时这些符号仍然获得它们的默认值，但是用户不能配置它们，那么我们可以使用`visible if`:
+```
+menu "Foo subsystem"
+     visible if HAS_CONFIGURABLE_FOO
+
+config FOO_SETTING_1
+     int "Foo setting 1"
+     default 1
+
+config FOO_SETTING_2
+     int "Foo setting 2"
+     default 2
+
+endmenu
+```
+
+This is logically equivalent to the following:  
+这里的逻辑等价于下面的内容：
+```
+config FOO_SETTING_1
+     int "Foo setting 1" if HAS_CONFIGURABLE_FOO
+     default 1
+
+config FOO_SETTING_2
+     int "Foo setting 2" if HAS_CONFIGURABLE_FOO
+     default 2
+```
+
+:::info 
+See the optional prompts section for the meaning of the conditions on the prompts.  
+有关[可选提示符](#op)的含义，请参阅可选提示部分。
+:::
+
+When HAS_CONFIGURABLE is n, we now get the following configuration output for the symbols, instead of no output:  
+当`HAS_CONFIGURABLE_FOO`为`n`时，我们可以得到以下符号的配置输出，而不是没有输出：
+```
+...
+CONFIG_FOO_SETTING_1=1
+CONFIG_FOO_SETTING_2=2
+...
+```
+
+## <span id="or">其他资源</span>
+
+The Intro to symbol values section in the Kconfiglib docstring goes over how symbols values are calculated in more detail.
+
+[Kconfiglib 文档字符串](https://github.com/ulfalizer/Kconfiglib/blob/master/kconfiglib.py)的符号值入门部分将详细介绍如何运算符号值。
