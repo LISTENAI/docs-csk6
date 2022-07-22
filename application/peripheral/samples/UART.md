@@ -1,4 +1,4 @@
-# UART
+# 串口(UART)
 
 ## 概述
 UART是最常用的外设功能之一，csk6 sdk中串口数据通信方式有两种：轮询(polling)和中断(interrupt)，本章节将通过示例介绍 串口 API接口和使用方法。
@@ -18,7 +18,7 @@ CSK6 提供了3组UART外设（UART0、UART1、UART2)，  UART驱动具有如下
 int uart_poll_in(const struct device *dev, unsigned char *p_char)
 ```
 
-从设备中读取一个字符作为输入，这个接口检查接收方是否存在有效数据。当接收方存在有效数据时，该接口从设备中读取一个字符，存储到 p_char 指向的地址，并将调用线程返回0，否则返回 -1，是一个非阻塞调用。
+从设备中读取一个字符作为输入，这个接口检查接收方是否存在有效数据。当接收方存在有效数据时，该接口从设备中读取一个字符，存储到 p_char 指向的地址，并将调用线程返回0，否则返回 -1，该接口是一个非阻塞调用。
 
 **参数说明**
 
@@ -53,7 +53,7 @@ void uart_poll_out(const struct device *dev, unsigned char out_char)
 
 #### 准备工作
 本示例基于 `csk6002_9s_nano`开发板实现，使用了`uart0(GPIO_A_03, GPIO_A_06)`这组串口，在开发之前需要做如下准备工作：
-- 使用杜邦线将开发板上的uart0的TX、RX、GND和串口转接板接入PC。
+- 将开发板上的uart0通过串口转接板接入PC端。
 
 ![](./files/uart_pin_conect.png)
 
