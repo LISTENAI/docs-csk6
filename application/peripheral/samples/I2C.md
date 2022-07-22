@@ -6,7 +6,7 @@ I2C是我们常用的外设功能之一，CSK6 SDK I2C外设驱动采用标准�
 CSK6 芯片有两个I2C 硬件外设。
 CSK6 I2C驱动功能特性如下：
 
-- 支持主设备或从设备。
+- 支持主/从设备。
 - 支持三种可选传输速度模式 Standard-mode (100 kb/s)、Fast-mode (400 kb/s) 和Fast-mode plus (1 Mb/s)。
 - 支持DMA传送。
 - 支持主发、主收、从发、从收模式。
@@ -27,7 +27,7 @@ I2C配置
 int i2c_configure(const struct device *dev, uint32_t dev_config);
 ```
 
-配置主机的i2c控制器，成功返回0，失败返回非0。
+I2C主控制器的配置操作，成功返回0，失败返回非0。
 
 **参数说明**
 
