@@ -123,10 +123,7 @@
           {
             "type": "category",
             "label": "调度、中断与同步",
-            "items": [
-              "kernel/threads",
-              "kernel/system_threads"
-            ]
+            "items": ["kernel/threads", "kernel/system_threads"]
           }
         ]
       }
@@ -142,7 +139,14 @@
   {
     "type": "category",
     "label": "构建与配置系统",
-    "items": ["build/index"],
+    "items": [
+      "build/index",
+      {
+        "type": "category",
+        "label": "设备树",
+        "items": ["build/dts/design"]
+      }
+    ],
     "collapsed": true
   },
   {
