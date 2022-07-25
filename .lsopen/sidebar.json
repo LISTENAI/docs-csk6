@@ -79,33 +79,51 @@
       },
       {
         "type": "category",
-        "label": "系统组件",
+        "label": "系统服务",
         "items": [
           "application/modules/overview",
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
-          "application/modules/lvgl"
+          "application/modules/lvgl",
+          {
+            "type": "category",
+            "label": "音频",
+            "items": [
+              "application/audio/overview",
+              "application/audio/audio_record",
+              "application/audio/audio_playback",
+              "application/audio/audio_record_play"
+            ],
+            "collapsed": true
+          },
+          {
+            "type": "category",
+            "label": "网络",
+            "items": [
+              "application/network/overview",
+              "application/network/wifi_connect"
+            ],
+            "collapsed": true
+          }
         ],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "音频",
+        "label": "自定义驱动",
         "items": [
-          "application/audio/overview",
-          "application/audio/audio_record",
-          "application/audio/audio_playback",
-          "application/audio/audio_record_play"
+            "application/customdriver/custom-driver-display",
+            "application/customdriver/custom-driver-kscan",
+            "application/customdriver/custom-driver-video"
         ],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "网络",
+        "label": "自定义板型",
         "items": [
-          "application/network/overview",
-          "application/network/wifi_connect"
+            "application/board"
         ],
         "collapsed": true
       }
