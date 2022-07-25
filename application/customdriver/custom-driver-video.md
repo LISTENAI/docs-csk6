@@ -7,22 +7,22 @@
 在Zephyr应用程序目录下建立驱动目录drivers，并添加 BF30A2 显示屏驱动的.c文件，具体如下：
 ```
 app
-└── drivers
-    ├── video
-    |    ├── CMakeLists.txt
-    |    ├── Kconfig.bf30a2
-    |    └── bf30a2.c
-    ├── dts
-    |    └──bindings
-    |        └──video
-    |            ├── vendor-prefixes.txt
-    |            └── byd,bf30a2.yaml
-    ├── CMakeLists.txt
-    └── Kconfig.drivers
+├── drivers
+|    ├── video
+|    |    ├── CMakeLists.txt
+|    |    ├── Kconfig.bf30a2
+|    |    └── bf30a2.c
+|    ├── CMakeLists.txt
+|    └── Kconfig.drivers
+└── dts
+    └──bindings
+        └──video
+            ├── vendor-prefixes.txt
+            └── byd,bf30a2.yaml
 ```
 - driver 目录下可以添加多个驱动文件目录，例如本示例中需要添加摄像头驱动，则新增 video 文件夹，添加显示屏驱动时可增加display文件夹。
 - dts 目录存放自定义驱动的设备树绑定文件(byd,bf30a2.yaml)和厂商信息文件(vendor-prefixes.txt)。
-- BF30A2示例驱动文件包下载[点击这里下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/drivers.zip);
+- BF30A2示例驱动文件包下载[点击这里下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/drivers.zip)。
 ### 修改自定义驱动的 CMake 文件
 - 根据添加的自定义驱动修改 drivers/video 目录下的CMakeLists.txt文件，内容如下：
 ```c
