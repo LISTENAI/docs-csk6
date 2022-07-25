@@ -52,11 +52,11 @@ The kernel allows a delayed start to be canceled before the thread begins execut
 
 Once a thread is started it typically executes forever. However, a thread may synchronously end its execution by returning from its entry point function. This is known as **termination**.
 
-线程一旦启动，它通常会一直运行下去。不过，线程也可以从它的入口点函数中返回，从而结束执行。这种结束方式叫做 **正常结束（terminaltion）**。
+线程一旦启动，它通常会一直运行下去。不过，线程也可以从它的入口点函数中返回，从而结束执行。这种结束方式叫做 **正常结束(terminaltion)**。
 
 A thread that terminates is responsible for releasing any shared resources it may own (such as mutexes and dynamically allocated memory) prior to returning, since the kernel does *not* reclaim them automatically.
 
-正常结束的线程需要在返回前释放它所拥有的共享资源（例如互斥量、动态分配的内存）。内核不会自动回收这些资源。
+正常结束的线程需要在返回前释放它所拥有的共享资源(例如互斥量、动态分配的内存)。内核不会自动回收这些资源。
 
 In some cases a thread may want to sleep until another thread terminates. This can be accomplished with the [k_thread_join()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_join%20%22k_thread_join%22) API. This will block the calling thread until either the timeout expires, the target thread self-exits, or the target thread aborts (either due to a [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22) call or triggering a fatal error).
 
@@ -70,25 +70,25 @@ Note that the thread must be fully terminated, which presents race conditions wh
 
 不建议使用内部逻辑信号来判断线程是否结束，这样不能保证线程完全终止，内核可能仍在使用该线程结构的内存，出现竞争条件。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`同步的结束，而不依赖于应用程序逻辑内部的信号。
 
-### 线程终止 Thread Aborting
+### 线程中止 Thread Aborting
 
 A thread may asynchronously end its execution by **aborting**. The kernel automatically aborts a thread if the thread triggers a fatal error condition, such as dereferencing a null pointer.
 
-线程可以通过 **异常终止 （aborting）** 异步结束其执行。如果线程触发了一个致命错误（例如引用了空指针），内核将自动终止该线程。
+线程可以通过 **异常中止 (aborting)** 异步结束其执行。如果线程触发了一个致命错误(例如引用了空指针)，内核将自动中止该线程。
 
 A thread can also be aborted by another thread (or by itself) by calling [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22). However, it is typically preferable to signal a thread to terminate itself gracefully, rather than aborting it.
 
-其它线程（或线程自己）可以调用 `k_thread_abort()` 终止一个线程。不过，更优雅的做法是向线程发送一个信号，让该线程自己结束执行。
+其它线程(或线程自己)可以调用 `k_thread_abort()` 中止一个线程。不过，更优雅的做法是向线程发送一个信号，让该线程自己结束执行。
 
 As with thread termination, the kernel does not reclaim shared resources owned by an aborted thread.
 
-线程终止时，内核不会自动回收该线程拥有的共享资源。
+线程结束时，内核不会自动回收该线程拥有的共享资源。
 
 ### 线程挂起 Thread Suspension
 
 A thread can be prevented from executing for an indefinite period of time if it becomes **suspended**. The function [k_thread_suspend()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_suspend%20%22k_thread_suspend%22) can be used to suspend any thread, including the calling thread. Suspending a thread that is already suspended has no additional effect.
 
-如果一个线程被挂起（suspended），它将在若干周期内内暂停执行。函数`k_thread_suspend()`可以用于挂起包括调用线程在内的所有线程。对已经挂起的线程再次挂起时不会产生任何效果。
+如果一个线程被挂起(suspended)，它将在若干周期内内暂停执行。函数`k_thread_suspend()`可以用于挂起包括调用线程在内的所有线程。对已经挂起的线程再次挂起时不会产生任何效果。
 
 Once suspended, a thread cannot be scheduled until another thread calls [k_thread_resume()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_resume%20%22k_thread_resume%22) to remove the suspension.
 
@@ -119,10 +119,10 @@ The following factors make a thread unready:
 有下面因素可以让线程处于未就绪态：
 
 - 该线程未开始
-- 该线程在阻塞等待其他条件（比如该线程正在等待获取信号量）
+- 该线程在阻塞等待其他条件(比如该线程正在等待获取信号量)
 - 该线程等待超时执行
 - 该线程已经被挂起
-- 该线程已经结束或终止
+- 该线程已经结束或中止
 
 ![Thread States](https://docs.zephyrproject.org/latest/_images/thread_states.svg)
 
