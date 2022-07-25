@@ -113,8 +113,6 @@
         "type": "category",
         "label": "自定义驱动",
         "items": [
-            "application/customdriver/custom-driver-display",
-            "application/customdriver/custom-driver-kscan",
             "application/customdriver/custom-driver-video"
         ],
         "collapsed": true
