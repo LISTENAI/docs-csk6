@@ -83,7 +83,14 @@ sudo apt install --no-install-recommends git wget
 参考 <a href="https://git-scm.com/download/win">下载 Windows 上的 Git</a> 中的说明进行安装。
   </TabItem>
   <TabItem value="mac">
-macOS 中已经内置了 git 工具与 curl 工具，可进行到下一步操作。
+请在终端运行以下脚本确定是否已经安装开发者工具:
+```bash
+if command -v git > /dev/null && command -v curl > /dev/null; then
+  echo "Dependencies are already installed"
+else
+  xcode-select --install
+fi
+```
   </TabItem>
 </Tabs>
 </div>
