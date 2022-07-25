@@ -136,7 +136,7 @@
   {
     "type": "category",
     "label": "系统服务",
-    "items": ["kernel/index"],
+    "items": ["kernel/shell"],
     "collapsed": true
   },
   {
