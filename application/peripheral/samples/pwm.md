@@ -3,7 +3,11 @@
 ## 概述
 PWM是我们常用的外设功能之一，本节将通过示例展示PWM API接口和使用方法。
 
-csk6总共有8组pwm输出口，配合个定时器使用，每个定时器最多可以控制4录的pwm输出。
+csk6的pwm有以下特性：
+- 支持8路的pwm通道
+- 支持的频率范围：
+- 每个通道的时钟源是否可以独立？
+
 
 ## PWM常用接口
 
@@ -22,6 +26,8 @@ int pwm_pin_set_usec(const struct device * dev, uint32_t channel, uint32_t perio
 | period  | 频率        |
 | pulse   | 脉冲宽度    |
 | flags   | PWM标志     |
+
+其中period和pulse的单位是microseconds，受Zephyr接口单位microseconds的限制，导致了最小的周期为2us，也就是500kHz，
 
 <br/>
 
@@ -56,7 +62,7 @@ CONFIG_LOG_MODE_IMMEDIATE=y
 CONFIG_PWM_LOG_LEVEL_DBG=y
 ```
 ### 设备树配置
-`csk6002_9s_nano.dts`设备树配置文件中已经实现了`pwmled的配置，具体如下:
+`csk6002_9s_nano.dts`设备树配置文件中已经实现了`pwmled`的配置，具体如下:
 
 ```c
 {
@@ -79,8 +85,8 @@ CONFIG_PWM_LOG_LEVEL_DBG=y
 
 | 字段                                  | 说明                                                         |
 | ------------------------------------- | ------------------------------------------------------------ |
-| green_pwm_led                         | pwm_led 设备树的 node label，可通过 node label 获取 pwm_led设备树的配置信息 |
-| green_pwm_led                         | pwm_led 设备树的 node id，可通过 node id获取 pwm_led设备树的配置信息 |
+| green_pwm_led(green_pwm_led:)                         | pwm_led 设备树的 node label，可通过 node label 获取 pwm_led设备树的配置信息 |
+| green_pwm_led(:green_pwm_led)                         | pwm_led 设备树的 node id，可通过 node id获取 pwm_led设备树的配置信息 |
 | gpios = <&pwm5 5 PWM_POLARITY_NORMAL> | &pwm5 ：pwm _5<br />5：通道<br />PWM_POLARITY_NORMAL： pwm 引脚 flag |
 | User BOARD_LED_2 - PWM0               | pwm_led 节点的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取pwm的设备实例 |
 
@@ -113,68 +119,68 @@ CONFIG_PWM_LOG_LEVEL_DBG=y
 
 void main(void)
 {
-	const struct device *pwm;
-	uint32_t max_period;
-	uint32_t period;
-	uint8_t dir = 0U;
-	int ret;
+    const struct device *pwm;
+    uint32_t max_period;
+    uint32_t period;
+    uint8_t dir = 0U;
+    int ret;
 
-	printk("PWM-based blinky\n");
-	
+    printk("PWM-based blinky\n");
+
     /* 获取`pwm_led0`设备实例 */
-	pwm = DEVICE_DT_GET(PWM_CTLR);
-	if (!device_is_ready(pwm)) {
-		printk("Error: PWM device %s is not ready\n", pwm->name);
-		return;
-	}
+    pwm = DEVICE_DT_GET(PWM_CTLR);
+    if (!device_is_ready(pwm)) {
+        printk("Error: PWM device %s is not ready\n", pwm->name);
+        return;
+    }
 
-	/*
-	 * In case the default MAX_PERIOD_USEC value cannot be set for
-	 * some PWM hardware, decrease its value until it can.
-	 *
-	 * Keep its value at least MIN_PERIOD_USEC * 4 to make sure
-	 * the sample changes frequency at least once.
-	 */
-	printk("Calibrating for channel %d...\n", PWM_CHANNEL);
-	max_period = MAX_PERIOD_USEC;
+    /*
+        * In case the default MAX_PERIOD_USEC value cannot be set for
+        * some PWM hardware, decrease its value until it can.
+        *
+        * Keep its value at least MIN_PERIOD_USEC * 4 to make sure
+        * the sample changes frequency at least once.
+        */
+    printk("Calibrating for channel %d...\n", PWM_CHANNEL);
+    max_period = MAX_PERIOD_USEC;
     /* 对硬件进行校准，适当减小最大PWM周期，到找匹配的值 */
-	while (pwm_pin_set_usec(pwm, PWM_CHANNEL,
-				max_period, max_period / 2U, PWM_FLAGS)) {
-		max_period /= 2U;
-		if (max_period < (4U * MIN_PERIOD_USEC)) {
-			printk("Error: PWM device "
-			       "does not support a period at least %u\n",
-			       4U * MIN_PERIOD_USEC);
-			return;
-		}
-	}
+    while (pwm_pin_set_usec(pwm, PWM_CHANNEL,
+                max_period, max_period / 2U, PWM_FLAGS)) {
+        max_period /= 2U;
+        if (max_period < (4U * MIN_PERIOD_USEC)) {
+            printk("Error: PWM device "
+                    "does not support a period at least %u\n",
+                    4U * MIN_PERIOD_USEC);
+            return;
+        }
+    }
 
-	printk("Done calibrating; maximum/minimum periods %u/%u usec\n",
-	       max_period, MIN_PERIOD_USEC);
+    printk("Done calibrating; maximum/minimum periods %u/%u usec\n",
+            max_period, MIN_PERIOD_USEC);
 
-	period = max_period;
+    period = max_period;
     /* pwm输出配置实现LED闪烁频率控制 */
-	while (1) {
+    while (1) {
         /* 设置pwm参数，通道、频率(max_period=125000HZ)、脉宽(50%)、标志(PWM_POLARITY_NORMAL) */
-		ret = pwm_pin_set_usec(pwm, PWM_CHANNEL,
-				       period, period / 2U, PWM_FLAGS);
-		if (ret) {
-			printk("Error %d: failed to set pulse width\n", ret);
-			return;
-		}
-		/* 改变pwm频率和脉宽实现LED的动态亮度显示 */
-		period = dir ? (period * 2U) : (period / 2U);
-		if (period > max_period) {
-			period = max_period / 2U;
-			dir = 0U;
-		} else if (period < MIN_PERIOD_USEC) {
-			period = MIN_PERIOD_USEC * 2U;
-			dir = 1U;
-		}
+        ret = pwm_pin_set_usec(pwm, PWM_CHANNEL,
+                        period, period / 2U, PWM_FLAGS);
+        if (ret) {
+            printk("Error %d: failed to set pulse width\n", ret);
+            return;
+        }
+        /* 改变pwm频率和脉宽实现LED的动态亮度显示 */
+        period = dir ? (period * 2U) : (period / 2U);
+        if (period > max_period) {
+            period = max_period / 2U;
+            dir = 0U;
+        } else if (period < MIN_PERIOD_USEC) {
+            period = MIN_PERIOD_USEC * 2U;
+            dir = 1U;
+        }
 
-		k_sleep(K_SECONDS(4U));
-	}
-}
+        k_sleep(K_SECONDS(4U));
+    }
+    }
 
 ```
 
