@@ -22,23 +22,23 @@ k_thread_entry_t entry, void *p1, void *p2, void *p3, int prio, uint32_t options
 
 该函数初始化线程并根据delay参数选择来调度执行。新线程根据传递的参数可设置为立即执行或延迟启动。如果新创建的线程没有设置延迟启动，内核调度程序可能会抢占当前线程以允许新线程执行。
 
-线程的options参数的设置，可以特别指定线程的属性，可配置的选项包含有K_ESSENTIAL、K_FP_REG和K_SSE_REG，可以通过使用“|”（逻辑或运算符）分隔多个选项来指定它们，不需要任何线程选项的线程的options配置为0。
+线程的`options`参数的设置，可以特别指定线程的属性，可配置的选项包含有`K_ESSENTIAL`、`K_FP_REG`和`K_SSE_REG`，可以通过使用“|”（逻辑或运算符）分隔多个选项来指定它们，不需要任何线程选项的线程的`options`配置为0。
 
 传递到此函数的stack参数必须使用以下任一宏定义，以便于移植。
 
-K_THREAD_STACK_DEFINE() ：可用于user线程或主管线程的堆栈。
+`K_THREAD_STACK_DEFINE() `：可用于user线程或主管线程的堆栈。
 
-K_KERNEL_STACK_DEFINE() ：仅可用于主管线程的堆栈。如果启用CONFIG_USERSPACE（用户空间），这些堆栈可用的内存更少。
+`K_KERNEL_STACK_DEFINE()` ：仅可用于主管线程的堆栈。如果启用`CONFIG_USERSPACE`（用户空间），这些堆栈可用的内存更少。
 
-stack_size必须是按下述来定义：
+`stack_size`必须是按下述来定义：
 
-- K_THREAD_STACK_DEFINE() 或 K_KERNEL_STACK_DEFINE() 调用时，传递进去的size参数
-- 如果stack参数是用K_THREAD_STACK_DEFINE() 定义的，则stack_size为K_THREAD_STACK_SIZEOF(stack)
-- 如果stack参数是用K_KERNEL_STACK_DEFINE() 定义的，则stack_size为K_THREAD_STACK_SIZEOF(stack)
+- `K_THREAD_STACK_DEFINE()` 或 `K_KERNEL_STACK_DEFINE()` 调用时，传递进去的size参数
+- 如果`stack`参数是用`K_THREAD_STACK_DEFINE()` 定义的，则`stack_size`为`K_THREAD_STACK_SIZEOF(stack)`
+- 如果`stack`参数是用`K_KERNEL_STACK_DEFINE()` 定义的，则`stack_size`为`K_THREAD_STACK_SIZEOF(stack)`
 
-stack_size使用其他值或直接用sizeof(stack)可能会出现不确定的问题。
+`stack_size`使用其他值或直接用`sizeof(stack)`可能会出现不确定的问题。
 
-k_thread_create函数返回一个新的k_tid_t类型的线程id。
+`k_thread_create`函数返回一个新的k_tid_t类型的线程id。
 
 **参数说明**
 
@@ -63,7 +63,7 @@ k_thread_create函数返回一个新的k_tid_t类型的线程id。
 void k_thread_start(k_tid_t thread);
 ```
 
-如果thread线程创建的时候，传入的delay参数K_FOREVER，则在k_thread_start函数调用之前，该线程不会被添加到调度队列。
+如果thread线程创建的时候，传入的`delay`参数`K_FOREVER`，则在`k_thread_start`函数调用之前，该线程不会被添加到调度队列。
 
 **参数说明**
 
