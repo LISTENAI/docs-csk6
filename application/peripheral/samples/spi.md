@@ -4,47 +4,83 @@
 SPI外设是我们常用的外设功能之一，CSK6 SDK支持SPI外设功能，本章节通过示例介绍SPI外设的基本使用方法。
 
 CSK6 芯片有两组SPI硬件外设，SPI0和SPI1。
-CSK6 I2C驱动功能特性如下：
-- 支持主模式和从模式。
+CSK6 SPI驱动功能特性如下：
+- 支持主/从模式。
 - 支持DMA硬件握手。
 - SPI时钟最高可达50MHZ。
 
-## API接口
-常用SPI API接口：
+### 常用AIP接口
+
+读取spi设备的数据
+
 ```c
-/*SPI 发送接收*/
-int spi_transceive(const struct device * dev, 
-const struct spi_config * config, 
-const struct spi_buf_set * tx_bufs, 
-const struct spi_buf_set * rx_bufs)
-参数说明：
-dev spi设备实例
-config spi配置
-tx_bufs 发送数据的缓冲区数组，如果没有数据，则为 NULL
-rx_bufs 将要读取的数据写入的缓冲区数组，如果没有，则为 NULL
-
-/*SPI 发送*/
-int spi_write(const struct device * dev,
-const struct spi_config * config, 
-const struct spi_buf_set * tx_bufs)	
-dev spi设备实例
-config spi配置
-tx_bufs 发送数据的缓冲区数组，如果没有数据
-
-/*SPI 接收*/
-int spi_read(const struct device * dev,
-const struct spi_config * config,
-const struct spi_buf_set * rx_bufs 
-)	
+int spi_read(const struct device *dev,
+const struct spi_config *config,
+const struct spi_buf_set *rx_bufs
+);
 ```
+
+成功返回0，非0表示失败。
+
+**参数说明**
+
+| 字段    | 说明                     |
+| ------- | ------------------------ |
+| dev     | 指向spi Device的指针     |
+| config  | 指向spi的配置属性的指针  |
+| rx_bufs | 指向spi接收buf的结构指针 |
+
+<br/>
+
+向spi设备写入数据
+
+```c
+int spi_write(const struct device *dev,
+const struct spi_config *config,
+const struct spi_buf_set *tx_bufs);
+```
+
+成功返回0，非0表示失败。
+
+**参数说明**
+
+| 字段    | 说明                     |
+| ------- | ------------------------ |
+| dev     | 指向spi Device的指针     |
+| config  | 指向spi的配置属性的指针  |
+| tx_bufs | 指向spi写入buf的结构指针 |
+
+<br/>
+
+向spi设备写入/读取数据
+
+```c
+int spi_transceive(const struct device *dev,
+const struct spi_config *config,
+const struct spi_buf_set *tx_bufs,
+const struct spi_buf_set *rx_bufs);
+```
+
+这个函数可以实现同时读写功能，spi_write与spi_read都基于这个函数实现，spi_write在调用时候会将rx设置为空，而spi_read调用时会将tx设置为空。成功返回0，非0表示失败。
+
+**参数说明**
+
+| 字段    | 说明                     |
+| ------- | ------------------------ |
+| dev     | 指向spi Device的指针     |
+| config  | 指向spi的配置属性的指针  |
+| tx_bufs | 指向spi写入buf的结构指针 |
+| rx_bufs | 指向spi接收buf的结构指针 |
+
 更多SPI API接口请查看zephyr官网[SPI Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__spi__interface.html)。
+
+<br/>
 
 ## 使用示例
 ### 准备工作
 本示例基于两个CSK6-NanoKit开发板实现SPI数据的通信，其中一个作为SPI主设备，另一设备作为从设备，实现该示例需要以下准备工作:
 - 2个CSK6-NanoKit开发板
-- 使用杜邦线将`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`连接，接线方式如下图示：
-![](./files/SPI_connect.png)
+- 使用杜邦线将`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`连接，接线方式如下图示：<br/>![](./files/SPI_connect.png)
 
 ### 获取sample项目
 通过Lisa命令创建项目：
@@ -330,8 +366,7 @@ lisa zep flash --runner pyocd
 **查看日志：**
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 **slave设备接收到master设备发送的数据结果应为：**
 
@@ -369,6 +404,5 @@ SPI thread creaeted
 
 ![](./files/SPI_data.png)
 
-从逻辑分析仪过程数据可以看到，master设备MOSI数据为`01~09`，MISO数据为`09~01`，符合预期。
-
+从逻辑分析仪过程数据如果可以看到，master设备MOSI数据为`01~09`，MISO数据为`09~01`，则符合预期。
 
