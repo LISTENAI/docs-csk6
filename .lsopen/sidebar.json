@@ -148,7 +148,7 @@
   {
     "type": "category",
     "label": "硬件支持",
-    "items": ["hardware/index"],
+    "items": ["hardware/pinctrl"],
     "collapsed": true
   },
   {
