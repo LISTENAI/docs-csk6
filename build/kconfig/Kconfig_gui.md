@@ -111,4 +111,4 @@ In menuconfig, you can press Ctrl-F to view the help of the currently selected i
 
 For more information on `menuconfig` , see the Python docstrings at the top of [menuconfig.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/menuconfig.py) .  
 
-有关 `menuconfig` 的更多信息，请参考 [menuconfig.py](#)。
+有关 `menuconfig` 的更多信息，请参考 [menuconfig.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/menuconfig.py)。
