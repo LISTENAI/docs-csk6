@@ -13,7 +13,7 @@ Timer定时器是Zephyr RTOS中的一个内核对象，它使用内核的系统�
 
 ### timer的特性
 
-- **timer可定义的数量：**     
+- **timer可定义的数量：**
 
     在内存足够的前提下，内核不限制timer的数量。
 
@@ -35,54 +35,166 @@ Timer定时器是Zephyr RTOS中的一个内核对象，它使用内核的系统�
 ### Timer工作的示例图
 
 ![](./files/timer.png)
-duration：设定timer第一次到期的时间。    
-period: timer第一次到期后的触发时间间隔。    
-expiry：触发回调。    
+duration：设定timer第一次到期的时间。
+period: timer第一次到期后的触发时间间隔。
+expiry：触发回调。
 
+## Timer使用示例
 
-## 常用API接口
+### 常用API接口
+
+静态定义并初始化timer
+
 ```c
-/* 定义并初始化timer */
 #define K_TIMER_DEFINE(name, expiry_fn, stop_fn)
-name：timer的名称
-expiry_fn：timer每次到期时的回调函数
-stop_fn：timer停止时的回调函数
-
-/* 初始化timer */
-void k_timer_init(struct k_timer *timer, k_timer_expiry_t expiry_fn, k_timer_stop_t
-timer：k_timer
-expiry_fn：timer每次到期时的回调函数
-stop_fn：timer停止时的回调函数
-
-/* 启动timer */
-void k_timer_start(struct k_timer *timer, k_timeout_t duration, k_timeout_t period)
-timer: k_timer
-duration: 第一次到期时间
-period：后续周期的到期时间，当传入K_FOREVER或K_NO_WAIT，在duration触发后timer会自动停止。
-
-/* 停止timer */
-void k_timer_stop(struct k_timer *timer)
-
-/* 获取从上次读取到当前时间段内timer触发的次数，每次读取后status都会被清0 */
-uint32_t k_timer_status_get(struct k_timer *timer)
-
-/* 等待timer触发或停止 */
-uint32_t k_timer_status_sync(struct k_timer *timer)
-
-/* 获取timer即将到期的时间 */
-k_ticks_t k_timer_expires_ticks(const struct k_timer *timer)
-
-/* 获取timer还有多少个周期 */
-k_ticks_t k_timer_remaining_ticks(const struct k_timer *timer)
-
-/* 获取timer还有多久到期 */
-uint32_t k_timer_remaining_get(struct k_timer *timer)
 ```
+
+该定时器定义之后，可以在模块外部使用。
+
+**参数说明**
+
+| 字段      | 说明                             |
+| --------- | -------------------------------- |
+| name      | 声明为struct k_timer的结构体变量 |
+| expiry_fn | 定时器每次到期时，调用的回调函数 |
+| stop_fn   | 定时器stop之后，调用的回调函数   |
+
+<br/>
+
+初始化定时器
+
+```c
+void k_timer_init(struct k_timer *timer, k_timer_expiry_t expiry_fn, k_timer_stop_t stop_fn);
+```
+
+此该函数在首次使用计定时器之前初始化定时器。
+
+**参数说明**
+
+| 字段      | 说明                                        |
+| --------- | ------------------------------------------- |
+| timer     | 传入声明后的struct k_timer 结构体变量的地址 |
+| expiry_fn | 定时器每次到期时，调用的回调函数            |
+| stop_fn   | 定时器stop之后，调用的回调函数              |
+
+<br/>
+
+启动定时器
+
+```c
+void k_timer_start(struct k_timer *timer, k_timeout_t duration, k_timeout_t period);
+```
+
+启动定时器并重置定时器状态为0，duration必须大于0，period为非负数，详细见下述参数说明。
+
+**参数说明**
+
+| 字段     | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| timer    | 传入声明定义后的struct k_timer 结构体变量的地址              |
+| duration | 指定定时器第一次超时之前的时间间隔，以毫秒为单位。它必须大于0 |
+| period   | 指定在第一个定时器结束后所有定时器之间的时间间隔，以毫秒为单位。它必须是非负的。period为0意味着定时器是一个一次性定时器，在一次超时后停止。 |
+
+<br/>
+
+停止定时器
+
+```c
+void k_timer_stop(struct k_timer *timer);
+```
+
+停止定时器，如果初始化时候配置了对应的停止回调函数，则会回调函数。停止一个未启动的定时器不会有任何影响。
+
+**参数说明**
+
+| 字段  | 说明                                            |
+| ----- | ----------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+
+<br/>
+
+读取定时器状态
+
+```c
+uint32_t k_timer_status_get(struct k_timer *timer);
+```
+
+读取定时器的状态，该状态表示自上次读取其状态以来定时器已到期的次数，每次读取后会重置状态为0。
+
+**参数说明**
+
+| 字段  | 说明                                            |
+| ----- | ----------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+
+<br/>
+
+等待定时器到期
+
+```c
+uint32_t k_timer_status_sync(struct k_timer *timer);
+```
+
+等待定时器到期。调用该函数会阻塞线程，直到定时器的状态为非零（表示自上次检查以来它至少已过期一次）或定时器停止。如果定时器状态已非零，或定时器已停止，则该函数解除阻塞。调用该函数会将定时器的状态重置为0。注意，不允许在中断处理函数中使用该函数。函数返回定时器的状态值。
+
+**参数说明**
+
+| 字段  | 说明                                            |
+| ----- | ----------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+
+<br/>
+
+获取定时器超时到期的系统时间
+
+```c
+k_ticks_t k_timer_expires_ticks(const struct k_timer *timer);
+```
+
+获取定时器超时到期时候的系统时间，以系统ticks为单位。该函数返回定时器下一次到期时候的系统时间，以系统ticks为单位。如果定时器未运行，则返回当前系统时间。
+
+**参数说明**
+
+| 字段  | 说明                                            |
+| ----- | ----------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+
+<br/>
+
+获取定时器超时到期的剩余时间
+
+```c
+k_ticks_t k_timer_remaining_ticks(const struct k_timer *timer)
+```
+
+获取定时器超时到期前的剩余时间，以系统ticks为单位，计算运行的定时器下次过期前剩余的时间，如果定时器未运行，则返回0。
+
+**参数说明**
+
+| 字段  | 说明                                            |
+| ----- | ----------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+
+<br/>
+
+获取定时器超时到期前的剩余时间
+
+```c
+uint32_t k_timer_remaining_get(struct k_timer *timer);
+```
+
+计算运行定时器下次到期前剩余的（近似）时间，以毫秒(ms)为单位。如果定时器未运行，则返回0。
+
+**参数说明**
+
+| 字段  | 说明                                            |
+| ----- | ----------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
 
 更多 **Timer API**可以参考Zephyr官网[Timer APIS](https://docs.zephyrproject.org/latest/doxygen/html/group__timer__apis.html)。
 
+<br/>
 
-## Timer使用示例
 ### 创建一个`hello_world`
 开发者可基于`hello_world`项目按照以下步骤添加timer的代码并运行，以此更好的掌握csk6 sdk提供的timer的使用方法。
 首先创建一个`hello_world`项目，可参考快速上手章节：[开始新项目](../../quick_start/start_project.md)。
@@ -102,7 +214,7 @@ k_timer_init(&reset_counter_timer, timer_handler_expiry, timer_handler_stop);
 
 ```c
 /* 定义初始化timer */
-K_TIMER_DEFINE(&reset_counter_timer, timer_handler_expiry, timer_handler_stop);
+K_TIMER_DEFINE(reset_counter_timer, timer_handler_expiry, timer_handler_stop);
 ```
 
 **主函数实现：**
@@ -166,11 +278,7 @@ lisa zep flash
 ```
 - **查看结果**  
 
-可通过lisa提供的`lisa term`命令查看日志：
-```
-lisa term
-```
-或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
 日志输出结果：
 ```shell
@@ -190,8 +298,7 @@ lisa term
 [17:55:29.476] stop timer and reset counter to zero
 
 ```
-从日志可以看到，timer在1S后第一次触发回调函数，之后以2S的周期触发回调，直到应用程序主动停止timer。
-
+从日志可以看到，timer在1秒后第一次触发回调函数，之后以2秒的周期触发回调，直到应用程序主动停止timer。
 
 :::tip
 因为timer的回调是在中断中执行，所以在回调函数中不能做耗时操作。
