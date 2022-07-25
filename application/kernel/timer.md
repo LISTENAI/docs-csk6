@@ -85,7 +85,7 @@ void k_timer_init(struct k_timer *timer, k_timer_expiry_t expiry_fn, k_timer_sto
 void k_timer_start(struct k_timer *timer, k_timeout_t duration, k_timeout_t period);
 ```
 
-启动定时器并重置定时器状态为0，duration必须大于0，period为非负数。
+启动定时器并重置定时器状态为0。
 
 **参数说明**
 
@@ -93,7 +93,7 @@ void k_timer_start(struct k_timer *timer, k_timeout_t duration, k_timeout_t peri
 | -------- | ------------------------------------------------------------ |
 | timer    | 传入声明定义后的struct k_timer 结构体变量指针                |
 | duration | 指定定时器第一次超时之前的时间间隔，以毫秒为单位。它必须大于0 |
-| period   | 指定在第一个定时器结束后所有定时器之间的时间间隔，以毫秒为单位。它必须是非负的。period为0意味着定时器是一个一次性定时器，在一次超时后停止。 |
+| period   | 指定在第一个定时器结束后所有定时器之间的时间间隔，以毫秒为单位。它必须是非负数的。period为0意味着定时器是一个一次性定时器，在一次超时后停止。 |
 
 <br/>
 
