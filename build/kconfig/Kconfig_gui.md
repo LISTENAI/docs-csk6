@@ -49,7 +49,7 @@ Boolean configuration options are shown with [ ] brackets, while numeric and str
 * 使用箭头键导航菜单，支持常见的vim键绑定。
   
 * 使用 `空格` 和 `回车`键进入菜单和切换值，菜单旁边会显示`--->`。按下`ESC`以返回父菜单。
-布尔值配置选项用 `[ ]` 括号显示,数字和字符串值用 `( )` 显示，无法更改的值显示为 `--` 或 `-*-` 。
+布尔值配置选项用 `[ ]` 括号显示,数字和字符串值用 `( )` 显示，无法更改的值显示为 `--` 或 `-*-` 。 
 
 :::info
 你也可以用`Y`或`N`对布尔值进行设置
@@ -111,4 +111,4 @@ In menuconfig, you can press Ctrl-F to view the help of the currently selected i
 
 For more information on `menuconfig` , see the Python docstrings at the top of [menuconfig.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/menuconfig.py) .  
 
-有关 `menuconfig` 的更多信息，请参考 [menuconfig.py](#)。
+有关 `menuconfig` 的更多信息，请参考 [menuconfig.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/menuconfig.py)。
