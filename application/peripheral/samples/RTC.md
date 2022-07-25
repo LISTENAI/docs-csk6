@@ -136,7 +136,7 @@ CONFIG_COUNTER_CSK6=y
 
 ### 示例逻辑
 
-基于CSK6驱动提供的RTC时钟，调用counter计数器接口设置一个2S的闹钟，闹钟时间到时触发中断回调，并在回调中做响应的处理。
+基于CSK6驱动提供的RTC时钟，调用counter计数器接口设置一个2秒的闹钟，闹钟时间到时触发中断回调，并在回调中做响应的处理。
 
 
 ### 应用逻辑实现
@@ -149,7 +149,7 @@ k_thread_create(&rtc_thread_data, rtc_stack_area,
                 rtc_thread, NULL, NULL, NULL, pri, 0, K_NO_WAIT);
 ```
 
-**设置一个2S的闹钟：**  
+**设置一个2秒的闹钟：**
 
 ```c
 /*设置中断回调处理*/
@@ -176,7 +176,7 @@ void rtc_thread(void *v1, void *v2, void *v3){
     alarm_cfg.callback = sec_counter_callback;
     /* 在闹钟开始前获取当前计数器值 */
     counter_get_value(rtc, &now);
-    alarm_cfg.ticks = now + delay_time;  /* 闹钟时间设置为2S，从当前计数器值开始 */		
+    alarm_cfg.ticks = now + delay_time;  /* 闹钟时间设置为2s，从当前计数器值开始 */
     alarm_cfg.user_data = &alarm_cfg;
 
     /* 在闹钟开始前当前计数器值 */
@@ -207,7 +207,7 @@ lisa zep flash --runner pyocd
 ```
 #### 查看结果
 
-CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+CSK6-NanoKit通过板载DAPLink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
 - 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 
@@ -222,4 +222,4 @@ get counter value after alarm end: 2s
 ======RTC device alarm end======
 
 ```
- 从日志可以看到，闹钟在2S后触发了中断，符合示例实现的预期，以上就是本章节所提供的RTC使用示例。
+ 从日志可以看到，闹钟在2秒后触发了中断，符合示例实现的预期，以上就是本章节所提供的RTC使用示例。
