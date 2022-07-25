@@ -28,7 +28,7 @@ k_thread_entry_t entry, void *p1, void *p2, void *p3, int prio, uint32_t options
 
 K_THREAD_STACK_DEFINE() ：可用于user线程或主管线程的堆栈。
 
-K_KERNEL_STACK_DEFINE() ：仅可用于主管线程的堆栈。如果启用CONFIG_USERSPACE（用户空间），这些堆栈使用的内存更少。
+K_KERNEL_STACK_DEFINE() ：仅可用于主管线程的堆栈。如果启用CONFIG_USERSPACE（用户空间），这些堆栈可用的内存更少。
 
 stack_size必须是按下述来定义：
 
@@ -38,7 +38,7 @@ stack_size必须是按下述来定义：
 
 stack_size使用其他值或直接用sizeof(stack)可能会出现不确定的问题。
 
-k_thread_create函数返回新的线程ID。
+k_thread_create函数返回一个新的k_tid_t类型的线程id。
 
 **参数说明**
 
@@ -67,9 +67,9 @@ void k_thread_start(k_tid_t thread);
 
 **参数说明**
 
-| 字段   | 说明                   |
-| ------ | ---------------------- |
-| thread | 已经创建的线程对象指针 |
+| 字段   | 说明             |
+| ------ | ---------------- |
+| thread | 已经创建的线程id |
 
 <br/>
 
@@ -83,10 +83,10 @@ int k_thread_name_set(k_tid_t thread, const char *str);
 
 **参数说明**
 
-| 字段   | 说明                                                     |
-| ------ | -------------------------------------------------------- |
-| thread | 已经创建的线程对象指针，或者传递NULL表示设置的是当前线程 |
-| str    | 自定义的线程名，字符串                                   |
+| 字段   | 说明                                               |
+| ------ | -------------------------------------------------- |
+| thread | 已经创建的线程id，或者传递NULL表示设置的是当前线程 |
+| str    | 自定义的线程名，字符串                             |
 
 **返回值说明**
 
