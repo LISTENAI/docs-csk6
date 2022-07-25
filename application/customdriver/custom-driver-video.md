@@ -22,7 +22,8 @@ app
 ```
 - driver 目录下可以添加多个驱动文件目录，例如本示例中需要添加摄像头驱动，则新增 video 文件夹，添加显示屏驱动时可增加display文件夹。
 - dts 目录存放自定义驱动的设备树绑定文件(byd,bf30a2.yaml)和厂商信息文件(vendor-prefixes.txt)。
-- BF30A2示例驱动文件包下载[点击这里下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/drivers.zip)。
+- 该`driver`目录与`zephyr/driver`目录结构相对应
+
 ### 修改自定义驱动的 CMake 文件
 - 根据添加的自定义驱动修改 drivers/video 目录下的CMakeLists.txt文件，内容如下：
 ```c
@@ -81,8 +82,8 @@ rsource "video/Kconfig.bf30a2"
 ```
 
 ### 修改自定义驱动的设备树绑定文件(.ymal)
-为了硬件上的灵活性，Zephyr引入了设备树，通过设备树绑定的方式将设备树转换为C宏来使用。Zephyr的设备树绑定文件可能不包含我们要用的硬件设备，这就需要我们自己添加。同样设备树绑定文件也可以纳入app的目录进行管理，在app目录下添加dts目录，里面放置设备树绑定文件。
-.yaml文件可参考`csk6sdk/dts/bindings/video/`目录下对应类型驱动的.ymal文件来完成修改，以下是`byd,bf30a2.yaml`文件内容：
+为了硬件上的灵活性，Zephyr引入了设备树，通过设备树绑定的方式将设备树转换为C宏来使用。Zephyr的设备树绑定文件可能不包含我们要用的硬件设备，这就需要我们自己添加。同样设备树绑定文件也可以纳入app的目录进行管理，在app目录下添加dts目录，里面放置设备树绑定文件。       
+`.yaml`文件可参考`csk6sdk/dts/bindings/video/`目录下对应类型驱动的.ymal文件来完成修改，以下是`byd,bf30a2.yaml`文件内容：
 
 ```c
 # Copyright (c) 2022, listenai
@@ -160,60 +161,63 @@ target_sources(app PRIVATE src/main.c)
 
 # 引用自定义驱动
 add_subdirectory(drivers)
-
-zephyr_code_relocate(drivers/video/bf30a2.c ITCM_TEXT)、
-
 ```
 ### 设备树配置
 在应用根目录`/boards/csk6002_9s_nano.overlay`添加摄像头I2C和SPI引脚对应的设备树配置：
 ```c
 &csk6002_9s_nano_pinctrl{
-                /* bf30a2 I2C config */
-                pinctrl_i2c1_scl_default: i2c1_scl_default{
-                        pinctrls = <&pinmuxa 13 9>;
+                pinctrl_i2c0_scl_default: i2c0_scl_default{
+                        pinctrls = <&pinmuxb 2 8>;
                 };
-                
-                pinctrl_i2c1_sda_default: i2c1_sda_default{
-                        pinctrls = <&pinmuxa 12 9>;
-                };   
 
-                /* bf30a2 SPI config */
+                pinctrl_i2c0_sda_default: i2c0_sda_default{
+                        pinctrls = <&pinmuxb 3 8>;
+                };
+
                 pinctrl_spi1_sclk_default: spi1_sclk_default {
-                    pinctrls = < &pinmuxa 8 7 >;
+                    pinctrls = < &pinmuxb 0 7 >;
                 };
 
                 pinctrl_spi1_mosi_default: spi1_mosi_default {
-                    pinctrls = < &pinmuxa 7 7 >;
+                    pinctrls = < &pinmuxb 1 7 >;
                 };
 
                 pinctrl_spi1_cs_default: spi1_cs_default {
                     pinctrls = < &pinmuxa 9 7 >;
                 };
+};
 
+&gpt0 {
+	status = "okay";
+};
+
+&spi0 {
+    status = "disabled";
 };
 
 &spi1 {
-        status = "okay";
-        spi-max-frequency = <100000000>;
-        pinctrl-0 = <&pinctrl_spi1_sclk_default &pinctrl_spi1_mosi_default &pinctrl_spi1_cs_default>; 
-            pinctrl-names = "default";
+    status = "okay";
+    spi-max-frequency = <100000000>;
+    pinctrl-0 = <&pinctrl_spi1_sclk_default &pinctrl_spi1_mosi_default &pinctrl_spi1_cs_default>;
+	pinctrl-names = "default";
 };
 
-&i2c1 {
+&i2c0 {
         status = "okay";
-        pinctrl-0 = <&pinctrl_i2c1_scl_default &pinctrl_i2c1_sda_default>; 
+        pinctrl-0 = <&pinctrl_i2c0_scl_default &pinctrl_i2c0_sda_default>;
         pinctrl-names = "default";
 
         bf30a2: bf30a2@6e {
-                compatible = "byd,bf30a2";
-                status = "okay";
-                label = "VIDEO";
-                reg = <0x6e>;
-                xclk-gpios = <&gpioa 11 0>;
-                product-id = <0x3b02>;
-                spi = <&spi1>;
+            compatible = "byd,bf30a2";
+            status = "okay";
+            label = "VIDEO";
+            reg = <0x6e>;
+            product-id = <0x3b02>;
+            spi = <&spi1>;
+	    xclk-gpios = <&gpioa 11 0>;
         };
 };
+
 ```
 ### 应用组件配置
 在应用跟目录下`prj.conf`组件配置文件里增加video配置：
@@ -254,3 +258,30 @@ sdk默认支持的触摸屏驱动(sdk/driver/kscan)：
 
 sdk默认支持的摄像头屏驱动(sdk/driver/video)：
 - ov9655
+
+## 自定义驱动示例
+#### 准备工作
+本示例基于CSK6-NanoKit开发板来实现，需要做如下准备工作：
+- 准备一个CSK6-NanoKit开发板；
+- 准备一个带BF30A2摄像头的扩展板，通过SPI接口和I2C接口连接到CSK6-NanoKit上。
+#### 获取sample项目
+`CSK6 SDK`提供了`bf30a2 camera`自定义驱动集成的示例，可以通过以下指令获取示例：
+```
+lisa zep create
+```
+![](../../application/peripheral/samples/files/liza_zep_create.png)
+> boards→ csk6 → drivers → vidoe → bf30a2 → sample 
+
+bf302a sample创建成功。
+
+#### 编译和烧录
+##### 编译
+在sample根目录下通过以下指令完成编译：
+```
+lisa zep build -b csk6002_9s_nano
+```
+##### 烧录
+`csk6002_9s_nano`通过USB连接PC，通过烧录指令烧录：
+```
+lisa zep flash --runner pyocd
+```
