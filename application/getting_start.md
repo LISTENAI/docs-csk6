@@ -83,14 +83,7 @@ sudo apt install --no-install-recommends git wget
 参考 <a href="https://git-scm.com/download/win">下载 Windows 上的 Git</a> 中的说明进行安装。
   </TabItem>
   <TabItem value="mac">
-请在终端运行以下脚本确定是否已经安装开发者工具:
-```bash
-if command -v git > /dev/null && command -v curl > /dev/null; then
-  echo "Dependencies are already installed"
-else
-  xcode-select --install
-fi
-```
+请在终端运行`xcode-select --install`确定是否已经安装开发者工具:
   </TabItem>
 </Tabs>
 </div>
