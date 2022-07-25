@@ -71,11 +71,11 @@ void k_timer_init(struct k_timer *timer, k_timer_expiry_t expiry_fn, k_timer_sto
 
 **参数说明**
 
-| 字段      | 说明                                        |
-| --------- | ------------------------------------------- |
-| timer     | 传入声明后的struct k_timer 结构体变量的地址 |
-| expiry_fn | 定时器每次到期时，调用的回调函数            |
-| stop_fn   | 定时器stop之后，调用的回调函数              |
+| 字段      | 说明                                      |
+| --------- | ----------------------------------------- |
+| timer     | 传入声明后的struct k_timer 结构体变量指针 |
+| expiry_fn | 定时器每次到期时，调用的回调函数          |
+| stop_fn   | 定时器stop之后，调用的回调函数            |
 
 <br/>
 
@@ -85,13 +85,13 @@ void k_timer_init(struct k_timer *timer, k_timer_expiry_t expiry_fn, k_timer_sto
 void k_timer_start(struct k_timer *timer, k_timeout_t duration, k_timeout_t period);
 ```
 
-启动定时器并重置定时器状态为0，duration必须大于0，period为非负数，详细见下述参数说明。
+启动定时器并重置定时器状态为0，duration必须大于0，period为非负数。
 
 **参数说明**
 
 | 字段     | 说明                                                         |
 | -------- | ------------------------------------------------------------ |
-| timer    | 传入声明定义后的struct k_timer 结构体变量的地址              |
+| timer    | 传入声明定义后的struct k_timer 结构体变量指针                |
 | duration | 指定定时器第一次超时之前的时间间隔，以毫秒为单位。它必须大于0 |
 | period   | 指定在第一个定时器结束后所有定时器之间的时间间隔，以毫秒为单位。它必须是非负的。period为0意味着定时器是一个一次性定时器，在一次超时后停止。 |
 
@@ -107,9 +107,9 @@ void k_timer_stop(struct k_timer *timer);
 
 **参数说明**
 
-| 字段  | 说明                                            |
-| ----- | ----------------------------------------------- |
-| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+| 字段  | 说明                                          |
+| ----- | --------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量指针 |
 
 <br/>
 
@@ -123,9 +123,9 @@ uint32_t k_timer_status_get(struct k_timer *timer);
 
 **参数说明**
 
-| 字段  | 说明                                            |
-| ----- | ----------------------------------------------- |
-| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+| 字段  | 说明                                          |
+| ----- | --------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量指针 |
 
 <br/>
 
@@ -139,9 +139,9 @@ uint32_t k_timer_status_sync(struct k_timer *timer);
 
 **参数说明**
 
-| 字段  | 说明                                            |
-| ----- | ----------------------------------------------- |
-| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+| 字段  | 说明                                          |
+| ----- | --------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量指针 |
 
 <br/>
 
@@ -155,9 +155,9 @@ k_ticks_t k_timer_expires_ticks(const struct k_timer *timer);
 
 **参数说明**
 
-| 字段  | 说明                                            |
-| ----- | ----------------------------------------------- |
-| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+| 字段  | 说明                                          |
+| ----- | --------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量指针 |
 
 <br/>
 
@@ -171,9 +171,9 @@ k_ticks_t k_timer_remaining_ticks(const struct k_timer *timer)
 
 **参数说明**
 
-| 字段  | 说明                                            |
-| ----- | ----------------------------------------------- |
-| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+| 字段  | 说明                                          |
+| ----- | --------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量指针 |
 
 <br/>
 
@@ -187,9 +187,9 @@ uint32_t k_timer_remaining_get(struct k_timer *timer);
 
 **参数说明**
 
-| 字段  | 说明                                            |
-| ----- | ----------------------------------------------- |
-| timer | 传入声明定义后的struct k_timer 结构体变量的地址 |
+| 字段  | 说明                                          |
+| ----- | --------------------------------------------- |
+| timer | 传入声明定义后的struct k_timer 结构体变量指针 |
 
 更多 **Timer API**可以参考Zephyr官网[Timer APIS](https://docs.zephyrproject.org/latest/doxygen/html/group__timer__apis.html)。
 
@@ -197,7 +197,7 @@ uint32_t k_timer_remaining_get(struct k_timer *timer);
 
 ### 创建一个`hello_world`
 开发者可基于`hello_world`项目按照以下步骤添加timer的代码并运行，以此更好的掌握csk6 sdk提供的timer的使用方法。
-首先创建一个`hello_world`项目，可参考快速上手章节：[开始新项目](../../quick_start/start_project.md)。
+首先创建一个`hello_world`项目，可参考快速上手章节：[快速开始](../getting_start.md)。
 
 ### Timer功能使用
 初始化timer有两种方式：
@@ -220,6 +220,8 @@ K_TIMER_DEFINE(reset_counter_timer, timer_handler_expiry, timer_handler_stop);
 **主函数实现：**
 
 ```c
+#include <zephyr.h>
+
 int counter = 0;
 
 /* timer到期回调函数 */
@@ -245,11 +247,11 @@ void main(void)
 
     printk("timer sample start");
 
-    /* 启动timer，duration为1S， period为2s */
+    /* 启动timer，duration为1秒， period为2秒 */
     k_timer_start(&reset_counter_timer, K_MSEC(1000), K_MSEC(2000));
 
     k_msleep(10000);
-    /* 10s 后获取timer触发的次数,每次读取后status都会被清0 */
+    /* 10秒 后获取timer触发的次数,每次读取后status都会被清0 */
     int status = k_timer_status_get(&reset_counter_timer);
     printk("timer status %d\n", status);
 
@@ -257,7 +259,7 @@ void main(void)
     int status_sync = k_timer_status_sync(&reset_counter_timer);
     printk("timer status sync %d\n", status_sync);
 
-    /* 2S 后停止timer */
+    /* 2秒 后停止timer */
     k_msleep(2000);
     /* 停止 timer */
     k_timer_stop(&reset_counter_timer);
