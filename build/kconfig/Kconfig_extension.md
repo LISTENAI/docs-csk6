@@ -24,7 +24,7 @@ Zephyr使用[Kconfig](https://www.kernel.org/doc/Documentation/kbuild/kconfig-la
   ```
 
   If the pattern foo/bar/*/Kconfig matches the files foo/bar/baz/Kconfig and foo/bar/qaz/Kconfig, the statement above is equivalent to the following two source statements:   
-  
+
   如果样式 `foo/bar/*/Kconfig` 匹配 `foo/bar/baz/Kconfig` 和 `foo/bar/qaz/Kconfig` 文件，则上面的语句等价于以下两个`source`语句：
 
   ```
@@ -65,7 +65,7 @@ rsource also supports glob patterns.
 `rsource` 还支持glob样式。
 
 A drawback of rsource is that it can make it harder to figure out where a file gets included, so only use it if you need it.  
-`rsource`的一个缺点是它可能让找出文件包含在哪里变得困难，所以只有在需要的时候才使用它。
+`rsource`的一个缺点是它可能很难找到文件包含在哪里，所以只有在需要的时候才使用它。
 
 * An orsource statement is available that combines osource and rsource.  
   可以结合使用`osource`和`rsource`的`osource`语句。
