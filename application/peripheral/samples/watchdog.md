@@ -188,7 +188,7 @@ lisa zep flash --runner pyocd
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
 - 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
-
+```
 *** Booting Zephyr OS build fd83997719ed  ***
 Watchdog sample application, May 30 2022 22:14:35
 Attempting to test pre-reset callback, 0x18001381
@@ -210,4 +210,6 @@ Handled watchdog interrupt again, wait for reset.
 Watchdog sample application, May 30 2022 22:15:20
 ...
 ```
+
+
  从日志可以看到，watchdog在第一次触发中断时执行了一次`feed watchdog`操作，第二次触发中断不做任何处理，`watchdog`重启了系统，符合示例的实现预期。
