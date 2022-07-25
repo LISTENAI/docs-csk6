@@ -4,10 +4,8 @@
 PWM是我们常用的外设功能之一，本节将通过示例展示PWM API接口和使用方法。
 
 csk6的pwm有以下特性：
-- 支持8路的pwm通道
+- 最大支持8路的pwm通道
 - 支持的频率范围：
-- 每个通道的时钟源是否可以独立？
-
 
 ## PWM常用接口
 
@@ -27,7 +25,7 @@ int pwm_pin_set_usec(const struct device * dev, uint32_t channel, uint32_t perio
 | pulse   | 脉冲宽度    |
 | flags   | PWM标志     |
 
-其中period和pulse的单位是microseconds，受Zephyr接口单位microseconds的限制，导致了最小的周期为2us，也就是500kHz，
+其中period和pulse的单位是microseconds。
 
 <br/>
 
