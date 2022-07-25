@@ -68,7 +68,7 @@ Press Y to save the kernel configuration options to the default filename (zephyr
 :::info 
 The configuration file used during the build is always zephyr/.config. If you have another saved configuration that you want to build with, copy it to zephyr/.config. Make sure to back up your original configuration file.
 Also note that filenames starting with . are not listed by ls by default on Linux and macOS. Use the -a flag to see them.   
-构建期间使用的文件始终为 `zephyr/.config`. 如果你有另外一个要构建的已保存配置想构建，可将其复制到 `/build/zephyr/.config`. 复制前确保你的原始配置文件已备份  
+构建期间使用的文件始终为 `zephyr/.config`. 如果你有另外一个要构建的已保存配置想构建，可将其复制到 `zephyr/.config`. 复制前确保你的原始配置文件已备份  
 另外注意的是，在Linux和macOS上默认情况下 `.` 开头的文件不会显示，可用 `ls -a`  来查看
 :::
 
@@ -109,6 +109,6 @@ In menuconfig, you can press Ctrl-F to view the help of the currently selected i
 
 ```
 
-For more information on `menuconfig` , see the Python docstrings at the top of [menuconfig.py](https://github.com/zephyrproject-rtos/zephyr/blob/main/scripts/kconfig/menuconfig.py) .  
+For more information on `menuconfig` , see the Python docstrings at the top of [menuconfig.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/menuconfig.py) .  
 
 有关 `menuconfig` 的更多信息，请参考 [menuconfig.py](#)。
