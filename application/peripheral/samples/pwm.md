@@ -1,9 +1,7 @@
 # PWM
 
 ## 概述
-PWM是我们常用的外设功能之一，本节将通过示例展示PWM API接口和使用方法。
-
-csk6总共有8组pwm输出口，配合个定时器使用，每个定时器最多可以控制4录的pwm输出。
+PWM是我们常用的外设功能之一，csk6总共有8组pwm输出口，本节将通过示例展示PWM API接口和使用方法。
 
 ## PWM常用接口
 
@@ -22,6 +20,8 @@ int pwm_pin_set_usec(const struct device * dev, uint32_t channel, uint32_t perio
 | period  | 频率        |
 | pulse   | 脉冲宽度    |
 | flags   | PWM标志     |
+
+其中period和pulse的单位是microseconds。
 
 <br/>
 
@@ -56,7 +56,7 @@ CONFIG_LOG_MODE_IMMEDIATE=y
 CONFIG_PWM_LOG_LEVEL_DBG=y
 ```
 ### 设备树配置
-`csk6002_9s_nano.dts`设备树配置文件中已经实现了`pwmled的配置，具体如下:
+`csk6002_9s_nano.dts`设备树配置文件中已经实现了`pwmled`的配置，具体如下:
 
 ```c
 {
@@ -79,8 +79,8 @@ CONFIG_PWM_LOG_LEVEL_DBG=y
 
 | 字段                                  | 说明                                                         |
 | ------------------------------------- | ------------------------------------------------------------ |
-| green_pwm_led                         | pwm_led 设备树的 node label，可通过 node label 获取 pwm_led设备树的配置信息 |
-| green_pwm_led                         | pwm_led 设备树的 node id，可通过 node id获取 pwm_led设备树的配置信息 |
+| green_pwm_led(green_pwm_led:)                         | pwm_led 设备树的 node label，可通过 node label 获取 pwm_led设备树的配置信息 |
+| green_pwm_led(:green_pwm_led)                         | pwm_led 设备树的 node id，可通过 node id获取 pwm_led设备树的配置信息 |
 | gpios = <&pwm5 5 PWM_POLARITY_NORMAL> | &pwm5 ：pwm _5<br />5：通道<br />PWM_POLARITY_NORMAL： pwm 引脚 flag |
 | User BOARD_LED_2 - PWM0               | pwm_led 节点的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取pwm的设备实例 |
 
