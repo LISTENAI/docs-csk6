@@ -5,7 +5,8 @@ I2C是我们常用的外设功能之一，CSK6 SDK I2C外设驱动采用标准�
 
 CSK6 芯片有两个I2C 硬件外设。
 CSK6 I2C驱动功能特性如下：
-- 支持主设备或从设备。
+
+- 支持主/从设备。
 - 支持三种可选传输速度模式 Standard-mode (100 kb/s)、Fast-mode (400 kb/s) 和Fast-mode plus (1 Mb/s)。
 - 支持DMA传送。
 - 支持主发、主收、从发、从收模式。
@@ -14,19 +15,83 @@ CSK6 I2C驱动功能特性如下：
 - 支持general call模式。
 - 支持时钟延展。
 
-## API接口
+## 使用示例
+
+### 常用 API 接口
+
+<br/>
+
+I2C配置
+
 ```c
-/*i2c控制器配置*/
-i2c_configure()
-/*i2c写数据*/
-i2c_write()
-/*i2c读数据*/
-i2c_read()
+int i2c_configure(const struct device *dev, uint32_t dev_config);
 ```
+
+I2C主控制器的配置操作，成功返回0，失败返回非0。
+
+**参数说明**
+
+| 字段       | 说明                    |
+| ---------- | ----------------------- |
+| dev        | 指向I2C Device的指针    |
+| dev_config | I2C运行时的配置值，32位 |
+
+**dev_config可取以下选项**
+
+| **宏定义**          | **作用**                                              |      |
+| ------------------- | ----------------------------------------------------- | ---- |
+| I2C_SPEED_STANDARD  | 标准模式：100 kHz                                     |      |
+| I2C_SPEED_FAST      | 快速模式：400 kHz                                     |      |
+| I2C_SPEED_FAST_PLUS | 快速模式+：1 MHz                                      |      |
+| I2C_SPEED_HIGH      | 高速模式：3.4 MHz                                     |      |
+| I2C_SPEED_ULTRA     | 超快速模式：5 MHz                                     |      |
+| I2C_MODE_MASTER     | 使当前控制器作为主控制器                              |      |
+| I2C_ADDR_10_BITS    | 使用10位寻址。（不推荐使用-改用I2C_MSG_ADDR_10_BITS） |      |
+
+<br/>
+
+I2C写
+
+```c
+static int i2c_write(const struct device *dev, const uint8_t *buf, uint32_t	num_bytes, uint16_t	addr);
+```
+
+将数据写入I2C设备，此函数写入一次会产生起始与终止信号，成功返回0，失败返回非0。
+
+**参数说明**
+
+| 参数名    | 介绍                 |
+| :-------- | :------------------- |
+| dev       | 指向I2C Device的指针 |
+| buf       | 传输数据的buf内存池  |
+| num_bytes | 传输数据的buf大小    |
+| addr      | I2C设备地址          |
+
+<br/>
+
+I2C读
+
+```c
+static int i2c_read(const struct device * dev, uint8_t *buf, uint32_t num_bytes, uint16_t addr);
+```
+
+从I2C设备读取数据，此函数读取一次会产生起始与终止信号，成功返回0，失败返回非0。
+
+**参数说明**
+
+| 参数名    | 介绍                 |
+| :-------- | :------------------- |
+| dev       | 指向I2C Device的指针 |
+| buf       | 存储数据的buf内存池  |
+| num_bytes | 存储数据的buf大小    |
+| addr      | I2C设备地址          |
+
+<br/>
+
 更多I2C API接口请访问zephyr官网[I2C Interface](https://docs.zephyrproject.org/latest/doxygen/html/group__i2c__interface.html)。
 
-## 使用示例
 ### 准备工作
+
 本示例基于 `csk6002_9s_nano`开发板实现，使用了两组I2C作为主从设备进行数据的通讯，其中
 - `i2c0(GPIO_A_04, GPIO_A_05)`作为主设备(master)
 - `i2c1(GPIO_A_06, GPIO_A_07)`作为从设备(slave)
@@ -45,13 +110,15 @@ i2c_read()
 ```
 lisa zep create
 ```
-![](./files/lisa_create_01.png)
-![](./files/lisa_create_02.png)
-![](./files/lisa_create_03.png)
-![](./files/lisa_create_04.png)
+![](./files/liza_zep_create.png)
 
+
+依次按以下目录选择完成i2c sample创建：
+
+> boards → csk6 → driver→ i2c→ master_slave
 
 ### 组件配置
+
 ```
 CONFIG_STDOUT_CONSOLE=y
 CONFIG_PRINTK=y
@@ -104,6 +171,7 @@ CONFIG_I2C=y
 :::note
 如果您想了解更多关于设备树的信息，请学习[设备树](../../device_tree.md)章节。
 :::
+
 ### 应用逻辑
 
 本实例中主要实现了以下数据收发：
@@ -222,8 +290,7 @@ lisa zep flash --runner pyocd
 **查看串口日志**
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 **slave接收到master发送的数据结果应为：**
 ```
