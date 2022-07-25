@@ -7,22 +7,103 @@ CSK6 RTC驱动具有如下特性：
 - 时钟源（时钟分频器前）频率为32.768KHz。
 - 可以设置秒、分和小时的定时中断。
 
-### API接口
+### 常用 API 接口
+
+**获取最大的定时时间**
 
 ```c
-/*获取最大的定时时间，在csk6上top value为:4296508s(1193h) */
-uint32_t counter_get_top_value(const struct device * dev)	
-
-/* 启动计时器 */
-counter_start(rtc);	
-
-/* 获取当前计数器值 */
-int counter_get_value(const struct device * dev, uint32_t * ticks)
-
-/* 设置闹钟，当前CSK6仅支持channel id 为0 */
-counter_set_channel_alarm(rtc, 0, &alarm_cfg);
+uint32_t counter_get_top_value(const struct device *dev);
 ```
+
+获取最大的定时时间，在csk6上返回的top value为:4296508s(1193h) 。
+
+**参数说明**
+
+| 字段 | 说明     |
+| ---- | -------- |
+| dev  | 设备指针 |
+
+<br/>
+
+**在空闲的运行模式下启动计数器**
+
+```c
+int counter_start(const struct device *dev);
+```
+
+启动计数器，返回0表示成功，失败返回非0。
+
+**参数说明**
+
+| 字段 | 说明     |
+| ---- | -------- |
+| dev  | 设备指针 |
+
+<br/>
+
+**停止计数器**
+
+```c
+int counter_stop(const struct device *dev);
+```
+
+停止计数器，返回0表示成功，失败返回非0。
+
+**参数说明**
+
+| 字段 | 说明     |
+| ---- | -------- |
+| dev  | 设备指针 |
+
+<br/>
+
+**获取当前计数器值**
+
+```c
+int counter_get_value(const struct device *dev, uint32_t *ticks);
+```
+
+获取当前计数器值，返回0表示成功，失败返回非0。
+
+**参数说明**
+
+| 字段  | 说明                           |
+| ----- | ------------------------------ |
+| dev   | 设备指针                       |
+| ticks | 指向当前计数器值存储位置的指针 |
+
+<br/>
+
+**设置闹钟**
+
+```c
+int counter_set_channel_alarm(const struct device *dev,
+                              uint8_t chan_id,
+                              const struct counter_alarm_cfg *alarm_cfg);
+```
+
+设置闹钟，当前CSK6仅支持channel id 为0，在闹钟到期之后，不需要禁用即可再次设置。在闹钟到期且调用回调函数的过程中，对应的通道被视为可用，可以在其他地方被使用。返回0表示成功，失败返回非0，具体返回值见下图所示。
+
+**参数说明**
+
+| 字段      | 说明     |
+| --------- | -------- |
+| dev       | 设备指针 |
+| chan_id   | 通道 id  |
+| alarm_cfg | 闹钟配置 |
+
+**返回值说明**
+
+| 返回值   | 说明                                       |
+| -------- | ------------------------------------------ |
+| 0        | 成功                                       |
+| -ENOTSUP | 请求无效（设备不支持中断或请求通道id失败） |
+| -EINVAL  | 闹钟配置无效                               |
+| -ETIME   | 闹钟的值设置太迟                           |
+
 更多计数器API接口可以在zephyr官网[counter interface APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__counter__interface.html)中看到。
+
+<br/>
 
 ## 使用示例
 ### 准备工作  
@@ -55,7 +136,7 @@ CONFIG_COUNTER_CSK6=y
 
 ### 示例逻辑
 
-基于CSK6驱动提供的RTC时钟，调用counter计数器接口设置一个2S的闹钟，闹钟时间到时触发中断回调，并在回调中做响应的处理。
+基于CSK6驱动提供的RTC时钟，调用counter计数器接口设置一个2秒的闹钟，闹钟时间到时触发中断回调，并在回调中做响应的处理。
 
 
 ### 应用逻辑实现
@@ -68,7 +149,7 @@ k_thread_create(&rtc_thread_data, rtc_stack_area,
                 rtc_thread, NULL, NULL, NULL, pri, 0, K_NO_WAIT);
 ```
 
-**设置一个2S的闹钟：**  
+**设置一个2秒的闹钟：**
 
 ```c
 /*设置中断回调处理*/
@@ -95,7 +176,7 @@ void rtc_thread(void *v1, void *v2, void *v3){
     alarm_cfg.callback = sec_counter_callback;
     /* 在闹钟开始前获取当前计数器值 */
     counter_get_value(rtc, &now);
-    alarm_cfg.ticks = now + delay_time;  /* 闹钟时间设置为2S，从当前计数器值开始 */		
+    alarm_cfg.ticks = now + delay_time;  /* 闹钟时间设置为2s，从当前计数器值开始 */
     alarm_cfg.user_data = &alarm_cfg;
 
     /* 在闹钟开始前当前计数器值 */
@@ -126,9 +207,8 @@ lisa zep flash --runner pyocd
 ```
 #### 查看结果
 
-CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+CSK6-NanoKit通过板载DAPLink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 
 ```
@@ -142,4 +222,4 @@ get counter value after alarm end: 2s
 ======RTC device alarm end======
 
 ```
- 从日志可以看到，闹钟在2S后触发了中断，符合示例实现的预期，以上就是本章节所提供的RTC使用示例。
+ 从日志可以看到，闹钟在2秒后触发了中断，符合示例实现的预期，以上就是本章节所提供的RTC使用示例。
