@@ -4,7 +4,7 @@
 SPI外设是我们常用的外设功能之一，CSK6 SDK支持SPI外设功能，本章节通过示例介绍SPI外设的基本使用方法。
 
 CSK6 芯片有两组SPI硬件外设，SPI0和SPI1。
-CSK6 I2C驱动功能特性如下：
+CSK6 SPI驱动功能特性如下：
 - 支持主/从模式。
 - 支持DMA硬件握手。
 - SPI时钟最高可达50MHZ。
@@ -404,5 +404,5 @@ SPI thread creaeted
 
 ![](./files/SPI_data.png)
 
-从逻辑分析仪过程数据可以看到，master设备MOSI数据为`01~09`，MISO数据为`09~01`，符合预期。
+从逻辑分析仪过程数据如果可以看到，master设备MOSI数据为`01~09`，MISO数据为`09~01`，则符合预期。
 
