@@ -23,8 +23,10 @@ Zephyr使用[Kconfig](https://www.kernel.org/doc/Documentation/kbuild/kconfig-la
   source "foo/bar/*/Kconfig"
   ```
 
-  If the pattern foo/bar/*/Kconfig matches the files foo/bar/baz/Kconfig and foo/bar/qaz/Kconfig, the statement above is equivalent to the following two source statements:  
-  如果样式 `foo/bar/*/Kconfig` 匹配 `foo/bar/baz/Kconfig`和`foo/bar/qaz/Kconfig` 文件，则上面的语句等价于以下两个`source`语句：
+  If the pattern foo/bar/*/Kconfig matches the files foo/bar/baz/Kconfig and foo/bar/qaz/Kconfig, the statement above is equivalent to the following two source statements:   
+  
+  如果样式 `foo/bar/*/Kconfig` 匹配 `foo/bar/baz/Kconfig` 和 `foo/bar/qaz/Kconfig` 文件，则上面的语句等价于以下两个`source`语句：
+
   ```
     source "foo/bar/baz/Kconfig"
     source "foo/bar/qaz/Kconfig"
