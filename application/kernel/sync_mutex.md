@@ -16,7 +16,7 @@
 
 ### 常用API接口
 
-定义并初始化互斥量
+### K_MUTEX_DEFINE
 
 ```c
 K_MUTEX_DEFINE(name)
@@ -36,7 +36,7 @@ K_MUTEX_DEFINE(name)
 
 <br/>
 
-初始化互斥量
+### k_mutex_init
 
 ```c
 int k_mutex_init(struct k_mutex *mutex);
@@ -54,7 +54,7 @@ int k_mutex_init(struct k_mutex *mutex);
 
 <br/>
 
-互斥量持锁
+### k_mutex_lock
 
 ```c
 int k_mutex_lock(struct k_mutex *mutex, k_timeout_t timeout);
@@ -79,7 +79,7 @@ int k_mutex_lock(struct k_mutex *mutex, k_timeout_t timeout);
 
 <br/>
 
-互斥量解锁
+### k_mutex_unlock
 
 ```c
 void k_mutex_unlock(struct k_mutex *mutex);
