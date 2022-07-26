@@ -2,11 +2,11 @@
 
 A workqueue is a kernel object that uses a dedicated thread to process work items in a first in, first out manner. Each work item is processed by calling the function specified by the work item. A workqueue is typically used by an ISR or a high-priority thread to offload non-urgent processing to a lower-priority thread so it does not impact time-sensitive processing.
 
-工作队列（workqueue ）是一个使用特定线程来运行工作项（work items）的内核对象，其方式为先进先出，通过调用工作项指定的函数来处理每个工作项。工作队列的典型应用是在ISR或者高优先级线程中去分担部分工作到一个低优先级的线程中，其目的是减少ISR或高优先级线程的处理时长，所以它不影响时间敏感的处理。
+工作队列(workqueue )是一个使用特定线程来运行工作项(work items)的内核对象，其方式为先进先出，通过调用工作项指定的函数来处理每个工作项。工作队列的典型应用是在ISR或者高优先级线程中去分担部分工作到一个低优先级的线程中，其目的是减少ISR或高优先级线程的处理时长，所以它不影响时间敏感的处理。
 
 Any number of workqueues can be defined (limited only by available RAM). Each workqueue is referenced by its memory address.
 
-可以定义无上限的工作队列（仅受RAM限制）。每个工作队列通过地址引用。
+可以定义无上限的工作队列(仅受RAM限制)。每个工作队列通过地址引用。
 
 A workqueue has the following key properties:
 
@@ -15,12 +15,12 @@ A workqueue has the following key properties:
 
 工作队列有下列关键属性：
 
-- 一个已经添加了工作项，但未进行处理的队列。
+- 一个用于存放已添加但未执行工作项的队列。
 - 一个处理队列中的工作项的线程。该线程的优先级是可以配置的，允许为协作式线程或抢占式线程。
 
 Regardless of workqueue thread priority the workqueue thread will yield between each submitted work item, to prevent a cooperative workqueue from starving other threads.
 
-不管工作队列优先级如何，工作队列线程将在提交工作项之后进行让出（yield）CPU，防止协作式工作队列饿死其他线程。
+不管工作队列优先级如何，工作队列线程将在提交工作项之后进行让出(yield)CPU，防止协作式工作队列饿死其他线程。
 
 A workqueue must be initialized before it can be used. This sets its queue to empty and spawns the workqueue’s thread. The thread runs forever, but sleeps when no work items are available.
 
@@ -34,7 +34,7 @@ Any number of **work items** can be defined. Each work item is referenced by i
 
 A work item is assigned a **handler function**, which is the function executed by the workqueue’s thread when the work item is processed. This function accepts a single argument, which is the address of the work item itself. The work item also maintains information about its status.
 
-每个工作项都被分配一个处理函数（handler function），这是工作队列线程在执行工作项时执行的函数。处理函数唯一的形参就是工作项句柄，可在工作项句柄中获取工作项状态。
+每个工作项都被分配一个处理函数(handler function)，这是工作队列线程在执行工作项时执行的函数。处理函数唯一的形参就是工作项句柄，可在工作项句柄中获取工作项状态。
 
 A work item must be initialized before it can be used. This records the work item’s handler function and marks it as not pending.
 
@@ -54,11 +54,11 @@ Depending on the scheduling priority of the workqueue’s thread, and the work r
 
 A delayable work item may be scheduled (K_WORK_DELAYED) to a workqueue; see Delayable Work.
 
-工作项可以标记为延迟工作项（`K_WORK_DELAYED`），参考可延迟工作。
+工作项可以标记为延迟工作项(`K_WORK_DELAYED`)，参考可延迟工作。
 
 A work item will be running (K_WORK_RUNNING) when it is running on a work queue, and may also be canceling (K_WORK_CANCELING) if it started running before a thread has requested that it be cancelled.
 
-当工作队列正在运行时，工作项可被执行（`K_WORK_RUNNING`）。如果该工作项还未被执行，也可被取消（`K_WORK_CANCELING`）。
+当工作队列正在运行时，工作项可被执行(`K_WORK_RUNNING`)。如果该工作项还未被执行，也可被取消(`K_WORK_CANCELING`)。
 
 A work item can be in multiple states; for example it can be:
 
@@ -69,8 +69,8 @@ A work item can be in multiple states; for example it can be:
 
 工作项可处于多种状态，比如说：
 
-- 标记为运行（`K_WORK_RUNNING`）
-- 标记为取消（`K_WORK_CANCELING`）
+- 标记为运行(`K_WORK_RUNNING`)
+- 标记为取消(`K_WORK_CANCELING`)
 - 在相同队列中再次运行
 - 计划提交到队列中
 
@@ -80,7 +80,7 @@ all simultaneously. A work item that is in any of these states is pending (k_wor
 
 A handler function can use any kernel API available to threads. However, operations that are potentially blocking (e.g. taking a semaphore) must be used with care, since the workqueue cannot process subsequent work items in its queue until the handler function finishes executing.
 
-处理函数可以调用任何适用于线程的内核API。但是，带阻塞相关的接口（如`k_sem_take`）需要斟酌使用。这是因为，在当前处理函数执行完成之前，工作队列无法处理其队列中的后续工作项。
+处理函数可以调用任何适用于线程的内核API。但是，带阻塞相关的接口(如`k_sem_take`)需要斟酌使用。这是因为，在当前处理函数执行完成之前，工作队列无法处理其队列中的后续工作项。
 
 The single argument that is passed to a handler function can be ignored if it is not required. If the handler function requires additional information about the work it is to perform, the work item can be embedded in a larger data structure. The handler function can then use the argument value to compute the address of the enclosing data structure with CONTAINER_OF, and thereby obtain access to the additional information it needs.
 
@@ -99,7 +99,7 @@ A handler function is permitted to re-submit its work item argument to the workq
 
 An ISR or a thread may need to schedule a work item that is to be processed only after a specified period of time, rather than immediately. This can be done by scheduling a delayable work item to be submitted to a workqueue at a future time.
 
-如果在ISR或线程中需要调度一个工作项在指定周期后执行，那么通过可延迟的工作项（delayable work item）在将来的某个时间提交到工作队列中完成。
+如果在ISR或线程中需要调度一个工作项在指定周期后执行，那么通过可延迟的工作项(delayable work item)在将来的某个时间提交到工作队列中完成。
 
 A delayable work item contains a standard work item but adds fields that record when and where the item should be submitted.
 
@@ -111,7 +111,7 @@ A delayable work item is initialized and scheduled to a workqueue in a similar m
 
 When the schedule request is made the kernel initiates a timeout mechanism that is triggered after the specified delay has elapsed. Once the timeout occurs the kernel submits the work item to the specified workqueue, where it remains queued until it is processed in the standard manner.
 
-在工作项被添加后，内核启动超时机制，在指定的延迟后被触发。一旦超时发生，内核就会把工作项目提交给指定的工作队列，工作项一直被排在工作队列中，以标准工作项方式被处理。
+当发出该工作队列的调度请求后，内核启动超时机制，在指定的延迟后被触发。一旦超时发生，内核就会把工作项目提交给指定的工作队列，工作项一直被排在工作队列中，以标准工作项方式被处理。
 
 Note that work handler used for delayable still receives a pointer to the underlying non-delayable work structure, which is not publicly accessible from k_work_delayable. To get access to an object that contains the delayable work object use this idiom:
 
