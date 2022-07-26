@@ -19,19 +19,88 @@
 - 如果多个线程都在等待信号量，新产生的信号量会被等待时间最长的最高优先级线程接收。
 
 ### 常用API接口
+
+定义并初始化信号量
+
 ```c
-/*初始化信号量*/
-K_SEM_DEFINE(name, initial_count, count_limit )	
-/*初始化信号量*/
-int k_sem_init(struct k_sem * sem, unsigned int initial_count, unsigned int limit)
-/*等待信号量*/
-int k_sem_take(struct k_sem * sem, k_timeout_t timeout)	
-/*发送信号量*/
-void k_sem_give(struct k_sem * sem)
+K_SEM_DEFINE(name, initial_count, count_limit)
 ```
+
+静态定义并初始化信号量，使用信号量需要包含头文件`#include <zephyr/kernel.h>`，该信号量可以在定义的模块之外去使用，但是需要做如下声明：
+
+```c
+ extern struct k_sem <name>;
+```
+
+**参数说明**
+
+| 字段          | 说明                                                         |
+| ------------- | ------------------------------------------------------------ |
+| name          | 信号量名字                                                   |
+| initial_count | 初始化信号量的起始计数值                                     |
+| count_limit   | 信号量计数最大值，该值不能超过信号量允许的最大值`K_SEM_MAX_LIMIT` |
+
+<br/>
+
+初始化信号量
+
+```c
+int k_sem_init(struct k_sem *sem, unsigned int initial_count, unsigned int limit);
+```
+
+初始化信号量，信号量在使用之前必须先进行初始化，与`K_SEM_DEFINE`的区别是`k_sem_init`使用的信号量需要先进行声明定义。
+
+成功返回0，失败返回非0。
+
+**参数说明**
+
+| 字段          | 说明                                                         |
+| ------------- | ------------------------------------------------------------ |
+| sem           | 信号量指针，这里传入的信号量指针需要先进行声明定义           |
+| initial_count | 初始化信号量的起始计数值                                     |
+| limit         | 信号量计数最大值，该值不能超过信号量允许的最大值`K_SEM_MAX_LIMIT` |
+
+<br/>
+
+等待信号量
+
+```c
+int k_sem_take(struct k_sem *sem, k_timeout_t timeout);
+```
+
+该函数可用于中断处理函数，但是用在中断处理函数的时候，`timeout`必须设置成`K_NO_WAIT`。
+
+**参数说明**
+
+| 字段    | 说明                                                         |
+| ------- | ------------------------------------------------------------ |
+| sem     | 信号量指针                                                   |
+| timeout | 等待信号量的时间，或者可以指定设置成`K_NO_WAIT`或`K_FOREVER` |
+
+<br/>
+
+发送信号量
+
+```c
+void k_sem_give(struct k_sem *sem);
+```
+
+该函数可用于中断处理函数。
+
+**参数说明**
+
+| 字段 | 说明       |
+| ---- | ---------- |
+| sem  | 信号量指针 |
+
 更多`Semaphore API`接口 可以在zephyr官网[Semaphore APIS](https://docs.zephyrproject.org/latest/doxygen/html/group__semaphore__apis.html)中找到。
 
+<br/>
+
 ### 信号量的使用
+
+信号量使用需要包含头文件`#include <zephyr/kernel.h>`
+
 以下是一个信号量使用例程，该示例创建了一个动态信号量，初始化两个线程，其中一个线程发送信号量，另一个线程接收信号量并执行相应的操作。实现代码如下：
 **信号量初始化**
 一个信号量使用一个类型为 k_sem 的变量定义，有两种方式可以完成信号量的初始化：     
@@ -41,7 +110,7 @@ void k_sem_give(struct k_sem * sem)
 K_SEM_DEFINE(my_sem, 0, 1);
 ```
 
-- 方法2，使用函数 
+- 方法2，使用函数 ：
 ```c
 struct k_sem my_sem;
 
@@ -226,11 +295,7 @@ lisa zep flash --runner pyocd
 ```
 - **查看结果**  
 
-可通过lisa提供的`lisa term`命令查看日志：
-```
-lisa term
-```
-或者将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
 日志输出结果：
 ```shell
