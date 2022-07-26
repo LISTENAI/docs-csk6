@@ -1,7 +1,7 @@
 # 轮询
 ## 概述
 
-轮询(poll)是一个比较特殊的内核对象，polling API允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore, FIFO, poll signal三种。
+轮询(poll)是一个比较特殊的内核对象，polling API允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore(信号量）, FIFO（管道）, poll signal（轮询）三种。
 例如一个线程使用polling API同时等待多个semaphore，只要其中一个semaphore触发时polling API就会得到通知。
 poll具有以下特性：
 
@@ -14,7 +14,7 @@ poll具有以下特性：
 
 ## 常用API接口
 
-初始化一个k_poll_event实例
+### k_poll_event_init
 
 ```c
 /*初始化一个k_poll_event实例*/
@@ -35,7 +35,7 @@ void k_poll_signal_reset(struct k_poll_signal * sig)
 /*获取signal信号的状态和值*/
 void k_poll_signal_check(struct k_poll_signal * sig, unsigned int * signaled, int * result)	
 
-等待一个或多个轮询事件发生。事件可以是内核对象，如信号量或轮询信号事件。在对象变为可用且其等待队列为空之前，轮询线程无法获取对象上的轮询事件，因此，当被轮询的对象只有一个线程（轮询线程）试图获取它们时，`k_poll()`调用更有效。当`k_poll()`返回0时，调用方应轮询所有给`k_poll()`的事件，并检查状态字段中预期的值，并采取相关操作。再次调用`k_poll()`之前，用户必须将状态字段重置为`K_POLL_STATE_NOT_READY`。
+等待一个或多个轮询事件发生。事件可以是内核对象，如信号量(Semaphore)或轮询信号事件。在对象变为可用且其等待队列为空之前，轮询线程无法获取对象上的轮询事件，因此，当被轮询的对象只有一个线程（轮询线程）试图获取它们时，`k_poll()`调用更有效。当`k_poll()`返回0时，调用方应轮询所有给`k_poll()`的事件，并检查状态字段中预期的值，并采取相关操作。再次调用`k_poll()`之前，用户必须将状态字段重置为`K_POLL_STATE_NOT_READY`。
 
 **参数说明**
 
@@ -47,13 +47,13 @@ void k_poll_signal_check(struct k_poll_signal * sig, unsigned int * signaled, in
 
 <br/>
 
-初始化轮询信号的对象，作为轮询事件的触发
+### k_poll_signal_init
 
 ```c
 void k_poll_signal_init(struct k_poll_signal *sig);
 ```
 
-准备好一个轮询的对象，可以通过`k_poll_signal_raise()`接口发送信号。
+初始化轮询信号的对象，作为轮询事件的触发。准备好一个轮询的对象，可以通过`k_poll_signal_raise()`接口发送信号。
 
 **参数说明**
 
@@ -63,13 +63,13 @@ void k_poll_signal_init(struct k_poll_signal *sig);
 
 <br/>
 
-发送轮询信号
+### k_poll_signal_raise
 
 ```c
 int k_poll_signal_raise(struct k_poll_signal *sig, int result);
 ```
 
-该函数接口准备轮询信号，该信号基本上是`K_POLL_TYPE_SIGNAL`信号类型的轮询事件。如果线程正在轮询该事件，则可以准备获取事件。轮询信号包含的“signaled”字段，由`k_poll_signal_raise()`设置时，该字段值不变，直到用户使用`k_poll_signal_reset()`将其设置回0，因此，在再次传递给`k_poll()`之前，用户必须对其进行重置，否则`k_poll()`将认为它已发出信号，并将立即返回。
+该函数接口准备轮询信号，该信号基本上是`K_POLL_TYPE_SIGNAL`信号类型的轮询事件。如果有线程正在轮询该事件，则该线程可以跳出poll阻塞往下执行。轮询信号包含的“signaled”字段，由`k_poll_signal_raise()`设置时，该字段值不变，直到用户使用`k_poll_signal_reset()`将其设置回0，因此，在再次传递给`k_poll()`之前，用户必须对其进行重置，否则`k_poll()`将认为它已发出信号，并将立即返回。
 
 接口成功返回0，非0表示失败。
 
@@ -82,13 +82,13 @@ int k_poll_signal_raise(struct k_poll_signal *sig, int result);
 
 <br/>
 
-复位信号对象
+### k_poll_signal_reset
 
 ```c
 void k_poll_signal_reset(struct k_poll_signal *sig);
 ```
 
-复位信号对象，如果信号对象被发送，但还未被poll前，都可以使用该接口函数进行复位。
+复位信号对象。在被poll捕获前，都可以使用该接口函数进行复位。
 
 **参数说明**
 
@@ -98,13 +98,13 @@ void k_poll_signal_reset(struct k_poll_signal *sig);
 
 <br/>
 
-获取轮询的信号对象的状态和result值
+### k_poll_signal_check
 
 ```c
 void k_poll_signal_check(struct k_poll_signal *sig, unsigned int *signaled, int *result);
 ```
 
-获取轮询的信号对象的状态和result值
+获取轮询的信号对象的状态和result值。
 
 **参数说明**
 
@@ -118,9 +118,12 @@ void k_poll_signal_check(struct k_poll_signal *sig, unsigned int *signaled, int 
 
 <br/>
 
-## Poll的使用  
+## Poll的使用
 
-**线程A poll信号是否发送**    
+注意：使用Poll功能，需要配置`CONFIG_POLL`宏定义。如何配置可以参考[设置Kconfig配置](../../build/kconfig/Kconfig_configuration.md)及对应板块的其他文档描述。
+
+**线程A poll信号是否发送**
+
 ```c
 /*定义一个poll signal信号*/
 struct k_poll_signal signal;
