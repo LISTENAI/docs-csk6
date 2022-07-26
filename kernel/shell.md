@@ -15,7 +15,7 @@
 * Tab Feature [标签特性](#tf)
 * History Feature [历史特性](#hf)
 * Wildcards Feature [通配符特性](#wf)
-* Meta Keys Feature 元键特性
+* Meta Keys Feature [元键特性](#mkf)
 * Getopt Feature Getopt特性
 * Obscured Input Feature 模糊输入特性
 * Shell Logger Backend Feature Shell记录器后端特性
@@ -434,3 +434,29 @@ log enable err a*
 
 This feature is activated by CONFIG_SHELL_WILDCARD set to y.  
 这个特性通过[CONFIG_SHELL_WILDCARD](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_WILDCARD.html#std-kconfig-CONFIG_SHELL_WILDCARD)设置为`y`激活。
+
+## <span id="mkf">元键特性</span>
+
+The shell module supports the following meta keys:  
+Shell 模块支持以下元键:
+
+| 元键   | 行为                                                         |
+| ------ | ------------------------------------------------------------ |
+| Ctrl+a | Moves the cursor to the beginning of the line. 将光标移动到行首。 |
+| Ctrl+b | Moves the cursor backward one character. 将光标向后移动一个字符。 |
+| Ctrl+c | Preserves the last command on the screen and starts a new command in a new line.保留屏幕上的最后一个命令，并在新行中启动一个新命令。 |
+| Ctrl+d | Deletes the character under the cursor.删除光标下的字符。    |
+| Ctrl+e | Moves the cursor to the end of the line.将光标移到行尾。     |
+| Ctrl+f | Moves the cursor forward one character.将光标向前移动一个字符。 |
+| Ctrl+k | Deletes from the cursor to the end of the line.删除从光标到行尾的内容。 |
+| Ctrl+l | Clears the screen and leaves the currently typed command at the top of the screen.清除屏幕并将当前键入的命令保留在屏幕顶部。 |
+| Ctrl+n | Moves in history to next entry.在历史中移动到下一个条目。    |
+| Ctrl+p | Moves in history to previous entry.在历史中移动到以前的条目。 |
+| Ctrl+u | Clears the currently typed command. 清除当前类型化的命令。   |
+| Ctrl+w | Removes the word or part of the word to the left of the cursor. Words separated by period instead of space are treated as one word.移除光标左侧的单词或单词的一部分。用句点而不是空格分隔的词被视为一个词。 |
+| Alt+b  | Moves the cursor backward one word.将光标向后移动一个单词。  |
+| Alt+f  | Moves the cursor forward one word.将光标向前移动一个单词。   |
+
+This feature is activated by [`CONFIG_SHELL_METAKEYS`](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_METAKEYS.html#std-kconfig-CONFIG_SHELL_METAKEYS) set to `y`.
+
+这个特性通过 [CONFIG_SHELL_METAKEYS](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_METAKEYS.html#std-kconfig-CONFIG_SHELL_METAKEYS) 设置为 `y` 激活.
