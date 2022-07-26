@@ -20,7 +20,7 @@
 
 ### 常用API接口
 
-定义并初始化信号量
+### K_SEM_DEFINE
 
 ```c
 K_SEM_DEFINE(name, initial_count, count_limit)
@@ -42,7 +42,7 @@ K_SEM_DEFINE(name, initial_count, count_limit)
 
 <br/>
 
-初始化信号量
+### k_sem_init
 
 ```c
 int k_sem_init(struct k_sem *sem, unsigned int initial_count, unsigned int limit);
@@ -62,13 +62,13 @@ int k_sem_init(struct k_sem *sem, unsigned int initial_count, unsigned int limit
 
 <br/>
 
-等待信号量
+### k_sem_take
 
 ```c
 int k_sem_take(struct k_sem *sem, k_timeout_t timeout);
 ```
 
-该函数可用于中断处理函数，但是用在中断处理函数的时候，`timeout`必须设置成`K_NO_WAIT`。
+等待信号量。该函数可用于中断处理函数，但是用在中断处理函数的时候，`timeout`必须设置成`K_NO_WAIT`。
 
 **参数说明**
 
@@ -79,13 +79,13 @@ int k_sem_take(struct k_sem *sem, k_timeout_t timeout);
 
 <br/>
 
-发送信号量
+### k_sem_give
 
 ```c
 void k_sem_give(struct k_sem *sem);
 ```
 
-该函数可用于中断处理函数。
+发送信号量。该函数可用于中断处理函数。
 
 **参数说明**
 
