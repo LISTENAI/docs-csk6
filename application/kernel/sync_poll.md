@@ -4,6 +4,7 @@
 轮询(poll)是一个比较特殊的内核对象，polling API允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore, FIFO, poll signal三种。
 例如一个线程使用polling API同时等待多个semaphore，只要其中一个semaphore触发时polling API就会得到通知。
 poll具有以下特性：
+
 - 当一个线程等待多个触发条件时，只要有一个条件满足k_poll就会返回。
 - 当semaphore或FIFO满足条件后, k_poll只是接到通知返回，线程并未获取到semaphore或FIFO, 还需要使用代码主动获取。
 
@@ -11,8 +12,10 @@ poll具有以下特性：
 - 轮询的基本信息和使用场景
 - 轮询的使用方法
 
-
 ## 常用API接口
+
+初始化一个k_poll_event实例
+
 ```c
 /*初始化一个k_poll_event实例*/
 void k_poll_event_init(struct k_poll_event * event, uint32_t type, int mode, void * obj)	
@@ -32,10 +35,91 @@ void k_poll_signal_reset(struct k_poll_signal * sig)
 /*获取signal信号的状态和值*/
 void k_poll_signal_check(struct k_poll_signal * sig, unsigned int * signaled, int * result)	
 
+等待一个或多个轮询事件发生。事件可以是内核对象，如信号量或轮询信号事件。在对象变为可用且其等待队列为空之前，轮询线程无法获取对象上的轮询事件，因此，当被轮询的对象只有一个线程（轮询线程）试图获取它们时，`k_poll()`调用更有效。当`k_poll()`返回0时，调用方应轮询所有给`k_poll()`的事件，并检查状态字段中预期的值，并采取相关操作。再次调用`k_poll()`之前，用户必须将状态字段重置为`K_POLL_STATE_NOT_READY`。
+
+**参数说明**
+
+| 字段       | 说明                                                         |
+| ---------- | ------------------------------------------------------------ |
+| event      | 被轮询的事件数组                                             |
+| num_events | 被轮询的事件数量（event数组中事件的个数）                    |
+| timeout    | 指定事件到来的等待时间，或者传入特殊值`K_NO_WAIT`或`K_FOREVER` |
+
+<br/>
+
+初始化轮询信号的对象，作为轮询事件的触发
+
+```c
+void k_poll_signal_init(struct k_poll_signal *sig);
 ```
+
+准备好一个轮询的对象，可以通过`k_poll_signal_raise()`接口发送信号。
+
+**参数说明**
+
+| 字段 | 说明           |
+| ---- | -------------- |
+| sig  | 轮询信号的对象 |
+
+<br/>
+
+发送轮询信号
+
+```c
+int k_poll_signal_raise(struct k_poll_signal *sig, int result);
+```
+
+该函数接口准备轮询信号，该信号基本上是`K_POLL_TYPE_SIGNAL`信号类型的轮询事件。如果线程正在轮询该事件，则可以准备获取事件。轮询信号包含的“signaled”字段，由`k_poll_signal_raise()`设置时，该字段值不变，直到用户使用`k_poll_signal_reset()`将其设置回0，因此，在再次传递给`k_poll()`之前，用户必须对其进行重置，否则`k_poll()`将认为它已发出信号，并将立即返回。
+
+接口成功返回0，非0表示失败。
+
+**参数说明**
+
+| 字段   | 说明                       |
+| ------ | -------------------------- |
+| sig    | 轮询信号的对象             |
+| result | 赋值给信号对象的result字段 |
+
+<br/>
+
+复位信号对象
+
+```c
+void k_poll_signal_reset(struct k_poll_signal *sig);
+```
+
+复位信号对象，如果信号对象被发送，但还未被poll前，都可以使用该接口函数进行复位。
+
+**参数说明**
+
+| 字段 | 说明           |
+| ---- | -------------- |
+| sig  | 轮询信号的对象 |
+
+<br/>
+
+获取轮询的信号对象的状态和result值
+
+```c
+void k_poll_signal_check(struct k_poll_signal *sig, unsigned int *signaled, int *result);
+```
+
+获取轮询的信号对象的状态和result值
+
+**参数说明**
+
+| 字段     | 说明                                         |
+| -------- | -------------------------------------------- |
+| sig      | 轮询信号的对象                               |
+| signaled | 收到信号的对象，该值将为非零                 |
+| result   | 收到信号的对象，该值有意义，否则该值无意义。 |
+
 更多`Poll API`接口 可以在zephyr官网[Async polling APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__poll__apis.html)中找到。
 
+<br/>
+
 ## Poll的使用  
+
 **线程A poll信号是否发送**    
 ```c
 /*定义一个poll signal信号*/
@@ -69,6 +153,7 @@ void thread_A(void){
 ```
 
 **线程 B 发送signal信号触发event**
+
 ```c
 void thread_B(void)
 {
