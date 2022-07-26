@@ -12,10 +12,6 @@
       "application/overview",
       "application/getting_start",
       "application/application_development",
-      "application/structure",
-      "application/kconfig",
-      "application/device_tree",
-      "application/board",
       {
         "type": "category",
         "label": "烧录与调试",
@@ -141,7 +137,8 @@
             "label": "调度、中断与同步",
             "items": [
               "kernel/threads",
-              "kernel/system_threads"
+              "kernel/system_threads",
+              "kernel/workqueue"
             ]
           }
         ]
@@ -152,7 +149,7 @@
   {
     "type": "category",
     "label": "系统服务",
-    "items": ["kernel/index"],
+    "items": ["service/index"],
     "collapsed": true
   },
   {
