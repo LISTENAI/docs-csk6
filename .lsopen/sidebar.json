@@ -12,10 +12,6 @@
       "application/overview",
       "application/getting_start",
       "application/application_development",
-      "application/structure",
-      "application/kconfig",
-      "application/device_tree",
-      "application/board",
       {
         "type": "category",
         "label": "烧录与调试",
@@ -79,33 +75,49 @@
       },
       {
         "type": "category",
-        "label": "系统组件",
+        "label": "系统服务",
         "items": [
           "application/modules/overview",
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
-          "application/modules/lvgl"
+          "application/modules/lvgl",
+          {
+            "type": "category",
+            "label": "音频",
+            "items": [
+              "application/audio/overview",
+              "application/audio/audio_record",
+              "application/audio/audio_playback",
+              "application/audio/audio_record_play"
+            ],
+            "collapsed": true
+          },
+          {
+            "type": "category",
+            "label": "网络",
+            "items": [
+              "application/network/overview",
+              "application/network/wifi_connect"
+            ],
+            "collapsed": true
+          }
         ],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "音频",
+        "label": "自定义驱动",
         "items": [
-          "application/audio/overview",
-          "application/audio/audio_record",
-          "application/audio/audio_playback",
-          "application/audio/audio_record_play"
+            "application/customdriver/custom-driver-video"
         ],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "网络",
+        "label": "自定义板型",
         "items": [
-          "application/network/overview",
-          "application/network/wifi_connect"
+            "application/board"
         ],
         "collapsed": true
       }
@@ -125,7 +137,8 @@
             "label": "调度、中断与同步",
             "items": [
               "kernel/threads",
-              "kernel/system_threads"
+              "kernel/system_threads",
+              "kernel/workqueue"
             ]
           }
         ]
@@ -136,13 +149,29 @@
   {
     "type": "category",
     "label": "系统服务",
+<<<<<<< HEAD
     "items": ["kernel/shell"],
+=======
+    "items": ["service/index"],
+>>>>>>> 1adbab92c13d80f9c9066ac707e677ac1773ce27
     "collapsed": true
   },
   {
     "type": "category",
     "label": "构建与配置系统",
-    "items": ["build/index"],
+    "items": [{
+      "type": "category",
+      "label": "Kconfig配置系统",
+      "items": [
+        "build/kconfig/overview",
+        "build/kconfig/Kconfig_gui",
+        "build/kconfig/Kconfig_configuration",
+        "build/kconfig/Kconfig_tips_and_demo",
+        "build/kconfig/Kconfig_custom",
+        "build/kconfig/Kconfig_extension"
+      ],
+      "collapsed": true
+    }],
     "collapsed": true
   },
   {
