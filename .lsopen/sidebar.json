@@ -134,7 +134,8 @@
             "items": [
               "kernel/threads",
               "kernel/system_threads",
-              "kernel/workqueue"
+              "kernel/workqueue",
+              "kernel/interrupt"
             ]
           }
         ]
