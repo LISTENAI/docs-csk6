@@ -16,11 +16,11 @@
 * History Feature [历史特性](#hf)
 * Wildcards Feature [通配符特性](#wf)
 * Meta Keys Feature [元键特性](#mkf)
-* Getopt Feature Getopt特性
-* Obscured Input Feature 模糊输入特性
-* Shell Logger Backend Feature Shell记录器后端特性
-* Usage 用法
-* API Reference API参考
+* Getopt Feature [Getopt特性](#gf)
+* Obscured Input Feature [模糊输入特性](#oif)
+* Shell Logger Backend Feature Shell [记录器后端特性](#slbfs)
+* Usage [用法](#usage)
+* API Reference [API参考](#apiref)
 
 ## <span id="overview">概述</span>
 
@@ -460,3 +460,138 @@ Shell 模块支持以下元键:
 This feature is activated by [`CONFIG_SHELL_METAKEYS`](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_METAKEYS.html#std-kconfig-CONFIG_SHELL_METAKEYS) set to `y`.
 
 这个特性通过 [CONFIG_SHELL_METAKEYS](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_METAKEYS.html#std-kconfig-CONFIG_SHELL_METAKEYS) 设置为 `y` 激活.
+
+## <span id="gf">Getopt特性</span>
+
+Some shell users apart from subcommands might need to use options as well. the arguments string, looking for supported options. Typically, this task is accomplished by the getopt function.  
+除了子命令之外，一些shell用户可能还需要使用的选项。参数字符串，寻找支持的选项。通常，此任务由 `getopt` 函数完成。
+
+For this purpose shell supports the getopt library available in the FreeBSD project. I was modified so that it can be used by all instances of the shell at the same time, hence its call requires one more parameter.  
+为此，shell支持FreeBSD项目中可用的 getopt 库。我们进行了修改，以便它被shell的所有实例同时使用，因此它的调用需要多一个参数。
+
+An example usage:  
+示例用法：
+
+```
+while ((char c = shell_getopt(shell, argc, argv, "abhc:")) != -1) {
+   /* some code */
+}
+```
+
+This module is activated by CONFIG_SHELL_GETOPT set to y.
+这个模块通过 [CONFIG_SHELL_GETOPT](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_GETOPT.html#std-kconfig-CONFIG_SHELL_GETOPT) 设置为 `y` 激活。
+
+## <span id="oif">模糊输入特性</span>
+
+With the obscured input feature, the shell can be used for implementing a login prompt or other user interaction whereby the characters the user types should not be revealed on screen, such as when entering a password.  
+使用模糊输入特性，shell 可以用于实现登录提示或其他用户交互，用户输入的字符不应该显示在屏幕上，例如输入密码时。
+
+Once the obscured input has been accepted, it is normally desired to return the shell to normal operation. Such runtime control is possible with the shell_obscure_set function.  
+一旦模糊输入被接受，通常需要将 shell 返回到正常操作。这样的运行时控制可以通过 `shell_obscure_set` 函数实现。
+
+An example of login and logout commands using this feature is located in samples/subsys/shell/shell_module/src/main.c and the config file samples/subsys/shell/shell_module/prj_login.conf.  
+使用此特性的登陆和注销命令在示例：[samples/subsys/shell/shell_module/src/main.c](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/samples/subsys/shell/shell_module/src/main.c)和配置文件[samples/subsys/shell/shell_module/prj_login.conf](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/samples/subsys/shell/shell_module/prj_login.conf)中。
+
+This feature is activated upon startup by CONFIG_SHELL_START_OBSCURED set to y. With this set either way, the option can still be controlled later at runtime. CONFIG_SHELL_CMDS_SELECT is useful to prevent entry of any other command besides a login command, by means of the shell_set_root_cmd function. Likewise, CONFIG_SHELL_PROMPT_UART allows you to set the prompt upon startup, but it can be changed later with the shell_prompt_change function.  
+这个特性在启动时设置 [CONFIG_SHELL_START_OBSCURED](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_START_OBSCURED.html#std-kconfig-CONFIG_SHELL_START_OBSCURED) 为 `y` 激活。无论采用哪种方式设置，该选项仍然可以在运行时被控制。 [CONFIG_SHELL_CMDS_SELECT](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_CMDS_SELECT.html#std-kconfig-CONFIG_SHELL_CMDS_SELECT) 通过 `shell_set_root_cmd` 函数防止输入登录以外的任何命令。同样，[CONFIG_SHELL_PROMPT_UART](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_PROMPT_UART.html#std-kconfig-CONFIG_SHELL_PROMPT_UART) 允许你在启动时设置提示，但以后可以使用`shell_prompt_change`函数进行更改。
+
+## <span id="slbfs">记录器后端特性</span>
+
+Shell instance can act as the Logging backend. Shell ensures that log messages are correctly multiplexed with shell output. Log messages from logger thread are enqueued and processed in the shell thread. Logger thread will block for configurable amount of time if queue is full, blocking logger thread context for that time. Oldest log message is removed from the queue after timeout and new message is enqueued. Use the shell stats show command to retrieve number of log messages dropped by the shell instance. Log queue size and timeout are SHELL_DEFINE arguments.  
+Shell 实例可以充当 [Logging](#) 后端。Shell 确保日志消息与 Shell 输出正确复用.来自日志记录器线程的日志消息在 shell 线程中进行排队和处理。如果队列已满，日志记录器线程将阻塞可配置的时间量，并在该时间阻塞记录器线程上下文。最旧的日志消息在超时后从队列中删除，新消息加入队列。使用 `shell stats show` 命令检索shell实例删除的日志消息数。日志队列大小和超时时 [SHELL_DEFINE](https://docs.zephyrproject.org/2.7.0/reference/shell/index.html#c.SHELL_DEFINE) 参数。
+
+This feature is activated by: CONFIG_SHELL_LOG_BACKEND set to y.  
+这个特性通过[CONFIG_SHELL_LOG_BACKEND](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_LOG_BACKEND.html#std-kconfig-CONFIG_SHELL_LOG_BACKEND) 设置为 `y` 激活。
+
+:::warning 
+Enqueuing timeout must be set carefully when multiple backends are used in the system. The shell instance could have a slow transport or could block, for example, by a UART with hardware flow control. If timeout is set too high, the logger thread could be blocked and impact other logger backends.  
+当系统中使用多个后端时，必须仔细设置排队超时。Shell 实例的传输速度可能很慢或者被阻塞，例如，被一个具有硬件流控制的 UART。 如果超时设置得太高，日志记录器线程可能会被阻塞，并影响其他日志记录器后端。
+:::
+
+:::warning 
+As the shell is a complex logger backend, it can not output logs if the application crashes before the shell thread is running. In this situation, you can enable one of the simple logging backends instead, such as UART (CONFIG_LOG_BACKEND_UART) or RTT (CONFIG_LOG_BACKEND_RTT), which are available earlier during system initialization.  
+由于 Shell 是一个复杂的日志记录器后端，如果应用程序在 shell 线程运行之前崩溃，它就不能输出日志。在这种情况下，你可以启用一个简单的日志记录后端，例如UART（[CONFIG_LOG_BACKEND_UART](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_LOG_BACKEND_UART.html#std-kconfig-CONFIG_LOG_BACKEND_UART)）或者 RTT ([CONFIG_LOG_BACKEND_RTT](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_LOG_BACKEND_RTT.html#std-kconfig-CONFIG_LOG_BACKEND_RTT)),它们在系统初始化更早期间可用。
+:::
+
+## <span id="usage">用法</span>
+
+To create a new shell instance user needs to activate requested backend using menuconfig.  
+要创建新的shell实例，用户需要使用 `menuconfig` 激活请求的后端。
+
+The following code shows a simple use case of this library:  
+下面的代码显示了这个库的一个简单用例:
+
+```
+void main(void)
+{
+
+}
+
+static int cmd_demo_ping(const struct shell *shell, size_t argc,
+                         char **argv)
+{
+        ARG_UNUSED(argc);
+        ARG_UNUSED(argv);
+
+        shell_print(shell, "pong");
+        return 0;
+}
+
+static int cmd_demo_params(const struct shell *shell, size_t argc,
+                           char **argv)
+{
+        int cnt;
+
+        shell_print(shell, "argc = %d", argc);
+        for (cnt = 0; cnt < argc; cnt++) {
+                shell_print(shell, "  argv[%d] = %s", cnt, argv[cnt]);
+        }
+        return 0;
+}
+
+/* Creating subcommands (level 1 command) array for command "demo". */
+SHELL_STATIC_SUBCMD_SET_CREATE(sub_demo,
+        SHELL_CMD(params, NULL, "Print params command.",
+                                               cmd_demo_params),
+        SHELL_CMD(ping,   NULL, "Ping command.", cmd_demo_ping),
+        SHELL_SUBCMD_SET_END
+);
+/* Creating root (level 0) command "demo" without a handler */
+SHELL_CMD_REGISTER(demo, &sub_demo, "Demo commands", NULL);
+
+/* Creating root (level 0) command "version" */
+SHELL_CMD_REGISTER(version, NULL, "Show kernel version", cmd_version);
+```
+
+Users may use the Tab key to complete a command/subcommand or to see the available subcommands for the currently entered command level. For example, when the cursor is positioned at the beginning of the command line and the Tab key is pressed, the user will see all root (level 0) commands:  
+用户可以使用 `Tab` 键去完成命令/子命令或者查看当前输入的命令级别的可用子命令。例如，当光标位于命令行的开头并按下 `Tab` 键时，用户将看到所有根命令(级别0):
+```
+clear  demo  shell  history  log  resize  version
+```
+
+:::info
+To view the subcommands that are available for a specific command, you must first type a space after this command and then hit Tab.  
+ 若要查看可用于特定命令的子命令，必须先在此命令后键入`空格`，然后按 `Tab` 键。
+:::
+
+These commands are registered by various modules, for example:  
+这些命令由不同的模块注册，例如: 
+
+* **clear**, **shell**, **history**, and **resize** are built-in commands which have been registered by subsys/shell/shell.c
+  **clear**, **shell**, **history** 和 **resize** 是由 [subsys/shell/shell.c](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/subsys/shell/shell.c) 注册的内置命令
+
+* **demo** and **version** have been registered in example code above by main.c
+  **demo** 和 **version** 已通过main.c在上面的示例代码中注册。
+* **log** has been registered by subsys/logging/log_cmds.c
+  **log** 已被 [subsys/logging/log_cmds.c](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/subsys/logging/log_cmds.c)注册。
+
+
+Then, if a user types a demo command and presses the Tab key, the shell will only print the subcommands registered for this command:  
+然后，如果用户键入 demo 命令并且按下 `Tab` 键，shell将只打印为该命令注册的子命令：
+```
+params  ping
+```
+
+## <span id="apiref">API参考</span>
+
+详细请打开 [API参考](https://docs.zephyrproject.org/2.7.0/reference/shell/index.html#api-reference) 进行了解。
