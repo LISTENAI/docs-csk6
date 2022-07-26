@@ -1,4 +1,4 @@
-# 自定义板型
+# 添加自定义板型
 
 ## 概述
 在前面的[设备树](./device_tree.md)章节中描述了硬件板型资源的层级数据结构和使用方法，csk6 sdk默认支持了`csk6002_9s_nano`等开发板板型，开发者在使用官方的开发板时进行应用开发时可以直接使用这些板型。
@@ -8,6 +8,8 @@
 csk6 sdk支持开发者在app应用目录下新增一个应用级别的board，通过本章节的学习，您将了解到：
 - 新增一个板型的正确方法
 - 如何基于新的硬件新增一个board
+
+
 
 
 ## 添加自定义board
@@ -31,17 +33,15 @@ csk6 sdk适配了`csk6002_9s_nano`开发板，对应的board配置文件在`zeph
 
 本章节将基于csk6 sdk 提供的blinky sample项目，新建一个名为`csk6002_myboard`的板型，并使用这个新的板型对blinky sample进行编译与运行。
 
-### 步骤一：创建应用项目
+### 步骤一：创建应用项目，以便在应用项目上增加自定义板型
 创建blinky sample项目步骤如下：  
 ![](./peripheral/samples/files/blinky_pwm01.png)
-依次按以下目录选择完成blinky sample创建：  
-> basic → blinky
 
-编译、烧录和运行结果可以在[GPIO](./peripheral/samples/gpio.md)章节中查看。
+首先创建一个sample，可以是hello_world或者其他应用项目，并在sample项目的基础上添加自定义板型。  
 
 ### 步骤二：在app目录下为新的板型`csk6002_myboard`添加板型配置文件
 
-在刚创建的blinky sample的工程目录下创建 `boards\arm\csk6002_myboard`目录
+在刚创建的sample的工程目录下创建 `boards\arm\csk6002_myboard`目录
 
 将SDK的 `zephyr\boards\arm\csk6002_9s_nano` 目录下的所有内容拷贝到`csk6002_myboard`目录下，并把文件的所有 **csk6002_9s_nano** 名称修改为 **csk6002_myboard**。
 
@@ -79,7 +79,7 @@ csk6002_myboard_pinctrl:csk6002_pinctrl
 #include "csk6002_myboard_pinctrl.dtsi"
 
 / {
-        model = "csk6002 x5 nano";
+        model = "csk6002 myboard";
         compatible = "csk,csk6002_myboard";
 ```
 
@@ -104,7 +104,26 @@ config BOARD
 endif # BOARD_csk6002_myboard
 ```
 
-### 步骤三：修改dts和配置文件
+### 步骤三：CMake文件修改
+
+在`app/CMakeLists.txt`文件中添加`set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})`编译配置，指定项目编译时引用app目录下的board配置：
+
+```
+# SPDX-License-Identifier: Apache-2.0
+
+cmake_minimum_required(VERSION 3.20.0)
+
+# 指定使用app目录下的自定义boards
+set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})
+
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+project(blinky)
+
+target_sources(app PRIVATE src/main.c)
+```
+
+### 步骤四：修改dts和配置文件
+
 #### .dtsi文件修改
 在[设备树](./device_tree.md)章节中我们了解到`.dtsi`文件是被dts包含的文件，是soc或者驱动级的公用描述，如CPU架构、主频、各外设寄存器地址范围等。
 
@@ -464,22 +483,7 @@ zephyr_udc0: &usbotg {
         num-out-endpoints = <6>;
 };
 ```
-#### CMake文件修改 
-在`CMakeLists.txt`文件中添加`set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})`编译配置，指定项目编译时引用app目录下的board配置：
-```
-# SPDX-License-Identifier: Apache-2.0
-
-cmake_minimum_required(VERSION 3.20.0)
-
-set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})
-
-find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(blinky)
-
-target_sources(app PRIVATE src/main.c)
-```
-
-### 步骤四：编译烧录
+### 步骤五：编译烧录
 #### 编译 
 
 在app根目录下通过以下指令完成编译，编译时指定配置好的新board板型`csk6002_myboard`：
