@@ -141,8 +141,8 @@
             "label": "调度、中断与同步",
             "items": [
               "kernel/threads",
-              "kernel/system_threads"
-              "kernel/workqueue",
+              "kernel/system_threads",
+              "kernel/workqueue"
             ]
           }
         ]
