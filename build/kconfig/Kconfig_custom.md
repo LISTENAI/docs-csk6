@@ -17,7 +17,7 @@ The functions listed below are used to get devicetree information into Kconfig. 
 下面列出的函数用于将设备树信息获取到Kconfig中。有关详细文档，请参考[scripts/kconfig/kconfigfunctions.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/kconfigfunctions.py.)
 
 The *_int version of each function returns the value as a decimal integer, while the *_hex version returns a hexadecimal value starting with 0x.  
-每个函数的 `*_int` 版本都是以十进制整数形式返回值，而`*_hex`版本返回以`0x`开头的十六进制值。
+`*_int` 类型的函数都是返回十进制整数值，而`*_hex`类型则返回以`0x`开头的十六进制值。
 
 ```
 $(dt_chosen_reg_addr_int,<property in /chosen>[,<index>,<unit>])
