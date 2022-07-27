@@ -13,14 +13,14 @@
 
 ### 常用API接口
 
-线程创建
+### k_thread_create
 
 ```c
 k_tid_t k_thread_create(struct k_thread *new_thread, k_thread_stack_t *stack, size_t stack_size,
 k_thread_entry_t entry, void *p1, void *p2, void *p3, int prio, uint32_t options, k_timeout_t delay);
 ```
 
-该函数初始化线程并根据delay参数选择来调度执行。新线程根据传递的参数可设置为立即执行或延迟启动。如果新创建的线程没有设置延迟启动，内核调度程序可能会抢占当前线程以允许新线程执行。
+线程创建。该函数初始化线程并根据delay参数选择来调度执行。新线程根据传递的参数可设置为立即执行或延迟启动。如果新创建的线程没有设置延迟启动，内核调度程序可能会抢占当前线程以允许新线程执行。
 
 线程的`options`参数的设置，可以特别指定线程的属性，可配置的选项包含有`K_ESSENTIAL`、`K_FP_REG`和`K_SSE_REG`，可以通过使用“|”（逻辑或运算符）分隔多个选项来指定它们，不需要任何线程选项的线程的`options`配置为0。
 
@@ -57,13 +57,13 @@ k_thread_entry_t entry, void *p1, void *p2, void *p3, int prio, uint32_t options
 
 <br/>
 
-线程启动
+### k_thread_start
 
 ```c
 void k_thread_start(k_tid_t thread);
 ```
 
-如果thread线程创建的时候，传入的`delay`参数`K_FOREVER`，则在`k_thread_start`函数调用之前，该线程不会被添加到调度队列。
+线程启动。如果thread线程创建的时候，传入的`delay`参数`K_FOREVER`，则在`k_thread_start`函数调用之前，该线程不会被添加到调度队列。
 
 **参数说明**
 
@@ -73,13 +73,13 @@ void k_thread_start(k_tid_t thread);
 
 <br/>
 
-设置当前线程名
+### k_thread_name_set
 
 ```c
 int k_thread_name_set(k_tid_t thread, const char *str);
 ```
 
-设置线程名可用于跟踪调试代码。
+设置当前线程名。设置线程名可用于跟踪调试代码。
 
 **参数说明**
 
@@ -144,7 +144,7 @@ void threadA(void *dummy1, void *dummy2, void *dummy3)
 
     while (1){
 		/* 每隔两秒打印一次Hello World */
-        k_msleep(1000);
+        k_msleep(2000);
         printk("threadA: Hello World on %s!\n", CONFIG_BOARD);
     }
     
