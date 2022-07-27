@@ -163,6 +163,7 @@
           "build/dts/intro",
           "build/dts/design",
           "build/dts/bindings",
+          "build/dts/api_usage",
           "build/dts/troubleshooting",
           "build/dts/dt_vs_kconfig"
         ]
