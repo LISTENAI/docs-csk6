@@ -21,9 +21,9 @@ LVGL全称Light and Versatile Graphics Library，是一个开源的GUI库，具�
 
 在开始LVGL的Sample实验前，让我们先简单了解以下LVGL一些比较重要的概念，方便对后续Sample验证的理解。
 
-**Display：** 在LVGL中一个物理显示器对应一个Display，LVGL支持多个物理显示器。
+**Display：** 在LVGL中一个物理显示器对应一个显示器驱动，LVGL支持多个物理显示器。
 
-**Screen：** 一个Display创建多个Screen，可以理解为页面，Screen上可以添加各种LVGL支持的Widgets(组件)
+**Screen：** 一个Display创建多个Screen，可以理解为页面，Screen上可以添加各种LVGL支持的组件。
 
 **Object：** object是LVGL构建GUI的基本单位，每个Widgets都属于Object，上面的Screen(页面)也是一个Object。object使用父子树形结构，只允许有一个父节点，允许有多个子节点。screen做为根节点，允许没有父节点。
 
@@ -108,7 +108,9 @@ lv_obj_t * lv_label_create(lv_obj_t * par, const lv_obj_t * copy)
 | par  | 指向一个对象的指针，它将是新建标签的父对象                |
 | copy | 复制指向标签对象的指针，如果不为 NULL，则将从中复制新对象 |
 
-LVGL支持丰富的界面开发接口，这里不一一列举，更多接口请查阅csk6sdk中lv头文件`lv_label.h`：`csk-sdk\modules\lib\gui\lvgl8\src\widgets\lv_label.h`。
+LVGL支持丰富的界面开发接口，这里不一一列举，更多接口请查阅csk6sdk中lv头文件：
+
+`csk-sdk\modules\lib\gui\lvgl8\src\widgets\lv_label.h`。
 
 
 
@@ -125,34 +127,6 @@ lisa zep create
 
 ### **组件配置**
 
-``lvgl`` 工程通用配置文件 ``prj.conf`` ，在文件中增加以下配置选项：
-
-```shell
-CONFIG_HEAP_MEM_POOL_SIZE=16384
-CONFIG_MAIN_STACK_SIZE=2048
-# 显示配置
-CONFIG_DISPLAY=y
-CONFIG_DISPLAY_LOG_LEVEL_ERR=y
-# 日志配置
-CONFIG_LOG=y
-CONFIG_LOG_STRDUP_BUF_COUNT=16
-
-# LVGL8配置
-CONFIG_LVGL8=y
-CONFIG_LV_USE_LABEL=y
-CONFIG_LV_USE_BTN=y
-
-# 启用GPIO驱动(屏幕控制引脚使用)
-CONFIG_GPIO=y
-# 启用SPI驱动(屏幕使用SPI作为数据总线)
-CONFIG_SPI=y
-# 启用ST7789V设备(关联设备驱动文件)
-CONFIG_ST7789V=y
-# 启用I2C配置
-CONFIG_I2C=y
-# 启用KSCAN触摸设备
-CONFIG_KSCAN_BL6XXX=y
-```
 针对csk6002_9s_nano开发板的硬件配置：
 ``lvgl`` 工程目录下`boards/csk6002_9s_nano.conf`增加如下配置：   
 
@@ -176,6 +150,34 @@ CONFIG_LV_COLOR_DEPTH_16=y
 CONFIG_LV_COLOR_16_SWAP=y
 ```
 
+``lvgl`` 工程通用配置文件 ``prj.conf`` ，在文件中增加以下配置选项：
+
+```shell
+CONFIG_HEAP_MEM_POOL_SIZE=16384
+CONFIG_MAIN_STACK_SIZE=2048
+# 显示配置
+CONFIG_DISPLAY=y
+CONFIG_DISPLAY_LOG_LEVEL_ERR=y
+# 日志配置
+CONFIG_LOG=y
+CONFIG_LOG_STRDUP_BUF_COUNT=16
+
+# LVGL8配置
+CONFIG_LVGL8=y
+CONFIG_LV_USE_LABEL=y
+CONFIG_LV_USE_BTN=y
+
+# 启用GPIO驱动(屏幕控制引脚使用)
+CONFIG_GPIO=y
+# 启用SPI驱动(屏幕使用SPI作为数据总线)
+CONFIG_SPI=y
+# 启用ST7789V display驱动
+CONFIG_ST7789V=y
+# 启用I2C配置
+CONFIG_I2C=y
+# 启用BL6XX KSCAN触摸设备驱动
+CONFIG_KSCAN_BL6XXX=y
+```
 ### 设备树配置
 
 #### **LCD 显示屏SPI设备树配置：**
