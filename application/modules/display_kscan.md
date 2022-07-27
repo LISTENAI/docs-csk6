@@ -137,7 +137,7 @@ typedef void (*kscan_callback_t)(struct device *dev, u32_t row, u32_t column, bo
 ## 使用示例
 
 ### 准备工作
-本示例基于 CSK6-NanoKit开发板实现，需要准备ST7789V显示屏和BL6XXX触控屏，并使用SPI转接板个杜邦线把显示屏连接到CSK6-NanoKit开发板上。
+本示例基于 CSK6-NanoKit开发板实现，要准备一块触控显示屏(使用 ST7789V 显示芯片的LCD屏及BL6133 触控芯片的TP)，把触控显示器接到CSK6-NanoKit开发板上。
 
 ### 获取sample项目
 通过Lisa命令创建项目：
@@ -157,9 +157,9 @@ lisa zep create
 
 `spi0_sclk(pa15)、spi0_mosi(pa10)、spi0_miso(pa17)、 spi0_cs(pa12)`。
 
-此外还有uart等接口的使用，因此需要在 `boad overlay`中完成外设接口的配置，具体实现如下：
+此外还有uart(日志输出)`pb10` 、`pb11`等接口的使用，因此需要在 `.overlay`中完成外设接口的配置，具体实现如下：
 
-在`app/boards/`目录下的`csk6002_9s_nano.overlay`文件并添加如下设备树配置：
+在应用项目下的`boards/csk6002_9s_nano.overlay`文件添加如下设备树配置：
 
 ```c
 &csk6002_9s_nano_pinctrl{
@@ -363,6 +363,8 @@ void main(void)
 在`app/boards/`目录下的`csk6002_9s_nano.overlay`文件并添加如下设备树配置：
 
 ```shell
+&csk6002_9s_nano_pinctrl{
+   // ...
     /* 触摸屏I2C接口配置 */
     pinctrl_i2c0_scl_default: i2c0_scl_default{
             pinctrls = <&pinmuxb 2 8>;
@@ -371,6 +373,7 @@ void main(void)
     pinctrl_i2c0_sda_default: i2c0_sda_default{
             pinctrls = <&pinmuxb 3 8>;
     }; 
+};
 ```
 #### **触摸屏组件配置**  
 
@@ -386,7 +389,7 @@ CONFIG_KSCAN_BL6XXX=y
 ```
 #### **触控代码实现**    
 
-Kscan使用比较简单，在固件代码中配置好后，注册callback函数，在enable callback直接之后，就可以了坐等callback接受触屏按键了，在display_kscan这个例程中，关键的操作与注释如下：
+Kscan使用比较简单，在固件代码中配置好后，注册callback函数，当触摸事件出发时在callback回调函数获取坐标点，在display_kscan这个例程中，关键的操作与注释如下：
 
 ```c
 /* 触摸回调函数，打印坐标 */
@@ -439,7 +442,7 @@ lisa zep flash --runner pyocd
 烧录完成后，可观察到设备显示屏出现【白色背景+三静态方块+一动态方块】的图像，如图：
 ![](./images/display_screen.png)
 
-打开调试串口，可观察到当用手触摸屏幕时，屏幕会实时输出触摸点的坐标与状态，日志信息如下：
+打开调试串口（pb10、pb11），可观察到当用手触摸屏幕时，屏幕会实时输出触摸点的坐标与状态，日志信息如下：
 
 ```shell
 *** Booting Zephyr OS build fd53c115d07a  ***
