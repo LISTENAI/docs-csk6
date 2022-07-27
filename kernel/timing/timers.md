@@ -57,8 +57,22 @@ Note that the timer’s duration and period parameters specify minimum delays th
 When a running timer expires its status is incremented and the timer executes its expiry function, if one exists; If a thread is waiting on the timer, it is unblocked. If the timer’s period is zero the timer enters the stopped state; otherwise the timer restarts with a new duration equal to its period.  
 当一个正在运行的计时器到期时它的状态时递增的，并且计时器执行它的到期函数（如果存在的话）；如果一个线程正在等待计时器，它将会被解除阻塞状态。如果计时器的周期为零，那么计时器就会进入停止状态；否则计时器重会新启动，它持续时间等于它的周期
 
-A running timer can be stopped in mid-countdown, if desired. The timer’s status is left unchanged, then the timer enters the stopped state and executes its stop function, if one exists. If a thread is waiting on the timer, it is unblocked. Attempting to stop a non-running timer is permitted, but has no effect on the timer since it is already stopped.  
+A running timer can be stopped in mid-countdown, if desired. The timer’s status is left unchanged, then the timer enters the stopped state and executes its stop function, if one exists. If a thread is waiting on the timer, it is unblocked. Attempting to stop a non-running timer is permitted, but has no effect on the timer since it is already stopped.    
+如果有需要，可以在倒计时中间停止运行计时器。计时器的状态保持不变，然后计时器进入停止状态并执行它的停止函数（如果存在的话）。如果一个线程正在等待计时器，它将会被解除阻塞状态。允许尝试停止未运行的计时器，但对计时器没有影响，因为它已经停止了。
+
+A running timer can be restarted in mid-countdown, if desired. The timer’s status is reset to zero, then the timer begins counting down using the new duration and period values specified by the caller. If a thread is waiting on the timer, it continues waiting.  
+如果有需要，运行中的计时器可以在倒计时中间重新启动。计时器的状态重设为零，然后计时器使用调用者指定的新的持续时间和周期值进行倒计时。如果一个线程正在等待计时器，它将会继续等待。
+
+A timer’s status can be read directly at any time to determine how many times the timer has expired since its status was last read. Reading a timer’s status resets its value to zero. The amount of time remaining before the timer expires can also be read; a value of zero indicates that the timer is stopped.  
+可以随时直接读区计时器的状态，用来确认自上次读取其状态以来计时器已过期的次数。读取计时器的状态会把它的值重置为零。还可以读取定时器到期前的剩余时间；零表示计时器已停止。
+
+A thread may read a timer’s status indirectly by synchronizing with the timer. This blocks the thread until the timer’s status is non-zero (indicating that it has expired at least once) or the timer is stopped; if the timer status is already non-zero or the timer is already stopped the thread continues without waiting. The synchronization operation returns the timer’s status and resets it to zero.  
+线程可以通过与定时器**同步**来间接读区计时器状态。这会阻塞线程，直到计时器状态非零为止（表明它至少已过期一次）或计时器停止；如果计时器状态已经非零或计时器已经停止，则线程继续进行而不等待。同步操作返回计时器的状态并将它重置为零。
+
+:::info 
+Only a single user should examine the status of any given timer, since reading the status (directly or indirectly) changes its value. Similarly, only a single thread at a time should synchronize with a given timer. ISRs are not permitted to synchronize with timers, since ISRs are not allowed to block.  
+只有一个用户应该检查任何给定计时器的状态，因为读取状态（直接或间接）会改变它的值。类似地，一次只能有一个线程与给定的计时器同步。ISR不允许与计时器同步，因为ISR不允许阻塞。
+:::
 
 
-A running timer can be restarted in mid-countdown, if desired. The timer’s status is reset to zero, then the timer begins counting down using the new duration and period values specified by the caller. If a thread is waiting on the timer, it continues waiting.
-
+## <span id="impl">实现</span>
