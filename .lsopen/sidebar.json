@@ -155,7 +155,11 @@
       {
         "type": "category",
         "label": "设备树",
-        "items": ["build/dts/intro", "build/dts/dt_vs_kconfig"]
+        "items": [
+          "build/dts/intro",
+          "build/dts/troubleshooting",
+          "build/dts/dt_vs_kconfig"
+        ]
       },
       {
         "type": "category",
