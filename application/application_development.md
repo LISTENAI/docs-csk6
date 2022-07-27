@@ -159,7 +159,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 5. 设置 Kconfig 配置选项。请参阅 [Kconfig 配置](#kconfig-配置) 。
 
-6. 配置你的应用所需的设备树 overlay 。请参阅 [设置设备树 overlay](../build/dts/howto.md#如何设置设备树覆盖) 。
+6. 配置你的应用所需的设备树 overlay 。请参阅 [设置设备树 overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
 
 ## 引入构建系统变量
 
@@ -183,7 +183,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 - **OVERLAY_CONFIG** ：附加的 Kconfig 配置片段文件。多个文件名可以用空格或分号分隔。但你想要将 `CONF_FILE` 保持为其默认值，但“混入”了一些额外的配置选项时，此配置十分有用。
 
-- **DTC_OVERLAY_FILE** ：要使用的若干个设备树覆盖文件。多个文件时用分号分隔。设备树覆盖文件如何使用请参阅 [设置设备树覆盖](../build/dts/howto.md#如何设置设备树覆盖) ;有关设备树和 Zephyr 的关系，请参阅 [设备树的介绍](../build/dts/intro.md) 。
+- **DTC_OVERLAY_FILE** ：要使用的若干个设备树覆盖文件。多个文件时用分号分隔。设备树覆盖文件如何使用请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) ;有关设备树和 Zephyr 的关系，请参阅 [设备树的介绍](../build/dts/intro.md) 。
 
 - **ZEPHYR_MODULES** ：一个 CMake 列表，其中包含应在应用程序构建中使用的源代码、 Kconfig 等附加目录的绝对路径。有关详细信息，请参阅 [模块（外部项目）](https://docs.zephyrproject.org/latest/develop/modules.html#modules) 。如果你设置此变量，它必须是包含所有要使用的模块的完整列表，因为设置此变量后构建系统不会自动从通过 `lisa zep` 获取任何模块。
 
@@ -220,7 +220,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
   请参阅 [初始配置](../build/kconfig/setting.md#初始配置) 了解更多详细信息。
 
-3. 如果你的应用程序使用设备树覆盖，可能需要设置 [DTC_OVERLAY_FILE](#引入构建系统变量) 。请参阅 [设置设备树覆盖](../build/dts/howto.md#如何设置设备树覆盖) 。
+3. 如果你的应用程序使用设备树覆盖，可能需要设置 [DTC_OVERLAY_FILE](#引入构建系统变量) 。请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
 
 4. 如果你的应用程序有自己的内核配置选项，请在与应用程序 `CMakeLists.txt` 的同级目录中创建一个 `Kconfig` 文件。
 
