@@ -7,7 +7,7 @@
 
 csk6 sdk支持开发者在app应用目录下新增一个应用级别的board，通过本章节的学习，您将了解到：
 - 新增一个板型的正确方法
-- 如何基于新的硬件新增一个board
+- 如何针对新的硬件适配自定义板型
 
 
 
@@ -35,7 +35,7 @@ csk6 sdk适配了`csk6002_9s_nano`开发板，对应的board配置文件在`zeph
 
 ### 步骤一：创建应用项目，以便在应用项目上增加自定义板型
 创建blinky sample项目步骤如下：  
-![](./peripheral/samples/files/blinky_pwm01.png)
+![](./images/lisa_zep_create.png)
 
 首先创建一个sample，可以是hello_world或者其他应用项目，并在sample项目的基础上添加自定义板型。  
 
@@ -124,133 +124,10 @@ target_sources(app PRIVATE src/main.c)
 
 ### 步骤四：修改dts和配置文件
 
-#### .dtsi文件修改
-在[设备树](./device_tree.md)章节中我们了解到`.dtsi`文件是被dts包含的文件，是soc或者驱动级的公用描述，如CPU架构、主频、各外设寄存器地址范围等。
-
-参考`csk6002_9s_nano`配置在该文件中完成`uart0`、`i2c0`、`spi0`、 `pwm5`等外设的`pinctrl`配置。
-```shell
-/* SPDX-License-Identifier: Apache-2.0 */
-
-/ {
-        csk6002_myboard_pinctrl:csk6002_pinctrl{
-                compatible = "listenai,csk-pinctrl";
-
-                /* UART alternate function */
-                pinctrl_uart0_rx_default: uart0_rx_default{
-                        pinctrls = <&pinmuxa 2 2>;
-                };
-                
-                pinctrl_uart0_tx_default: uart0_tx_default{
-                        pinctrls = <&pinmuxa 3 2>;
-                };
-
-                pinctrl_uart1_rx_default: uart1_rx_default{
-                };
-                
-                pinctrl_uart1_tx_default: uart1_tx_default{
-                };
-
-                pinctrl_uart2_rx_default: uart2_rx_default{
-                };
-                
-                pinctrl_uart2_tx_default: uart2_tx_default{
-                };
-
-                pinctrl_uart3_rx_default: uart3_rx_default{
-                };
-                
-                pinctrl_uart3_tx_default: uart3_tx_default{
-                };
-
-                /* I2C alternate function */
-                pinctrl_i2c0_scl_default: i2c0_scl_default{
-                        pinctrls = <&pinmuxb 0 8>;
-                };
-                
-                pinctrl_i2c0_sda_default: i2c0_sda_default{
-                        pinctrls = <&pinmuxb 1 8>;
-                };
-
-                pinctrl_i2c1_scl_default: i2c1_scl_default{
-                };
-                
-                pinctrl_i2c1_sda_default: i2c1_sda_default{
-                };
-
-                /* SPIC alternate function */
-                pinctrl_spi0_cs_default: spi0_cs_default{
-                        pinctrls = <&pinmuxa 20 6>;
-                };
-
-                pinctrl_spi0_miso_default: spi0_miso_default{
-                        pinctrls = <&pinmuxa 17 6>;
-                };
-
-                pinctrl_spi0_mosi_default: spi0_mosi_default{
-                        pinctrls = <&pinmuxa 18 6>;
-                };
-
-                pinctrl_spi0_sclk_default: spi0_sclk_default{
-                        pinctrls = <&pinmuxa 19 6>;
-                };
-                
-                pinctrl_spi1_sclk_default: spi1_sclk_default{
-                };
-                
-                pinctrl_spi1_mosi_default: spi1_mosi_default{
-                };
-
-                pinctrl_spi1_miso_default: spi1_miso_default{
-                };    
-
-                pinctrl_spi1_cs_default: spi1_cs_default{
-                };
-                
-                /* ADC alternate function */
-                pinctrl_adc0_ch0_default: adc0_ch0_default{
-                };
-                
-                pinctrl_adc0_ch1_default: adc0_ch1_default{
-                };
-
-                pinctrl_adc0_ch2_default: adc0_ch2_default{
-                };
-
-                /* PWM alternate function*/
-                pinctrl_pwm0_default: pwm0_default{
-                };
-
-                pinctrl_pwm1_default: pwm1_default{
-                };
-
-                pinctrl_pwm2_default: pwm2_default{
-                };
-
-                pinctrl_pwm3_default: pwm3_default{
-                };
-
-                pinctrl_pwm4_default: pwm4_default{
-                        pinctrls = <&pinmuxa 4 11>;
-                };
-
-                pinctrl_pwm5_default: pwm5_default{
-                        pinctrls = <&pinmuxa 5 11>;
-                };
-
-                pinctrl_pwm6_default: pwm6_default{
-                        pinctrls = <&pinmuxb 2 11>;
-                };
-
-                pinctrl_pwm7_default: pwm7_default{
-                };
-
-        };
-};
-
-```
 #### .dts文件修改
 在[设备树](./device_tree.md)章节中可学习到`.dts`文件是设备树的源文件，用来定义硬件设备的细节，比如定义一个uart设备，并定义其引脚信息等。
-参考`csk6002_9s_nano`配置在该文件中完成`leds`、`gpio_keys`、`wifi_module`、`uart0`、`flash0`、 `psram0`、`spi0`等外设的设备树配置。
+参考`csk6002_9s_nano`配置在该文件中完成`leds`、`gpio_keys`、`wifi_module`、`uart0`、`flash0`、 `psram0`、`spi0`等外设的设备树配置，更多关于设备树配置和规则请查阅[设备树](./device_tree.md)章节。
+
 ```shell
 /* SPDX-License-Identifier: Apache-2.0 */
 
