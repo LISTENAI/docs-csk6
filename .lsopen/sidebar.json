@@ -136,14 +136,14 @@
               "kernel/system_threads",
               "kernel/workqueue"
             ]
-          },
-          {
-            "type": "category",
-            "label": "定时",
-            "items": [
-              "kernel/timing/timers"
-            ]
           }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "定时",
+        "items": [
+          "kernel/timing/timers"
         ]
       }
     ],
