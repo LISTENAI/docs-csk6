@@ -2,10 +2,6 @@
 
 ## 概述
 
-Any number of ISRs can be defined (limited only by available RAM), subject to the constraints imposed by underlying hardware.
-
-软件层面可以定义任意数量的ISR(受RAM的限制)，但实际上受底层硬件约束。
-
 An ISR has the following key properties:
 
 - An **interrupt request (IRQ) signal** that triggers the ISR.
@@ -26,7 +22,7 @@ An IDT or a vector table is used to associate a given interrupt source with a 
 
 Multiple ISRs can utilize the same function to process interrupts, allowing a single function to service a device that generates multiple types of interrupts or to service multiple devices (usually of the same type). The argument value passed to an ISR’s function allows the function to determine which interrupt has been signaled.
 
-多个中断请求可以用同一个中断服务函数来处理。允许一个中断服务函数处理不同类型中断的外设或者多个外设（通常是一种类型）。
+可以用同一个函数，来处理多个中断请求。这些中断请求可以是同一个外设不同类型的中断， 也可以是多个外设的中断。中断函数通过参数值来确定是哪个中断信号触发的。
 
 The kernel provides a default ISR for all unused IDT entries. This ISR generates a fatal system error if an unexpected interrupt is signaled.
 
@@ -34,11 +30,11 @@ The kernel provides a default ISR for all unused IDT entries. This ISR generates
 
 The kernel supports **interrupt nesting**. This allows an ISR to be preempted in mid-execution if a higher priority interrupt is signaled. The lower priority ISR resumes execution once the higher priority ISR has completed its processing.
 
-内核支持中断嵌套。高优先级的中断可以抢占正在执行的低优先级中断，高优先级执行完中断服务函数后，会继续执行低优先级中断。
+内核支持中断嵌套(interrupt nesting)。高优先级的中断可以抢占正在执行的低优先级中断，高优先级执行完中断服务函数后，会继续执行低优先级中断。
 
 An ISR’s interrupt handler function executes in the kernel’s **interrupt context**. This context has its own dedicated stack area (or, on some architectures, stack areas). The size of the interrupt context stack must be capable of handling the execution of multiple concurrent ISRs if interrupt nesting support is enabled.
 
-中断服务函数执行在内核中断上下文。有一块单独栈区用于处理中断。如果使能了中断嵌套支持，栈区大小必须能处理多个并发中断请求。
+中断服务函数在内核的中断上下文中执行。内核中断上下文具有自己的专用堆栈。如果使能了*中断嵌套*，中断上下文堆栈的大小，必须能够满足多个并发 ISR 的中断处理。
 
 :::note
 
@@ -48,7 +44,7 @@ Many kernel APIs can be used only by threads, and not by ISRs. In cases where a 
 
 :::note
 
-一些内核接口只能用于线程，不能用于中断。如果函数可能被线程和中断调用，那么通过`k_is_in_isr()`来判断上下文在线程还是中断。
+很多内核接口只能在线程中使用，而不能在中断中使用。如果一个函数允许被线程和中断调用，可以用 `k_is_in_isr()` 来判断上下文是否在中断中，从而进行不同的处理
 
 :::
 
@@ -56,11 +52,11 @@ Many kernel APIs can be used only by threads, and not by ISRs. In cases where a 
 
 In certain situations it may be necessary for the current thread to prevent ISRs from executing while it is performing time-sensitive or critical section operations.
 
-当在线程中执行时间敏感或关键操作时，有必要屏蔽中断。
+当在线程中执行时间敏感或关键操作时，需要阻止中断处理，这种操作称之为 **屏蔽中断**。
 
 A thread may temporarily prevent all IRQ handling in the system using an **IRQ lock**. This lock can be applied even when it is already in effect, so routines can use it without having to know if it is already in effect. The thread must unlock its IRQ lock the same number of times it was locked before interrupts can be once again processed by the kernel while the thread is running.
 
-在线程中可以使用中断锁(IRQ lock)暂时屏蔽中断请求处理。即使中断锁已经生效，但仍可以再次调用，所以调用者不需要知道是否已经生效。线程必须释放中断锁的次数与锁的次数相同，才能在线程运行时响应中断。
+在线程中可以使用中断锁(IRQ lock)暂时屏蔽中断请求处理。即使中断锁已经生效，但仍可以再次调用，所以调用者不需要知道是否已经生效。线程释放锁的次数，必须与调用锁的次数相同，才能真正的恢复该线程运行时的中断响应。
 
 :::note
 
@@ -82,13 +78,13 @@ If thread A does not sleep but does make a higher-priority thread B ready, the I
 
 当再次执行线程A，内核将重新使能中断锁，确保线程A不会被中断直到线程A释放中断锁。
 
-如果线程A没有睡眠，但此时一个高优先级线程B就绪，中断锁将禁止任何可能的抢占。线程B在释放中断锁并在重调度点时才能运行。
+如果线程A没有睡眠，但此时一个高优先级线程B就绪，中断锁将禁止任何可能的抢占。只有线程A释放了中断锁，线程B才有可能被调度运行。
 
 :::
 
 Alternatively, a thread may temporarily **disable** a specified IRQ so its associated ISR does not execute when the IRQ is signaled. The IRQ must be subsequently **enabled** to permit the ISR to execute.
 
-或者，线程可以临时禁用一个指定的中断请求，当触发中断时，关联的中断服务函数就不会执行。随后必须启用中断请求以允许中断服务函数执行。
+还有另一种做法，在线程中临时**禁用**某个中断请求，这样当对应中断信号产生时，不会执行中断服务函数。但在线程处理后，尽快重新**使能**该中断请求，这样才能恢复其中断处理的响应。
 
 :::note
 
@@ -120,17 +116,6 @@ Zero-latency interrupts are expected to be used to manage hardware events direct
 
 零延迟中断被期望用于直接管理硬件事件，而不与内核代码互操作，它们将所有内核API视为未定义的行为(即，在零延迟中断上下文中使用API的应用程序负责直接验证正确的行为)。零延迟中断不得修改从正常Zephyr上下文调用的内核API所检查的任何数据，也不得产生需要同步处理的异常(例如内核panic)。
 
-:::note
-
-Zero-latency interrupts are supported on an architecture-specific basis. The feature is currently implemented in the ARM Cortex-M architecture variant.
-
-:::
-
-:::note
-
-零延迟中断需要架构支持。该特性目前在ARM Cortex-M架构中实现。
-
-:::
 
 ## Offloading ISR Work 中断工作转移
 
@@ -150,4 +135,4 @@ The kernel supports several mechanisms for offloading interrupt-related processi
 
 When an ISR offloads work to a thread, there is typically a single context switch to that thread when the ISR completes, allowing interrupt-related processing to continue almost immediately. However, depending on the priority of the thread handling the offload, it is possible that the currently executing cooperative thread or other higher-priority threads may execute before the thread handling the offload is scheduled.
 
-中断服务函数的工作分担给一个线程后，在执行完中断服务函数，通常会有一个上下文切换到辅助线程，允许中断相关的处理几乎立即继续。但是，根据辅助线程的优先级，当前执行的协作线程或其他优先级更高的线程可能会在辅助线程被调度之前执行。
+中断服务函数执行完成后，内核会执行一次 *上下文切换*，尽可能保证立即执行辅助线程。但由于线程优先级的关系，也可能调度到其他的优先级更高的线程或协程。
