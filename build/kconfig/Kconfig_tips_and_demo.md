@@ -70,7 +70,7 @@ The official Kconfig documentation is [kconfig-language.rst](https://www.kernel.
 ## <span id="wttiko">什么能变为 Kconfig 的选项</span>
 
 When deciding whether something belongs in Kconfig, it helps to distinguish between symbols that have prompts and symbols that don’t.  
-它有助于区别有提示选项和没有提示选项，是决定它是否作为Kconfig配置的依据。
+在决定某物是否属于 Kconfig 时，这个判断依据有助于区分有提示的符号和没有提示的符号。
 
 If a symbol has a prompt (e.g. bool "Enable foo"), then the user can change the symbol’s value in the menuconfig or guiconfig interface (see Interactive Kconfig interfaces), or by manually editing configuration files. Conversely, a symbol without a prompt can never be changed directly by the user, not even by manually editing configuration files.  
 如果有提示选项（例如 `bool "Enable foo"`）那么用户可以在 menuconfig 或 guiconfig 界面中更改选项的值(参考 [Kconfig 交互界面](./Kconfig_gui.md)) ，或者手动编辑配置文件。
@@ -103,7 +103,7 @@ Existing examples like `CONFIG_I2C_0` and `CONFIG_I2C_1` were introduced before 
 ### <span id="otsaditsbn">按名称指定系统中设备的选项</span>
 
 For example, if you are writing an I2C device driver, avoid creating an option named MY_DEVICE_I2C_BUS_NAME for specifying the bus node your device is controlled by. See Device drivers that depend on other devices for alternatives.
-例如，如果你正在编写 I2C 设备驱动程序，请避免创建一个名为`MY_DEVICE_I2C_BUS_NAME`去指定你的设备控制的总线节点。替代方案，请参考 [依赖其他设备的驱动程序](#).
+举个例子，当你正在编写 I2C 设备驱动程序，请避免创建一个名为`MY_DEVICE_I2C_BUS_NAME`去指定设备控制的总线节点。可以使用以下替代方案，请参考[依赖其他设备的驱动程序](#)。
 
 Similarly, if your application depends on a hardware-specific PWM device to control an RGB LED, avoid creating an option like `MY_PWM_DEVICE_NAME`. See Applications that depend on board-specific devices for alternatives.  
 同样，如果你的应用依赖于特定硬件的PWM设备来控制RGB LED,请避免创建`MY_PWM_DEVICE_NAME`这样的选项，请参考 [依赖特定板型设备的应用程序](#)
@@ -158,7 +158,7 @@ Enabling USB_CONSOLE now forces CONSOLE to y, even if STRING_ROUTINES is n.
 即使`STRING_ROUTINES`为`n`的时候，启用`USB_CONSOLE`也会强制`CONSOLE`为`y`。
 
 To fix the problem, the STRING_ROUTINES dependency needs to be added to USB_CONSOLE as well:  
-为了解决这个问题，还需要添加`STRING_ROUTINES` 依赖到 `USB_CONSOLE`。
+为了解决这个问题，还需要把`STRING_ROUTINES` 依赖添加到 `USB_CONSOLE`。
 
 ```
 config USB_CONSOLE
@@ -318,9 +318,11 @@ Rare exceptions might include cases where you’re sure that the dependencies of
 
 Common sense applies, but be aware that select often causes issues in practice. depends on is usually a cleaner and safer solution.
 
-* 避免选择带有提示符或依赖关系的选项. 宁愿`depends on` .如果配置文件中的`depends on`过于麻烦，可以考虑最常见的值添加到Kconfig默认值。
-极少数情况例外，包括可能你确认选择中和已选择的选项的依赖关系永远同步。例如，当处理在同一个`if`中彼此相邻定义的两个简单选项时。
-这是常识，但要注意`select`通常在实践中引起问题。最干净和安全的解决方式是使用`depends on`。
+* 避免选择带有提示符或依赖关系的选项. 宁愿`depends on` .如果配置文件中的`depends on`过于麻烦，可以考虑最常见的值添加到Kconfig默认值。  
+  
+     极少数情况例外，包括可能你确认选择中和已选择的选项的依赖关系永远同步。例如，当处理在同一个`if`中彼此相邻定义的两个简单选项时。  
+
+     这是常识，但要注意`select`通常在实践中引起问题。最干净和安全的解决方式是使用`depends on`。
 
 ## <span id="loci">(缺乏)有条件包含</span>
 
