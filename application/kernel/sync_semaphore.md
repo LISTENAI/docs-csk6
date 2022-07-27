@@ -12,10 +12,10 @@
 - 信号量的使用方法
 
 ## 信号量(Semaphore)
-信号量是用于控制多个线程对一组资源的访问，使用信号量在生产者(ISR/Thread)和消费者(thread)之间同步。
+信号量是用于控制多个线程对一组资源的访问，使用信号量在生产者(ISR/Thread)和消费者(ISR/Thread)之间同步。
 信号量有以下特性：
-- Zephyr的信号量在初始化时可以指定初始化计数值和最大计数值，生产者give时计数值+1，但不会超过最大值，消费者take时计数值-1，直到为0。
-- 每次信号量give都会引发调度。
+- Zephyr的信号量在初始化时可以指定初始化计数值和最大计数值，生产者释放(give)信号量时计数值+1，但不会超过最大值，消费者获取(take)时计数值-1，直到为0。
+- 每次信号量释放时都会引发调度。
 - 如果多个线程都在等待信号量，新产生的信号量会被等待时间最长的最高优先级线程接收。
 
 ### 常用API接口
@@ -68,7 +68,7 @@ int k_sem_init(struct k_sem *sem, unsigned int initial_count, unsigned int limit
 int k_sem_take(struct k_sem *sem, k_timeout_t timeout);
 ```
 
-等待信号量。该函数可用于中断处理函数，但是用在中断处理函数的时候，`timeout`必须设置成`K_NO_WAIT`。
+获取信号量。该函数可用于中断处理函数，但`timeout`必须设置成`K_NO_WAIT`。
 
 **参数说明**
 
@@ -85,7 +85,7 @@ int k_sem_take(struct k_sem *sem, k_timeout_t timeout);
 void k_sem_give(struct k_sem *sem);
 ```
 
-发送信号量。该函数可用于中断处理函数。
+释放信号量。该函数可用于中断处理函数，但`timeout`必须设置成`K_NO_WAIT`。
 
 **参数说明**
 
@@ -119,7 +119,7 @@ k_sem_init(&my_sem, 0, 1);
 
 **发送信号量**  
 
-在thread或者ISR中发送信号量。
+在Thread或者ISR中发送信号量。
 ```c
 void productor_thread(void *arg)
 {
