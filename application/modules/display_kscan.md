@@ -137,7 +137,7 @@ typedef void (*kscan_callback_t)(struct device *dev, u32_t row, u32_t column, bo
 ## 使用示例
 
 ### 准备工作
-本示例基于 CSK6-NanoKit开发板实现，要准备一块触控显示屏(使用 ST7789V 显示芯片的LCD屏及BL6133 触控芯片的TP)，把触控显示器接到CSK6-NanoKit开发板上。
+本示例基于 CSK6-NanoKit开发板实现，要准备一块触控显示屏(使用 ST7789V 显示芯片的LCD屏及BL6133 触控芯片的TP)，把触控屏和显示屏接到CSK6-NanoKit开发板上。
 
 ### 获取sample项目
 通过Lisa命令创建项目：
@@ -151,27 +151,21 @@ lisa zep create
 
 
 
-#### **显示屏设备树配置**  
+### 设备树配置
+
+#### 显示屏设备树配置
 
 本示例显示屏使用到了`CSK6-NanoKit`开发板的SPI0接口，具体为：
 
 `spi0_sclk(pa15)、spi0_mosi(pa10)、spi0_miso(pa17)、 spi0_cs(pa12)`。
 
-此外还有uart(日志输出)`pb10` 、`pb11`等接口的使用，因此需要在 `.overlay`中完成外设接口的配置，具体实现如下：
+因此需要在 `.overlay`中完成外设接口的配置，具体实现如下：
 
 在应用项目下的`boards/csk6002_9s_nano.overlay`文件添加如下设备树配置：
 
 ```c
 &csk6002_9s_nano_pinctrl{
-            /* 日志串口配置 */
-            pinctrl_uart0_rx_default: uart0_rx_default{
-                    pinctrls = <&pinmuxb 10 2>;
-            };
-            
-            pinctrl_uart0_tx_default: uart0_tx_default{
-                    pinctrls = <&pinmuxb 11 2>;
-            };
-   
+  			...
             /* 显示屏SPI接口配置 */
             pinctrl_spi0_sclk_default: spi0_sclk_default {
                     pinctrls = < &pinmuxa 15 6 >;
@@ -187,7 +181,78 @@ lisa zep create
             }; 
 };
 ```
-#### **显示屏组件配置**    
+
+
+#### 触摸屏设备树配置 
+
+触摸屏使用到了i2c0接口，具体为：
+
+`i2c0_scl(pb2)、i2c0_sda(pb3)`。
+
+因此需要在 `.overlay`中完成外设接口的配置，具体实现如下：
+
+在`app/boards/`目录下的`csk6002_9s_nano.overlay`文件并添加如下设备树配置：
+
+```shell
+&csk6002_9s_nano_pinctrl{
+   // ...
+    /* 触摸屏I2C接口配置 */
+    pinctrl_i2c0_scl_default: i2c0_scl_default{
+            pinctrls = <&pinmuxb 2 8>;
+    };
+    
+    pinctrl_i2c0_sda_default: i2c0_sda_default{
+            pinctrls = <&pinmuxb 3 8>;
+    }; 
+};
+
+&i2c0 {
+        status = "okay";
+        pinctrl-0 = <&pinctrl_i2c0_scl_default &pinctrl_i2c0_sda_default>; 
+        pinctrl-names = "default";
+        ft5336@0 {
+                compatible = "focaltech,ft5336";
+                reg = <0x38>;
+                label = "FT5336";
+                status = "okay";
+                int-gpios = <&gpioa 3 0>;
+        };
+};
+```
+
+#### 日志串口设备树配置
+
+本示例中将SDK默认的日志串口(GPIOA_2、GPIOA_3)中的GPIOA_3复用为触控屏的int使能脚，因此将日志输出串口配置为`GPIOb_10` 、`GPIOb_11`，具体如下：
+
+```c
+&csk6002_9s_nano_pinctrl{  
+			/* 日志串口配置 */
+            pinctrl_uart0_rx_default: uart0_rx_default{
+                    pinctrls = <&pinmuxb 10 2>;
+            };
+            
+            pinctrl_uart0_tx_default: uart0_tx_default{
+                    pinctrls = <&pinmuxb 11 2>;
+            };
+    		...
+}
+```
+
+### 组件配置
+
+#### 触摸屏组件配置
+在prj.conf文件中打开触摸屏功能配置:
+
+```shell
+# 触摸配置
+CONFIG_KSCAN=y
+# I2C功能配置
+CONFIG_I2C=y
+# 触摸屏屏驱动配置
+CONFIG_KSCAN_BL6XXX=y
+```
+
+#### 显示屏组件配置
 
 在prj.conf文件中打开显示屏功能配置:
 
@@ -205,8 +270,8 @@ CONFIG_SPI=y
 CONFIG_ST7789V=y
 
 ```
-
-#### LCD显示主程序
+### 显示和触控功能实现
+#### LCD屏显示实现
 
 ```c
 void main(void)
@@ -348,48 +413,12 @@ void main(void)
         ++grey_count;
         k_msleep(grey_scale_sleep);
     }
+}
 ```
 
+#### 触控实现
 
-
-#### **触摸屏设备树配置**  
-
-触摸屏使用到了i2c0接口，具体为：
-
-`i2c0_scl(pb2)、i2c0_sda(pb3)`。
-
-因此需要在 `boad overlay`中完成外设接口的配置，具体实现如下：
-
-在`app/boards/`目录下的`csk6002_9s_nano.overlay`文件并添加如下设备树配置：
-
-```shell
-&csk6002_9s_nano_pinctrl{
-   // ...
-    /* 触摸屏I2C接口配置 */
-    pinctrl_i2c0_scl_default: i2c0_scl_default{
-            pinctrls = <&pinmuxb 2 8>;
-    };
-    
-    pinctrl_i2c0_sda_default: i2c0_sda_default{
-            pinctrls = <&pinmuxb 3 8>;
-    }; 
-};
-```
-#### **触摸屏组件配置**  
-
-在prj.conf文件中打开触摸屏功能配置:
-
-```shell
-# 触摸配置
-CONFIG_KSCAN=y
-# I2C功能配置
-CONFIG_I2C=y
-# 触摸屏屏驱动配置
-CONFIG_KSCAN_BL6XXX=y
-```
-#### **触控代码实现**    
-
-Kscan使用比较简单，在固件代码中配置好后，注册callback函数，当触摸事件出发时在callback回调函数获取坐标点，在display_kscan这个例程中，关键的操作与注释如下：
+Kscan使用比较简单，在固件代码中配置好后，注册callback函数，当触摸事件触发时在callback回调函数获取坐标点，在display_kscan这个例程中，关键的操作与注释如下：
 
 ```c
 /* 触摸回调函数，打印坐标 */
@@ -425,6 +454,7 @@ void main(void)
 如上，仅需增加回调配置，即可在一个应用中注册触摸屏回调，开发者可根据实际业务需要，处理callback中的设备数据。
 
 ### 编译和烧录
+
 - **编译** 
 
 在app根目录下通过以下指令完成编译：
@@ -442,7 +472,7 @@ lisa zep flash --runner pyocd
 烧录完成后，可观察到设备显示屏出现【白色背景+三静态方块+一动态方块】的图像，如图：
 ![](./images/display_screen.png)
 
-打开调试串口（pb10、pb11），可观察到当用手触摸屏幕时，屏幕会实时输出触摸点的坐标与状态，日志信息如下：
+日志串口(`GPIOB_10`、`GPIOB_11`)接到PC端，通过串口调试助手可看到输出日志，当用手触摸屏幕时，屏幕会实时输出触摸点的坐标与状态，日志信息如下：
 
 ```shell
 *** Booting Zephyr OS build fd53c115d07a  ***
@@ -451,13 +481,10 @@ lisa zep flash --runner pyocd
 [00:00:00.153,000] 0m<inf> sample: Display sample for ST7789V
 row = 61 col = 149, pressed:FLASE
 row = 61 col = 149, pressed:TRUE
-row = 61 col = 149, pressed:TRUE
 row = 297 col = 145, pressed:FLASE
-row = 297 col = 145, pressed:TRUE
 row = 297 col = 145, pressed:TRUE
 row = 297 col = 145, pressed:FLASE
 row = 279 col = 15, pressed:FLASE
-row = 279 col = 15, pressed:TRUE
 row = 279 col = 15, pressed:TRUE
 ```
 
