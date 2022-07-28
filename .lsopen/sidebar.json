@@ -162,6 +162,7 @@
         "items": [
           "build/dts/intro",
           "build/dts/design",
+          "build/dts/bindings",
           "build/dts/troubleshooting",
           "build/dts/dt_vs_kconfig"
         ]
