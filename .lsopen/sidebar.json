@@ -157,6 +157,7 @@
         "label": "设备树",
         "items": [
           "build/dts/intro",
+          "build/dts/design",
           "build/dts/troubleshooting",
           "build/dts/dt_vs_kconfig"
         ]
