@@ -135,7 +135,7 @@
               "kernel/threads",
               "kernel/system_threads",
               "kernel/workqueue",
-              "kernel/interrupt"
+              "kernel/interrupts"
             ]
           }
         ]
