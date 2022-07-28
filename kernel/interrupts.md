@@ -106,7 +106,7 @@ Preventing interruptions by applying an IRQ lock may increase the observed inter
 
 The kernel addresses such use-cases by allowing interrupts with critical latency constraints to execute at a priority level that cannot be blocked by interrupt locking. These interrupts are defined as *zero-latency interrupts*.
 
-内核允许对延迟要要求的中断在使用中断锁后仍能触发。这些中断被定义为零延迟中断(Zero Latency Interrupts)。
+内核允许对延迟有要求的中断在使用中断锁后仍能触发。这些中断被定义为零延迟中断(Zero Latency Interrupts)。
 
  The support for zero-latency interrupts equires **`[CONFIG_ZERO_LATENCY_IRQS](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ZERO_LATENCY_IRQS)`** to be enabled. In addition to that, the flag **`IRQ_ZERO_LATENCY`** must be passed to **`[IRQ_CONNECT](https://docs.zephyrproject.org/latest/kernel/services/interrupts.html#c.IRQ_CONNECT)`** or **`[IRQ_DIRECT_CONNECT](https://docs.zephyrproject.org/latest/kernel/services/interrupts.html#c.IRQ_DIRECT_CONNECT)`** macros to configure the particular interrupt with zero latency.
 
@@ -114,7 +114,7 @@ The kernel addresses such use-cases by allowing interrupts with critical latency
 
 Zero-latency interrupts are expected to be used to manage hardware events directly, and not to interoperate with the kernel code at all. They should treat all kernel APIs as undefined behavior (i.e. an application that uses the APIs inside a zero-latency interrupt context is responsible for directly verifying correct behavior). Zero-latency interrupts may not modify any data inspected by kernel APIs invoked from normal Zephyr contexts and shall not generate exceptions that need to be handled synchronously (e.g. kernel panic).
 
-零延迟中断被期望用于直接管理硬件事件，而不与内核代码互操作，它们将所有内核API视为未定义的行为(即，在零延迟中断上下文中使用API的应用程序负责直接验证正确的行为)。零延迟中断不得修改从正常Zephyr上下文调用的内核API所检查的任何数据，也不得产生需要同步处理的异常(例如内核panic)。
+零延迟中断用于直接管理硬件中断，不会经过Zephyr内核。在零延迟中断服务函数中使用内核API，需要用户去保证API使用的正确性。零延迟中断不得修改从正常Zephyr上下文调用的内核API所检查的任何数据，也不得产生需要同步处理的异常(例如内核panic)。
 
 
 ## Offloading ISR Work 中断工作转移
