@@ -20,11 +20,11 @@ A semaphore must be initialized before it can be used. Its count must be set to 
 
 A semaphore may be **given** by a thread or an ISR. Giving the semaphore increments its count, unless the count is already equal to the limit.
 
-信号量可以在线程或中断中进行释放(give)。释放信号量会使其计数递增，直到计数达到上限。
+信号量可以在线程或中断中进行 **释放(give)** 。释放信号量会使其计数递增，直到计数达到上限。
 
 A semaphore may be **taken** by a thread. Taking the semaphore decrements its count, unless the semaphore is unavailable (i.e. at zero). When a semaphore is unavailable a thread may choose to wait for it to be given. Any number of threads may wait on an unavailable semaphore simultaneously. When the semaphore is given, it is taken by the highest priority thread that has waited longest.
 
-线程可以获取(take)信号量。获取信号量时其计数会递减，除非信号量无效（例如为零）。当信号量不可用时，线程可以等待，直到获取到信号量。多个线程可以同时等待某个无效的信号量。当信号量可用时，它会被优先级最高的、等待时间最久的线程获取到。
+线程可以 **获取(take)** 信号量。获取信号量时其计数会递减，除非信号量无效（例如为零）。当信号量不可用时，线程可以等待，直到获取到信号量。多个线程可以同时等待某个无效的信号量。当信号量可用时，它会被优先级最高的、等待时间最久的线程获取到。
 
 :::Note
 

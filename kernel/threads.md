@@ -25,7 +25,7 @@ A thread has the following key properties:
 线程具有以下关键属性:
 
 - 栈区域：用于线程的栈区域。Zephyr提供一些宏来定义线程栈区域。
-- 线程控制块：用于管理线程的一个数据结构。详见`k_thread`。
+- 线程控制块：用于管理线程的一个数据结构。详见[k_thread](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread%20%22k_thread%22)。
 - 入口函数：线程启动时调用的函数。该函数最多能接收 3 个参数。
 - 调度优先级：指示内核的调度器如何给该线程分配 CPU 时间。
 - 启动时延：线程在启动前需要等待的时间。
@@ -40,13 +40,13 @@ A thread must be created before it can be used. The kernel initializes the threa
 
 Specifying a start delay of [K_NO_WAIT](https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html#c.K_NO_WAIT%20%22K_NO_WAIT%22) instructs the kernel to start thread execution immediately. Alternatively, the kernel can be instructed to delay execution of the thread by specifying a timeout value – for example, to allow device hardware used by the thread to become available.
 
-如果线程的启动时延是`K_NO_WAIT`，内核将立即启动线程。也可以指定一个超时时间，让内核延迟启动该线程。例如，让线程需要使用的设备就绪后再启动线程。
+如果线程的启动时延是[K_NO_WAIT](https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html#c.K_NO_WAIT%20%22K_NO_WAIT%22)，内核将立即启动线程。也可以指定一个超时时间，让内核延迟启动该线程。例如，让线程需要使用的设备就绪后再启动线程。
 
 The kernel allows a delayed start to be canceled before the thread begins executing. A cancellation request has no effect if the thread has already started. A thread whose delayed start was successfully canceled must be re-spawned before it can be used.
 
 如果延迟启动的线程还未启动，内核可以取消该线程。如果线程已经启动了，则内核在尝试取消它时不会有任何效果。如果延迟启动的线程被成功地取消了，它必须被再次创建后才能再次使用。
 
-## 代码实现
+## 实现
 
 ### 线程结束
 
@@ -60,7 +60,7 @@ A thread that terminates is responsible for releasing any shared resources it ma
 
 In some cases a thread may want to sleep until another thread terminates. This can be accomplished with the [k_thread_join()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_join%20%22k_thread_join%22) API. This will block the calling thread until either the timeout expires, the target thread self-exits, or the target thread aborts (either due to a [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22) call or triggering a fatal error).
 
-在某些情况下，一个线程想睡眠直到另外一个线程结束。这个功能可以通过`k_thread_join()` 来实现。这将阻塞调用线程，直到超时到期、目标线程退出或目标线程中止(由于`k_thread_abort()`调用或触发致命错误)。
+在某些情况下，一个线程想睡眠直到另外一个线程结束。这个功能可以通过[k_thread_join()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_join%20%22k_thread_join%22)来实现。这将阻塞调用线程，直到超时到期、目标线程退出或目标线程中止(由于[k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22)调用或触发致命错误)。
 
 Once a thread has terminated, the kernel guarantees that no use will be made of the thread struct. The memory of such a struct can then be re-used for any purpose, including spawning a new thread. 
 
@@ -68,7 +68,7 @@ Note that the thread must be fully terminated, which presents race conditions wh
 
 一旦线程结束，内核保证不会使用该线程结构。这块结构的内存可被重用于任何目的，包括创建新线程。
 
-不建议使用内部逻辑信号来判断线程是否结束，这样不能保证线程完全终止，内核可能仍在使用该线程结构的内存，出现竞争条件。在正常情况下，应用程序代码应该使用`k_thread_join()`或`k_thread_abort()`同步的结束，而不依赖于应用程序逻辑内部的信号。
+不建议使用内部逻辑信号来判断线程是否结束，这样不能保证线程完全终止，内核可能仍在使用该线程结构的内存，出现竞争条件。在正常情况下，应用程序代码应该使用 [k_thread_join()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_join%20%22k_thread_join%22) 或 [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22) 同步的结束，而不依赖于应用程序逻辑内部的信号。
 
 ### 线程中止 Thread Aborting
 
@@ -78,7 +78,7 @@ A thread may asynchronously end its execution by **aborting**. The kernel autom
 
 A thread can also be aborted by another thread (or by itself) by calling [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22). However, it is typically preferable to signal a thread to terminate itself gracefully, rather than aborting it.
 
-其它线程(或线程自己)可以调用 `k_thread_abort()` 中止一个线程。不过，更优雅的做法是向线程发送一个信号，让该线程自己结束执行。
+其它线程(或线程自己)可以调用 [k_thread_abort()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_abort%20%22k_thread_abort%22)中止一个线程。不过，更优雅的做法是向线程发送一个信号，让该线程自己结束执行。
 
 As with thread termination, the kernel does not reclaim shared resources owned by an aborted thread.
 
@@ -88,15 +88,15 @@ As with thread termination, the kernel does not reclaim shared resources owned b
 
 A thread can be prevented from executing for an indefinite period of time if it becomes **suspended**. The function [k_thread_suspend()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_suspend%20%22k_thread_suspend%22) can be used to suspend any thread, including the calling thread. Suspending a thread that is already suspended has no additional effect.
 
-如果一个线程被挂起(suspended)，它将在若干周期内内暂停执行。函数`k_thread_suspend()`可以用于挂起包括调用线程在内的所有线程。对已经挂起的线程再次挂起时不会产生任何效果。
+如果一个线程被挂起(suspended)，它将在若干周期内内暂停执行。函数[k_thread_suspend()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_suspend%20%22k_thread_suspend%22)可以用于挂起包括调用线程在内的所有线程。对已经挂起的线程再次挂起时不会产生任何效果。
 
 Once suspended, a thread cannot be scheduled until another thread calls [k_thread_resume()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_resume%20%22k_thread_resume%22) to remove the suspension.
 
-线程一旦被挂起，它将一直不能被调度，除非另一个线程调用 `k_thread_resume()` 取消挂起。
+线程一旦被挂起，它将一直不能被调度，除非另一个线程调用[k_thread_resume()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_resume%20%22k_thread_resume%22)取消挂起。
 
 NOTE：A thread can prevent itself from executing for a specified period of time using [k_sleep()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_sleep%20%22k_sleep%22). However, this is different from suspending a thread since a sleeping thread becomes executable automatically when the time limit is reached.
 
-注：线程可以使用`k_sleep()`睡眠一段指定的时间。不过，这与挂起不同，睡眠线程在睡眠时间完成后会自动运行。
+注：线程可以使用[k_sleep()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_sleep%20%22k_sleep%22)睡眠一段指定的时间。不过，这与挂起不同，睡眠线程在睡眠时间完成后会自动运行。
 
 ### 线程状态 Thread States
 
@@ -150,7 +150,7 @@ The alignment constraints can be quite restrictive, for example some MPUs requir
 
 Because of this, portable code can’t simply pass an arbitrary character buffer to [k_thread_create()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_create%20%22k_thread_create%22). Special macros exist to instantiate stacks, prefixed with K_KERNEL_STACK and K_THREAD_STACK.
 
-因此，可移植代码不能简单地将缓冲区传递给`k_thread_create()`。需要使用实例化堆栈的特殊宏，以`K_KERNEL_STACK`和`K_THREAD_STACK`为前缀。
+因此，可移植代码不能简单地将缓冲区传递给[k_thread_create()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_create%20%22k_thread_create%22)。需要使用实例化堆栈的特殊宏，以`K_KERNEL_STACK`和`K_THREAD_STACK`为前缀。
 
 ### 内核栈 Kernel-only Stacks
 
@@ -184,7 +184,7 @@ The scheduler distinguishes between two classes of threads, based on each thread
 调度程序根据每个线程的优先级区分两类线程：
 
 - 协作式线程使用负数优先级数值。一旦变为当前线程，协作线程将会持续保留，直到它执行动作进入未就绪状态。
-- 抢占线程的优先级是**非负数。**一旦变为当前线程，抢占线程可以被高优先级的抢占线程和协作线程抢占。
+- 抢占线程的优先级是**非负数**。一旦变为当前线程，抢占线程可以被高优先级的抢占线程和协作线程抢占。
 
 A thread’s initial priority value can be altered up or down after the thread has been started. Thus it is possible for a preemptible thread to become a cooperative thread, and vice versa, by changing its priority.
 
@@ -192,7 +192,7 @@ A thread’s initial priority value can be altered up or down after the thread h
 
 The kernel supports a virtually unlimited number of thread priority levels. The configuration options [CONFIG_NUM_COOP_PRIORITIES](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NUM_COOP_PRIORITIES%20%22CONFIG_NUM_COOP_PRIORITIES%22) and [CONFIG_NUM_PREEMPT_PRIORITIES](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NUM_PREEMPT_PRIORITIES%20%22CONFIG_NUM_PREEMPT_PRIORITIES%22) specify the number of priority levels for each class of thread, resulting in the following usable priority ranges:
 
-Zephyr内核可以支持无上限的优先级数。可以通过`CONFIG_NUM_COOP_PRIORITIES` 和`CONFIG_NUM_PREEMPT_PRIORITIES` 进行配置。产生以下可用的优先级范围:
+Zephyr内核可以支持无上限的优先级数。可以通过[CONFIG_NUM_COOP_PRIORITIES](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NUM_COOP_PRIORITIES%20%22CONFIG_NUM_COOP_PRIORITIES%22)和[CONFIG_NUM_PREEMPT_PRIORITIES](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NUM_PREEMPT_PRIORITIES%20%22CONFIG_NUM_PREEMPT_PRIORITIES%22)进行配置。产生以下可用的优先级范围:
 
 - 协作式线程: (`-CONFIG_NUM_COOP_PRIORITIES` to -1
 - 抢占式线程: 0 to (`CONFIG_NUM_PREEMPT_PRIORITIES` - 1)
