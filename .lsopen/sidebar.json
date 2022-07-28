@@ -82,6 +82,7 @@
           "application/modules/usb_class",
           "application/modules/display_kscan",
           "application/modules/lvgl",
+          "application/shell_sample",
           {
             "type": "category",
             "label": "音频",
