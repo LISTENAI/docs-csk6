@@ -1,7 +1,7 @@
 # SHELL的使用
 
 ## 概述
-Zephyer shell在终端提供一个交互式的命令行界面，用于在程序运行时执行特定的命令，本章节通过示例展示Zephyer shell的功能以及如何添加自定义shell命令。
+zephyr  shell在终端提供一个交互式的命令行界面，用于在程序运行时执行特定的命令，本章节通过示例展示zephyr  shell的功能以及如何添加自定义shell命令。
 
 :::tip
 在学习本章节前请先学习系统服务的[Shell]章节，该章节中详细描述shell的特性、命令、标签、和用法。
@@ -179,18 +179,14 @@ CONFIG_KERNEL_SHELL=y
 CONFIG_THREAD_MONITOR=y
 # 开启在启动时，向shell终端输入标题功能
 CONFIG_BOOT_BANNER=n
-
 # 开启线程命名能力
 CONFIG_THREAD_NAME=y
 # 开启shell对设备的访问能力
 CONFIG_DEVICE_SHELL=y
-
 # 开启shell对POSIX的clock相关接口的访问能力
 CONFIG_POSIX_CLOCK=y
-
 # 开启shell对日期的访问能力
 CONFIG_DATE_SHELL=y
-
 # 开启收集线程运行时统计信息的能力
 CONFIG_THREAD_RUNTIME_STATS=y
 # 使用计时函数收集线程运行时统计信息
