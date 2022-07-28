@@ -449,7 +449,7 @@ dts/bindings/.../binding.yaml
 
 - 定义 [Shields](https://docs.zephyrproject.org/latest/hardware/porting/shields.html#shields) 时也会使用 overlay 。
 
-构建系统会自动收集存储在特定位置的 `.overlay` 文件。还可以通过 CMake 变量 **DTC_OVERLAY_FILE** 显式列出要包含的 overlay 文件。请参阅 [设置设备树 overlay](./howtos.md#如何设置设备树-overlay) 了解相关详细信息。
+构建系统会自动收集存储在特定位置的 `.overlay` 文件。还可以通过 CMake 变量 **DTC_OVERLAY_FILE** 显式列出要包含的 overlay 文件。请参阅 [设置设备树 overlay](./howtos.md#设置设备树-overlay) 了解相关详细信息。
 
 构建系统通过将 `BOARD.dts` 和任何 `.overlay` 文件关联起来，将它们组合在一起，overlay 在最后放入。这依赖于 DTS 语法中允许合并设备树中节点的重复定义的设计。有关其工作原理的示例，请参见 [示例：FRDM-K64F 和 Hexiwear K64](https://docs.zephyrproject.org/latest/hardware/porting/board_porting.html#dt-k6x-example) （在 `.dtsi` 文件的上下文中，但 overlay 文件的原理相同）。最后将 `.overlay` 文件的内容放进来以允许它们覆盖 `BOARD.dts` 。
 
