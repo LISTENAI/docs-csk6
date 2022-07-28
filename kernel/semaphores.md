@@ -20,7 +20,7 @@ A semaphore must be initialized before it can be used. Its count must be set to 
 
 A semaphore may be **given** by a thread or an ISR. Giving the semaphore increments its count, unless the count is already equal to the limit.
 
-线程或 中断可以释放(give)一个信号量。释放信号量时其计数会递增，除非计数已等于上限。
+信号量可以在线程或中断中进行释放(give)。释放信号量会使其计数递增，直到计数达到上限。
 
 A semaphore may be **taken** by a thread. Taking the semaphore decrements its count, unless the semaphore is unavailable (i.e. at zero). When a semaphore is unavailable a thread may choose to wait for it to be given. Any number of threads may wait on an unavailable semaphore simultaneously. When the semaphore is given, it is taken by the highest priority thread that has waited longest.
 
@@ -34,7 +34,7 @@ You may initialize a “full” semaphore (count equal to limit) to limit the nu
 
 :::note
 
-可以初始化一个`full`信号量(计数值等于最大值)来限制能够同时执行临界区的线程数。 也可以初始化一个空信号量(计数值等于0，限制值大于0)来创建条件，在信号量计数值增加前，等待的线程不能满足该条件。 
+可以初始化一个full信号量（计数值等于最大值），用来限制某段代码的并发执行数量。也可以初始化一个空信号量(计数值为0)，用来阻塞线程，直到该信号量释放。
 
 :::
 
@@ -46,6 +46,6 @@ The kernel does allow an ISR to take a semaphore, however the ISR must not attem
 
 :::note
 
-内核允许中断服务函数去获取信号量，不过如果信号量的信号值无效时，中断不能阻塞等待。
+内核允许在中断服务函数中获取信号量，但当信号量无效时，不能在中断服务函数中阻塞等待该信号量。
 
 :::
