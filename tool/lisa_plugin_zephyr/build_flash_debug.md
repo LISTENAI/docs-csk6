@@ -98,7 +98,7 @@ lisa zep -v build -b csk6002_9s_nano
 在使用 `--` 生成构建 build 目录后，后续可使用 `lisa zep build -d <build-dir>` 来进行增量构建。
 :::
 
-例如，使用 Unix Makefiles CMake 而不是用默认 Ninja 编译：
+例如，Makefile 生成器使用 CMake 的 Unix Makefiles ，而不是默认的 Ninja：
 
 ```bash
 lisa zep build -b reel_board -- -G'Unix Makefiles'
@@ -126,7 +126,7 @@ lisa zep build -- -DOVERLAY_CONFIG=file.conf
 
 ### 永久性的 CMake 参数
 
-如果你想保存 CMake 参数以供 `lisa zep build` 在每次生成新的构建系统时使用，你应该使用 `build.cmake-args` 参数。
+如果你想保存 CMake 参数以供 `lisa zep build` 在每次生成新的构建系统时使用，你应该配置 `build.cmake-args` 参数。
 
 **请注意**，默认情况下，如果你构建目录中存在新的构建系统，则 `lisa zep build` 会尝试避免生成新的构建系统。因此，你需要删除现有的构建目录或在设置 `build.cmake-args` 后进行[原始编译](build_flash_debug.md#原始编译)已确保其生效。
 
@@ -164,6 +164,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "")
 ```bash
 lisa zep config build.cmake-args "-C ./my-cache.cmake"
 ```
+
+更多详细信息，请参阅 [cmake(1) 手册](https://cmake.org/cmake/help/latest/manual/cmake.1.html) 和 [set() 命令](https://cmake.org/cmake/help/latest/command/set.html)。
 
 ### 构建工具参数
 
@@ -208,7 +210,7 @@ west build -o=-j4
 | `build.cmake-args` | 字符串，参考 [永久性的 CMake 参数](#永久性的-cmake-参数) |
 | `build.dir-fmt` | 字符串，参考 [设置编译产物输出路径](build_flash_debug.md#设置编译产物输出路径) |
 | `build.generator` | 字符串，默认 `Ninja`，用于设置构建工具， 例子可参考[一次性的 CMake 参数](#一次性的-cmake-参数) |
-| `build.pristine` | 字符串，控制 `lisa zep build` 在构建之前清理构建文件夹的方式, 有以下的值：<br /> <ul> <li> `never`(默认)：永远不要让构建目录保持原始状态 </li> <li> `auto`：`lisa zep build` 将会在构建之前自动使构建目录保持原始状态，如果存在构建系统，可能会出现构建失败（例如，用户指定了一个不同于之前用于构建目录的开发板或应用程序） </li> <li> `always`：如果已经存在构建系统，那么总是在构建之前使构建目录保持原始状态 </li> </ul> |
+| `build.pristine` | 字符串，控制 `lisa zep build` 在构建之前清理构建文件夹的方式, 有以下的值：<br /> <ul> <li> `never`(默认)：永远不要让构建目录保持原始状态 </li> <li> `auto`：`lisa zep build` 将会在构建之前自动使构建目录保持原始状态，如果存在构建系统，将会在构建之前自动使构建目录保持原始状态；否则可能出现构建失败（例如，用户指定了一个不同于之前用于构建目录的开发板或应用程序） </li> <li> `always`：如果已经存在构建系统，那么总是在构建之前使构建目录保持原始状态 </li> </ul> |
 
 ## 烧录
 
