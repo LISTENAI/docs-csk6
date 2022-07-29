@@ -142,6 +142,13 @@
             ]
           }
         ]
+      },
+      {
+        "type": "category",
+        "label": "定时",
+        "items": [
+          "kernel/timing/timers"
+        ]
       }
     ],
     "collapsed": true
