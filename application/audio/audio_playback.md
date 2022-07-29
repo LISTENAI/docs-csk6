@@ -1,6 +1,6 @@
 # 播音
 ## 概述
-aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播放接口。本节通过示例调用aplay API接口实现音频播放，开发者可基于aplay完成符合业务开发需要的音频播放器。当前aplay支持的音频格式：16bit48kwav格式。通过本章节学习，您将了解到：
+aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播放接口。本节通过示例调用aplay API接口实现音频播放，开发者可基于aplay完成符合业务开发需要的音频播放器。当前aplay支持的音频格式：16bit 48k wav格式。通过本章节学习，您将了解到：
 - aplay音频API接口的基本使用
   
 
@@ -12,7 +12,7 @@ aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播�
 acapture_t* acap_create(void);
 ```
 
-***\*接口说明\***
+**接口说明**
 
 创建并初始化一个aplay的实例。
 
@@ -34,6 +34,24 @@ int aplay_set_fmt(aplay_t* handle, amedia_fmt_t* fmt);
 | ------ | ------------------------ |
 | handle | 指向播放器结构句柄的指针 |
 | fmt    | 指向音频格式结构的指针   |
+
+**fmt结构体内容：**
+
+```c
+typedef struct{
+
+  amedia_compr_t compr;  /*音频编码格式*/
+
+  int rate;        /*采样率*/
+
+  int channels;      /*通道数量*/
+
+  int bits;        /*位宽 */
+
+  int bitrate;       /*码率*/
+
+}amedia_fmt_t;
+```
 
 
 
