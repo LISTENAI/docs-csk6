@@ -2,7 +2,7 @@
 
 本篇涵盖了一些 Kconfig 最佳实践，并解释了一些 Kconfig 难以理解和容易忽略的作用和特性。
 
-:::info 
+:::info 注意
 官方的Kconfig文档是 [kconfig-language.rst](https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html) 和 [kconfig-macro-language.rst](https://www.kernel.org/doc/html/latest/kbuild/kconfig-macro-language.html).  
 :::
 
@@ -229,7 +229,7 @@ config LARGE_MEM
      def_bool MEM_SIZE >= 64
 ``` 
 
-:::info
+:::info 注意
 这是以下内容的缩写
 ```
 config LARGE_MEM
@@ -262,7 +262,7 @@ endif
 
 实际上，它们没有条件包含在Kconfig，`if`对于`source`来说没有特殊意义。
 
-:::info 
+:::info 注意
 条件包含将无法实现，因为`if`条件可能包含（直接或间接）对尚未定义的选项向前引用。
 :::
  
@@ -354,7 +354,7 @@ CONFIG_STACK_SIZE=0x100
 
 要理解为什么 `zephyr/.config` 仍然包含对隐藏符号的赋值，可以知道 `zephyr/.config` 有两个不同的用途:
 
-:::info
+:::info 注意
 可以从menuconfig中生成更接近保存配置的最小配置，而不需要完成的配置输出。
 :::
 
@@ -523,7 +523,7 @@ endchoice
 endif # DEP
 ```
 
-:::info 
+:::info 注意
 在代码内部的第二个版本转换为第一个版本。
 :::
 
@@ -549,7 +549,7 @@ endmenu
 
 csk6中推荐的样式是跳过`bool`和`string`符号的冗余默认值。这也生成了更清晰的文档：（如果<dependencies, possibly inherited>，则隐式默认为n而不是n）。
 
-:::info 
+:::info 注意
 默认值`default n `/` default ""`不冗余的一种情况是在若干个位置定义选项，并希望在以后的定义中覆盖默认值`y`。
 :::
 
@@ -587,7 +587,7 @@ Kconfig 有两个处理提示和默认值的简写。
 
 `def_<type> <value>`简写通常只对没有提示符的选项有用，而且不容易理解。
 
-:::info   
+:::info 注意   
 在多个位置定义选项（例如在csk中的`Kconfig.defconfig`）,最好只为该选项的“base”定义提供符号类型，并对其余定义使用 `default` (而不是 `def_<type> value`)。这样，如果删除了该选项的基本定义，则该符号最终将没有类型，该类型将生成指向其他定义的警告。这使得额外的定义更容易发现和删除。
 :::
 
@@ -648,7 +648,7 @@ config MASK
      default 0xFF
 ```
 
-:::info 
+:::info 注意 
 这是以下内容的简写：
 ```
 config MASK
@@ -742,7 +742,7 @@ config FOO_SETTING_2
      default 2
 ```
 
-:::info 
+:::info 注意 
 有关[可选提示符](#op)的含义，请参阅可选提示部分。
 :::
 

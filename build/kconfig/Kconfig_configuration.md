@@ -4,7 +4,7 @@
 
 可以在[Kconfig搜索页](https://docs.zephyrproject.org/latest/build/kconfig/setting.html)中找到所有 Kconfig 选项的自动生成列表。
 
-:::info
+:::info 注意
 在对 Kconfig 文件进行更改之前，最好也浏览一下Kconfig - [小贴士与最佳实践](./Kconfig_tips_and_demo.md)。
 :::
 
@@ -54,7 +54,7 @@ CONFIG_<symbol name>=<value>
 CONFIG_FPU=y
 ```
 
-:::info
+:::info 注意
 布尔型选项也可以设置n如下格式的注释:`# CONFIG_SOME_OTHER_BOOL is not set`
 这是您将在合并配置`zephyr/.config`中看到的格式.这种风格之所以被使用是因为历史原因：Kconfig配置文件可以被解析为makefile（尽管Zephyr不使用这个）。有`n`-与未设置变量对应的值选项简化了Make中的测试。
 :::
@@ -110,7 +110,7 @@ CONFIG_SOME_INT=123
  
 更改board的默认配置时，您可能必须在`boards/<architecture>/<BOARD>/Kconfig.defconfig`的常规`Kconfig`中完成配置不可见选项。.
 
-:::info 
+:::info 注意
 这种类型的配置项即使是用户在外面的`.config` 文件中去做赋值配置，也是没有用的，还是会以`.defconfig`中的为准，这就是我们这样子设计的，不是一个架构上的缺陷或问题。
 :::
 
@@ -130,7 +130,7 @@ config FOO_WIDTH
 endif
 ```
 
-:::info 
+:::info 注意
 因为选项(int)的类型已经在第一个定义位置给出，所以不需要在这里重复。在选项的“基本”定义中只给出一次类型是一个好方式。
 :::
 
