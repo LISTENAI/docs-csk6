@@ -82,6 +82,7 @@
           "application/modules/usb_class",
           "application/modules/display_kscan",
           "application/modules/lvgl",
+          "application/shell_sample",
           {
             "type": "category",
             "label": "音频",
@@ -134,7 +135,9 @@
             "items": [
               "kernel/threads",
               "kernel/system_threads",
-              "kernel/workqueue"
+              "kernel/workqueue",
+              "kernel/interrupts",
+              "kernel/semaphores"
             ]
           }
         ]
@@ -159,10 +162,19 @@
     "type": "category",
     "label": "构建与配置系统",
     "items": [
+      "build/cmake/index",
+      "build/cmake_package",
       {
         "type": "category",
         "label": "设备树",
-        "items": ["build/dts/intro"]
+        "items": [
+          "build/dts/intro",
+          "build/dts/design",
+          "build/dts/bindings",
+          "build/dts/api_usage",
+          "build/dts/troubleshooting",
+          "build/dts/dt_vs_kconfig"
+        ]
       },
       {
         "type": "category",
