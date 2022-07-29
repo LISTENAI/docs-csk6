@@ -5,8 +5,8 @@
 ## 使用示例
 ### 准备工作
 ### 准备工作
-本示例基于 `csk6002_9s_nano`开发板实现，开发者需要做如下准备：
-- 一个`csk6002_9s_nano`开发板。
+本示例基于 `CSK6-NanoKit`开发板实现，开发者需要做如下准备：
+- 一个`CSK6-NanoKit`开发板。
 - mic+speaker扩展板，扩展板接两个mic和一个speaker输出。
 
 开发板连接如下图示: 
@@ -19,17 +19,17 @@
 lisa zep create
 ```
 
-![](./images/sample_create01.png)
+![](./images/lisa_zep_create.png)
 依次按以下目录选择完成aplay sample创建：  
-> boards → csk6 → subsys → avf → audio → acapture
+> boards → csk6 → subsys → avf → audio → audio_record_play
 
 :::tip
-本示例在[录音](./audio_record)章节的基础上添加播音逻辑，故需要开发者创建一个录音sample，并在此基础上完善代码逻辑。
+本示例在[录音](./audio_record)章节的基础上添加播音逻辑，开发者可以创建一个录音sample，并在此基础上完善代码逻辑。
 :::
 
 ## 应用实现
 ### 设备树配置
- 
+
 在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，音频框架使用到了IPC的硬件通讯，因此需要在sample中重写`boad overlay`完成设备树配置。
 ```c
 / {
@@ -55,7 +55,7 @@ lisa zep create
 };
 ```
 ### 组件配置
-   
+
 ```shell
 # LOG 配置，属于系统配置项
 CONFIG_PRINTK=y
@@ -373,8 +373,7 @@ lisa zep flash --runner pyocd
 **查看串口日志**
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 日志结果：
 ```shell

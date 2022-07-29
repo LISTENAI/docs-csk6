@@ -12,82 +12,139 @@ acapture是CSK6 SDK提供的一个音频组件，基于acapture可实现音频�
 本章节着重讲解acapture API接口的使用和如何实现录音的功能，更多关于音频框架以及工作原理的内容将在后续章节中描述，敬请期待。
 :::
 
-## API接口
-acapture常用API接口如下：
+## acapture常用API接口
+### acap_create
+
 ```c
-/**
- * @brief Create a acapture handle, This function creates and initializes an instance of the acapture
- * @param type audio stream type
- * @return acapture structure handle pointer if SUCCESS, NULL if failure.
- */
-extern acapture_t* acap_create(void);
+acapture_t* acap_create(void);
+```
 
-/**
- * @brief Destroy a acapture handle, This function destroy an instance of the acapture and free memory 
- * @return 0 if SUCCESS, NULL if failure.
- */
-extern int acap_destroy(acapture_t* acap);
+**接口说明**
 
-/**
- * @brief Set acapture stream formate
- * @param handle Pointer to acapture structure handle
- * @param fmt Pointer to auido format structure
- * @return 0 if SUCCESS, NULL if failure.
- */
-extern int acap_set_fmt(acapture_t* acap,amedia_fmt_t* fmt);
+创建并初始化一个acapture的实例。
 
-/**
- * @brief Register event callback function
- * The registration event is called back to the AVF framework
- * @param handle Pointer to acapture structure handle
- * @param flags The flags of the callback event,only AVF_STREAM_EVENT_THRES_NOTIFY is availed for acapture .
- * @param callback event processing handler
- * @param priv_context The handle pointer passed to the callback
- * @param data Additional parameters for event callback registration
- * @return 0 if SUCCESS, negative errno code if failure.
- */
-extern int acap_event_register(acapture_t* acap,acapture_event_flags_t flags,
-acapture_event_callback_t callback,void* priv_context,uint32_t data);
 
-/**
- * @brief Unregister event callback function Cancel the event callback function
- * @param handle Pointer to acapture structure handle
- * @param flags The flags of the callback event
- * @return 0 if SUCCESS, negative errno code if failure.
- */
-extern int acap_event_unregister(acapture_t* acap,acapture_event_flags_t flags);
 
-/**
- * @brief Start acapture to capture audio
- * @param handle Pointer to acapture structure handle
- * @return 0 if SUCCESS, negative errno code if failure.
- */
-extern int acap_start(acapture_t* acap);
+### acap_destroy
 
-/**
- * @brief stop acapture capture audio, This function immediately stop the acapture and abandon cached data
- * @param handle Pointer to acapture structure
- * @return 0 if SUCCESS, negative errno code if failure.
- */
-extern int acap_stop(acapture_t* acap);
+```c
+int acap_destroy(acapture_t* acap);
+```
 
-/**
- * @brief Get acapture status
- * @param handle Pointer to acapture structure
- * @return acapture status.
- */
-extern acapture_status_t acap_get_status(acapture_t* acap);
+**接口说明**
 
-/**
- * @brief get acapture data, Get acapture's audio data. This function must be called in acapture's event callback
- * @param handle Pointer to acapture structure
- * @param buffer Pointer to buffer
- * @param len Want to get data length
- * @return 0 if SUCCESS, negative errno code if failure.
- */
-extern int acap_get_datai(acapture_t* acap,char* buffer,uint32_t len);
+创建并初始化一个acapture的实例。
 
-```   
+
+
+### acap_set_fmt
+
+```c
+int acap_set_fmt(acapture_t* acap,amedia_fmt_t* fmt);
+```
+
+**接口说明**
+
+设置acapture的音频数据格式。
+
+**参数说明**
+
+| 字段 | 说明                   |
+| ---- | ---------------------- |
+| acap | 指向acapture实例的指针 |
+| fmt  | 指向音频格式结构的指针 |
+
+
+
+### acap_event_register
+
+```c
+int acap_event_register(acapture_t* acap, acapture_event_flags_t flags, acapture_event_callback_t callback, void* priv_context,uint32_t data);
+```
+
+**接口说明**
+
+注册回调事件到 AVF 框架。
+
+**参数说明**
+
+| 字段         | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| acap         | 指向acapture实例的指针                                       |
+| flags        | 回调事件的标志，只有 AVF_STREAM_EVENT_THRES_NOTIFY 用于acapture |
+| callback     | 回调事件处理程序                                             |
+| priv_context | 传递给回调的句柄指针                                         |
+| data         | 事件回调注册的附加参数                                       |
+
+### acap_event_unregister
+
+```c
+int acap_event_unregister(acapture_t* acap,acapture_event_flags_t flags);
+```
+
+**接口说明**
+
+取消事件回调函数。
+
+**参数说明**
+
+| 字段  | 说明                                                         |
+| ----- | ------------------------------------------------------------ |
+| acap  | 指向acapture实例的指针                                       |
+| flags | 回调事件的标志，只有 AVF_STREAM_EVENT_THRES_NOTIFY 用于acapture |
+
+### acap_start
+
+```c
+int acap_start(acapture_t* acap);
+```
+
+**接口说明**
+
+启动录音。
+
+
+
+### acap_stop
+
+```c
+int acap_start(acapture_t* acap);
+```
+
+**接口说明**
+
+停止录音。
+
+
+
+### acap_get_status
+
+```
+acapture_status_t acap_get_status(acapture_t* acap);
+```
+
+**接口说明**
+
+获取acapture状态。
+
+
+
+### acap_get_datai
+
+```
+int acap_get_datai(acapture_t* acap,char* buffer,uint32_t len);
+```
+
+**接口说明**
+
+获取 acapture 的音频数据，此函数必须在 acapture 的事件回调中调用。
+
+| 字段   | 说明                   |
+| ------ | ---------------------- |
+| acap   | 指向acapture实例的指针 |
+| buffer | 指向缓冲区的指针       |
+| len    | 想要获取数据长度       |
+
 更多acapture API接口描述请看sdk `csk-sdk\modules\lib\sof_host\include\avf\modules\audio\acapture.h` 头文件。
 
 
@@ -95,8 +152,8 @@ extern int acap_get_datai(acapture_t* acap,char* buffer,uint32_t len);
 ## 使用示例
 
 ### 准备工作
-本示例基于 `csk6002_9s_nano`开发板实现，开发者需要做如下准备：
-- 一个`csk6002_9s_nano`开发板。
+本示例基于 `CSK6-NanoKit`开发板实现，开发者需要做如下准备：
+- 一个`CSK6-NanoKit`开发板；
 - mic+speaker扩展板，扩展板接两个mic和一个speaker输出。
 
 开发板连接如下图示: 
@@ -109,7 +166,7 @@ extern int acap_get_datai(acapture_t* acap,char* buffer,uint32_t len);
 lisa zep create
 ```
 
-![](./images/sample_create01.png)
+![](./images/lisa_zep_create.png)
 依次按以下目录选择完成aplay sample创建：  
 > boards → csk6 → subsys → avf → audio → acapture
 
@@ -204,11 +261,8 @@ DSP部分音频框架的实现逻辑和工作原理本章节不展开讲解，�
 :::
 
 ### sample实现逻辑
-基于csk6 sdk提供的acapture API接口实现录音和音频数据的返回。
+基于csk6 sdk提供的acapture API接口实现录音和音频数据的返回。例中不保存音频数据，[录音和播音示例](./audio_record_play)章节将结合acapture和aplay实现基于开发板的录音和播音功能。
 
-:::tip
-本示例中不保存音频数据，[录音和播音示例](./audio_record_play)章节将结合acapture和aplay实现基于开发板的录音和播音功能。
-:::
 ### sample实现
 ```c
 #include <zephyr.h>
@@ -386,8 +440,7 @@ lisa zep flash --runner pyocd
 **查看串口日志**
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 日志结果：
 ```shell
@@ -411,18 +464,7 @@ Get audio data length 4096
 Get audio data length 4096 
 Get audio data length 4096 
 Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
-Get audio data length 4096 
 acapture run compelete and exit.
 ```
 从日志可看到step5从音频缓存队列中获取音频数据的打印为`msgq_data.datalen`值为4096，即队列里每包数据为4096字节长度。
-
 

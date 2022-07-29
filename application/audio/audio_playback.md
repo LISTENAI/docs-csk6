@@ -1,61 +1,158 @@
 # 播音
 ## 概述
-aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播放接口。本节通过示例调用aplay API接口实现音频播放，开发者可基于aplay完成符合业务开发需要的音频播放器。通过本章节学习，您将了解到：
+aplay是CSK6 SDK提供的一个音频播放组件，提供了基础的音频播放接口。本节通过示例调用aplay API接口实现音频播放，开发者可基于aplay完成符合业务开发需要的音频播放器。当前aplay支持的音频格式：16bit48kwav格式。通过本章节学习，您将了解到：
 - aplay音频API接口的基本使用
-
-:::note
-当前aplay支持的音频格式：16bit48kwav格式。
-:::
+  
 
 ## aplay API接口
- 
+
+### acap_create
+
 ```c
-/*创建一个aplay实例*/
-aplay_t* aplay_create(aplyer_type_e type);
-参数说明：
-type：音频类型
+acapture_t* acap_create(void);
+```
 
-/*设置播放器数据流格式*/
+***\*接口说明\***
+
+创建并初始化一个aplay的实例。
+
+
+
+### aplay_set_fmt
+
+```c
 int aplay_set_fmt(aplay_t* handle, amedia_fmt_t* fmt);
-参数说明：
-typedef struct{
-    amedia_compr_t compr;   /*audio encode type*/
-    int rate;               /*sampling bit rate*/
-    int channels;           /*channel number*/
-    int bits;               /*bits */
-    int bitrate;            /*encode bitrate*/
-}amedia_fmt_t;
+```
 
-/*注册avf流框架*/
-avf_stream_platform_t* avf_stream_platform_register(char* fw_data,uint32_t fw_size,char* tplg_data,uint32_t tplg_size);
+***\*接口说明\***
 
-/*启动播放*/
+设置播放器数据流格式。
+
+**参数说明**
+
+| 字段   | 说明                     |
+| ------ | ------------------------ |
+| handle | 指向播放器结构句柄的指针 |
+| fmt    | 指向音频格式结构的指针   |
+
+
+
+### aplay_start
+
+```c
 int aplay_start(aplay_t* handle);
+```
 
-/*暂停播放*/
+***\*接口说明\***
+
+启动播放。
+
+**参数说明**
+
+| 字段   | 说明                     |
+| ------ | ------------------------ |
+| handle | 指向播放器结构句柄的指针 |
+
+
+
+### aplay_pause
+
+```c
 int aplay_pause(aplay_t* handle);
+```
 
-/*暂停播放并释放播放器*/
+***\*接口说明\***
+
+暂停播放。
+
+**参数说明**
+
+| 字段   | 说明                     |
+| ------ | ------------------------ |
+| handle | 指向播放器结构句柄的指针 |
+
+
+
+### aplay_pause_release
+
+```c
 int aplay_pause_release(aplay_t* handle);
+```
 
-/*等待播放器播放完缓存数据后停止播放*/
+***\*接口说明\***
+
+暂停播放并释放播放器。
+
+**参数说明**
+
+| 字段   | 说明                     |
+| ------ | ------------------------ |
+| handle | 指向播放器结构句柄的指针 |
+
+
+
+### aplay_drain
+
+```c
 int aplay_drain(aplay_t* handle);
+```
 
-/*停止播放*/
+***\*接口说明\***
+
+等待播放器播放完缓存数据后停止播放。
+
+**参数说明**
+
+| 字段   | 说明                     |
+| ------ | ------------------------ |
+| handle | 指向播放器结构句柄的指针 |
+
+
+
+### aplay_stop
+
+```c
 int aplay_stop(aplay_t* handle);
+```
 
-/*销毁aplay实例*/
-int aplay_destroy(aplay_t* handle);
+***\*接口说明\***
 
-/*将音频数据写入播放器*/
+停止播放。
+
+**参数说明**
+
+| 字段   | 说明                     |
+| ------ | ------------------------ |
+| handle | 指向播放器结构句柄的指针 |
+
+
+
+### aplay_writei
+
+```c
 int aplay_writei(aplay_t* handle,char* data,uint32_t len);
-```   
+```
+
+***\*接口说明\***
+
+将音频数据写入播放器。
+
+**参数说明**
+
+| 字段   | 说明                         |
+| ------ | ---------------------------- |
+| handle | 指向播放器结构句柄的指针     |
+| data   | 指向等待播放的音频数据的指针 |
+| len    | 数据长度                     |
+
 更多aplay API接口描述可以在csk6 sdk `\modules\lib\sof_host\include\avf\modules\audio\aplay.h` 头文件中看到。
+
+
 
 ## 使用示例
 ### 准备工作
-本示例基于 `csk6002_9s_nano`开发板实现，开发者需要做如下准备：
-- 一个`csk6002_9s_nano`开发板。
+本示例基于 `CSK6-NanoKit`开发板实现，开发者需要做如下准备：
+- 一个`CSK6-NanoKit`开发板。
 - speaker扩展板(带功放电路和喇叭)。
 
 开发板连接如下图示: 
@@ -68,7 +165,8 @@ int aplay_writei(aplay_t* handle,char* data,uint32_t len);
 lisa zep create
 ```
 
-![](./images/sample_create01.png)
+![](./images/lisa_zep_create.png)
+
 依次按以下目录选择完成aplay sample创建：  
 > boards → csk6 → subsys → avf → audio → aplay
 
@@ -87,7 +185,7 @@ generate_inc_file_for_target(
     ${gen_dir}/test_audio.inc
 )
 ```
-    
+
 在`dsp_resource.h`引用`test_audio.inc`
 
 ```shell
@@ -103,7 +201,7 @@ generate_inc_file_for_target(
 ```
 
 ### 设备树配置
- 
+
 在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，因此需要在sample中重写`boad overlay`完成设备树配置。
 ```c
  / {
@@ -129,7 +227,7 @@ generate_inc_file_for_target(
  };
 ```
 ### 组件配置
-   
+
 ```shell
 # LOG 配置，属于系统配置项
 CONFIG_PRINTK=y
@@ -277,8 +375,8 @@ lisa zep flash --runner pyocd
 **查看串口日志**
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 日志结果：
 ```shell
