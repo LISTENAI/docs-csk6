@@ -157,7 +157,6 @@
     "label": "构建与配置系统",
     "items": [
       "build/cmake/index",
-      "build/cmake_package",
       {
         "type": "category",
         "label": "设备树",
@@ -182,7 +181,8 @@
           "build/kconfig/Kconfig_extension"
         ],
         "collapsed": true
-      }
+      },
+      "build/cmake_package"
     ],
     "collapsed": true
   },
