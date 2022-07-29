@@ -82,6 +82,7 @@
           "application/modules/usb_class",
           "application/modules/display_kscan",
           "application/modules/lvgl",
+          "application/shell_sample",
           {
             "type": "category",
             "label": "音频",
@@ -108,17 +109,13 @@
       {
         "type": "category",
         "label": "自定义驱动",
-        "items": [
-            "application/customdriver/custom-driver-video"
-        ],
+        "items": ["application/customdriver/custom-driver-video"],
         "collapsed": true
       },
       {
         "type": "category",
         "label": "自定义板型",
-        "items": [
-            "application/board"
-        ],
+        "items": ["application/board"],
         "collapsed": true
       }
     ]
@@ -138,7 +135,9 @@
             "items": [
               "kernel/threads",
               "kernel/system_threads",
-              "kernel/workqueue"
+              "kernel/workqueue",
+              "kernel/interrupts",
+              "kernel/semaphores"
             ]
           }
         ]
@@ -158,25 +157,40 @@
   {
     "type": "category",
     "label": "构建与配置系统",
-    "items": [{
-      "type": "category",
-      "label": "Kconfig配置系统",
-      "items": [
-        "build/kconfig/overview",
-        "build/kconfig/Kconfig_gui",
-        "build/kconfig/Kconfig_configuration",
-        "build/kconfig/Kconfig_tips_and_demo",
-        "build/kconfig/Kconfig_custom",
-        "build/kconfig/Kconfig_extension"
-      ],
-      "collapsed": true
-    }],
+    "items": [
+      "build/cmake/index",
+      "build/cmake_package",
+      {
+        "type": "category",
+        "label": "设备树",
+        "items": [
+          "build/dts/intro",
+          "build/dts/design",
+          "build/dts/bindings",
+          "build/dts/troubleshooting",
+          "build/dts/dt_vs_kconfig"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Kconfig配置系统",
+        "items": [
+          "build/kconfig/overview",
+          "build/kconfig/Kconfig_gui",
+          "build/kconfig/Kconfig_configuration",
+          "build/kconfig/Kconfig_tips_and_demo",
+          "build/kconfig/Kconfig_custom",
+          "build/kconfig/Kconfig_extension"
+        ],
+        "collapsed": true
+      }
+    ],
     "collapsed": true
   },
   {
     "type": "category",
     "label": "硬件支持",
-    "items": ["hardware/index"],
+    "items": ["hardware/pinctrl"],
     "collapsed": true
   },
   {
