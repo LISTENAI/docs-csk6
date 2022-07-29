@@ -154,6 +154,19 @@ main接口改名为wifi_connect
 
 ![](./files/wifi_connect_head_file.png)
 
+代码如下：
+
+```c
+#ifndef __WIFI_CONNECT_TEST__
+#define __WIFI_CONNECT_TEST__
+
+void wifi_connect(void);
+
+#endif
+```
+
+
+
 #### 步骤三：
 
 头文件包含到c文件中
@@ -774,4 +787,8 @@ Router: 192.168.101.1
 
 如日志所示，CSK6-NanoKit成功连接热点并获取IP地址，并且收发websocket数据成功。
 
+:::tip
+
 注意，websocket接口功能还在完善中，后续会持续更新本文档。
+
+:::
