@@ -156,7 +156,10 @@
   {
     "type": "category",
     "label": "系统服务",
-    "items": ["service/index"],
+    "items": [
+      "service/index",
+      "service/shell"
+    ],
     "collapsed": true
   },
   {
