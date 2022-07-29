@@ -182,7 +182,7 @@
         ],
         "collapsed": true
       },
-      "build/cmake_package"
+      "build/zephyr_cmake_package"
     ],
     "collapsed": true
   },
