@@ -12,8 +12,8 @@
     [命令执行](#execcommands)
   - Built-in commands
     [内置命令](#bic)
-* Tab Feature [标签特性](#tf)
-* History Feature [历史特性](#hf)
+* Tab Feature [Tab辅助功能](#tf)
+* History Feature [历史记录](#hf)
 * Wildcards Feature [通配符特性](#wf)
 * Meta Keys Feature [元键特性](#mkf)
 * Getopt Feature [Getopt特性](#gf)
@@ -25,7 +25,7 @@
 ## <span id="overview">概述</span>
 
 This module allows you to create and handle a shell with a user-defined command set. You can use it in examples where more than simple button or LED user interaction is required. This module is a Unix-like shell with these features:  
-此模块允许你创建和处理具有用户定义命令集的shell。你可以在需要简单的按钮或LED等用户交互的示例中使用它。这个模块是一个类似Unix的shell，具有以下特性：
+此模块允许你创建和处理具有用户定义命令集的shell。举个例子，你可以在需要使用使用简单按钮或LED控制等用户交互的场景中使用。这个模块是一个类似Unix的shell，具有以下特性：
 
 * Support for multiple instances.  
     支持多个实例。
@@ -216,7 +216,7 @@ This is how it would look like in the shell:
 #### <span id="dynamiccommands">动态命令</span>
 
 Example code demonstrating how to create a root command with static and dynamic subcommands. At the beginning dynamic command list is empty. New commands can be added by typing:  
-演示如何使用静态和动态子命令创建根命令的示例代码。开始时，动态命令列表为空。可以通过输入以下命令添加新命令：
+这是演示如何使用静态和动态子命令创建根命令的示例代码。开始时，动态命令列表为空。可以通过输入以下命令添加新命令：
 ```
 dynamic add <new_dynamic_command>
 ```
@@ -278,7 +278,7 @@ Example implementation can be found under following location: samples/subsys/she
 
 Each command or subcommand may have a handler. The shell executes the handler that is found deepest in the command tree and further subcommands (without a handler) are passed as arguments. Characters within parentheses are treated as one argument. If shell wont find a handler it will display an error message.  
 
-每个命令或子命令可以有一个处理程序。Shell 执行在命令树中最里面找到的处理程序，并且进一步的子命令(没有处理程序)作为参数传递。括号内的字符作为一个参数处理。如果 shell 找不到处理程序，它将显示错误消息。
+每个命令或子命令有一个处理程序。Shell 执行在命令树中最里面找到的处理程序，并且进一步的子命令(没有处理程序)作为参数传递。括号内的字符作为一个参数处理。如果 shell 找不到处理程序，它将显示错误消息。
 
 Commands can be also executed from a user application using any active backend and a function shell_execute_cmd(), as shown in this example:  
 还可以使用任何活动后端和函数 [shell_execute_cmd()](https://docs.zephyrproject.org/2.7.0/reference/shell/index.html#c.shell_execute_cmd)。 如下所示：
@@ -375,7 +375,7 @@ These commands are activated by CONFIG_SHELL_CMDS set to y.
 `CONFIG_SHELL_CMDS`为`y`时激活这些命令。
 
 * **clear** - Clears the screen.  
-  **clear** - 清楚屏幕。
+  **clear** - 清除屏幕。
 * **history** - Shows the recently entered commands.  
   **history** - 显示最近输入的命令。
 * **resize** - Must be executed when terminal width is different than 80 characters or after each change of terminal width. It ensures proper multiline text display and ←, →, End, Home keys handling. Currently this command works only with UART flow control switched on. It can be also called with a subcommand:  
@@ -403,7 +403,7 @@ These command needs extra activation: CONFIG_SHELL_CMDS_RESIZE set to y.
     **stats** - 显示shell统计信息。
 
 
-## <span id="tf">标签特性</span>
+## <span id="tf">Tab辅助功能</span>
 
 The Tab button can be used to suggest commands or subcommands. This feature is enabled by CONFIG_SHELL_TAB set to y. It can also be used for partial or complete auto-completion of commands. This feature is activated by CONFIG_SHELL_TAB_AUTOCOMPLETION set to y. When user starts writing a command and presses the Tab button then the shell will do one of 3 possible things:  
 Tab 按钮可用在建议命令或子命令。这个特性是通过[CONFIG_SHELL_TAB](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_TAB.html#std-kconfig-CONFIG_SHELL_TAB)设置为 `y` 启用的。它还可以用于部分或完全自动补全命令。这个特性通过[CONFIG_SHELL_TAB_AUTOCOMPLETION](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_TAB_AUTOCOMPLETION.html#std-kconfig-CONFIG_SHELL_TAB_AUTOCOMPLETION) 设置为 `y` 激活。当用户开始编写命令并且按下`Tab`按钮时，shell将可能执行3种操作其中之一：
@@ -417,7 +417,7 @@ Tab 按钮可用在建议命令或子命令。这个特性是通过[CONFIG_SHELL
 
 ![tab_prompt](images/tab_prompt.png)
 
-## <span id="hf">历史特性</span>
+## <span id="hf">历史记录</span>
 
 This feature enables commands history in the shell. It is activated by: CONFIG_SHELL_HISTORY set to y. History can be accessed using keys: ↑ ↓ or Ctrl + n and Ctrl + p if meta keys are active. Number of commands that can be stored depends on size of CONFIG_SHELL_HISTORY_BUFFER parameter.  
 这个特性在 shell 中启动命令历史记录。它通过 [CONFIG_SHELL_HISTORY](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_HISTORY.html#std-kconfig-CONFIG_SHELL_HISTORY) 设置为 `y` 激活。 可以使用 `↑` `↓` 或 `Ctrl + n` 和 `Ctrl + p`键进行访问。可以存储的命令数量取决于 [CONFIG_SHELL_HISTORY_BUFFER](https://docs.zephyrproject.org/2.7.0/reference/kconfig/CONFIG_SHELL_HISTORY_BUFFER.html#std-kconfig-CONFIG_SHELL_HISTORY_BUFFER) 参数的大小。
@@ -595,3 +595,5 @@ params  ping
 ## <span id="apiref">API参考</span>
 
 详细请打开 [API参考](https://docs.zephyrproject.org/2.7.0/reference/shell/index.html#api-reference) 进行了解。
+
+相关的示例请参考[samples/shell_sample](../application/shell_sample.md)
