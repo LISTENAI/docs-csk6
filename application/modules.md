@@ -74,4 +74,18 @@ The build system variable ZEPHYR_MODULES is a CMake list of absolute paths to th
 构建系统变量 **ZEPHYR_MODULES** 是包含csk6模块目录绝对路径的[CMake](https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#lists)列表。这些模块分别包含描述如何构建和配置它们的`CMakeLists.txt`和`Kconfig`文件。使用CMake的[add_subdirectory()](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)命令把`Kconfig`模块的`CMakeLists.txt`文件添加到构建中，`Kconfig`文件包含在构建的Kconfig菜单树中。
 
 If you have west installed, you don’t need to worry about how this variable is defined unless you are adding a new module. The build system knows how to use west to set ZEPHYR_MODULES. You can add additional modules to this list by setting the ZEPHYR_EXTRA_MODULES CMake variable or by adding a ZEPHYR_EXTRA_MODULES line to .zephyrrc (See the section on Setting Variables for more details). This can be useful if you want to keep the list of modules found with west and also add your own.  
-如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)插件，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 west 来设置 **ZEPHYR_MODULES**。
+如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)插件，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 west 来设置 **ZEPHYR_MODULES**。你可以通过设置 **ZEPHYR_EXTRA_MODULES** CMake 变量或添加 **ZEPHYR_EXTRA_MODULES** 行来把其他模块添加到`.zephyrrc`列表中。(有关详情信息，请参考 [设置变量](https://docs.zephyrproject.org/2.7.0/application/index.html#env-vars)部分)。它有利于你想通过保存在west中找到的模块列表并添加自的模块列表。
+
+:::info 注意
+If the module FOO is provided by west but also given with `-DZEPHYR_EXTRA_MODULES=/<path>/foo` then the module given by the command line variable ZEPHYR_EXTRA_MODULES will take precedence. This allows you to use a custom version of FOO when building and still use other Zephyr modules provided by west. This can for example be useful for special test purposes.  
+如果模块 `FOO` 由 [west](https://docs.zephyrproject.org/2.7.0/guides/west/index.html#west) 提供的，但也是由 `-DZEPHYR_EXTRA_MODULES=/<path>/foo` 提供的，那么命令行变量 `ZEPHYR_EXTRA_MODULES` 给出的模块将优先。它允许你 `FOO` 在构建时使用自定义版本，并且仍然使用west提供的其他zephyr模块。例如，它可用于特殊的测试目的。
+:::
+
+See Basics for more on west workspaces.    
+有关 west 工作空间的更多信息，请查看[Basics](https://docs.zephyrproject.org/2.7.0/guides/west/basics.html#west-basics)。
+
+Finally, you can also specify the list of modules yourself in various ways, or not use modules at all if your application doesn’t need them.  
+最后，你还可以通过各种方式自己指定模块列表，或者应用程序不需要模块时不适用它们。
+
+## <span id="myfd">模块yaml文件说明</span>
+
