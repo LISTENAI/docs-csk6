@@ -232,7 +232,7 @@ Specifying a version is especially useful for a Zephyr freestanding application 
 
 It also helps CMake to select the correct Zephyr to use for building, when there are multiple Zephyr installations in the system.
 
-在编写应用程序时，必须指定一个 `x.y.z` 用于构建应用程序的 Zephyr 版本号。
+在编写应用程序时，可以指定一个 `x.y.z` 的版本，在指定版本后，必须用该版本进行编译。
 
 指定版本号对于 Zephyr 独立式应用特别有用，因为它确保应用程序使用最小的 Zephyr 版本构建的。
 
@@ -458,104 +458,7 @@ find_package(Zephyr)
 project(my_first_app)
 ```
 
-## Zephyr Build Configuration CMake package
-## Zephyr 构建配置 CMake 包
 
-The Zephyr Build Configuration CMake package provides a possibility for a Zephyr based project to control Zephyr build settings in a generic way.
-
-It is similar to the per-user `.zephyrrc` file that can be used to set [Environment Variables](https://docs.zephyrproject.org/latest/develop/env_vars.html#env-vars), but it sets CMake variables instead. It also allows you to automatically share the build configuration among all users through the project repository. It also allows more advanced use cases, such as loading of additional CMake boilerplate code.
-
-The Zephyr Build Configuration CMake package will be loaded in the Zephyr boilerplate code after initial properties and `ZEPHYR_BASE` has been defined, but before CMake code execution. This allows the Zephyr Build Configuration CMake package to setup or extend properties such as: `DTS_ROOT`, `BOARD_ROOT`, `TOOLCHAIN_ROOT` / other toolchain setup, fixed overlays, and any other property that can be controlled. It also allows inclusion of additional boilerplate code.
-
-Zephyr 构建配置 CMake 包为基于 Zephyr 的项目提供了一种通用方式控制 Zephyr 构建设置的可能性。
-
-它类似于每个用户可以设置 [环境变量](https://docs.zephyrproject.org/latest/develop/env_vars.html#env-vars) 的 `.zephyrrc` 文件，但是它设置的是 CMake 变量而不是环境变量。它还允许你自动地将构建配置分享到项目仓库中。还允许更复杂的用例，例如加载额外的 CMake 示例代码。
-
-Zephyr 构建配置 CMake 包将会在初始化属性并且 `ZEPHYR_BASE` 已定义后在 Zephyr 示例代码中加载，但是在 CMake 代码执行前，这允许 Zephyr 构建配置 CMake 包来设置或扩展属性，例如：`DTS_ROOT`, `BOARD_ROOT`, `TOOLCHAIN_ROOT` 或者其他工具链设置，固定 overlays，以及任何其他可控制的属性。它还允许包含额外的示例代码。
-
-To provide a Zephyr Build Configuration CMake package, create `ZephyrBuildConfig.cmake` and place it in a Zephyr workspace top-level folder as:
-
-```
-<projects>/zephyr-workspace
-├── zephyr
-├── ...
-└── zephyr application (can be named anything)
-     └── share/zephyrbuild-package/cmake/ZephyrBuildConfig.cmake
-```
-
-The Zephyr Build Configuration CMake package will not search in any CMake default search paths, and thus cannot be installed in the CMake package registry. There will be no version checking on the Zephyr Build Configuration package.
-
-要提供 Zephyr 构建配置 CMake 包，请创建 `ZephyrBuildConfig.cmake` 并将其放置在 Zephyr SDK 顶层文件夹中，如下所示：
-
-```
-<projects>/zephyr-workspace
-├── zephyr
-├── ...
-└── zephyr application (can be named anything)
-     └── share/zephyrbuild-package/cmake/ZephyrBuildConfig.cmake
-```
-
-Zephyr 构建配置 CMake 包不会在任何 CMake 默认搜索路径中搜索，因此无法安装在 CMake 包注册表中，并且不会进行版本检查。
-
-:::info
-`share/zephyrbuild-package/cmake/ZephyrBuildConfig.cmake` follows the same folder structure as the Zephyr CMake package.
-
-It is possible to place `ZephyrBuildConfig.cmake` directly in a `<zephyr application>/cmake` folder or another folder, as long as that folder is honoring the CMake package search algorithm.
-
-`share/zephyrbuild-package/cmake/ZephyrBuildConfig.cmake` 遵循与 Zephyr CMake 包相同的文件夹结构。
-
-只要该文件夹遵循 CMake 包搜索算法，就可以将 `ZephyrBuildConfig.cmake` 直接放置在 `<zephyr application>/cmake` 文件夹或其他文件夹中。
-:::
-
-A sample ZephyrBuildConfig.cmake can be seen below.
-
-```c
-# ZephyrBuildConfig.cmake sample code
-
-# To ensure final path is absolute and does not contain ../.. in variable.
-get_filename_component(APPLICATION_PROJECT_DIR
-                       ${CMAKE_CURRENT_LIST_DIR}/../../..
-                       ABSOLUTE
-)
-
-# Add this project to list of board roots
-list(APPEND BOARD_ROOT ${APPLICATION_PROJECT_DIR})
-
-# Default to GNU Arm Embedded toolchain if no toolchain is set
-if(NOT ENV{ZEPHYR_TOOLCHAIN_VARIANT})
-    set(ZEPHYR_TOOLCHAIN_VARIANT gnuarmemb)
-    find_program(GNU_ARM_GCC arm-none-eabi-gcc)
-    if(NOT ${GNU_ARM_GCC} STREQUAL GNU_ARM_GCC-NOTFOUND)
-        # The toolchain root is located above the path to the compiler.
-        get_filename_component(GNUARMEMB_TOOLCHAIN_PATH ${GNU_ARM_GCC}/../.. ABSOLUTE)
-    endif()
-endif()
-```
-
-可以看看下面一个 `ZephyrBuildConfig.cmake` 示例：
-
-```c
-# ZephyrBuildConfig.cmake sample code
-
-# To ensure final path is absolute and does not contain ../.. in variable.
-get_filename_component(APPLICATION_PROJECT_DIR
-                       ${CMAKE_CURRENT_LIST_DIR}/../../..
-                       ABSOLUTE
-)
-
-# Add this project to list of board roots
-list(APPEND BOARD_ROOT ${APPLICATION_PROJECT_DIR})
-
-# Default to GNU Arm Embedded toolchain if no toolchain is set
-if(NOT ENV{ZEPHYR_TOOLCHAIN_VARIANT})
-    set(ZEPHYR_TOOLCHAIN_VARIANT gnuarmemb)
-    find_program(GNU_ARM_GCC arm-none-eabi-gcc)
-    if(NOT ${GNU_ARM_GCC} STREQUAL GNU_ARM_GCC-NOTFOUND)
-        # The toolchain root is located above the path to the compiler.
-        get_filename_component(GNUARMEMB_TOOLCHAIN_PATH ${GNU_ARM_GCC}/../.. ABSOLUTE)
-    endif()
-endif()
-```
 
 ## Zephyr Build Configuration CMake package (Freestanding application)
 ## Zephyr 构建配置 CMake 包(独立应用)
