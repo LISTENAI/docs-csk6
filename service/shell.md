@@ -25,7 +25,7 @@
 ## <span id="overview">概述</span>
 
 This module allows you to create and handle a shell with a user-defined command set. You can use it in examples where more than simple button or LED user interaction is required. This module is a Unix-like shell with these features:  
-此模块允许你创建和处理具有用户定义命令集的shell。举个例子，你可以在需要使用使用简单按钮或LED控制等用户交互的场景中使用。这个模块是一个类似Unix的shell，具有以下特性：
+此模块允许你创建和处理具有用户自定义命令集的shell。举个例子，你可以在需要使用使用简单按钮或LED控制等用户交互的场景中使用。这个模块是一个类似Unix的shell，具有以下特性：
 
 * Support for multiple instances.  
     支持多个实例。
@@ -596,4 +596,4 @@ params  ping
 
 详细请打开 [API参考](https://docs.zephyrproject.org/2.7.0/reference/shell/index.html#api-reference) 进行了解。
 
-相关的示例请参考[samples/shell_sample](../application/shell_sample.md)
+相关的示例请参考 [samples/shell_sample](../application/shell_sample.md)。
