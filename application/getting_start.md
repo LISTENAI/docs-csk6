@@ -221,11 +221,37 @@ $ lisa zep flash
 
 ## 下一步
 
-这里提供一些下一步的建议，帮助你了解更多如何在 CSK6 上进行开发：
+这里提供一些进阶的建议，帮助你了解更多如何在 CSK6 上进行开发：
 
-- 尝试其他的 [使用示例](./peripheral/overview)
-- 学习有关 `应用开发` 和 `lisa zep 工具使用`
-- 学习 lisa zep 的 `烧录与调试` 特性，或者更多关于 `烧录与硬件调试` 的内容
+- 尝试其他的使用示例
+  - [外设驱动说明及使用示例](./peripheral/overview)
+  - [系统内核及使用示例](./kernel/overview)
+  - [系统组件及使用示例](./modules/overview)
+  - [音频组件及使用示例](./audio/overview)
+  - [网络模块及使用示例](./network/overview)
+- 学习有关 [应用开发](./application_development.md) 和 [lisa zep 工具使用](../tool/lisa_plugin_zephyr/index.md)
+- 学习基于 `lisa zep` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
+
+
+### 进阶路线
+
+当你已经对 CSK6 开发的基础知识已经炉火纯青，而且你求知若渴，我们推荐你可以参考这一进阶路线。当你可以熟练掌握这些知识或技巧后，你就已经是一个 CSK6 开发的专业人士了。
+
+#### 阶段一：了解 zephyr 构建系统及配置系统：
+
+[构建系统](../build/cmake/index.md)
+
+[Kconfig 配置系统](../build/kconfig/index.md)
+
+#### 阶段二：了解 zephyr 设备树原理和使用方法
+
+[设备树概述](../build/dts/intro.md)
+
+#### 阶段三：掌握自定义板型的添加、自定义驱动等功能开发
+
+[自定义板型及示例](./board)
+
+[自定义驱动及示例](./customdriver/custom-driver-video.md)
 
 ## 安装过程疑难解答
 
