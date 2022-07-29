@@ -4,7 +4,7 @@ Zephyr使用[Kconfig](https://www.kernel.org/doc/Documentation/kbuild/kconfig-la
 
 * 环境变量中的`source`语句直接展开，这意味着不需要定义选项 `option env="ENV_VAR"` 的 "bounce"符号。
 
-  :::info  
+  :::info 注意
   从linux4.18开始，C 工具中删除了`option env`。
   :::
    
@@ -28,7 +28,7 @@ Zephyr使用[Kconfig](https://www.kernel.org/doc/Documentation/kbuild/kconfig-la
 
   对于样式不匹配任何文件(或文件名不存在)的情况，可以使用单独的 `osource` (可选源)语句。如果没有匹配的文件，则`osource`为 no-op。
 
-  :::info 
+  :::info 注意
   `source` 和 `osource` 类似于 Make 中的 `include` 和`-include`。
   :::
 

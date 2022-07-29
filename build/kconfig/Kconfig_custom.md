@@ -1,7 +1,7 @@
 # 自定义 Kconfig 预处理函数
 
 Kconfiglib支持用Python编写的自定义Kconfig预处理器函数。这些函数在[scripts/kconfig/kconfigfunctions.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/kconfigfunctions.py.)中定义。
-:::info 
+:::info 注意
 官方的Kconfig预处理器文档可以在[这里](https://www.kernel.org/doc/html/latest/kbuild/kconfig-macro-language.html)找到。
 :::
 大多数自定义预处理器函数用于将设备树信息导入Kconfig。例如，可以从设备树`reg`属性中获取Kconfig符号的默认值。
