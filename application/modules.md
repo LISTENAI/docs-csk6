@@ -46,3 +46,32 @@ This page summarizes a list of policies and best practices which aim at better o
   :::
 
 ## <span id="docrequirements">文件要求</span>
+
+All Zephyr module repositories shall include an .rst file documenting:
+所有csk6模块存储库都包含一个.rst文件，其中记录：
+
+  * the scope and the purpose of the module
+    模块的范围和目的
+
+  * how the module integrates with Zephyr
+    模块如何和csk6集成
+
+  * the owner of the module repository
+    模块存储库的所有者
+
+  * synchronization information with the external project (commit, SHA, version etc.)
+    与外部项目（提交、SHA、版本等）的同步信息
+
+  * licensing information as described in Licensing requirements and policies.
+    [许可证要求和政策](#)中所述的许可信息
+
+The file shall be required for the inclusion of the module and the contained information should be kept up to date.  
+该文件必须包括模块和包含的信息应该保持最新。
+
+## <span id="moduleRep">在csk6构建系统中集成模块</span>
+
+The build system variable ZEPHYR_MODULES is a CMake list of absolute paths to the directories containing Zephyr modules. These modules contain CMakeLists.txt and Kconfig files describing how to build and configure them, respectively. Module CMakeLists.txt files are added to the build using CMake’s add_subdirectory() command, and the Kconfig files are included in the build’s Kconfig menu tree.  
+构建系统变量 **ZEPHYR_MODULES** 是包含csk6模块目录绝对路径的[CMake](https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#lists)列表。这些模块分别包含描述如何构建和配置它们的`CMakeLists.txt`和`Kconfig`文件。使用CMake的[add_subdirectory()](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)命令把`Kconfig`模块的`CMakeLists.txt`文件添加到构建中，`Kconfig`文件包含在构建的Kconfig菜单树中。
+
+If you have west installed, you don’t need to worry about how this variable is defined unless you are adding a new module. The build system knows how to use west to set ZEPHYR_MODULES. You can add additional modules to this list by setting the ZEPHYR_EXTRA_MODULES CMake variable or by adding a ZEPHYR_EXTRA_MODULES line to .zephyrrc (See the section on Setting Variables for more details). This can be useful if you want to keep the list of modules found with west and also add your own.  
+如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)插件，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 west 来设置 **ZEPHYR_MODULES**。
