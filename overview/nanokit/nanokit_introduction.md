@@ -47,6 +47,12 @@ NanoKit开发板板载CSK6核心模组以及上手开发常用的硬件外设(�
 
 为方便开发者快速使用NanoKit套件快速搭建出最接近产品形态的硬件原型，套件提供了一系列即插即用的功能扩展配件，配合固件例程可以快速搭建出丰富且完整的应用。
 
+<div  align="center"><img
+  src={require('./images/nanokit_fun_board.png').default}
+  width="100%"
+  alt="Example banner"
+/></div>
+
 当前套件中支持的功能扩展板有：
 
 引脚扩展底板
