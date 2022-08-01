@@ -124,5 +124,5 @@ csk6002-9s-nano开发板将CSK6002芯片默认的所有可用引脚均引至两�
 
 | 文件 | 操作 |
 | -------------- | -------------|
-| CSK-6-NanoKit V1.0 硬件原理图 | [下载](./_downloads/csk-6-nanokit_v1.0_sch.pdf) |
+| CSK-6-NanoKit V1.0 硬件原理图 | [下载](./_downloads/CSK-6-NanoKit_v1_sch.pdf) |
 | csk6002-9s-nano 管脚功能参考布局图| [下载](./_downloads/csk6002-9s-nano_pinfun.png) |
