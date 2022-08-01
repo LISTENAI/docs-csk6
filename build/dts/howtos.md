@@ -95,7 +95,7 @@ if (!device_is_ready(uart_dev)) {
 
 [`DEVICE_DT_GET()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_GET) 有多种变体，例如 [`DEVICE_DT_GET_OR_NULL()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_GET_OR_NULL) 、 [`DEVICE_DT_GET_ONE()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_GET_ONE) 或 [`DEVICE_DT_GET_ANY()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_GET_ANY) 。这个惯用方式在构建时获取设备指针，这意味着没有运行时的性能损失。如果要将设备指针存储为配置数据，此方法很有用。但由于设备可能未初始化或初始化失败，因此在将设备指针传递给任何 API 函数之前，你必须验证设备是否已准备好被使用。 （此检查由 [`device_get_binding()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device_get_binding) 为你完成。）
 
-在某些情况下，设备在构建时是未知的，例如，有时设备需要通过用户输入（比如 shell ）来确认。这种情况下，你可以通过将 [`DT_LABEL()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_LABEL) 与 [`device_get_binding()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device_get_binding) 组合来获取 `struct device` ：
+在某些情况下，设备在构建时是未知的，例如，有时设备需要通过用户输入（比如 shell ）来确认。这种情况下，你可以通过将 [`DT_LABEL()`](./api/api.md#dt_labelnode_id) 与 [`device_get_binding()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device_get_binding) 组合来获取 `struct device` ：
 
 ```c
 const struct device *uart_dev = device_get_binding(DT_LABEL(MY_SERIAL));
@@ -385,7 +385,7 @@ static struct some_api my_api_funcs = {
                            &my_api_funcs);
 ```
 
-注意使用 [`DT_INST_PROP()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_INST_PROP) 和 [`DEVICE_DT_INST_DEFINE()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_INST_DEFINE) 等 API 来访问设备树节点数据。这些 API 从设备树中检索实例编号为 `inst` 的节点数据——其中判断节点满足条件的依据是，检查 compatible 是否与 `DT_DRV_COMPAT` 对应。
+注意使用 [`DT_INST_PROP()`](./api/api.md#dt_inst_propinst-prop) 和 [`DEVICE_DT_INST_DEFINE()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_INST_DEFINE) 等 API 来访问设备树节点数据。这些 API 从设备树中检索实例编号为 `inst` 的节点数据——其中判断节点满足条件的依据是，检查 compatible 是否与 `DT_DRV_COMPAT` 对应。
 
 最后，将实例化的宏传给 [`DT_INST_FOREACH_STATUS_OKAY()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_INST_FOREACH_STATUS_OKAY) ：
 
@@ -398,7 +398,7 @@ DT_INST_FOREACH_STATUS_OKAY(CREATE_MY_DEVICE)
 
 ### 方式 2：通过节点标签创建设备
 
-某些设备驱动程序不能使用实例编号。例如，一个 SoC 外设驱动程序，它依赖于专门针对各个 IP 块的供应商 HAL API 来实现 Zephyr 驱动程序回调。此类情况应使用 [`DT_NODELABEL()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_NODELABEL) 来引用设备树中代表 SoC 上支持的外设的各个节点。然后可以使用 devicetree.h [通用 API](https://docs.zephyrproject.org/latest/build/dts/api/api.html#devicetree-generic-apis) 访问节点数据。
+某些设备驱动程序不能使用实例编号。例如，一个 SoC 外设驱动程序，它依赖于专门针对各个 IP 块的供应商 HAL API 来实现 Zephyr 驱动程序回调。此类情况应使用 [`DT_NODELABEL()`](./api/api.md#dt_nodelabellabel) 来引用设备树中代表 SoC 上支持的外设的各个节点。然后可以使用 devicetree.h [通用 API](./api/api.md#devicetree-generic-apis) 访问节点数据。
 
 为此，必须在你的 [SoC 的 dtsi 文件](./intro.md#输入文件) 中，为你的驱动程序支持的 IP 块定义适合的节点标签，如 `mydevice0` 、 `mydevice1` 等。生成的设备树通常看起来像这样：
 
@@ -444,7 +444,7 @@ DT_INST_FOREACH_STATUS_OKAY(CREATE_MY_DEVICE)
                      &my_api_funcs)
 ```
 
-要访问设备树节点数据时，请注意 [`DT_PROP()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PROP) 和 [`DEVICE_DT_DEFINE()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_DEFINE) 等 API 的用法。
+要访问设备树节点数据时，请注意 [`DT_PROP()`](./api/api.md#dt_propnode_id-prop) 和 [`DEVICE_DT_DEFINE()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.DEVICE_DT_DEFINE) 等 API 的用法。
 
 最后，通过定义宏手动检测每个设备树节点是否启用，并使用 `CREATE_MY_DEVICE` 实例化每个 `struct device` ：
 
@@ -466,7 +466,7 @@ CREATE_MY_DEVICE(1)
 
 - 在编写你的设备树绑定时，尽可能以使用由 devicetree.h 的 [硬件特定 API](https://docs.zephyrproject.org/latest/build/dts/api/api.html#devicetree-hw-api) 批准的方式。
 
-- 特别是，对于总线设备，你的驱动程序绑定应该 include 例如 [dts/bindings/spi/spi-device.yaml](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/dts/bindings/spi/spi-device.yaml) 的文件，它为设备提供一些通用定义，用于特定总线寻址。这允许使用 [`DT_BUS()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_BUS) 之类的 API 来获取总线节点的节点 id 。然后，你可以对总线使用 [从设备树节点获取设备结构体](#从设备树节点获取设备结构体struct-device) 的一般方式。
+- 特别是，对于总线设备，你的驱动程序绑定应该 include 例如 [dts/bindings/spi/spi-device.yaml](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/dts/bindings/spi/spi-device.yaml) 的文件，它为设备提供一些通用定义，用于特定总线寻址。这允许使用 [`DT_BUS()`](./api/api.md#dt_busnode_id) 之类的 API 来获取总线节点的节点 id 。然后，你可以对总线使用 [从设备树节点获取设备结构体](#从设备树节点获取设备结构体struct-device) 的一般方式。
 
 可搜索现有绑定和设备驱动程序以获取示例。
 
