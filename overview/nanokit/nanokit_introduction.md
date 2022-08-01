@@ -41,7 +41,7 @@ NanoKit开发板板载CSK6核心模组以及上手开发常用的硬件外设(�
 
 [CSK-6-NanoKit V1.0](./nanokit_csk6002_9s_nano)
 
-[CSK-6-NanoKit V1.1](../nanokit_csk6011a_9s_nano) 
+[CSK-6-NanoKit V1.1](./nanokit_csk6011a_9s_nano) 
 
 ### 功能扩展板
 
