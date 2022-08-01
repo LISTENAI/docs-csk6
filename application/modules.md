@@ -23,10 +23,10 @@ This page summarizes a list of policies and best practices which aim at better o
 ## <span id="moduleRep">模块存储库</span>
 
 * All modules included in the default manifest shall be hosted in repositories under the zephyrproject-rtos GitHub organization.  
-  默认清单包含的所有模块都应托管在 zephyr cloud.listenai.com 组织下的存储库中。
+  默认清单包含的所有模块都应托管在 [zephyr cloud.listenai.com](https://cloud.listenai.com/zephyr) 结构下的存储库中。
 
 * The module repository codebase shall include a module.yml file in a zephyr/ folder at the root of the repository.  
-  默认存储库代码库应在存储库根目录zephyr/文件夹中包含一个module.yml文件。
+  默认存储库代码库应在存储库根目录`zephyr/`文件夹中包含一个module.yml文件。
 
 * Module repository names should follow the convention of using lowercase letters and dashes instead of underscores. This rule will apply to all new module repositories, except for repositories that are directly tracking external projects (hosted in Git repositories); such modules may be named as their external project counterparts.  
   模块存储库名称应遵循使用小写字母和破折号（而不是下横线）的约定。此规则适用于所有新模块存储库，除了直接跟踪外部项目（托管在git存储库中）的存储库；这些模块可以命名为它们的外部项目产物。
@@ -35,8 +35,9 @@ This page summarizes a list of policies and best practices which aim at better o
   不符合上述约定的现有模块存储库不需要为了符合上述约定而重新命名。
   :::
 
-* Modules should use “zephyr” as the default name for the repository main branch. Branches for specific purposes, for example, a module branch for an LTS Zephyr version, shall have names starting with the ‘zephyr_’ prefix.  
-  模块应使用 “zephyr” 作为存储库主要分支的默认名称。用于特定目的的分支，例如LTS zephyr版本的模块分支，名称应该以"zephyr_"前缀开头。
+* Modules should use "zephyr" as the default name for the repository main branch. Branches for specific purposes, for example, a module branch for an LTS Zephyr version, shall have names starting with the "zephyr_" prefix.  
+  
+  模块应使用 "zephyr" 作为存储库主要分支的默认名称。用于特定目的的分支，例如LTS zephyr版本的模块分支，名称应该以"zephyr_"前缀开头。
 
 * If the module has an external (upstream) project repository, the module repository should preserve the upstream repository folder structure.  
   如果模块有一个外部（上游）项目存储库，那么模块存储库应该保留上游存储库的文件夹结构。
@@ -50,23 +51,19 @@ This page summarizes a list of policies and best practices which aim at better o
 All Zephyr module repositories shall include an .rst file documenting:
 所有csk6模块存储库都包含一个.rst文件，其中记录：
 
-  * the scope and the purpose of the module
+  * the scope and the purpose of the module  
     模块的范围和目的
-
-  * how the module integrates with Zephyr
+  * how the module integrates with Zephyr  
     模块如何和csk6集成
-
-  * the owner of the module repository
+  * the owner of the module repository  
     模块存储库的所有者
-
-  * synchronization information with the external project (commit, SHA, version etc.)
+  * synchronization information with the external project (commit, SHA, version etc.)  
     与外部项目（提交、SHA、版本等）的同步信息
-
-  * licensing information as described in Licensing requirements and policies.
+  * licensing information as described in Licensing requirements and policies.  
     [许可证要求和政策](#)中所述的许可信息
 
 The file shall be required for the inclusion of the module and the contained information should be kept up to date.  
-该文件必须包括模块和包含的信息应该保持最新。
+该文件必须包含的模块和信息应该保持最新。
 
 ## <span id="moduleRep">在csk6构建系统中集成模块</span>
 
@@ -374,7 +371,7 @@ requires the following folder structure:
 └── soc
 ```
 
-### <span id="mi">模块包含</span>
+### <span id="mi">包含模块</span>
 
 #### <span id="uw">使用west</span>
 
