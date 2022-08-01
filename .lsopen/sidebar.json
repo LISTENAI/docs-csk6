@@ -161,6 +161,7 @@
       "kernel/workqueue",
       "kernel/interrupts",
       "kernel/semaphores",
+      "kernel/mutexes",
       "kernel/timing/timers",
       "kernel/fifos"
     ],
