@@ -204,7 +204,7 @@ set(FOO_LIST ${FOO_LIST} PARENT_SCOPE)
 An example of a Zephyr list where this is useful is when adding additional directories to the SYSCALL_INCLUDE_DIRS list.  
 Zephyr列表的一个示例是，在`SYSCALL_INCLUDE_DIRS`列表中添加其他目录时很有用。
 
-### <span id="bsi">csk6模块依赖</span>
+### <span id="zmdz">csk6模块依赖</span>
 
 A Zephyr module may be dependent on other Zephyr modules to be present in order to function correctly. Or it might be that a given Zephyr module must be processed after another Zephyr module, due to dependencies of certain CMake targets.  
 为了正常工作，一个csk6模块可能依赖于其他模块。或者，由于某些CMake目标的依赖性，给定的csk6模块必须在另一个csk6模块之后处理。
@@ -230,7 +230,7 @@ build:
 This example will ensure that bar is present when foo is included into the build system, and it will also ensure that bar is processed before foo.  
 这个例子将确保当`foo`包含到构建系统中时，`bar`存在，并且它还将确保在`foo`之前处理`bar`。
 
-### <span id="bsi">模块集成文件(外部)</span>
+### <span id="mife">模块集成文件(外部)</span>
 
 Module integration files can be located externally to the Zephyr module itself. The MODULE_EXT_ROOT variable holds a list of roots containing integration files located externally to Zephyr modules.  
 模块集成文件可以位于 csk6 模块本身的外部。`MODULE_EXT_ROOT` 变量包含一个根列表，其中包含位于 csk6 模块外部的集成文件。
@@ -346,7 +346,7 @@ Build settings supported in the module.yml file are:
   * arch_root: Contains additional architectures that are available to the build system. Additional architectures must be located in a `<arch_root>/arch` folder.  
     `arch_root` : 包含可用于生成系统的其他架构。其他架构必须位于 `<arch_root>/arch` 文件夹中。
   * module_ext_root: Contains CMakeLists.txt and Kconfig files for Zephyr modules, see also Module integration files (external).  
-    `module_ext_root` : 包含 Zephyr 模块的 CMakeLists.txt 和 Kconfig 文件 , 请参考[模块集成文件(外部)](#bsi)
+    `module_ext_root` : 包含 Zephyr 模块的 CMakeLists.txt 和 Kconfig 文件 , 请参考[模块集成文件(外部)](#mife)
 
 Example of a module.yaml file containing additional roots, and the corresponding file system layout.  
 包含附加根的文件的示例`module.yaml`，以及相应的文件系统布局。

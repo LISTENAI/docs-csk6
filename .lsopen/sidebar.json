@@ -2,7 +2,34 @@
   {
     "type": "category",
     "label": "简介",
-    "items": ["overview/chips", "overview/nanokit", "overview/system"],
+    "items": [
+      "overview/chips", 
+      {
+        "type": "category",
+        "label": "开发套件",
+        "items": [
+          "overview/nanokit/nanokit_introduction",
+          {
+            "type": "category",
+            "label": "CSK6 NanoKit开发板",
+            "items": [
+              "overview/nanokit/nanokit_csk6002_9s_nano",
+              "overview/nanokit/nanokit_csk6011a_9s_nano"
+            ],
+            "collapsed": true
+          },
+          {
+            "type": "category",
+            "label": "NanoKit 功能扩展板",
+            "items": [
+              "overview/nanokit/nanokit_audio"
+            ],
+            "collapsed": true
+          }
+        ],
+        "collapsed": true
+      }, 
+      "overview/system"],
     "collapsed": true
   },
   {
@@ -26,6 +53,7 @@
         "type": "category",
         "label": "配套命令行工具",
         "items": [
+          "tool/lisa_plugin_zephyr/index",
           "tool/lisa_plugin_zephyr/install",
           "tool/lisa_plugin_zephyr/basic",
           "tool/lisa_plugin_zephyr/command_detail",
@@ -83,6 +111,7 @@
           "application/modules/usb_class",
           "application/modules/display_kscan",
           "application/modules/lvgl",
+          "application/shell_sample",
           {
             "type": "category",
             "label": "音频",
@@ -135,9 +164,18 @@
             "items": [
               "kernel/threads",
               "kernel/system_threads",
-              "kernel/workqueue"
+              "kernel/workqueue",
+              "kernel/interrupts",
+              "kernel/semaphores"
             ]
           }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "定时",
+        "items": [
+          "kernel/timing/timers"
         ]
       }
     ],
@@ -146,18 +184,25 @@
   {
     "type": "category",
     "label": "系统服务",
-    "items": ["service/index"],
+    "items": [
+      "service/index",
+      "service/shell"
+    ],
     "collapsed": true
   },
   {
     "type": "category",
     "label": "构建与配置系统",
     "items": [
+      "build/cmake/index",
       {
         "type": "category",
         "label": "设备树",
         "items": [
           "build/dts/intro",
+          "build/dts/design",
+          "build/dts/bindings",
+          "build/dts/api_usage",
           "build/dts/troubleshooting",
           "build/dts/dt_vs_kconfig"
         ]
@@ -174,7 +219,8 @@
           "build/kconfig/Kconfig_extension"
         ],
         "collapsed": true
-      }
+      },
+      "build/zephyr_cmake_package"
     ],
     "collapsed": true
   },
