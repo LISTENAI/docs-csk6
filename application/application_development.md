@@ -53,7 +53,7 @@ Zephyr 的基本目录包含 Zephyr 自己的源代码、内核配置选项和�
 
 ### 集成式应用
 
-集成式应用，指的是应用与 SDK 位于同一根目录内、但应用程序文件在 Zephyr SDK 仓库（以及文件夹）之外的应用。在以下示例中， `app` 目录即集成式应用：
+集成式应用，指的是 SDK 包含在应用目录内的应用。在以下示例中， `app` 目录即集成式应用：
 
 ```
 app/
@@ -314,7 +314,7 @@ Zephyr 将使用的配置文件存在于应用程序配置目录中，但使用�
 CONFIG_GPIO=y
 ```
 
-一种开始学习如何配置的好方法是在 [现有示例](./peripheral/overview.md) 中查看示例配置。
+可通过在 [现有示例](./peripheral/overview.md) 中查看示例配置，快速学习如何配置。
 
 有关设置 Kconfig 配置值的详细文档，请参阅 [设置 Kconfig 配置值](../build/kconfig/setting.md#设置-kconfig-配置值) ，该文档同一页面上的 [初始配置章节](../build/kconfig/setting.md#初始配置) 解释了初始配置是如何派生的。有关配置选项的完整列表，可通过 [Kconfig 搜索](https://docs.zephyrproject.org/latest/kconfig.html#kconfig-search) 检索。有关与 Kconfig 选项相关的安全信息，请参阅 [强化工具](https://docs.zephyrproject.org/latest/security/hardening-tool.html#hardening) 。
 
@@ -344,7 +344,7 @@ Zephyr 构建系统将应用程序的所有组件编译并链接到单个应用�
 
 与任何其他基于 CMake 的系统一样，构建过程分 [两个阶段](https://docs.zephyrproject.org/latest/build/cmake/index.html#cmake-details) 进行。首先，在指定生成器时使用 `cmake` 命令行工具生成构建文件（也称为构建系统）。此生成器确定构建系统将在第二阶段使用的本机构建工具。第二阶段运行本机构建工具，执行实际的构建源文件过程并生成镜像。要了解有关这些概念的更多信息，请参阅 CMake 官方文档中的 [CMake 介绍](https://cmake.org/cmake/help/latest/manual/cmake.1.html#description) 。
 
-[lisa zephyr 插件](../tool/lisa_plugin_zephyr/index.md) 是默认用于构建 Zephyr 的工具，它是 CSK6 SDK 的伴生工具。它在后台最终调用 cmake 和底层构建工具（ `ninja` 或 `make` ）来完成构建工作的。而在 Windows 上，最终使用的是 `ninja` ，因为该平台不支持 `make` 。当你使用 `lisa zep build` 来构建你的应用程序，请知道它将默认使用 `ninja` 。
+[lisa zephyr 命令行工具](../tool/lisa_plugin_zephyr/index.md) 是默认用于构建 Zephyr 的工具，它是 CSK6 SDK 的伴生工具。它在后台最终调用 cmake 和底层构建工具（ `ninja` 或 `make` ）来完成构建工作的。而在 Windows 上，最终使用的是 `ninja` ，因为该平台不支持 `make` 。当你使用 `lisa zep build` 来构建你的应用程序，请知道它将默认使用 `ninja` 。
 
 例如，让我们来尝试为 `csk6002_9s_nano` 编译 Hello World 示例：
 
@@ -440,11 +440,13 @@ Zephyr 支持的大多数开发板都允许你使用 `flash` 目标将已编译�
   lisa zep flash
   ```
 
+:::tip 提示
+要了解 CSK6 支持的烧录方式，可参考 [CSK6 烧录](../gdbdebug/csk6_load.md) 。
+:::
+
 Zephyr 构建系统与开发板支持文件相结合以使用特定于硬件的工具将 Zephyr 二进制文件烧录到你的硬件，然后运行它。
 
 每次运行 flash 命令时，你的应用程序都会重新构建并再次烧录。
-
-在开发板支持不完整的情况下，可能不支持通过 Zephyr 构建系统进行烧录。如果你收到有关烧录支持不可用的错误消息，请查阅 [你的开发板文档](https://docs.zephyrproject.org/latest/boards/index.html#boards) 以获取有关如何对你的开发板进行烧录的更多信息。
 
 :::info 注意
 在 Linux 上开发时，通常需要安装特定于开发板的 udev 规则，以允许非 root 用户身份可通过 USB 设备访问你的开发板。如果烧录失败，请查阅开发板的对应文档查阅是否有必要。
@@ -452,11 +454,11 @@ Zephyr 构建系统与开发板支持文件相结合以使用特定于硬件的�
 
 ## 自定义板型与设备树
 
-如果你正在开发的开发板型或平台尚未受 Zephyr 支持，你可以在你的应用程序中定义开发板与设备树，而无需将它们添加到 Zephyr SDK 中。
+如果你正在开发的开发板型或平台尚未受 CSK6 SDK 支持，你可以在你的应用程序中定义开发板与设备树，而无需将它们添加到 SDK 中。
 
-在 SDK 外维护的板型所需的结构，与在 Zephyr SDK 中的方式类似。通过使用这种结构，在完成初步开发后，将与平台相关的改动上传到 Zephyr 主仓会更容易。
+在 CSK6 SDK 外维护的板型所需的结构，与在 SDK 中的方式类似。通过使用这种结构，在完成初步开发后，将与平台相关的改动上传到 CSK6 SDK 主仓会更容易。
 
-使用以下结构将自定义板添加到你的应用程序或专用代码仓库：
+使用以下结构将自定义板型添加到你的应用程序或专用代码仓库：
 
 ```bash
 boards/
@@ -478,6 +480,10 @@ src/
 │           └── support
 └── src
 ```
+
+:::tip 提示
+对于自定义板型与设备更详细的实际操作指引，请参阅 [自定义板型](./board.md) 示例
+:::
 
 ### 板型
 

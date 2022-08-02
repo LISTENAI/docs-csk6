@@ -36,7 +36,6 @@
     "type": "category",
     "label": "开发",
     "items": [
-      "application/overview",
       "application/getting_start",
       "application/application_development",
       {

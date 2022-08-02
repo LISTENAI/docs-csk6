@@ -5,11 +5,11 @@ import TabItem from '@theme/TabItem';
 
 学习本文后，你将可以：
 
-- 在 Ubuntu 、 macOS 、 Windows 上（ [安装 Linux 主机依赖](./getting_started/installation_linux.md) 章节介绍了在其他 Linux 发行版上如何做）设置好了用命令行式的 CSK6 开发环境；
+- 在 Ubuntu 、 macOS 、 Windows 上（ [安装 Linux 主机依赖](https://docs.zephyrproject.org/latest/develop/getting_started/installation_linux.html#installation-linux) 章节介绍了在其他 Linux 发行版上如何做）设置好了用命令行式的 CSK6 开发环境；
 - 获取到 SDK 源码；
 - 构建、在开发板上烧录并使一个示例程序可成功运行。
 
-## 选择并更新操作系统
+## 操作系统要求
 
 选择你正在使用的操作系统。
 
@@ -19,6 +19,7 @@ import TabItem from '@theme/TabItem';
     borderRadius: 12
   }}>
 <Tabs
+    groupId="operating-systems"
     defaultValue="windows"
     values={[
         {label: 'Ubuntu', value: 'ubuntu'},
@@ -28,7 +29,9 @@ import TabItem from '@theme/TabItem';
 >
   <TabItem value="ubuntu">
 
-该引导支持 Ubuntu 18.04 LTS 及更新的版本
+支持 Ubuntu 18.04 LTS 及更新的版本。
+
+通常，为了保证软件源的时效性，推荐你在进入下一步之前先执行以下命令
 
 ```bash
 sudo apt update
@@ -39,14 +42,14 @@ sudo apt upgrade
 
   <TabItem value="windows">
 
-选择 开始菜单 > 设置 > 更新与安全 > Windows 更新。点击检查更新，并安装任何可用的更新。
+支持 Windows 10 及以上。若你的 Windows 版本未能满足要求，可参考 [Windows 客户端升级路径](https://docs.microsoft.com/zh-cn/windows/deployment/upgrade/windows-10-upgrade-paths) 进行升级。
+
   </TabItem>
 
   <TabItem value="mac">
 
-在 macOS Mojave 或更新的版本中，选择 系统偏好设置 > 软件更新。如果有可用更新，点击立即更新。
+支持 macOS Yosemite (10.10) 版本及以上。若你的 macOS 版本未能满足要求，请参考 [Apple 支持的此文章](https://support.apple.com/en-us/HT201541) 进行升级。
 
-在其他版本中，请参考 [Apple 支持的此文章](https://support.apple.com/en-us/HT201541)。
   </TabItem>
 
 </Tabs>
@@ -62,6 +65,7 @@ sudo apt upgrade
     borderRadius: 12
   }}>
 <Tabs
+    groupId="operating-systems"
     defaultValue="windows"
     values={[
         {label: 'Ubuntu', value: 'ubuntu'},
@@ -84,16 +88,20 @@ sudo apt install --no-install-recommends git wget
   </TabItem>
   <TabItem value="mac">
 
-请在终端运行`xcode-select --install`确定是否已经安装开发者工具:
+请在终端运行以下命令确定是否已经安装开发者工具:
+
+```bash
+xcode-select --install
+```
   
   </TabItem>
 </Tabs>
 </div>
 
 
-## 获取 CSK6 配套工具并获取 SDK 
+## 搭建开发环境
 
-接着，安装 lisa zephyr 工具，并通过工具初始化 CSK6 SDK 环境。
+接着，安装 lisa zephyr 工具，并通过工具初始化 CSK6 SDK 所需的开发环境。
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -112,22 +120,6 @@ sudo apt install --no-install-recommends git wget
 <p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">Lisa & Zephyr Installer</a> 并运行，根据安装引导进行安装。</p>
 
 > **Lisa & Zephyr Installer** 是面向 Windows 操作系统的开发的 CSK6 开发环境一体化安装包，支持 SDK 一键拉取与配置，方便开发者快速构建开发环境。
-
-安装完成后，开始获取 CSK6 SDK ：
-
-```bash
-lisa zep use-sdk --default
-```
-
-该命令会在 `C:\Users\用户名\.listenai` 目录下，拉取 SDK 并进行初始化。
-
-:::tip 提示
-若需要自定义 SDK 的存放路径，可执行:
-
-```bash
-lisa zep use-sdk {自定义路径} --default
-```
-:::
 
   </TabItem>
   <TabItem value="unix">
@@ -190,9 +182,14 @@ lisa zep use-sdk {自定义路径} --default
 lisa zep create
 ```
 
-该命令会列出当前CSK6适配的项目sample，我们可选择任意一个作为我们的工程模板，创建在当前目录中。此处我们选择 hello_world 进行创建。
+该命令会列出当前 CSK6 适配的项目 sample ，我们可选择任意一个作为我们的工程模板，创建在当前目录中。此处我们选择 `[hello_world]` 进行创建。
 
-cd 进刚创建的 hello_world 项目，执行编译命令。
+<img
+  width="80%"
+  src={require('./images/lisa_zep_create_sample.png').default}
+  /> 
+
+在命令行中进入刚创建的 hello_world 项目目录，执行编译命令。
 
 ```bash
 cd hello_world
@@ -217,11 +214,13 @@ $ lisa zep flash
 
 ![](./images/hello_world_output.png)
 
-> 如果你需要了解更多关于开发板使用的说明，可参考 [NanoKit 开发板](../overview/nanokit) 。
+> 如果你需要了解关于可用开发板的更多说明，可参考 [NanoKit 开发套件](../overview/nanokit/nanokit_introduction) 。
 
-## 下一步
+## 进阶路线
 
 这里提供一些进阶的建议，帮助你了解更多如何在 CSK6 上进行开发：
+
+#### 阶段一：了解 CSK 应用开发基础及示例
 
 - 尝试其他的使用示例
   - [外设驱动说明及使用示例](./peripheral/overview)
@@ -232,26 +231,19 @@ $ lisa zep flash
 - 学习有关 [应用开发](./application_development.md) 和 [lisa zep 工具使用](../tool/lisa_plugin_zephyr/index.md)
 - 学习基于 `lisa zep` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
 
+#### 阶段二：了解构建系统及配置系统
 
-### 进阶路线
+- [构建系统](../build/cmake/index.md)
+- [Kconfig 配置系统](../build/kconfig/index.md)
 
-当你已经对 CSK6 开发的基础知识已经炉火纯青，而且你求知若渴，我们推荐你可以参考这一进阶路线。当你可以熟练掌握这些知识或技巧后，你就已经是一个 CSK6 开发的专业人士了。
+#### 阶段三：了解设备树原理和使用方法
 
-#### 阶段一：了解 zephyr 构建系统及配置系统：
+- [设备树概述](../build/dts/intro.md)
 
-[构建系统](../build/cmake/index.md)
+#### 阶段四：掌握自定义板型的添加、自定义驱动等功能开发
 
-[Kconfig 配置系统](../build/kconfig/index.md)
-
-#### 阶段二：了解 zephyr 设备树原理和使用方法
-
-[设备树概述](../build/dts/intro.md)
-
-#### 阶段三：掌握自定义板型的添加、自定义驱动等功能开发
-
-[自定义板型及示例](./board)
-
-[自定义驱动及示例](./customdriver/custom-driver-video.md)
+- [自定义板型及示例](./board)
+- [自定义驱动及示例](./customdriver/custom-driver-video.md)
 
 ## 安装过程疑难解答
 
