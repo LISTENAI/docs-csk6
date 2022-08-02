@@ -161,7 +161,8 @@
       "kernel/workqueue",
       "kernel/interrupts",
       "kernel/semaphores",
-      "kernel/timing/timers"
+      "kernel/timing/timers",
+      "kernel/fifos"
     ],
     "collapsed": true
   },
