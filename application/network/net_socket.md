@@ -91,7 +91,7 @@ int websocket_recv_msg(int ws_sock, uint8_t *buf, size_t buf_len,
 
 <br/>
 
-更多websocket API接口描述请查看CSK6 SDK websocket头文件描述：[`include\net\websocket.h`](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/include/net/websocket.h))。
+更多websocket API接口描述请查看CSK6 SDK websocket头文件描述：[`include/net/websocket.h`](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/include/net/websocket.h))。
 
 ## 使用示例
 
@@ -99,7 +99,7 @@ int websocket_recv_msg(int ws_sock, uint8_t *buf, size_t buf_len,
 
 本示例实现以下业务逻辑：
 
-- 连接一个AP热点，并获取地址信息，热点配置：ssid: xiaowei-yyds pwd: xiaowei-yyds（WIFI网络连接部分解析可以详见[WIFI连接](./wifi_connect.md)）。
+- 连接一个AP热点，并获取IP地址信息，热点配置：ssid: xiaowei-yyds pwd: xiaowei-yyds（WIFI网络连接部分解析可以详见[WIFI连接](./wifi_connect.md)）。
 - 使用websocket连接服务器。（本示例的服务器由websocket工具软件搭建）
 
 ### 准备工作
@@ -219,7 +219,7 @@ CONFIG_NET_CONTEXT_NET_PKT_POOL=y
 # 引用名为newlib的libc标准库
 CONFIG_NEWLIB_LIBC=y
 
-# SYSTEM WORKQUEU线程栈
+# SYSTEM WORKQUEUE线程栈
 CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=2048
 # 系统堆，分配内存，可根据实际使用配置
 CONFIG_HEAP_MEM_POOL_SIZE=60000
@@ -660,7 +660,7 @@ void main(void)
 
 ### 测试目标
 
-CSK6-NanoKit启动后，往目标服务器发送代码中写死的自定义的数据，且等待接收服务器返回的数据并打印出来，如下图所示：
+CSK6-NanoKit启动后，往目标服务器发送代码中写死的自定义的数据，且等待接收服务器返回的数据并打印出来，即可表示测试成功，如下图所示：
 
 ![](./files/websocket_send_recv.png)
 
