@@ -57,6 +57,7 @@
           "tool/lisa_plugin_zephyr/install",
           "tool/lisa_plugin_zephyr/basic",
           "tool/lisa_plugin_zephyr/command_detail",
+          "tool/lisa_plugin_zephyr/config",
           "tool/lisa_plugin_zephyr/build_flash_debug",
           "tool/lisa_plugin_zephyr/filesystem",
           "tool/lisa_plugin_zephyr/application_project",
