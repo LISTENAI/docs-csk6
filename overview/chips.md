@@ -1,18 +1,24 @@
 # 芯片
 
-## 芯片简介
+## CSK6芯片简介
 
-<div  align="center"><img
-  src={require('./images/chips/chip_6012.png').default}
-  width="30%"
-  alt="Example banner"
-/></div>
 
+<div style={{ display: 'flex', flexWrap: 'wrap' }}>
+<div style={{ flex: 1, minWidth: 345 }}>
 
 CSK6是聆思科技新一代的AI芯片SoC产品系列，采用多核异构架构，集成了ARM Star MCU，HiFi4 DSP，以及聆思全新设计的AI神经网络处理内核NPU，算力达到128GOPS。多核异构的设计使芯片能以较低功耗有效支持音频及图像视频的AI应用需求。
 
 本系列芯片集成了1M Byte的SRAM并支持PSRAM和Flash的扩展，提供4入2出的Audio Codec，VGA像素的DVP摄像头接口，多达6路触控检测，以及SPI、UART、USB、SDIO、I2C、I2S等各类接口，丰富接口支持各类应用方案的开发。
 
+</div>
+<div style={{ textAlign: 'center', minWidth: 180, marginLeft: 24 }}>
+<img
+  src={require('./images/chips/chip_6012.png').default}
+  alt="Example banner"
+  style={{ maxHeight: 280 }}
+/>
+</div>
+</div>
 
 
 ## 芯片特性
