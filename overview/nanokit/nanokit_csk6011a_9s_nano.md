@@ -22,9 +22,10 @@ csk6011a-9s-nano 是一款板载了CSK6011A+XR819S模组的NanoKit开发板，�
 开发板具备以下主要特性：
 
 - 载**CSK6011A+XR819S**在离线模组，具备WIFI联网功能
+- 模组集成16MB Flash
 - 芯片所有可用管脚引出至两侧2.54mm间距排针，方便使用
 - 板载按键与LED，可快速进行基础功能验证
-- 板载调试器IC，外接一条USB 线即可实现供电、烧录、调试、串口监控
+- 板载DAPLink调试器IC，外接一条USB 线即可实现供电、烧录、调试、串口监控
 - 搭配扩展板可衍生丰富玩法
 - 对应SDK板型 **csk6011a_9s_nano**
 
@@ -84,7 +85,7 @@ csk6011a-9s-nano 是一款板载了CSK6011A+XR819S模组的NanoKit开发板，�
   alt="Example banner"
 /></div>
 
-**串口查看功能：** 对CSK6芯片的 **GPIOA2** 和 **GPIOA3** 【默认UART0】引脚进行了映射，可通过串口上位机工具与串口进行通讯。
+**虚拟串口(CDC)功能：** 对CSK6芯片的 **GPIOA2** 和 **GPIOA3** 【默认UART0】引脚进行了映射，可通过串口上位机工具与串口进行通讯。
 
 **烧录、仿真功能：** 配合CSK6开发工具，可通过DAPLink实现固件快速烧录以及VSCode IDE环境下进行仿真调试，详见[《基于 DAPLink 的 GDB 调试》](../../gdbdebug/gdbdebug-daplink)。
 
