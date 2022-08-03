@@ -91,7 +91,7 @@ Some device drivers may require using custom states beyond the standard ones. To
 
 :::info 注意
 It is important that custom state identifiers start from PINCTRL_STATE_PRIV_START  
-自定义状态表示服必须从[PINCTRL_STATE_PRIV_START](https://docs.zephyrproject.org/latest/hardware/pinctrl/index.html#c.PINCTRL_STATE_PRIV_START) 开始
+自定义状态表示必须从[PINCTRL_STATE_PRIV_START](https://docs.zephyrproject.org/latest/hardware/pinctrl/index.html#c.PINCTRL_STATE_PRIV_START) 开始
 :::
 
 If custom states need to be accessed from outside the driver, for example to perform dynamic pin control, custom identifiers should be placed in a header that is publicly accessible.  
