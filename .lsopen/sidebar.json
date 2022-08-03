@@ -2,7 +2,34 @@
   {
     "type": "category",
     "label": "简介",
-    "items": ["overview/chips", "overview/nanokit", "overview/system"],
+    "items": [
+      "overview/chips", 
+      {
+        "type": "category",
+        "label": "开发套件",
+        "items": [
+          "overview/nanokit/nanokit_introduction",
+          {
+            "type": "category",
+            "label": "CSK6 NanoKit开发板",
+            "items": [
+              "overview/nanokit/nanokit_csk6002_9s_nano",
+              "overview/nanokit/nanokit_csk6011a_9s_nano"
+            ],
+            "collapsed": true
+          },
+          {
+            "type": "category",
+            "label": "NanoKit 功能扩展板",
+            "items": [
+              "overview/nanokit/nanokit_audio"
+            ],
+            "collapsed": true
+          }
+        ],
+        "collapsed": true
+      }, 
+      "overview/system"],
     "collapsed": true
   },
   {
