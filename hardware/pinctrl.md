@@ -69,6 +69,7 @@ For a device driver to operate correctly, a certain pin configuration needs to b
     </tr>
 </table>
 <center><span id="table38">表38</span>使用状态模型编码的管脚配置示例</center>
+
 ### 标准状态
 
 The name assigned to pin control states or the number of them is up to the device driver requirements. In many cases a single state applied at initialization time will be sufficient, but in some other cases more will be required. In order to make things consistent, a naming convention has been established for the most common use cases. Table 39 details the standardized states and its purpose.  
@@ -78,6 +79,7 @@ The name assigned to pin control states or the number of them is up to the devic
 |----|----|----|
 |`default`|[PINCTRL_STATE_DEFAULT](https://docs.zephyrproject.org/latest/hardware/pinctrl/index.html#c.PINCTRL_STATE_DEFAULT)|State of the pins when the device is in operational state 当设备处于工作状态时引脚的状态|
 |`sleep`|[PINCTRL_STATE_SLEEP](https://docs.zephyrproject.org/latest/hardware/pinctrl/index.html#c.PINCTRL_STATE_SLEEP)|State of the pins when the device is in low power or sleep modes 当设备处于低功耗或睡眠模式时引脚的状态|
+<center><span id="table39">表39</span>使用状态模型编码的管脚配置示例</center>  
 
 Note that other standard states could be introduced in the future.  
 请注意，将来可能会引入其他标准状态。
@@ -101,6 +103,7 @@ In most situations, the states defined in Devicetree will be the ones used in th
 在大多数情况下，在设备树定义的状态将是编译固件中使用的状态。但是，在某些情况下，一些状态根据编译标志有条件地使用。一个典型的例子是 `睡眠` 状态,只有在`CONFIG_PM_DEVICE`启用的情况下，才会在实际中使用这种状态。如果需要一个没有设备电源管理的固件，理论上应该从设备树移除 `睡眠` 状态，以免浪费存储这种未使用状态的ROM空间。
 
 States can be skipped by the pinctrl Devicetree macros if a definition named PINCTRL_SKIP_{STATE_NAME} expanding to 1 is present when pin control configuration is defined. In case of the sleep state, the pinctrl API already provides such definition conditional to the availability of device power management:  
+
 如果在定义引脚控制配置时存在扩展名为`PINCTRL_SKIP_{STATE_NAME}`的定义，则 `pinctrl` 设备树宏可以跳过状态。对于睡眠状态，`pinctrl` API已经根据电源管理的可用性提供了这样的定义：
 ```
 #ifndef CONFIG_PM_DEVICE
