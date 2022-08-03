@@ -174,15 +174,16 @@
     "label": "系统服务",
     "items": [
       "service/index",
+      "service/logging",
+      "service/portability/posix",
+      "service/shell",
       {
         "type": "category",
         "label": "存储",
         "items": [
           "service/storage/nvs"
         ]
-      },
-      "service/portability/posix",
-      "service/shell"
+      }
     ],
     "collapsed": true
   },
