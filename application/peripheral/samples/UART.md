@@ -1,4 +1,4 @@
-# 串口(UART)
+# UART
 
 ## 概述
 UART是最常用的外设功能之一，csk6 sdk中串口数据通信方式有两种：轮询(polling)和中断(interrupt)，本章节将通过示例介绍 串口 API接口和使用方法。

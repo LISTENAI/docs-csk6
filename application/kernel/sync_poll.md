@@ -1,4 +1,4 @@
-# 线程间同步之轮询
+# 轮询
 ## 概述
 
 轮询(poll)是一个比较特殊的内核对象，polling API允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore, FIFO, poll signal三种。
@@ -15,15 +15,17 @@ poll具有以下特性：
 ## 常用API接口
 ```c
 /*初始化一个k_poll_event实例*/
-void k_poll_event_init(struct k_poll_event * event,
-uint32_t type, int mode, void * obj )	
+void k_poll_event_init(struct k_poll_event * event, uint32_t type, int mode, void * obj)	
+
 /*轮询k_poll_event实例,等待触发条件*/
 int k_poll(struct k_poll_event * events, int num_events, k_timeout_t timeout)	
+
 /*初始化poll signal信号，作为poll event的触发*/
 void k_poll_signal_init(struct k_poll_signal * sig)	
+
 /*发送poll signal信号*/
-int k_poll_signal_raise(struct k_poll_signal * sig,
-int result)	
+int k_poll_signal_raise(struct k_poll_signal * sig, int result)	
+
 /*清除signal信号，如果signal被发送，但还未被poll前，都可以使用该API reset清除*/
 void k_poll_signal_reset(struct k_poll_signal * sig)
 

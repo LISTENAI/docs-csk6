@@ -3,7 +3,7 @@ Zephyr内核是每个Zephyr应用程序的核心。它提供了内核服务、�
 
 章节目录：
 * 章节一：[多线程](./multithread)
-* 章节二：[线程间同步之信号量](./sync_semaphore)
-* 章节三：[线程间同步之互斥量](./sync_mutex)
-* 章节四：[线程间同步之轮询](./sync_poll)
+* 章节二：[信号量](./sync_semaphore)
+* 章节三：[互斥量](./sync_mutex)
+* 章节四：[轮询](./sync_poll)
 * 章节五：[定时器](./timer)

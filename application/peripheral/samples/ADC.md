@@ -1,4 +1,4 @@
-# ADC
+# SAR ADC
 
 ## 概述
 ADC(Analog to Digital) 模拟转数字是经常使用的外设，本章节将通过两个示例讲解如何使用CSK6 SDK的ADC接口实现外部电压的检测。
