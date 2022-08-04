@@ -184,3 +184,7 @@ int call_tracking_routine(void)
 
 
 使用线程自定义数据，允许在线程的上下文中访问线程特定的信息，方法是将自定义数据作为指针传递给线程。
+
+## 示例
+
+线程相关的使用示例参考[thread_sample](../application/kernel/multithread.md)。
