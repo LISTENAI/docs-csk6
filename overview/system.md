@@ -6,7 +6,7 @@
 
 * CSK6芯片所用RTOS的信息
 
-## CSK6 SDK base Zephyr
+## 基于Zephyr RTOS的 CSK6 SDK
 
 ### Zephyr介绍
 
@@ -26,7 +26,7 @@ Zephyr RTOS可以在操作系统层面与CSK6芯片有高匹配度的结合，�
 
 ### CSK6 SDK 说明
 
-CSK6 沿用了 *Zephyr* 的设计， 采用 *SDK* 与 *项目工程* 分离的形式，通过构建系统，将项目工程的代码与 SDK 进行关联编译。
+CSK6 SDK 沿用了 *Zephyr* 的设计， 采用 *SDK* 与 *项目工程* 分离的形式，通过构建系统，将项目工程的代码与 SDK 进行关联编译。
 
 这意味着 SDK 与 项目源码 是可以存放在不同的路径下的。
 
