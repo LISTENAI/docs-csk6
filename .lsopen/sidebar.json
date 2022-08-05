@@ -63,7 +63,8 @@
           "tool/lisa_plugin_zephyr/release_note"
         ],
         "collapsed": true
-      }
+      },
+      "application/modules"
     ],
     "collapsed": true
   },
