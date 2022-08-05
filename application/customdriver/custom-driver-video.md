@@ -3,7 +3,7 @@
 在实际项目的应用场景中，开发者往往需要基于CSK6接入新的硬件外设，例如摄像头、显示屏、触摸屏等，需要添加自定义驱动。csk6 sdk支持开发者在app应用目录下增加自定义驱动，本章节以增加型号为 BF30A2 摄像头驱动为例，展示如何在app应用项目下完成自定义驱动的添加。
 
 ## 添加自定义驱动文件
-在Zephyr应用程序目录下建立驱动目录drivers，并添加 BF30A2 显示屏驱动的.c文件，具体如下：
+在Zephyr应用程序目录下建立驱动目录drivers，并添加 BF30A2 摄像头驱动的.c文件，具体如下：
 ```
 app
 ├── drivers
@@ -19,9 +19,9 @@ app
             ├── vendor-prefixes.txt
             └── byd,bf30a2.yaml
 ```
-- driver 目录下可以添加多个驱动文件目录，例如本示例中需要添加摄像头驱动，则新增 video 文件夹，添加显示屏驱动时可增加display文件夹。
+- drivers 目录下可以添加多个驱动文件目录，例如本示例中需要添加摄像头驱动，则新增 video 文件夹，添加显示屏驱动时可增加display文件夹。
 - dts 目录存放自定义驱动的设备树绑定文件(byd,bf30a2.yaml)和厂商信息文件(vendor-prefixes.txt)。
-- 该`driver`目录与`zephyr/driver`目录结构相对应
+- 该`drivers`目录与`zephyr/drivers`目录结构相对应
 
 ### 修改自定义驱动的 CMake 文件
 - 根据添加的自定义驱动修改 drivers/video 目录下的CMakeLists.txt文件，内容如下：
