@@ -21,7 +21,7 @@ jobs:
           node-version: "16.x"
       - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-private-key: ${{ secrets.DOCS_CSK6_DEPLOY }}
+          ssh-private-key: ${{ secrets.LSOPEN_SSH_PRIV_KEY }}
       - name: "[Main Doc] checkout"
         run: cd ~ && git clone git@github.com:LISTENAI/LSOpenWeb.git lsopenweb
       - name: "[Main Doc] submodule sync"
