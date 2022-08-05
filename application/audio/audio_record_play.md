@@ -88,8 +88,8 @@ CONFIG_CACHE_MANAGEMENT=y
 
 :::tip
 名词说明：   
-avf 全称：audio video framework，开放音视频框架   
-sof 全称：sound open firmware，开放音频框架  
+avf 全称：audio video framework，音视频框架   
+[sof](https://thesofproject.github.io/latest/index.html) 全称：sound open firmware，音频框架  
 
 avf和sof的关系：avf是一个host端的业务框架，avf的底层驱动会引用sof提供的接口。
 :::
