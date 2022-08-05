@@ -12,7 +12,7 @@ lisa info
 
 **Lisa-Plugin-Zephyr** 是基于 Lisa 生态的一个命令行插件。使用它你能很便捷地对CSK6应用程序进行 **构建**、 **烧录**、 **调试** 等功能。
 
-该插件的调用，通过 lisa zep 来作为顶级命令，后面带上对应的子命令、选项和参数：
+该命令行工具的调用，通过 lisa zep 来作为顶级命令，后面带上对应的子命令、选项和参数：
 
 ```bash
 lisa zep <command> [opts] <args>

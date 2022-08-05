@@ -1,5 +1,5 @@
 # 基础命令
-本章介绍 `Lisa Zephyr` 一些常用的基础命令，让你快速了解到如何使用 `Lisa Zephyr` 插件进行 CSK 应用的开发。
+本章介绍 `lisa zephyr` 一些常用的基础命令，让你快速了解到如何使用 `lisa zephyr` 工具进行 CSK 应用的开发。
 
 ## 初始化 CSK SDK
 此命令会从远端拉取 SDK 到本地，如下所示：
@@ -45,7 +45,7 @@ lisa zep create
 
 ## 其他
 
-有关`Lisa Zephyr`命令其他的信息，请阅读以下页面：
+有关`lisa zephyr`命令其他的信息，请阅读以下页面：
 
 [内置命令](../lisa_plugin_zephyr/command_detail.md)
 

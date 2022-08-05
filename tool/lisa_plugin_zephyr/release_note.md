@@ -1,4 +1,4 @@
-# Lisa Zephyr 更新日志
+# lisa zephyr 更新日志
 
 ## v1.6.0 (beta)
 

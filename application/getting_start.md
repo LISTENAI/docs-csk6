@@ -228,8 +228,8 @@ $ lisa zep flash
   - [系统组件及使用示例](./modules/overview)
   - [音频组件及使用示例](./audio/overview)
   - [网络模块及使用示例](./network/overview)
-- 学习有关 [应用开发](./application_development.md) 和 [lisa zep 工具使用](../tool/lisa_plugin_zephyr/index.md)
-- 学习基于 `lisa zep` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
+- 学习有关 [应用开发](./application_development.md) 和 [lisa zephyr 工具使用](../tool/lisa_plugin_zephyr/index.md)
+- 学习基于 `lisa zephyr` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
 
 #### 阶段二：了解构建系统及配置系统
 

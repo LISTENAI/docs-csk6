@@ -1,6 +1,6 @@
 # 编译 烧录 调试
 
-`Lisa Zephyr` 插件提供了几个扩展命令用于编译，烧录和调试项目。
+`lisa zephyr` 工具提供了几个扩展命令用于编译，烧录和调试项目。
 
 ## 编译
 
@@ -90,7 +90,7 @@ lisa zep -v build -b csk6002_9s_nano
 
 ### 一次性的 CMake 参数
 
-`Lisa Zephyr` 允许将其他参数给到 CMake 调用，参数要放到 `--` 后面。
+`lisa zephyr` 允许将其他参数给到 CMake 调用，参数要放到 `--` 后面。
 
 :::info
 使用这种方式传递参数，会使 `lisa zep build` 重新运行 CMake ，即使是项目已经构建了。
