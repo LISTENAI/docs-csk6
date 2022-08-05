@@ -130,7 +130,7 @@ lisa zep flash --runner pyocd
 
 ### 配置默认烧录工具和对应参数
 
-**NOTE**: 该功能特性仅在插件 `1.4.1` 及以上版本支持，执行 `lisa info zephyr` 检查本地的插件版本，并可通过 `lisa update zephyr` 更新到最新插件版本。
+**NOTE**: 该功能特性仅在 lisa zephyr 工具的 `1.4.1` 及以上版本支持，执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
 
 ```bash
 lisa zep config flash.runner pyocd

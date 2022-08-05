@@ -1,14 +1,12 @@
 # 系统与软件
 
-本节主要介绍CSK6芯片开发体系的整体系统架构。通过本章节，你将了解到：
+本节主要介绍CSK6芯片开发体系的系统与软件信息。通过本章节，你将了解到：
 
-* CSK6芯片的SDK基本信息
+* CSK6芯片的SDK的基本信息
 
-* CSK6芯片的SDK组成
+* CSK6芯片所用RTOS的信息
 
-* 进行CSK6芯片开发的基本路径
-
-## CSK6 SDK base Zephyr
+## 基于Zephyr RTOS的 CSK6 SDK
 
 ### Zephyr介绍
 
@@ -28,7 +26,7 @@ Zephyr RTOS可以在操作系统层面与CSK6芯片有高匹配度的结合，�
 
 ### CSK6 SDK 说明
 
-CSK6 沿用了 *Zephyr* 的设计， 采用 *SDK* 与 *项目工程* 分离的形式，通过构建系统，将项目工程的代码与 SDK 进行关联编译。
+CSK6 SDK 沿用了 *Zephyr* 的设计， 采用 *SDK* 与 *项目工程* 分离的形式，通过构建系统，将项目工程的代码与 SDK 进行关联编译。
 
 这意味着 SDK 与 项目源码 是可以存放在不同的路径下的。
 
@@ -37,33 +35,5 @@ CSK6 沿用了 *Zephyr* 的设计， 采用 *SDK* 与 *项目工程* 分离的�
 CSK6 SDK 源码是开放的，你可以直接从 [Zephyr-CSK-SDK](https://cloud.listenai.com/zephyr/zephyr) 获取到 SDK 源码。
 
 :::tip
-更详细的SDK获取方式，请参照《快速上手》章节。
-:::
-
-### CSK6 SDK 目录结构
-
-了解Zephyr源代码的目录结构有利于我们建立对SDK的整体框架认知，有助于后续我们查找与编写相关特性的代码。
-
-| 目录| 说明|
-| ----- | ---------------------------------------------------------- |
-| arch | 存放与芯片架构及其系统内核相关的平台文件与代码 |
-| soc | SoC相关代码和配置文件 |
-| boards | 与开发板板型相关的代码与配置文件，每个子目录代表一个板型，如定义了硬件板载资源的dts文件(如csk6002_9s_nano.dts)，通过dts文件快速了解开发板各外设接口的定义 |
-| doc | Zephyr技术文档源文件与生成文档的工具 |
-| drivers | 设备驱动源码 |
-| dts | 包含描述与芯片、板型相关的设备树文件，如外设的寄存器定义等 |
-| include | 公共API头文件 |
-| kernel | 与芯片架构无关的操作内核代码 |
-| lib | 库代码，包括标准的C库 |
-| samples | RTOS使用例程 |
-| scripts | 用于构建、测试Zephyr应用的程序与工具 |
-| cmake | 构建Zephyr系统所需脚本 |
-| subsys | 一些子系统的代码，如USB、文件系统、网络、无线通讯等 |
-| tests | Zephyr功能测试、标准测试代码 |
-| misc | 其他杂项代码 |
- 
-:::tip
-1.更多SDK的目录信息可参照 [Zephyr文档中心-目录架构说明](https://zephyr-docs.listenai.com/application/index.html#source-tree-structure)
-
-2.对刚接触SDK的开发者来说，以关注boards、dts、samples、drivers这几个与芯片、开发板相关性较大的目录为主，随着对SDK的熟悉，将逐步加深对SDK整体的了解。
+更详细的SDK获取方式，请参照[《快速上手》](../application/getting_start.md)章节。
 :::

@@ -1,27 +1,105 @@
-# ADC
+# SAR ADC
 
 ## 概述
 ADC(Analog to Digital) 模拟转数字是经常使用的外设，本章节将通过两个示例讲解如何使用CSK6 SDK的ADC接口实现外部电压的检测。
- 
+
 CSK6 ADC驱动具有如下特性： 
 - 12-bit精度, 最多3个外部通道输入，2个内部通道。
 - 24MHz ADC时钟源，采样率最高1MHz。
 - 使用内部3.3V参考电压。
 
-## API 接口  
+## 使用示例
 
-主要用到以下ADC driver API接口：
+### 常用 API 接口
+
+<br/>
+
+配置采样通道
+
 ```c
-/*配置采样通道*/
-int adc_channel_setup(const struct device * dev, const struct adc_channel_cfg *	channel_cfg)
-/*获取参考电压*/
-uint16_t adc_ref_internal(const struct device *dev)
-/*获取采样值*/
-int adc_read(const struct device * dev, const struct adc_sequence * sequence)
-/*采样值转电压(mV)*/
-int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution, int32_t *valp)
-```  
+int adc_channel_setup(const struct device *dev, const struct adc_channel_cfg *channel_cfg);
+```
+
+采样通道配置，成功返回0，失败返回非0。
+
+**参数说明**
+
+| 字段        | 说明                 |
+| ----------- | -------------------- |
+| dev         | 指向ADC Device的指针 |
+| channel_cfg | 采样通道配置         |
+
+<br/>
+
+获取内部参考电压
+
+```c
+uint16_t adc_ref_internal(const struct device *dev);
+```
+
+获取内部参考电压，返回与ADC_REF_INTERNAL相对应的电压，以毫伏(mV)为单位。
+
+返回大于0的正值则是参考电压值，返回0表示参考电压信息不可用。
+
+**参数说明**
+
+| 字段 | 说明                 |
+| ---- | -------------------- |
+| dev  | 指向ADC Device的指针 |
+
+<br/>
+
+获取采样值
+
+```c
+int adc_read(const struct device *dev, const struct adc_sequence *sequence);
+```
+
+获取采样值，如果从用户模式调用，回调的sequence.options都必须是NULL。
+
+adc_read的函数返回值见下述说明。
+
+**参数说明**
+
+| 字段     | 说明                     |
+| -------- | ------------------------ |
+| dev      | 指向ADC Device的指针     |
+| sequence | 指定请求的采样序列的结构 |
+
+<br/>
+
+**返回值说明**
+
+| 返回值   | 说明                                                 |
+| -------- | :--------------------------------------------------- |
+| 0        | 成功                                                 |
+| -EINVAL  | 传入的参数有误                                       |
+| -ENOMEM  | 用于采样的buf定义太小，无法保存所有请求的采样结果    |
+| -ENOTSUP | 请求的操作模式不支持                                 |
+| -EBUSY   | 在前一个采样仍在进行时触发了另一个采样，则返回-EBUSY |
+
+<br/>
+
+采样值转电压(mV)
+
+```c
+int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution, int32_t *valp);
+```
+
+将原始ADC采样值转换为以毫伏（mV）为单位的电压，返回0表示成功，非0表示失败。
+
+**参数说明**
+
+| 字段       | 说明                                                         |
+| ---------- | ------------------------------------------------------------ |
+| ref_mv     | 测量的参考电压，单位为毫伏，该值可能是从adc_ref_internal()函数调用获取，或者从外部获取的参考电压值。 |
+| gain       | 用于采样输入的ADC增益配置                                    |
+| resolution | 样本绝对值中的位数，对于差分采样，该值必须小于adc_sequence结构体里面的resolution值 |
+| valp       | 输入时指向原始采样值的指针，成功转换后指向相应的毫伏值。如果转换失败，则存储值保持不变。 |
+
 更多ADC driver APIs接口可以在zephyr官网[ADC driver APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__adc__interface.html)中看到。
+
+<br/>
 
 
 ## 使用示例
@@ -154,7 +232,10 @@ mv_value = raw_value - 2048;
 
 **这样处理的原因：**    
 
-通常被采集电压为0V ~ 3.3V，为匹配运算，在采样值转电压值前减2048采样值，并将采样精度设置为11bit，通过`adc_raw_to_millivolts`接口转换后的电压值(mV)范围及为0V ~ 3.3V。    
+通常被采集电压为0V ~ 3.3V，为匹配运算，在采样值转电压值前减2048采样值，并将采样精度设置为11bit，通过`adc_raw_to_millivolts`接口转换后的电压值(mV)范围及为0V ~ 3.3V。
+
+
+
 | 参考电压 | 待采样电压值范围 | 采样精度 | 采样值 |0V对应的采样值 |
 | --------------| -------------- | -------- | -------------| -------------|
 | 3.3V | -3.3V~3.3V | 12it | 0~4096 | 2048 |
@@ -191,7 +272,7 @@ adc_vref 3300.
  adc(4095)= 3298 mV   adc(2429)= 613 mV   adc(3344)= 2088 mV  
  adc(4095)= 3298 mV   adc(2428)= 612 mV   adc(3346)= 2091 mV  
  adc(4095)= 3298 mV   adc(2429)= 613 mV   adc(3349)= 2096 mV
- ```
+```
  - 参考电压： 
  通过日志可以看到 adc内部参考电压为：`adc_vref 3300`。
  - adc0 ch1:  

@@ -3,38 +3,82 @@
     "type": "category",
     "label": "简介",
     "items": [
-        "overview/chips",
-        "overview/nanokit",
-        "overview/system"
+      "overview/chips", 
+      {
+        "type": "category",
+        "label": "开发套件",
+        "items": [
+          "overview/nanokit/nanokit_introduction",
+          {
+            "type": "category",
+            "label": "CSK6 NanoKit开发板",
+            "items": [
+              "overview/nanokit/nanokit_csk6002_9s_nano",
+              "overview/nanokit/nanokit_csk6011a_9s_nano"
+            ],
+            "collapsed": true
+          },
+          {
+            "type": "category",
+            "label": "NanoKit 功能扩展板",
+            "items": [
+              "overview/nanokit/nanokit_audio"
+            ],
+            "collapsed": true
+          }
+        ],
+        "collapsed": true
+      }, 
+      "overview/system"],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "开发",
+    "items": [
+      "application/getting_start",
+      "application/application_development",
+      {
+        "type": "category",
+        "label": "烧录与调试",
+        "items": [
+          "gdbdebug/overview",
+          "gdbdebug/csk6_load",
+          "gdbdebug/gdbdebug-daplink",
+          "gdbdebug/gdbdebug-jlink"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "lisa zephyr 命令行工具",
+        "items": [
+          "tool/lisa_plugin_zephyr/index",
+          "tool/lisa_plugin_zephyr/install",
+          "tool/lisa_plugin_zephyr/basic",
+          "tool/lisa_plugin_zephyr/command_detail",
+          "tool/lisa_plugin_zephyr/build_flash_debug",
+          "tool/lisa_plugin_zephyr/filesystem",
+          "tool/lisa_plugin_zephyr/application_project",
+          "tool/lisa_plugin_zephyr/trouble_shooting",
+          "tool/lisa_plugin_zephyr/release_note"
+        ],
+        "collapsed": true
+      },
+      "application/modules"
     ],
     "collapsed": true
   },
   {
     "type": "category",
-    "label": "快速上手",
+    "label": "使用示例",
     "items": [
-        "quick_start/start_env",
-        "quick_start/start_project",
-        "quick_start/doc_issue"
-    ],
-    "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "应用开发",
-    "items": [
-      "application/overview",
-      "application/structure",
-      "application/kconfig",
-      "application/device_tree",
-      "application/board",
       {
         "type": "category",
         "label": "外设驱动",
         "items": [
           "application/peripheral/overview",
           "application/peripheral/samples/gpio",
-		  "application/peripheral/samples/pwm",
+          "application/peripheral/samples/pwm",
           "application/peripheral/samples/UART",
           "application/peripheral/samples/I2C",
           "application/peripheral/samples/spi",
@@ -48,103 +92,134 @@
         "type": "category",
         "label": "系统内核",
         "items": [
-            "application/kernel/overview",
-            "application/kernel/timer",
-            "application/kernel/multithread",
-            "application/kernel/sync_semaphore",
-            "application/kernel/sync_mutex",
-            "application/kernel/sync_poll"
+          "application/kernel/overview",
+          "application/kernel/timer",
+          "application/kernel/multithread",
+          "application/kernel/sync_semaphore",
+          "application/kernel/sync_mutex",
+          "application/kernel/sync_poll"
         ],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "系统组件",
+        "label": "系统服务",
         "items": [
           "application/modules/overview",
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
-          "application/modules/lvgl"
+          "application/modules/lvgl",
+          "application/shell_sample",
+          {
+            "type": "category",
+            "label": "音频",
+            "items": [
+              "application/audio/overview",
+              "application/audio/audio_record",
+              "application/audio/audio_playback",
+              "application/audio/audio_record_play"
+            ],
+            "collapsed": true
+          },
+          {
+            "type": "category",
+            "label": "网络",
+            "items": [
+              "application/network/overview",
+              "application/network/wifi_connect"
+            ],
+            "collapsed": true
+          }
         ],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "音频",
-        "items": [
-          "application/audio/overview",
-          "application/audio/audio_record",
-          "application/audio/audio_playback",
-          "application/audio/audio_record_play"
-        ],
+        "label": "自定义驱动",
+        "items": ["application/customdriver/custom-driver-video"],
         "collapsed": true
       },
       {
         "type": "category",
-        "label": "网络",
-        "items": [
-          "application/network/overview",
-          "application/network/wifi_connect"
-        ],
+        "label": "自定义板型",
+        "items": ["application/board"],
         "collapsed": true
       }
-    ],
-    "collapsed": true
+    ]
   },
   {
     "type": "category",
-    "label": "烧录&调试",
+    "label": "内核",
     "items": [
-        "gdbdebug/overview",
-        "gdbdebug/csk6_load",
-        "gdbdebug/gdbdebug-daplink",
-        "gdbdebug/gdbdebug-jlink"
-        
+      "kernel/index",
+      "kernel/threads",
+      "kernel/system_threads",
+      "kernel/workqueue",
+      "kernel/interrupts",
+      "kernel/semaphores",
+      "kernel/timing/timers"
     ],
     "collapsed": true
   },
   {
     "type": "category",
-    "label": "系统设计",
+    "label": "系统服务",
     "items": [
-      
+      "service/index",
+      "service/shell"
     ],
     "collapsed": true
   },
   {
     "type": "category",
+    "label": "构建与配置系统",
+    "items": [
+      "build/cmake/index",
+      {
+        "type": "category",
+        "label": "设备树",
+        "items": [
+          "build/dts/intro",
+          "build/dts/design",
+          "build/dts/bindings",
+          "build/dts/api_usage",
+          "build/dts/troubleshooting",
+          "build/dts/dt_vs_kconfig"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Kconfig配置系统",
+        "items": [
+          "build/kconfig/overview",
+          "build/kconfig/Kconfig_gui",
+          "build/kconfig/Kconfig_configuration",
+          "build/kconfig/Kconfig_tips_and_demo",
+          "build/kconfig/Kconfig_custom",
+          "build/kconfig/Kconfig_extension"
+        ],
+        "collapsed": true
+      },
+      "build/zephyr_cmake_package"
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "硬件支持",
+    "items": ["hardware/pinctrl"],
+    "collapsed": true
+  },
+  {
+    "type": "link",
     "label": "API 文档",
-    "items": [
-
-    ],
-    "collapsed": true
+    "href": "https://zephyr-docs.listenai.com/reference/index.html"
   },
   {
     "type": "category",
-    "label": "工具",
-    "items": [
-      {
-        "type": "category",
-        "label": "Lisa插件-Zephyr",
-        "items": [
-          "tool/lisa_plugin_zephyr/sdk_command",
-          "tool/lisa_plugin_zephyr/env_command",
-          "tool/lisa_plugin_zephyr/create_command",
-          "tool/lisa_plugin_zephyr/application_project",
-          "tool/lisa_plugin_zephyr/app_build_flash",
-          "tool/lisa_plugin_zephyr/debug_command",
-          "tool/lisa_plugin_zephyr/filesystem",
-          "tool/lisa_plugin_zephyr/lpk",
-          "tool/lisa_plugin_zephyr/trouble_shooting",
-          "tool/lisa_plugin_zephyr/update",
-          "tool/lisa_plugin_zephyr/release_note"
-        ],
-        "collapsed": true
-      }
-      
-    ],
+    "label": "疑难解答",
+    "items": ["FAQ/index", "quick_start/doc_issue"],
     "collapsed": true
-  },
-  "FAQ/index"
+  }
 ]

@@ -6,3 +6,6 @@ Zephyr系统提供了丰富的组件，如LVGL、日志组件等，另外CSK6 SD
 * 章节二:[USB模块](./usb_class)
 * 章节三:[显示&触摸](./display_kscan)
 * 章节四:[LVGL显示组件](./lvgl)
+* 章节五:[Shell的使用](../shell_sample.md)
+* 章节六:[音频](../audio/overview.md)
+* 章节七:[网络](../network/overview.md)
