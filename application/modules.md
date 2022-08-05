@@ -46,7 +46,7 @@ zephyr包括但不限于依赖这些模块：
 
 构建系统变量 **ZEPHYR_MODULES** 是包含zephyr模块目录绝对路径的[CMake](https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#lists)列表。这些模块分别包含描述如何构建和配置它们的`CMakeLists.txt`和`Kconfig`文件。使用CMake的[add_subdirectory()](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)命令把`Kconfig`模块的`CMakeLists.txt`文件添加到构建中，`Kconfig`文件包含在构建的Kconfig菜单树中。
  
-如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)(包含west)插件，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 west 来设置 **ZEPHYR_MODULES**。你可以通过设置 **ZEPHYR_EXTRA_MODULES** CMake 变量或添加 **ZEPHYR_EXTRA_MODULES** 行来把其他模块添加到`.zephyrrc`列表中。(有关详情信息，请参考 [设置变量](https://docs.zephyrproject.org/2.7.0/application/index.html#env-vars)部分)。它有利于你想通过保存在west中找到的模块列表并添加自的模块列表。
+如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)命令行工具，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 lisa zephyr 设置的  **ZEPHYR_MODULES**。你可以通过设置 **ZEPHYR_EXTRA_MODULES** CMake 变量或添加 **ZEPHYR_EXTRA_MODULES** 行来把其他模块添加到`.zephyrrc`列表中。(有关详情信息，请参考 [设置变量](https://docs.zephyrproject.org/2.7.0/application/index.html#env-vars)部分)。它有利于你想通过保存在west中找到的模块列表并添加自的模块列表。
 
 :::info 注意
 如果模块 `FOO` 是由 [west](https://docs.zephyrproject.org/2.7.0/guides/west/index.html#west) 提供的，但也是由 `-DZEPHYR_EXTRA_MODULES=/<path>/foo` 提供的，那么命令行变量 `ZEPHYR_EXTRA_MODULES` 给出的模块将优先。它允许你在构建时使用自定义版本的 `FOO` ，并且仍然使用west提供的其他zephyr模块。例如，它可用于特殊的测试目的。

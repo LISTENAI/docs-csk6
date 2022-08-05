@@ -48,24 +48,12 @@ import TabItem from '@theme/TabItem';
 
 Zephyr CMake Package(包)允许 CMake 自动查找 Zephyr，必须导出一个或者多个 Zephyr。在开发或测试 Zephyr 独立式应用、带有供应商分支的 Zephyr 集成式应用等时，导出多个 Zephyr 可能很有用。
 
-## Zephyr CMake 包 导出 (Lisa)
+## 导出 Zephyr CMake 包
 
-使用 `Lisa Zephyr` 插件安装 Zephyr 时，建议使用 `lisa zep zephyr-export`。
-
-## Zephyr CMake 包 导出 (无 Lisa)
-
-使用以下命令将 Zephyr CMake 包导出到 CMake 用户包注册表:
+可使用 `lisa zephyr` 的以下命令导出。
 
 ```bash
-cmake -P <PATH-TO-ZEPHYR>/share/zephyr-package/cmake/zephyr_export.cmake
-```
-
-这会将当前的 Zephyr 导出到 CMake 用户包注册表中。
-
-要导出 Zephyr 单元测试 CMake 包，需要运行以下命令:
-
-```bash
-cmake -P <PATH-TO-ZEPHYR>/share/zephyrunittest-package/cmake/zephyr_export.cmake
+lisa zep zephyr-export
 ```
 
 ## Zephyr 基础环境设置
@@ -97,7 +85,7 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 在本例中，`my_first_app` 将使用 `<projects>/zephyr-workspace/zephyr` 目录作为 Zephyr SDK。
 
 :::info
-如果 Zephyr SDK 使用 `Lisa Zephyr` 插件安装，Zephyr SDK 的根目录与 `lisa zep topdir` 打印的目录相同。
+Zephyr SDK 的根目录即为 `lisa zep topdir` 打印出的目录。
 :::
 
 - Zephyr 集成式应用将使用 CMake 用户包注册表中的 Zephyr。例如:
@@ -258,34 +246,27 @@ project(my_first_app)
 
 Zephyr 构建配置 CMake 包可以位于 Zephyr SDK 之外，例如位于 Zephyr [独立应用](../application/application_development.md#独立式应用)中。
 
-如上一节所述的创建构建配置，然后使用 CMake 变量 `ZephyrBuildConfiguration_ROOT` 引用你的 Zephyr 构建配置 CMake 包的位置。
+如上一节所述的创建构建配置，然后使用 CMake 变量 `ZephyrBuildConfiguration_ROOT` 引用你的 Zephyr 构建配置 CMake 包的位置。有下列几种方式：
 
-1.在 CMake 命令行中，如下所示：
+1. 在你的应用项目的根目录 `CMakeLists.txt` 中，如下所示：
 
-```bash
-cmake -DZephyrBuildConfiguration_ROOT=<path-to-build-config> ...
-```
+    ```cmake
+    set(ZephyrBuildConfiguration_ROOT <path-to-build-config>)
+    find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+    ```
 
-2.在你的应用项目的根目录 `CMakeLists.txt` 中，如下所示：
+    如果选择了此选项，请确保在调用 `find_package(Zephyr ...)` 之前设置变量，如上所示。
 
-```cmake
-set(ZephyrBuildConfiguration_ROOT <path-to-build-config>)
-find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-```
+2. 在预先加载以填充 CMake 缓存的单独 CMake 脚本中，如下所示：
 
-如果选择了此选项，请确保在调用 `find_package(Zephyr ...)` 之前设置变量，如上所示。
+    ```cmake
+    # 将此文件放在一个名为 "zephyr-settings.cmake" 的文件中
+    set(ZephyrBuildConfiguration_ROOT <path-to-build-config>
+        CACHE STRING "pre-cached build config"
+    )
+    ```
 
-3.在预先加载以填充 CMake 缓存的单独 CMake 脚本中，如下所示：
-
-```cmake
-# 将此文件放在一个名为 "zephyr-settings.cmake" 的文件中
-set(ZephyrBuildConfiguration_ROOT <path-to-build-config>
-    CACHE STRING "pre-cached build config"
-)
-```
-
-你可以通过添加 `-C zephyr-settings.cmake` 到 CMake 命令来告诉构建系统使用此文件。
-此原则在不使用 `Lisa Zephyr`插件时很有用，因为可以使用同一个文件指定此设置和 Zephyr 模块。请参阅没有 `Lisa Zephyr` 插件的 [Zephyr 模块](https://docs.zephyrproject.org/latest/develop/modules.html#modules-without-west)。
+    你可以通过添加 `-C zephyr-settings.cmake` 到 CMake 命令来告诉构建系统使用此文件。
 
 ## Zephyr CMake 包源代码
 

@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
   </TabItem>
   <TabItem value="mac">
     
-<p>1. 安装lisa & lisa plugin zephyr</p>
+<p>1. 安装 lisa zephyr 命令行工具</p>
 
 在 **用户权限** 下执行：
 
@@ -57,7 +57,7 @@ lisa zep install
   </TabItem>
 </Tabs>
 
-安装 Lisa Zephyr 完毕后，你可能需要了解一下如何通过 Lisa Zephyr 去开发应用。那么请参考下面的章节。
+安装 lisa zephyr 完毕后，你可能需要了解一下如何通过 lisa zephyr 去开发应用。那么请参考下面的章节。
 
 - [基础设置](../lisa_plugin_zephyr/basic.md)
 

@@ -1,6 +1,6 @@
 # 内置命令
 
-本页会更详细的描述 `Lisa Zephyr` 插件的内置命令。
+本页会更详细的描述 `lisa zephyr` 工具的内置命令。
 
 ## use-sdk
 `lisa zep use-sdk` 提供了一些 SDK 操作的功能
@@ -191,19 +191,19 @@ lisa zep update
 
 ## 更新
 
-更新 `Lisa Zephyr` 插件到最新 `latest` 版本
+更新 `lisa zephyr` 工具到最新 `latest` 版本
 
 ```bash
 lisa update zephyr
 ```
 
-更新 `Lisa Zephyr` 插件到最新 `beta` 版本
+更新 `lisa zephyr` 工具到最新 `beta` 版本
 
 ```bash
 lisa install @lisa-plugin/zephyr@beta -g
 ```
 
-更新 `Lisa Zephyr` 插件到指定的版本
+更新 `lisa zephyr` 工具到指定的版本
 
 ```bash
 lisa install @lisa-plugin/zephyr@1.6.0 -g
@@ -214,7 +214,7 @@ lisa install @lisa-plugin/zephyr@1.6.0 -g
 :::tip
 打包出lpk包依赖于当前工程的编译产物，请确保你已经执行过 `lisa zep build` 相关的应用程序编译操作。
 
-该功能特性仅在插件 `1.6.0` 及以上版本支持，请查看 [获取/更新](#更新) 章节进行插件的更新。
+该功能特性仅在 lisa zephyr 工具 `1.6.0` 及以上版本支持，请查看 [获取/更新](#更新) 章节进行工具的更新。
 :::
 
 ```bash
