@@ -35,7 +35,7 @@ CSK6是聆思科技新一代的AI芯片SoC产品系列，采用多核异构架�
     - HIFI4 DSP：最高300MHz主频
     - NPU：128GOPS算力
 
-- 大容量内容资源
+- 大容量内存资源
     - 1MB SRAM
     - 最高 8MB PSRAM
     - 内置最高支持8MB Flash，可选外置
@@ -78,6 +78,17 @@ CSK6是聆思科技新一代的AI芯片SoC产品系列，采用多核异构架�
 | Touch Pad | 6 | 触摸按钮检测 |
 | SAR ADC | 4 | 分辨率：12bit <br/> 采样速率：最大1MHz |
 
+
+## CSK6系列芯片型号关键参数对比
+
+|  | CSK6002 | CSK6011A | CSK6012 |
+| ---- | ---- | ---- | ---- |
+| SRAM | 1MB | 1MB | 1MB |
+| PSRAM | 8MB | 8MB | 8MB |
+| FLASH | 8MB | External | External |
+| Audio Codec | 4 channel | 2 channel | 4 channel |
+| GPIO | 32 | 33 | 26 |
+| GPADC | 3 channel | 4 channel | 3 channel |
 
 ## 芯片资料下载
 
