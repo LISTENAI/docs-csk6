@@ -5,7 +5,7 @@ This is a high-level guide to pin control. See Pin Control API for API reference
 ## 介绍
 
 The hardware blocks that control pin multiplexing and pin configuration parameters such as pin direction, pull-up/down resistors, etc. are named pin controllers. The pin controller’s main users are SoC hardware peripherals, since the controller enables exposing peripheral signals, like for example, map I2C0 SDA signal to pin PX0. Not only that, but it usually allows configuring certain pin settings that are necessary for the correct functioning of a peripheral, for example, the slew-rate depending on the operating frequency. The available configuration options are vendor/SoC dependent and can range from simple pull-up/down options to more advanced settings such as debouncing, low-power modes, etc.  
-控制引脚复用和引脚配置参数(如引脚方向、上拉/下拉电阻等)的硬件模块称为**引脚控制器**。引脚控制器的主要使用者是 SoC 硬件外围设备，因为控制器可以公开外微信号，如将 `I2C0` `SDA` 信号映射到引脚 `PX0`。不仅如此，为了外设的正常运行，它还允许配置某些引脚设置，例如，根据工作频率的转速。可用的配置选项是供应商/SoC提供的，范围从简单的上拉/下拉选项到更高级的设置，例如，消抖、低功耗模式等。
+控制引脚复用和引脚配置参数(如引脚方向、上拉/下拉电阻等)的硬件模块称为**引脚控制器**。引脚控制器的主要使用者是 SoC 硬件外围设备，由于控制器能够暴露外围信号，如将 `I2C0` `SDA` 信号映射到引脚 `PX0`。不仅如此，它通常还允许配置外围设备正常运行所需的某些引脚设置，例如，根据工作频率的转速。可用的配置选项是供应商/SoC提供的，范围从简单的上拉/下拉选项到更高级的设置，例如，消抖、低功耗模式等。
 
 The way pin control is implemented in hardware is vendor/SoC specific. It is common to find a centralized approach, that is, all pin configuration parameters are controlled by a single hardware block (typically named pinmux), including signal mapping. Fig. 35 illustrates this approach. PX0 can be mapped to UART0_TX, I2C0_SCK or SPI0_MOSI depending on the AF control bits. Other configuration parameters such as pull-up/down are controlled in the same block via CONFIG bits. This model is used by several SoC families, such as many from NXP and STM32.  
 引脚控制在硬件上的实现方式是特定于供应商/SoC的。通常可以找到一种集中式方法，即所有引脚配置参数都由单个硬件模块（通常称为pinmux）控制，包括信号映射。[图35](#picture35)说明了这种方式。根据`AF`控制位, `PX0`可以映射到`UART0_TX`,`I2C0_SCK`或`SPI0_MOSI`。其他配置参数（如上拉/下拉）通过`CONFIG`位在同一块种控制。该模型被多个SoC系列使用，例如NXP 和 STM32等多个系列。
@@ -128,7 +128,7 @@ One of the effects of enabling dynamic pin control is that pinctrl_dev_config wi
 ## 设备树表示
 
 Because Devicetree is meant to describe hardware, it is the natural choice when it comes to storing pin control configuration. In the following sections you will find an overview on how states and pin configurations are represented in Devicetree.  
-因为设备树是用来描述硬件的，所以它是存储引脚控制配置的默认选择。在下面的章节中，你会找到有关状态和引脚配置如何在设备树中表示的概述。
+由于Devicetree旨在描述硬件，因此在存储引脚控制配置时，它是自然选择。在以下各节中，你将了解状态和引脚配置在Devicetree中是如何表示的
 
 ### 状态
 
