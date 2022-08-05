@@ -80,9 +80,9 @@ config VIDEO_BF30A2_INIT_PRIORITY
 rsource "video/Kconfig.bf30a2"
 ```
 
-### 修改自定义驱动的设备树绑定文件(.ymal)
+### 修改自定义驱动的设备树绑定文件(.yaml)
 为了硬件上的灵活性，Zephyr引入了设备树，通过设备树绑定的方式将设备树转换为C宏来使用。Zephyr的设备树绑定文件可能不包含我们要用的硬件设备，这就需要我们自己添加。同样设备树绑定文件也可以纳入app的目录进行管理，在app目录下添加dts目录，里面放置设备树绑定文件。       
-`.yaml`文件可参考`csk6sdk/dts/bindings/video/`目录下对应类型驱动的.ymal文件来完成修改，以下是`byd,bf30a2.yaml`文件内容：
+`.yaml`文件可参考`csk6sdk/dts/bindings/video/`目录下对应类型驱动的.yaml文件来完成修改，以下是`byd,bf30a2.yaml`文件内容：
 
 ```c
 # Copyright (c) 2022, listenai
