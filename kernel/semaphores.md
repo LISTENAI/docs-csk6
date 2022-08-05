@@ -30,3 +30,7 @@
 内核允许在中断服务函数中获取信号量，但当信号量无效时，不能在中断服务函数中阻塞等待该信号量。
 
 :::
+
+## 示例
+
+线程相关的使用示例参考[semaphores_sample](../application/kernel/sync_semaphore.md)。

@@ -152,30 +152,12 @@
     "label": "内核",
     "items": [
       "kernel/index",
-      {
-        "type": "category",
-        "label": "内核服务",
-        "items": [
-          {
-            "type": "category",
-            "label": "调度、中断与同步",
-            "items": [
-              "kernel/threads",
-              "kernel/system_threads",
-              "kernel/workqueue",
-              "kernel/interrupts",
-              "kernel/semaphores"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "定时",
-        "items": [
-          "kernel/timing/timers"
-        ]
-      }
+      "kernel/threads",
+      "kernel/system_threads",
+      "kernel/workqueue",
+      "kernel/interrupts",
+      "kernel/semaphores",
+      "kernel/timing/timers"
     ],
     "collapsed": true
   },

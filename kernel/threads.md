@@ -87,7 +87,7 @@
 - 该线程已经被挂起
 - 该线程已经结束或中止
 
-![Thread States](https://docs.zephyrproject.org/latest/_images/thread_states.svg)
+![Thread States](images/thread_states.svg)
 
 ## 线程栈对象
 
@@ -139,7 +139,7 @@ Zephyr内核可以支持无上限的优先级数。可以通过[CONFIG_NUM_COOP_
 - 协作式线程: (`-CONFIG_NUM_COOP_PRIORITIES` to -1
 - 抢占式线程: 0 to (`CONFIG_NUM_PREEMPT_PRIORITIES` - 1)
 
-![Thread Priorities](https://docs.zephyrproject.org/latest/_images/priorities.svg)
+![Thread Priorities](images/priorities.svg)
 
 
 例如配置5个协作优先级和10个抢占优先级，其取值范围分别为-5 ~ -1和0 ~ 9。
@@ -184,3 +184,7 @@ int call_tracking_routine(void)
 
 
 使用线程自定义数据，允许在线程的上下文中访问线程特定的信息，方法是将自定义数据作为指针传递给线程。
+
+## 示例
+
+线程相关的使用示例参考[thread_sample](../application/kernel/multithread.md)。
