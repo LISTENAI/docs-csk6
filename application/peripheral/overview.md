@@ -58,7 +58,7 @@ static inline int gpio_pin_set(const struct device *port, gpio_pin_t pin,int val
 
 - Step 2: 创建一个设备类型，并对设备进行绑定
 ```c
-const struct device *dev;<br/>
+const struct device *dev;
 dev = device_get_binding(xxx);
 ```
 
