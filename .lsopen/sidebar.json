@@ -167,7 +167,14 @@
     "label": "系统服务",
     "items": [
       "service/index",
-      "service/shell"
+      "service/shell",
+      {
+        "type": "category",
+        "label": "存储",
+        "items": [
+          "service/storage/nvs"
+        ]
+      }
     ],
     "collapsed": true
   },
