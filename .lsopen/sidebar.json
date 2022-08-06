@@ -127,7 +127,8 @@
             "label": "网络",
             "items": [
               "application/network/overview",
-              "application/network/wifi_connect"
+              "application/network/wifi_connect",
+              "application/network/net_socket"
             ],
             "collapsed": true
           }
