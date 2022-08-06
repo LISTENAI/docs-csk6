@@ -221,14 +221,31 @@
     "collapsed": true
   },
   {
-    "type": "link",
-    "label": "API 文档",
-    "href": "https://zephyr-docs.listenai.com/reference/index.html"
-  },
-  {
     "type": "category",
     "label": "疑难解答",
     "items": ["FAQ/index", "quick_start/doc_issue"],
     "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "引用",
+    "collapsed": false,
+    "items": [
+      {
+        "type": "link",
+        "href": "https://zephyr-docs.listenai.com/doxygen/html/index.html",
+        "label": "Zephyr API"
+      },
+      {
+        "type": "link",
+        "href": "https://zephyr-docs.listenai.com/kconfig.html",
+        "label": "Kconfig 检索"
+      },
+      {
+        "type": "link",
+        "href": "https://zephyr-docs.listenai.com/reference/devicetree/bindings.html",
+        "label": "设备树绑定索引"
+      }
+    ]
   }
 ]
