@@ -1,7 +1,6 @@
-# 安装开发工具
+# 安装
 
-## 获取 Lisa 并安装 Zephyr 开发环境
-
+## 安装
 
 :::info
 在开始开发环境的搭建之前，请先确保本机已经安装了 **GIT** 工具。
@@ -13,46 +12,47 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs
-    defaultValue="win"
+    groupId="operating-systems"
+    defaultValue="windows"
     values={[
-        {label: 'Windows', value: 'win'},
-        {label: 'macOS、Ubuntu', value: 'mac'}
+        {label: 'Windows', value: 'windows'},
+        {label: 'macOS、Ubuntu', value: 'unix'}
     ]}
 >
-  <TabItem value="win">
+  <TabItem value="windows">
     
-<p>1. 下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">Lisa & Zephyr Installer</a> 并运行；</p>
+<p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">CSK6一键安装包</a> 并运行，根据安装引导进行安装。</p>
 
-<p>2. 根据安装引导进行安装。</p>
-
-:::note
-**Lisa & Zephyr Installer** 是面向Windows操作系统的开发的 CSK6 开发环境一体化安装包，支持 SDK 一键拉取与配置，方便开发者快速构建开发环境。
-:::
+> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 集成安装包，包含 CSK6 集成开发环境、CSK SDK 等，方便开发者能快速进行 CSK6 的应用开发。
 
   </TabItem>
-  <TabItem value="mac">
-    
-<p>1. 安装 lisa zephyr 命令行工具</p>
+  <TabItem value="unix">
 
 在 **用户权限** 下执行：
 
-使用 curl
+<Tabs
+    defaultValue="curl"
+    values={[
+        {label: '使用 curl', value: 'curl'},
+        {label: '使用 wget', value: 'wget'}
+    ]}
+>
+
+<TabItem value="curl">
 
 ```bash
 curl -o- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 ```
-
-或使用 wget
+</TabItem>
+<TabItem value="wget">
 
 ```bash
 wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 ```
+</TabItem>
+</Tabs>
 
-<p>2. 安装 zephyr 对应环境</p>
-
-```bash
-lisa zep install
-```
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
   </TabItem>
 </Tabs>
@@ -63,3 +63,18 @@ lisa zep install
 
 - [命令详解](../lisa_plugin_zephyr/command_detail.md)
 
+## 终端命令行补全
+
+lisa zep 目前支持以下平台和 shell 组合中的补全：
+
+- Linux：bash
+
+- macOS：bash
+
+- windows：暂不支持
+
+执行：
+
+```bash
+lisa completion-install
+```

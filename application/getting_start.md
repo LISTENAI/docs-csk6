@@ -109,17 +109,18 @@ xcode-select --install
     borderRadius: 12
   }}>
 <Tabs
-    defaultValue="win"
+    groupId="operating-systems"
+    defaultValue="windows"
     values={[
-        {label: 'Windows', value: 'win' },
-        {label: 'macOS、Ubuntu', value: 'unix' }
+        {label: 'Windows', value: 'windows'},
+        {label: 'macOS、Ubuntu', value: 'unix'}
     ]}
 >
-  <TabItem value="win">
+  <TabItem value="windows">
     
-<p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">Lisa & Zephyr Installer</a> 并运行，根据安装引导进行安装。</p>
+<p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">CSK6一键安装包</a> 并运行，根据安装引导进行安装。</p>
 
-> **Lisa & Zephyr Installer** 是面向 Windows 操作系统的开发的 CSK6 开发环境一体化安装包，支持 SDK 一键拉取与配置，方便开发者快速构建开发环境。
+> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 集成安装包，包含 CSK6 集成开发环境、CSK SDK 等，方便开发者能快速进行 CSK6 的应用开发。
 
   </TabItem>
   <TabItem value="unix">
@@ -148,27 +149,7 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 </TabItem>
 </Tabs>
 
-安装 zephyr 对应环境：
-
-```bash
-lisa zep install
-```
-
-安装完成后，开始获取 CSK6 SDK ：
-
-```bash
-lisa zep use-sdk --default
-```
-
-该命令会在 `~/.listenai` 目录下，拉取 SDK 并进行初始化。
-
-:::tip 提示
-若需要自定义 SDK 的存放路径，可执行:
-
-```bash
-lisa zep use-sdk {自定义路径} --default
-```
-:::
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
   </TabItem>
 </Tabs>
@@ -254,7 +235,7 @@ $ lisa zep flash
 当需要检查 SDK 环境是否有问题时，通常先执行以下命令
 
  ```bash
-lisa info zephyr
+lisa info zep
 ```
 
 正常情况下你将看到列出结果类似下图

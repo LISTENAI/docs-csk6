@@ -41,7 +41,7 @@ lisa zep fs:flash
 ## 打包：自定义分区文件夹
 
 … -->
-
+<!-- 
 ## 串口烧录
 
 :::tip
@@ -56,4 +56,4 @@ lisa zep fs:flash --runner csk --port [port]
 
 ```bash
 lisa zep fs:flash --runner csk --port "\\.\COM36"
-```
+``` -->

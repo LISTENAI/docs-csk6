@@ -1,31 +1,25 @@
 # 基础命令
 本章介绍 `lisa zephyr` 一些常用的基础命令，让你快速了解到如何使用 `lisa zephyr` 工具进行 CSK 应用的开发。
 
-## 初始化 CSK SDK
-此命令会从远端拉取 SDK 到本地，如下所示：
-```bash
-lisa zep use-sdk ./my-zephyr-sdk --default
-```
-当前你已经拉取并初始化好 SDK 了，你需要运行 ```lisa zep update```命令更新 SDK 所需要的功能模块。
-
-有关 use-sdk 命令更多详情信息，请阅读 [use-sdk](../lisa_plugin_zephyr/command_detail.md#use-sdk) 。
-
-## 设置编译环境
-在构建项目前，除了要拉取 SDK 外，仍需要初始化 CSK 的编译环境
+## lisa info zep
 
 ```bash
-lisa zep use-env csk6
+lisa info zep
 ```
 
-目前支持的较常用的编译环境有 `csk6`、 `csk6-dsp`
+该命令可以查看 `lisa zephyr` 工具当前的环境，以便于开发者检查和确认当前的开发环境版本等信息。
 
-1、此命令会在用户目录下的文件夹 `.listenai/lisa-zephyr/package`，通过 `lisa` 安装所需的编译环境包。
+![image](./images/info_zep_1.png)
 
-2、缓存当前所设置的编译环境 `csk6`。
 
-设置成功后，在执行 `lisa zep` 相关命令时，类沙盒的环境变量，均会自动按照所设置的编译环境，进行设置。
 
-有关 use-env 命令更多的详细信息，请阅读 [use-env](../lisa_plugin_zephyr/command_detail.md#use-env) 。
+## CSK SDK 操作
+
+```bash
+lisa zep sdk
+```
+
+该命令为 sdk 的管理命令，执行后会根据当前环境，进行 sdk 的管理。
 
 ## 创建项目
 通过上述的步骤，你终于完成应用开发的前步骤了，接下来就是创建项目进行开发了，命令如下：
@@ -33,9 +27,6 @@ lisa zep use-env csk6
 ```bash
 lisa zep create
 ```
-
-
-
 
 ![image](./images/create_1.png)
 
