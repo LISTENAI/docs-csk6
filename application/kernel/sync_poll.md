@@ -2,11 +2,11 @@
 ## 概述
 
 轮询(poll)是一个比较特殊的内核对象，polling API 允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore(信号量), FIFO(管道), poll signal(轮询)三种。
-例如一个线程使用polling API同时等待多个semaphore，只要其中一个semaphore触发时polling API就会得到通知。
-poll具有以下特性：
+例如一个线程使用polling API同时等待多个semaphore，只要其中一个 semaphore 触发时 polling API 就会得到通知。
+poll 具有以下特性：
 
 - 当一个线程等待多个触发条件时，只要有一个条件满足 k_poll 就会返回。
-- 当 Semaphore 或 FIFO 满足条件后, k_poll 只是接到通知返回，线程并未获取到semaphore或FIFO, 还需要使用代码主动获取。
+- 当 Semaphore 或 FIFO 满足条件后, k_poll 只是接到通知返回，线程并未获取到 semaphore 或FIFO, 还需要使用代码主动获取。
 
 本章节在上个章节-同步之互斥量基础上讲解轮询的使用场景和使用方法，通过本章节学习，开发者可以了解到：
 - 轮询的基本信息和使用场景
