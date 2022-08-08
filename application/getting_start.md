@@ -1,6 +1,3 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # 快速开始
 
 学习本文后，你将可以：
@@ -12,6 +9,9 @@ import TabItem from '@theme/TabItem';
 ## 操作系统要求
 
 选择你正在使用的操作系统。
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -158,6 +158,10 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 ## 编译 Hello world 示例
 
 选择一个目录用于存放我们即将创建的项目，在这个目录下执行以下命令
+
+:::warning 警告
+  不支持一个带有空格的路径中构建 Zephyr 或创建应用。因此形如 `C:\Users\YourName\app` 的路径可用，但 `C:\Users\Your Name\app` 则不可用。
+:::
 
 ```bash
 lisa zep create
