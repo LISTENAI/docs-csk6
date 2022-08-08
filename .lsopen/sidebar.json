@@ -152,7 +152,6 @@
     "type": "category",
     "label": "内核",
     "items": [
-      "kernel/index",
       "kernel/threads",
       "kernel/system_threads",
       "kernel/workqueue",
@@ -166,7 +165,6 @@
     "type": "category",
     "label": "系统服务",
     "items": [
-      "service/index",
       "service/shell"
     ],
     "collapsed": true
