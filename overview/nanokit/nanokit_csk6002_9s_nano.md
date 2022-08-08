@@ -87,7 +87,7 @@ csk6002-9s-nano 是一款板载了CSK6002+XR819S模组的NanoKit开发板，您�
 
 **烧录、仿真功能：** 配合CSK6开发工具，可通过DAPLink实现固件快速烧录以及VSCode IDE环境下进行仿真调试，详见[《基于 DAPLink 的 GDB 调试》](../../gdbdebug/gdbdebug-daplink)。
 
-:::note
+:::caution
 若未能识别到设备，请检查所用的TypeC数据线是否具备数据传输功能，部分TypeC线只具备供电功能。
 :::
 
@@ -116,7 +116,7 @@ csk6002-9s-nano开发板将CSK6002芯片默认的所有可用引脚均引至两�
 
 ![image](./images/5_nanokit_pin.png)
 
-:::note
+:::tip
 以上管脚布局图仅展示引脚支持的部分常用功能，完整管脚功能映射请参照《IO_MAP表格》。
 :::
 
