@@ -1,12 +1,12 @@
 # 轮询
 ## 概述
 
-轮询(poll)是一个比较特殊的内核对象，polling API允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore(信号量）, FIFO（管道）, poll signal（轮询）三种。
+轮询(poll)是一个比较特殊的内核对象，polling API 允许一个线程等待一个或者多个条件满足。支持的条件类型只能是内核对象，可以是Semaphore(信号量), FIFO(管道), poll signal(轮询)三种。
 例如一个线程使用polling API同时等待多个semaphore，只要其中一个semaphore触发时polling API就会得到通知。
 poll具有以下特性：
 
-- 当一个线程等待多个触发条件时，只要有一个条件满足k_poll就会返回。
-- 当semaphore或FIFO满足条件后, k_poll只是接到通知返回，线程并未获取到semaphore或FIFO, 还需要使用代码主动获取。
+- 当一个线程等待多个触发条件时，只要有一个条件满足 k_poll 就会返回。
+- 当 Semaphore 或 FIFO 满足条件后, k_poll 只是接到通知返回，线程并未获取到semaphore或FIFO, 还需要使用代码主动获取。
 
 本章节在上个章节-同步之互斥量基础上讲解轮询的使用场景和使用方法，通过本章节学习，开发者可以了解到：
 - 轮询的基本信息和使用场景
@@ -17,8 +17,10 @@ poll具有以下特性：
 ### k_poll_event_init
 
 ```c
-/*初始化一个k_poll_event实例*/
-void k_poll_event_init(struct k_poll_event * event, uint32_t type, int mode, void * obj)	
+void k_poll_event_init(struct k_poll_event *event, uint32_t type, int mode, void *obj);
+```
+
+初始化一个 k_poll_event 实例，使用轮询功能需要包含头文件`#include <zephyr/kernel.h>`。轮询事件到来，会放置在事件数组中，后面传递给`k_poll`接口。
 
 /*轮询k_poll_event实例,等待触发条件*/
 int k_poll(struct k_poll_event * events, int num_events, k_timeout_t timeout)	
@@ -88,7 +90,7 @@ int k_poll_signal_raise(struct k_poll_signal *sig, int result);
 void k_poll_signal_reset(struct k_poll_signal *sig);
 ```
 
-复位信号对象。在被poll捕获前，都可以使用该接口函数进行复位。
+复位信号对象。在被 poll 捕获前，都可以使用该接口函数进行复位。
 
 **参数说明**
 
@@ -104,7 +106,7 @@ void k_poll_signal_reset(struct k_poll_signal *sig);
 void k_poll_signal_check(struct k_poll_signal *sig, unsigned int *signaled, int *result);
 ```
 
-获取轮询的信号对象的状态和result值。
+获取轮询的信号对象的状态和 result 值。
 
 **参数说明**
 
@@ -121,6 +123,60 @@ void k_poll_signal_check(struct k_poll_signal *sig, unsigned int *signaled, int 
 ## Poll的使用
 
 注意：使用Poll功能，需要配置`CONFIG_POLL`宏定义。如何配置可以参考[设置Kconfig配置](../../build/kconfig/Kconfig_configuration.md)及对应板块的其他文档描述。
+
+### 内核对象作为 poll 条件
+
+初始化 poll 条件
+```c
+struct k_poll_event events[2];
+
+void poll_init(void)
+{
+    /* 将my_sem做为poll条件，注意my_sem，需要单独初始化 */
+    k_poll_event_init(&events[0],
+                      K_POLL_TYPE_SEM_AVAILABLE,
+                      K_POLL_MODE_NOTIFY_ONLY,
+                      &my_sem);
+
+    /* 将my_fifo做为poll条件，注意my_fifo，需要单独初始化 */
+    k_poll_event_init(&events[1],
+                      K_POLL_TYPE_FIFO_DATA_AVAILABLE,
+                      K_POLL_MODE_NOTIFY_ONLY,
+                      &my_fifo);
+}
+```
+以上初始化也可以用下面方式代替, 同样注意my_sem和my_fifo需要单独初始化
+```c
+struct k_poll_event events[2] = {
+    K_POLL_EVENT_STATIC_INITIALIZER(K_POLL_TYPE_SEM_AVAILABLE,
+                                    K_POLL_MODE_NOTIFY_ONLY,
+                                    &my_sem, 0),
+    K_POLL_EVENT_STATIC_INITIALIZER(K_POLL_TYPE_FIFO_DATA_AVAILABLE,
+                                    K_POLL_MODE_NOTIFY_ONLY,
+                                    &my_fifo, 0),
+};
+```
+
+poll等待和处理
+
+```c
+void poll_thread(void)
+{
+    for(;;) {
+        rc = k_poll(events, 2, K_FOREVER);
+        if (events[0].state == K_POLL_STATE_SEM_AVAILABLE) {
+            k_sem_take(events[0].sem, K_NO_WAIT);
+            /* handle sem */
+        } else if (events[1].state == K_POLL_STATE_FIFO_DATA_AVAILABLE) {
+            data = k_fifo_get(events[1].fifo, K_NO_WAIT);
+            /* handle data */
+        }
+        events[0].state = K_POLL_STATE_NOT_READY;
+        events[1].state = K_POLL_STATE_NOT_READY;
+    }
+}
+```
+### poll 信号处理
 
 **线程A poll信号是否发送**
 
