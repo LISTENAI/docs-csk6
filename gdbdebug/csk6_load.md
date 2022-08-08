@@ -82,9 +82,11 @@ lisa zep flash --runner pyocd
 烧录过程日志：
 ![](./files/burn_pyocd.png)
 
-:::note
+:::tip
 本烧录方式仅支持带 DAPLink 调试器芯片的开发板，若无 DAPLink 的硬件请选择其他烧录工具进行烧录。
+:::
 
+:::caution
 本烧录方式在Windows系统下可能出现烧录速度慢的问题，出现此问题时建议选择其他烧录方式。
 :::
 
