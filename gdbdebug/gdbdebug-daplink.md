@@ -1,9 +1,9 @@
 # 基于 DAPLink 的 GDB 调试
 
 ## 概述
-Zephyr 提供了多种 debug 调试方式，支持 gdb 调试，本章节主要介绍如何基于 VS Code 和 CSK6-NanoKit 开发板板载调试器芯片 DAPLink 实现应用项目的调试。通过本章节学习，开发者可以了解到：
+Zephyr 提供了多种 debug 调试方式，支持 gdb 调试，本章节主要介绍如何基于 VSCode 和 CSK6-NanoKit 开发板板载调试器芯片 DAPLink 实现应用项目的调试。通过本章节学习，开发者可以了解到：
 - PC端如何对应用项目进行调试
-- 基于 VS Code 和 DAPLink 的调试方法
+- 基于 VSCode 和 DAPLink 的调试方法
 
 :::note
 Windows 系统和 Ubuntu 系统下配置的基本一致。
@@ -11,46 +11,45 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 ## 准备工作
 - CSK6-NanoKit 开发板，DAPLink 调试 USB 口接 PC 端。
-- PC 端安装 `VS Code`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
+- PC 端安装 `VSCode`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
 - `csk6002_9s_nano` 的日志串口接 NanoKit 板子的 `DAPLink` 的 `USB TYPE C` 口即可在电脑端上使用串口调试助手查看日志。如果不是使用 NanoKit 的话，可以通过 `A03 TX A02 RX` 接串口板连接电脑来查看日志，波特率为 115200。
 
 ## 调试过程
-### VS Code 调试环境搭建
-#### VS Code 安装 `Venus's Cortex-Debug` 调试插件
-在 VS Code 应用商店中搜索 `Venus's Cortex-Debug` 扩展插件，并完成安装，如下图所示：
+### VSCode 调试环境搭建
+#### VSCode 安装 `Venus's Cortex-Debug` 调试插件
+在 VSCode 应用商店中搜索 `Venus's Cortex-Debug` 扩展插件，并完成安装，如下图所示：
 
 ![](./files/venus-debug.png)
 
-#### 创建 `hello_world` 项目并完成 debug 环境配置
+#### 基于已有项目的完成debug 环境配置
 
-**步骤一：** 在 Windows 下新建一个文件夹，如 `csk6-develop`，并将其导入 VS Code。
+**步骤一：** 在已有项目目录下使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
 
-**步骤二：** 在 `csk6-develop` 目录下新建 .vscode 目录，将 [launch.json](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/jlink-debug/launch.json) 文件放置到该目录下。
+**步骤二：** 在已有项目目录下使用 `lisa zep ide` 生成debug配置文件lauch.json。
 
-**步骤三：** 在 `csk6-develop` 文件夹下使用 `lisa zep create` 命令创建 `hello_world` 项目，并使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
+**步骤三：** 关闭所有已经打开的VSCode窗口，重新打开一个新的VSCode窗口并且导入已有项目目录。可以查看到该目录下已经存在.vscode > lauch.json文件。
 
-**步骤四：** 修改 `luncher.json` 文件 `executable`、`serverpath`、 `armToolchainPath` 三项配置，具体如下：
+#### 创建新项目并完成 debug 环境配置
 
-`executable` 修改为需要 debug 应用项目的 zephyr.elf 文件路径，本示例为`hello_world` 项目的 zephyr.elf 路径：
-```c 
-# 需要 debug 应用的 zephyr.elf 文件路径，本示例为 `hello_world` 项目的 zephyr.elf 路径 
- "executable": "E:\\csk6-develop\\hello_world\\build\\zephyr\\zephyr.elf",
-```
+**步骤一：** 选择一个目录用于存放我们即将创建的项目，在该目录下使用 `lisa zep create` 命令创建 `hello_world` 项目，并使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
 
-`serverpath` 修改为 lisa 安装时带入的 pyocd 执行文件路径：
-```c 
-"serverpath": "C:/Users/xiaoqingqin/.listenai/lisa-zephyr/venv/Scripts/pyocd.exe",
-```
+**步骤二：** 在VSCode中打开刚刚创建的hello_world项目，可以查看到该目录下已经存在.vscode > lauch.json文件。
 
-`armToolchainPath` 修改为 lisa 安装时带入编译链的路径：
-```c
-"armToolchainPath": "C:/Users/xxxx/.listenai/lisa-zephyr/packages/node_modules/@binary/gcc-arm-none-eabi-9/binary/bin",
-``` 
+#### 配置文件变量说明
+
+`executable`: debug 应用项目的 zephyr.elf 文件路径，本示例为`hello_world` 项目的 zephyr.elf 路径。
+
+
+`serverpath`: lisa 安装时带入的 pyocd 执行文件路径。
+
+
+`armToolchainPath`: lisa 安装时带入编译链的路径。
+
 
 ![](./files/venus-debug_config_daplink.png)
 
 :::tip
-.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，.vscode 文件夹通常在点击运行->启动调试后由系统生成，本示例直接新增了该目录。
+.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，如遇配置文件不生效的情况，可关闭所有vscode窗口之后重新打开新的窗口重试。
 :::
 
 ### 对 `hello_world` 项目进行 debug 调试
@@ -89,7 +88,7 @@ lisa zep flash --runner pyocd
 #### 步骤三：断点调试
 ##### 增加断点
 
-点击 VC Code 运行和调试按钮进入调试模式，在 main 函数的第 12 行和第 17 行左侧单击鼠标左键增加两个断点，如下图示：
+在 main 函数的第 12 行和第 18 行左侧单击鼠标左键增加两个断点，点击 VSCode 侧边栏的运行和调试按钮进入调试模式并选择LISA DAPlink Launch调试任务，如下图示：
 ![](./files/venus-debug_rundebug.png)
 
 

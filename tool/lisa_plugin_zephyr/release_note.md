@@ -4,8 +4,8 @@
 
 #### New features:
 
-* `lisa zep sdk` : 新增 sdk 管理命令，交互式对 sdk 进行操作指引。详情查看 [对应章节](sdk_command) 。
-* `lisa zep ide` : 新增 ide 操作指引命令，针对 ide 对应插件的插件配置自动生成。详情查看 [对应章节](sdk_command) 。
+* `lisa zep sdk` : 新增 sdk 管理命令，交互式对 sdk 进行操作指引。详情查看 [对应章节](../lisa_plugin_zephyr/basic#csk-sdk-操作) 。
+* `lisa zep ide` : 新增 ide 操作指引命令，针对 ide 对应插件的插件配置自动生成。详情查看 [对应章节](../lisa_plugin_zephyr/build_flash_debug#csk6) 。
 * `lisa zep fs` : 新增文件系统操作指引命令。
 
 ## v1.6.1 (latest)

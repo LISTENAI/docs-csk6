@@ -1,6 +1,3 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # 快速开始
 
 学习本文后，你将可以：
@@ -12,6 +9,9 @@ import TabItem from '@theme/TabItem';
 ## 操作系统要求
 
 选择你正在使用的操作系统。
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -112,8 +112,9 @@ xcode-select --install
     groupId="operating-systems"
     defaultValue="windows"
     values={[
+        {label: 'Ubuntu', value: 'ubuntu'},
         {label: 'Windows', value: 'windows'},
-        {label: 'macOS、Ubuntu', value: 'unix'}
+        {label: 'macOS', value: 'mac'}
     ]}
 >
   <TabItem value="windows">
@@ -123,7 +124,7 @@ xcode-select --install
 > **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 集成安装包，包含 CSK6 集成开发环境、CSK SDK 等，方便开发者能快速进行 CSK6 的应用开发。
 
   </TabItem>
-  <TabItem value="unix">
+  <TabItem value="mac">
 
 在 **用户权限** 下执行：
 
@@ -152,12 +153,65 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 > 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
   </TabItem>
+  <TabItem value="ubuntu">
+
+对于Ubuntu平台的开发者，你可以选用以下方式之一进行搭建：
+
+__1、通过脚本在线安装__
+
+在 **用户权限** 下执行：
+
+<Tabs
+    defaultValue="curl"
+    values={[
+        {label: '使用 curl', value: 'curl'},
+        {label: '使用 wget', value: 'wget'}
+    ]}
+>
+
+<TabItem value="curl">
+
+```bash
+curl -o- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
+```
+</TabItem>
+<TabItem value="wget">
+
+```bash
+wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
+```
+</TabItem>
+</Tabs>
+
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
+
+__2、通过snap离线安装__
+
+- 下载[Ubuntu 18.04 snap离线包](https://cdn.iflyos.cn/public/lisa-binary/lisa_2.4.2.tgz)：
+
+- 解压后执行：
+
+```bash
+./install.sh
+```
+
+或执行：
+
+```bash
+snap install lisa_2.4.2_amd64.snap
+```
+
+  </TabItem>
 </Tabs>
 </div>
 
 ## 编译 Hello world 示例
 
 选择一个目录用于存放我们即将创建的项目，在这个目录下执行以下命令
+
+:::warning 警告
+  不支持一个带有空格的路径中构建 Zephyr 或创建应用。因此形如 `C:\Users\YourName\app` 的路径可用，但 `C:\Users\Your Name\app` 则不可用。
+:::
 
 ```bash
 lisa zep create

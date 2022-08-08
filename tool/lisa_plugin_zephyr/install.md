@@ -1,7 +1,5 @@
 # 安装
 
-## 安装
-
 :::info
 在开始开发环境的搭建之前，请先确保本机已经安装了 **GIT** 工具。
 
@@ -62,6 +60,20 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 - [基础设置](../lisa_plugin_zephyr/basic.md)
 
 - [命令详解](../lisa_plugin_zephyr/command_detail.md)
+
+## 更新
+
+当你的本机已经存在`lisa zephyr`命令行工具，并想更新到较新的版本来使用新版本带来的特性，可以通过以下命令进行。
+
+```bash
+lisa update zephyr
+```
+
+若你想更新 `lisa` 本身，可执行以下命令进行更新：
+
+```bash
+lisa update
+```
 
 ## 终端命令行补全
 
