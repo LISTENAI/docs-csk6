@@ -1,6 +1,6 @@
 # 线程分析器使用
 
-线程分期器作为zephyr的一个调试工具，用来跟踪线程信息例如线程的堆栈大小使用情况、线程运行时的其他统计信息。
+线程分析器作为zephyr的一个调试工具，用来跟踪线程信息例如线程的堆栈大小使用情况、线程运行时的其他统计信息。
 
 
 
@@ -57,7 +57,7 @@ void thread_analyzer_print(void)
 
 ## 使用示例
 
-当应用程序调用thread_analyzer_run() 或 thread_analyzer_print()时，分期器开始分析。
+当应用程序调用thread_analyzer_run() 或 thread_analyzer_print()时，分析器开始运行。
 
 我们以[synchronization](./sync_semaphore.md)这个sample作为线程分析的例子，启动线程分析器需要需要在sample项目的`prj.conf`配置文件中打开以下配置：
 
