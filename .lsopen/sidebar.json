@@ -112,6 +112,7 @@
           "application/modules/display_kscan",
           "application/modules/lvgl",
           "application/shell_sample",
+          "application/modules/nvs",
           {
             "type": "category",
             "label": "音频",
