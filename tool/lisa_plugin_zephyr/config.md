@@ -21,7 +21,7 @@ base = zephyr
 
 Above, the `manifest` section has option `path` set to `zephyr`. Another way to say the same thing is that `manifest.path` is `zephyr` in this file.
 
-在上面例子中，`manifest` 中的选项 `path` 被设置为 `zephyr`。另一种说法是，`manifest.path` 是 `zephyr`。
+在上面例子中，`manifest` 中的选项 `path` 被设置为 `zephyr`。也可以说，`manifest.path` 是 `zephyr`。
 
 There are three types of configuration file:
 
@@ -45,7 +45,7 @@ There are three types of configuration file:
     - macOS: `/usr/local/etc/westconfig`
     - Windows: `%PROGRAMDATA%\west\config`
   
-2. **全局** (每个用户)：这个文件中的设置会影响 Lisa Zephyr 在指定用户在计算机上运行时的行为。
+2. **全局** (每个用户)：这个文件中的设置会影响在计算机上的指定用户运行 lisa zephyr 的行为。
     - 全部平台：默认是用户的主目录中的 `.westconfig`
     - Linux: 如果设置环境变量 `XDG_CONFIG_HOME`，那么 `$XDG_CONFIG_HOME/west/config` 将被使用。
     - Windows：测试以下环境变量以查找用户目录：`%HOME%`, 然后 `%USERPROFILE%`, 然后组合 `%HOMEDRIVE%` 和 `%HOMEPATH%`。
@@ -54,7 +54,7 @@ There are three types of configuration file:
   
 A setting in a file which appears lower down on this list overrides an earlier setting. For example, if `color.ui` is `true` in the system’s configuration file, but false in the workspace’s, then the final value is `false`. Similarly, settings in the user configuration file override system settings, and so on.
 
-显示在此列表下方的文件中的设置会覆盖之前的设置。例如，如果系统配置文件中的 `color.ui` 设置为 `true`，但是工作区的设置是 `false`，那么最终的值是 `false`。户配置文件中的设置会覆盖系统设置，以此类推。
+在上述列出的三类文件中，如果出现重复的设置项，后一个的设置将覆盖之前的设置。例如，如果系统配置文件中的 `color.ui` 设置为 `true`，但是工作区的设置是 `false`，那么最终的值是 `false`。户配置文件中的设置会覆盖系统设置，以此类推。
 
 ## west config 
 ## lisa zep config
@@ -65,7 +65,7 @@ The built-in `config` command can be used to get and set configuration values. Y
 
 Some examples for common uses follow; run `west config -h` for detailed help, and see [Built-in Configuration Options](https://docs.zephyrproject.org/latest/develop/west/config.html#west-config-index) for more details on built-in options.
 
-一些常用的例子；运行 `lisa zep config -h` 以获取详细帮助，并查看 [内置配置选项](https://docs.zephyrproject.org/latest/develop/west/config.html#west-config-index) 以获取更多详细信息。
+下面列举一些常用的例子；运行 `lisa zep config -h` 以获取详细帮助，并查看 [内置配置选项](https://docs.zephyrproject.org/latest/develop/west/config.html#west-config-index) 以获取更多详细信息。
 
 To set manifest.path to some-other-manifest:
 
@@ -81,7 +81,7 @@ Doing the above means that commands like `west update` will look for the [west m
 
 To read `zephyr.base`, the value which will be used as `ZEPHYR_BASE` if it is unset in the calling environment (also relative to the workspace root):
 
-读取 `zephyr.base`，如果在调用环境中未设置，那么将被用作 `ZEPHYR_BASE`（相对于工作区根目录）。
+读取 `zephyr.base` 的值，如果 `zephyr.base` 未设置则返回环境变量的 `ZEPHYR_BASE` 值（相对于工作区根目录）。
 
 ```bash
 lisa zep config zephyr.base
