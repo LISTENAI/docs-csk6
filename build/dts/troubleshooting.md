@@ -122,4 +122,4 @@ int baud_rate = DT_PROP(DT_NODELABEL(my_serial), current_speed);
 
 ## `DT_INST_()` API 引发的错误
 
-如果你使用形如 `DT_INST_()` 的 API （例如 [`DT_INST_PROP()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_INST_PROP) ），则必须将 `DT_DRV_COMPAT` 对应到你期望的 compatible （注意应是小写字母和下划线版本）。请参阅 [方式 1：通过实例编号创建设备](./howtos.md#方式-1：通过实例编号创建设备) 。
+如果你使用形如 `DT_INST_()` 的 API （例如 [`DT_INST_PROP()`](./api/api.md#dt_inst_propinst-prop) ），则必须将 `DT_DRV_COMPAT` 对应到你期望的 compatible （注意应是小写字母和下划线版本）。请参阅 [方式 1：通过实例编号创建设备](./howtos.md#方式-1：通过实例编号创建设备) 。

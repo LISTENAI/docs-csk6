@@ -195,7 +195,16 @@
           "build/dts/howtos",
           "build/dts/api_usage",
           "build/dts/troubleshooting",
-          "build/dts/dt_vs_kconfig"
+          "build/dts/dt_vs_kconfig",
+          {
+            "type":"category",
+            "label": "API 引用",
+            "items": [
+              "build/dts/api/index",
+              "build/dts/api/api",
+              "build/dts/api/bindings"
+            ]
+          }
         ]
       },
       {
