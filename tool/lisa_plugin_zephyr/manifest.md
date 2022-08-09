@@ -9,7 +9,7 @@ This page contains detailed information about west’s multiple repository model
 
 West’s view of the repositories in a [west workspace](https://docs.zephyrproject.org/latest/glossary.html#term-west-workspace), and their history, looks like the following figure (though some parts of this example are specific to upstream Zephyr’s use of west):
 
-Lisa Zephyr 对 [SDK 工作区](https://docs.zephyrproject.org/latest/glossary.html#term-west-workspace)中的存储库及其历史的看法如下图所示（尽管此示例的某些部分特定与上游 Zephyr 对 Lisa Zephyr 的使用）：
+Lisa Zephyr 对 [SDK 工作区](https://docs.zephyrproject.org/latest/glossary.html#term-west-workspace)中的存储库及其历史的总览如下图所示（尽管此示例的某些部分特定与上游 Zephyr 对 Lisa Zephyr 的使用）：
 
 ![west-mr-model](images/west-mr-model.png)
 
@@ -281,7 +281,7 @@ manifest:
 
 You can enable or disable project groups using `group-filter`. Projects whose groups are all disabled are inactive; west essentially ignores inactive projects unless explicitly requested not to.
 
-你可以使用和 `group-filter` 字段来启用或禁用项目组(即 `projects` 中的 `groups`)。`projects` 的 `groups` 的项目会处于禁用状态，Lisa Zephyr 会忽略这些项目，除非你要求不要忽略它们。
+你可以使用和 `group-filter` 字段来启用或禁用项目组(即 `projects` 中的 `groups`)。所有 `groups` 都被禁用的 `project` 是不可用的，Lisa Zephyr 会忽略这些项目，除非你要求不要忽略它们。
 
 The next section introduces project groups; the following sections describe Enabled and Disabled Project Groups and Active and Inactive Projects. There are some basic examples in Project Group Examples.
 
@@ -339,7 +339,7 @@ Group names are otherwise arbitrary strings. Group names are case sensitive.
 
 As a restriction, no project may use both `import:` and `groups:`. (This avoids some edge cases whose semantics are difficult to specify.)
 
-任何项目不能同时使用 `import:` 和 `groups:` (这避免了一些边缘情况的语义是难以指定的)。
+任何项目不能同时使用 `import:` 和 `groups:` (这避免了一些语义难以指定的边界情况)。
 
 ### Enabled and Disabled Project Groups
 ### 启用和禁用项目组
@@ -400,7 +400,9 @@ manifest:
 
 In addition to the manifest file, you can control which groups are enabled and disabled using the `manifest.group-filter` configuration option. This option is a comma-separated list of groups to enable and/or disable.
 
-除了提货单文件外，你可以使用 `manifest.group-filter` 配置选项来决定哪些组启用或者禁用。放到空间访客
+除了提货单文件外，你可以使用 `manifest.group-filter` 配置选项来决定哪些组启用或者禁用。这个选项是一个用逗号分隔的组列表，用于启用或禁用组。
+
+```bash
 
 To enable a group, add its name to the list prefixed with +. To disable a group, add its name prefixed with -. For example, setting `manifest.group-filter` to `+groupA`,`-groupB` enables `groupA`, and disables `groupB`.
 
@@ -408,14 +410,14 @@ To enable a group, add its name to the list prefixed with +. To disable a group,
 
 The value of the configuration option overrides any data in the manifest file. You can think of this as if the `manifest.group-filter` configuration option is appended to the `manifest: group-filter:` list from YAML, with “last entry wins” semantics.
 
-这配置选项的值会覆盖提货单文件中任何数据。你可以将其看作是将 `manifest.group-filter` 配置选项添加到 YAML 的 `manifest: group-filter:` 列表中，并且有着 "last entry wins" 的语义。
+配置选项的值会覆盖提货单文件中任何数据。你可以将其看作是将 `manifest.group-filter` 配置选项添加到 YAML 的 `manifest: group-filter:` 列表中，并且有着 "最后一个获胜" 的语义。
 
 ### Active and Inactive Projects
 ### 可用和不可用项目
 
 All projects are active by default. Projects with no groups are always active. A project is inactive if all of its groups are disabled. This is the only way to make a project inactive.
 
-默认情况下，所有的项目都是可用状态。没有组(groups)的项目(projects)也始终处于可用状态。如果所有的组都被禁用，那么项目就处于不可用状态。这是唯一的一种方式来禁用项目。
+默认情况下，所有的项目都是可用状态。没有组(groups)的项目(projects)也始终处于可用状态。如果所有的组都被禁用，那么项目就处于不可用状态。这是禁用项目的唯一方式。
 
 Most west commands that operate on projects will ignore inactive projects by default. For example, west update when run without arguments will not update inactive projects. As another example, running `west list` without arguments will not print information for inactive projects.
 
@@ -880,7 +882,7 @@ The final group filter specified by `parent/west.yml` and the `manifest.group-fi
 
 You can use the submodules keys briefly described [above] to force `west update` to also handle any [Git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) configured in project’s git repository. The submodules key can appear inside projects, like this:
 
-你可以上面描述的简短的 submodules 字段来强制 `lisa zep update` 处理项目的 git 仓库中配置的任何 [Git 子模块](https://git-scm.com/book/en/v2/Git-Tools-Submodules)。submodules 字段可以放到 projects 字段中，如下所示：
+你可以使用上面描述的简短的 submodules 字段来强制 `lisa zep update` 处理项目的 git 仓库中配置的任何 [Git 子模块](https://git-scm.com/book/en/v2/Git-Tools-Submodules)。submodules 字段可以放到 projects 字段中，如下所示：
 
 ```YAML
 manifest:
@@ -1324,7 +1326,7 @@ manifest:
 
 The setting `import: west.yml` means to use the file `west.yml` inside the zephyr project. This example is contrived, but shows the idea.
 
-配置 `import: west.yml` 意思是在 zephyr 项目中使用 `west.yml` 文件。这个例子思人为设计的，但表明这个想法。
+配置 `import: west.yml` 意思是在 zephyr 项目中使用 `west.yml` 文件。这个例子是人为设计的，但展示这个想法。
 
 This can be useful in practice when the name of the manifest file you want to import is not `west.yml`.
 
@@ -1449,8 +1451,8 @@ The `import` key can also contain a mapping with the following keys:
 - `file`：可选，要导入的提货单文件或目录的名称。如果没有指定，则默认为 `west.yml`。
 - `name-allowlist`：可选，项目名，或者存放着项目名的序列。
 - `path-allowlist`：可选，如果存在，则要匹配路径或者项目路径序列。这是一种 shell 风格的通配模式，目前使用 [pathlib](https://docs.python.org/3/library/pathlib.html#pathlib.PurePath.match) 实现，请注意，这意味着区分大小写是特定于平台的。
-- `name-blocklist`：可选，跟 `name-allowlist` 差不多，但包含的是要排除的项目名。
-- `path-blocklist`：可选，跟 `path-allowlist` 差不多，但包含的是要排除的项目路径。
+- `name-blocklist`：可选，跟 `name-allowlist` 类似，但包含的是要排除的项目名。
+- `path-blocklist`：可选，跟 `path-allowlist` 类似，但包含的是要排除的项目路径。
 - `path-prefix`：可选，如果给定，这将被添加到项目中项目的路径以及任何导入项目的路径中。这可用于将这些项目放在项目的子目录中。
   
 Allowlists override blocklists if both are given. For example, if a project is blocked by path, then allowed by name, it will still be imported.
@@ -1942,7 +1944,7 @@ For simplicity, west and this documentation may elide concatenated group filter 
 为简单起见，Lisa Zephyr 和本文档可能会省略使用这些规则冗余的级联过滤器。例如，`[+foo] + [-foo]` 可以简写为 `[-foo]`，因为上面描述的原因。另一个例子，`[-foo] + [+foo]` 可以简写为空列表 `[]`，因为所有组都默认启用。
 
 ## Manifest Command
-## Manifest 命令
+## 提货单命令
 
 The `west manifest` command can be used to manipulate manifest files. It takes an action, and action-specific arguments.
 
@@ -1950,7 +1952,7 @@ The `west manifest` command can be used to manipulate manifest files. It takes a
 
 The following sections describe each action and provides a basic signature for simple uses. Run `west manifest --help` for full details on all options.
 
-一下部分描述每个操作，并提供一个简单的签名来使用。运行 `lisa zep manifest -h` 可以查看所有选项的详细信息。
+以下部分描述每个操作，并提供一个简单的签名来使用。运行 `lisa zep manifest -h` 可以查看所有选项的详细信息。
 
 ### Resolving Manifests
 ### 解析提货单
@@ -1991,7 +1993,7 @@ A “frozen” manifest is a manifest file where every project’s revision is a
 “冻结”的 manifest 是一个提货单文件，其中每个项目的版本都是一个 SHA。你可以使用 `--freeze` 来生成一个与当前提货单文件等效的冻结 manifest。使用 `-o` 选项指定输出文件；如果没有指定，则使用标准输出。
 
 ### Validating Manifests
-### 验证 Manifest
+### 验证提货单
 
 The `--validate` action either succeeds if the current manifest file is valid, or fails with an error:
 
@@ -2006,7 +2008,7 @@ The error message can help diagnose errors.
 错误信息可以帮助诊断错误。
 
 ### Get the manifest path
-### 获取 manifest 路径
+### 获取提货单路径
 
 The `--path` action prints the path to the top level manifest file:
 
