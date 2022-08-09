@@ -16,8 +16,8 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 ## 调试过程
 ### VSCode 调试环境搭建
-#### VSCode 安装 `Venus's Cortex-Debug` 调试插件
-在 VSCode 应用商店中搜索 `Venus's Cortex-Debug` 扩展插件，并完成安装，如下图所示：
+#### VSCode 安装 `Cortex-Debug` 调试插件
+在 VSCode 应用商店中搜索 `Cortex-Debug` 扩展插件，并完成安装，如下图所示：
 
 ![](./files/venus-debug.png)
 

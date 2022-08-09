@@ -273,18 +273,6 @@ lisa zep config flash.pyocd.frequency 200000000
 
 ## 调试
 
-### csk6-dsp
-
-
-```bash
-lisa zep init-vs
-```
-
-在你的 `工程项目` 目录下执行该命令，会基于当前 `csk6-dsp` 编译环境自动生成 vscode debug runner 配置。
-
-
-### csk6
-
 ```bash
 lisa zep ide
 ```
