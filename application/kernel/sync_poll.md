@@ -13,29 +13,12 @@ poll 具有以下特性：
 - 轮询的使用方法
 
 ## 常用API接口
-
 ### k_poll_event_init
 
 ```c
 void k_poll_event_init(struct k_poll_event *event, uint32_t type, int mode, void *obj);
 ```
-
 初始化一个 k_poll_event 实例，使用轮询功能需要包含头文件`#include <zephyr/kernel.h>`。轮询事件到来，会放置在事件数组中，后面传递给`k_poll`接口。
-
-/*轮询k_poll_event实例,等待触发条件*/
-int k_poll(struct k_poll_event * events, int num_events, k_timeout_t timeout)	
-
-/*初始化poll signal信号，作为poll event的触发*/
-void k_poll_signal_init(struct k_poll_signal * sig)	
-
-/*发送poll signal信号*/
-int k_poll_signal_raise(struct k_poll_signal * sig, int result)	
-
-/*清除signal信号，如果signal被发送，但还未被poll前，都可以使用该API reset清除*/
-void k_poll_signal_reset(struct k_poll_signal * sig)
-
-/*获取signal信号的状态和值*/
-void k_poll_signal_check(struct k_poll_signal * sig, unsigned int * signaled, int * result)	
 
 等待一个或多个轮询事件发生。事件可以是内核对象，如信号量(Semaphore)或轮询信号事件。在对象变为可用且其等待队列为空之前，轮询线程无法获取对象上的轮询事件，因此，当被轮询的对象只有一个线程（轮询线程）试图获取它们时，`k_poll()`调用更有效。当`k_poll()`返回0时，调用方应轮询所有给`k_poll()`的事件，并检查状态字段中预期的值，并采取相关操作。再次调用`k_poll()`之前，用户必须将状态字段重置为`K_POLL_STATE_NOT_READY`。
 
