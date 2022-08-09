@@ -66,27 +66,28 @@ CSK6是聆思科技新一代的AI芯片SoC产品系列，采用多核异构架�
 
 | 接口 | 数量 | 特性 |
 | ---- | ---- | --------------------- |
-| DVP | 1 | 格式支持：YUV422, YUV420, Raw Data <br/> 图像尺寸(Raw Data)： 640x480/120fps , 1280x720/60fps |
+| DVP | 1 | 格式支持：YUV422, YUV420, Raw Data <br/> 图像尺寸/帧率(Raw Data)： 640x480/120fps , 1280x720/60fps |
 | UART| 4 | 支持硬件流控(CTS/RTS) |
 | SPI | 2 | 支持主/从模式 |
 | I2C | 2 | 支持标准/快速/快速+模式 <br/> 支持主/从模式 |
 | I2S | 3 | 输入支持TDM扩展 |
 | DMIC | 4 | 数字MIC输入 |
 | USB | 1 |USB 1.1 full speed <br/> 支持1K字节同步传输、64字节的Bulk和中断传输 |
-| SDIO | 1 | 兼容SD控制器3.0标准规范 <br/> 支持UHS50/UHS104 SD卡 <br/> 支持4位/8位模式|
+| SDIO | 1 | 兼容SD控制器3.0标准规范 <br/> 支持UHS50/UHS104 SD卡 <br/> 支持 4bit/8bit SD总线|
 | PWM | 8 | 支持4路LEDC输出 |
 | Touch Pad | 6 | 触摸按钮检测 |
 | SAR ADC | 4 | 分辨率：12bit <br/> 采样速率：最大1MHz |
 
 
-## 芯片型号关键参数对比
+## 不同型号关键参数对比
 
 |  | CSK6002 | CSK6011A | CSK6012 |
 | ---- | ---- | ---- | ---- |
 | SRAM | 1MB | 1MB | 1MB |
 | PSRAM | 8MB | 8MB | 8MB |
 | FLASH | 8MB | External | External |
-| Audio Codec | 4 channel | 2 channel | 4 channel |
+| Audio Codec -  ADC | 4 channel | 2 channel | 4 channel |
+| Audio Codec -  DAC | 2 channel | 2 channel (single-ended) | 2 channel |
 | GPIO | 32 | 33 | 26 |
 | GPADC | 3 channel | 4 channel | 3 channel |
 
