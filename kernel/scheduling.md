@@ -17,9 +17,9 @@ There are various points in time when the scheduler is given an opportunity to c
 - return to thread context after processing an interrupt
 - when a running thread invokes **`[k_yield()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_yield)`**
 
-调度器可以切换当前线程，这些时刻被称为**重调度点(reschedule points)**。
+调度器可以切换当前线程，这些时刻被称为**重新调度点(reschedule points)**。
 
-以下为一些重调度点：
+以下为一些重新调度点：
 
 - 线程从运行(running)状态转为挂起(suspended)状态或者等待(waiting)状态的时，比如调用 **`[k_sem_take()](https://docs.zephyrproject.org/latest/kernel/services/synchronization/semaphores.html#c.k_sem_take)`** 或 **`[k_sleep()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_sleep)`**.
 - 线程转换为就绪(ready)状态时，比如调用 **`[k_sem_give()](https://docs.zephyrproject.org/latest/kernel/services/synchronization/semaphores.html#c.k_sem_give)`** 或 **`[k_thread_start()](https://docs.zephyrproject.org/latest/kernel/services/threads/index.html#c.k_thread_start)`**.
@@ -38,7 +38,7 @@ Whenever the scheduler changes the identity of the current thread, or when execu
 
 The kernel’s scheduler selects the highest priority ready thread to be the current thread. When multiple ready threads of the same priority exist, the scheduler chooses the one that has been waiting longest.
 
-调度器会执行优先级最高的就绪线程。当多个优先级一样的就绪线程存在时，调度器会执行等待时间最长的线程。
+调度器会切换优先级最高的就绪线程。当多个优先级一样的就绪线程存在时，调度器会切换等待时间最长的线程。
 
 A thread’s relative priority is primarily determined by its static priority. 
 
@@ -46,7 +46,7 @@ A thread’s relative priority is primarily determined by its static priority.
 
 However, when both earliest-deadline-first scheduling is enabled (`CONFIG_SCHED_DEADLINE`) and a choice of threads have equal static priority, then the thread with the earlier deadline is considered to have the higher priority. Thus, when earliest-deadline-first scheduling is enabled, two threads are only considered to have the same priority when both their static priorities and deadlines are equal. The routine `k_thread_deadline_set()` is used to set a thread’s deadline.
 
-然而，当使能最早截止时间优先调度算法(`CONFIG_SCHED_DEADLINE`)并且线程具有相同的静态优先级，调度器会执行截止时间最早的线程。因此，当使能了使能最早截止时间优先调度算法时，只有当两个线程的静态优先级和最后期限相等时，它们才被认为具有相同的优先级。使用`k_thread_deadline_set` 设置线程截止时间。
+然而，当使能最早截止时间优先调度 (earliest-deadline-first) 算法(`CONFIG_SCHED_DEADLINE`)并且线程具有相同的静态优先级，调度器会执行截止时间最早的线程。因此，当使能了使能最早截止时间优先调度算法时，只有当两个线程的静态优先级和最后期限相等时，它们才被认为具有相同的优先级。使用`k_thread_deadline_set` 设置线程截止时间。
 
 :::note
 
