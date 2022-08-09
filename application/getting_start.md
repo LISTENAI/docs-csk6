@@ -1,6 +1,3 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # 快速开始
 
 学习本文后，你将可以：
@@ -12,6 +9,9 @@ import TabItem from '@theme/TabItem';
 ## 操作系统要求
 
 选择你正在使用的操作系统。
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -101,7 +101,7 @@ xcode-select --install
 
 ## 搭建开发环境
 
-接着，安装 lisa zephyr 工具，并通过工具初始化 CSK6 SDK 所需的开发环境。
+接着，安装 lisa zep 工具，并通过工具初始化 CSK6 SDK 所需的开发环境。
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -109,20 +109,22 @@ xcode-select --install
     borderRadius: 12
   }}>
 <Tabs
-    defaultValue="win"
+    groupId="operating-systems"
+    defaultValue="windows"
     values={[
-        {label: 'Windows', value: 'win' },
-        {label: 'macOS、Ubuntu', value: 'unix' }
+        {label: 'Ubuntu', value: 'ubuntu'},
+        {label: 'Windows', value: 'windows'},
+        {label: 'macOS', value: 'mac'}
     ]}
 >
-  <TabItem value="win">
+  <TabItem value="windows">
     
-<p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">Lisa & Zephyr Installer</a> 并运行，根据安装引导进行安装。</p>
+<p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">CSK6一键安装包</a> 并运行，根据安装引导进行安装。</p>
 
-> **Lisa & Zephyr Installer** 是面向 Windows 操作系统的开发的 CSK6 开发环境一体化安装包，支持 SDK 一键拉取与配置，方便开发者快速构建开发环境。
+> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一些列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
   </TabItem>
-  <TabItem value="unix">
+  <TabItem value="mac">
 
 在 **用户权限** 下执行：
 
@@ -148,35 +150,78 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 </TabItem>
 </Tabs>
 
-安装 zephyr 对应环境：
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 以及完成 CSK6 SDK 的拉取，执行完毕后开发者即可开始进行 CSK6 的应用开发。
+
+  </TabItem>
+  <TabItem value="ubuntu">
+
+对于Ubuntu平台的开发者，你可以选用以下方式之一进行搭建：
+
+__1、通过脚本在线安装__
+
+在 **用户权限** 下执行：
+
+<Tabs
+    defaultValue="curl"
+    values={[
+        {label: '使用 curl', value: 'curl'},
+        {label: '使用 wget', value: 'wget'}
+    ]}
+>
+
+<TabItem value="curl">
 
 ```bash
-lisa zep install
+curl -o- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 ```
-
-安装完成后，开始获取 CSK6 SDK ：
+</TabItem>
+<TabItem value="wget">
 
 ```bash
-lisa zep use-sdk --default
+wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 ```
+</TabItem>
+</Tabs>
 
-该命令会在 `~/.listenai` 目录下，拉取 SDK 并进行初始化。
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
-:::tip 提示
-若需要自定义 SDK 的存放路径，可执行:
+__2、通过snap离线安装__
+
+- 下载[Ubuntu 18.04 snap离线包](https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=linux-snap)：
+
+- 解压后执行：
 
 ```bash
-lisa zep use-sdk {自定义路径} --default
+./install.sh
 ```
-:::
+
+或直接通过`snap`进行安装解压后的`snap包`：
+
+```bash
+snap install lisa_xxx.snap
+```
 
   </TabItem>
 </Tabs>
 </div>
 
+## 检查开发环境
+
+完成环境的安装后，打开终端，执行你的第一个lisa命令，检查当前开发环境吧~
+
+ ```bash
+lisa info zep
+```
+
+`lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决。
+
 ## 编译 Hello world 示例
 
 选择一个目录用于存放我们即将创建的项目，在这个目录下执行以下命令
+
+:::warning 警告
+  不支持一个带有空格的路径中构建 Zephyr 或创建应用。因此形如 `C:\Users\YourName\app` 的路径可用，但 `C:\Users\Your Name\app` 则不可用。
+:::
 
 ```bash
 lisa zep create
@@ -228,8 +273,8 @@ $ lisa zep flash
   - [系统组件及使用示例](./modules/overview)
   - [音频组件及使用示例](./audio/overview)
   - [网络模块及使用示例](./network/overview)
-- 学习有关 [应用开发](./application_development.md) 和 [lisa zephyr 工具使用](../tool/lisa_plugin_zephyr/index.md)
-- 学习基于 `lisa zephyr` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
+- 学习有关 [应用开发](./application_development.md) 和 [lisa zep 工具使用](../tool/lisa_plugin_zephyr/index.md)
+- 学习基于 `lisa zep` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
 
 #### 阶段二：了解构建系统及配置系统
 
@@ -254,7 +299,7 @@ $ lisa zep flash
 当需要检查 SDK 环境是否有问题时，通常先执行以下命令
 
  ```bash
-lisa info zephyr
+lisa info zep
 ```
 
 正常情况下你将看到列出结果类似下图

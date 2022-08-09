@@ -1,6 +1,6 @@
 # 编译 烧录 调试
 
-`lisa zephyr` 工具提供了几个扩展命令用于编译，烧录和调试项目。
+`lisa zep` 工具提供了几个扩展命令用于编译，烧录和调试项目。
 
 ## 编译
 
@@ -90,7 +90,7 @@ lisa zep -v build -b csk6002_9s_nano
 
 ### 一次性的 CMake 参数
 
-`lisa zephyr` 允许将其他参数给到 CMake 调用，参数要放到 `--` 后面。
+`lisa zep` 允许将其他参数给到 CMake 调用，参数要放到 `--` 后面。
 
 :::info
 使用这种方式传递参数，会使 `lisa zep build` 重新运行 CMake ，即使是项目已经构建了。
@@ -273,12 +273,9 @@ lisa zep config flash.pyocd.frequency 200000000
 
 ## 调试
 
-### 生成 vscode debug runner 配置
-
 ```bash
-lisa zep init-vs
+lisa zep ide
 ```
 
-在你的 `工程项目` 目录下执行该命令，会基于当前 `env` 编译环境自动生成 vscode debug runner 配置。
-
-当前仅支持 `csk6-dsp` 。
+在你的 `工程项目` 目录下执行该命令，会基于当前 `csk6` 编译环境自动生成 vscode debug 和代码补全的配置。
+![](./images/vscode.png)

@@ -344,7 +344,7 @@ Zephyr 构建系统将应用程序的所有组件编译并链接到单个应用�
 
 与任何其他基于 CMake 的系统一样，构建过程分 [两个阶段](https://docs.zephyrproject.org/latest/build/cmake/index.html#cmake-details) 进行。首先，在指定生成器时使用 `cmake` 命令行工具生成构建文件（也称为构建系统）。此生成器确定构建系统将在第二阶段使用的本机构建工具。第二阶段运行本机构建工具，执行实际的构建源文件过程并生成镜像。要了解有关这些概念的更多信息，请参阅 CMake 官方文档中的 [CMake 介绍](https://cmake.org/cmake/help/latest/manual/cmake.1.html#description) 。
 
-[lisa zephyr 命令行工具](../tool/lisa_plugin_zephyr/index.md) 是默认用于构建 Zephyr 的工具，它是 CSK6 SDK 的伴生工具。它在后台最终调用 cmake 和底层构建工具（ `ninja` 或 `make` ）来完成构建工作的。而在 Windows 上，最终使用的是 `ninja` ，因为该平台不支持 `make` 。当你使用 `lisa zep build` 来构建你的应用程序，请知道它将默认使用 `ninja` 。
+[lisa zep 命令行工具](../tool/lisa_plugin_zephyr/index.md) 是默认用于构建 Zephyr 的工具，它是 CSK6 SDK 的伴生工具。它在后台最终调用 cmake 和底层构建工具（ `ninja` 或 `make` ）来完成构建工作的。而在 Windows 上，最终使用的是 `ninja` ，因为该平台不支持 `make` 。当你使用 `lisa zep build` 来构建你的应用程序，请知道它将默认使用 `ninja` 。
 
 例如，让我们来尝试为 `csk6002_9s_nano` 编译 Hello World 示例：
 
@@ -424,7 +424,7 @@ Zephyr 构建系统仅重建可能受更改影响的应用程序镜像的部分�
   lisa zep build -t pristine
   ```
   
-  你可以利用 `lisa zephyr` 工具的功能在需要时自动 [使构建文件夹保持原始状态](https://docs.zephyrproject.org/latest/develop/west/build-flash-debug.html#west-building-config) 。
+  你可以利用 `lisa zep` 工具的功能在需要时自动 [使构建文件夹保持原始状态](https://docs.zephyrproject.org/latest/develop/west/build-flash-debug.html#west-building-config) 。
 
 3. 通常按照上面 [构建应用程序](#构建应用程序) 中指定的步骤重新构建应用程序。
 
