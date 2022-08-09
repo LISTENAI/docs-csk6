@@ -25,15 +25,15 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 **步骤一：** 在已有项目目录下使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
 
-**步骤二：** 在已有项目目录下使用 `lisa zep ide` 生成debug配置文件lauch.json。
+**步骤二：** 在已有项目目录下使用 `lisa zep ide` 生成debug配置文件launch.json。
 
-**步骤三：** 关闭所有已经打开的VSCode，重新运行并打开刚才的项目文件夹。可以查看到该目录下已经存在.vscode > lauch.json文件。
+**步骤三：** 关闭所有已经打开的VSCode，重新运行并打开刚才的项目文件夹。可以查看到该目录下已经存在 `.vscode/launch.json` 文件。
 
 #### 创建新项目并完成 debug 环境配置
 
 **步骤一：** 选择一个目录用于存放我们即将创建的项目，在该目录下使用 `lisa zep create` 命令创建 `hello_world` 项目，并使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
 
-**步骤二：** 在VSCode中打开刚刚创建的hello_world项目，可以查看到该目录下已经存在.vscode > lauch.json文件。
+**步骤二：** 在VSCode中打开刚刚创建的hello_world项目，可以查看到该目录下已经存在 `.vscode/launch.json` 文件。
 
 #### 配置文件变量说明
 
@@ -49,7 +49,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 ![](./files/venus-debug_config_daplink.png)
 
 :::tip
-.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，如遇配置文件不生效的情况，可关闭所有已打开VSCode之后重新运行。
+.vscode 下放置的是各种配置文件，如：task.json 文件、launch.json 文件等，如遇配置文件不生效的情况，可关闭所有已打开VSCode之后重新运行。
 :::
 
 ### 对 `hello_world` 项目进行 debug 调试
