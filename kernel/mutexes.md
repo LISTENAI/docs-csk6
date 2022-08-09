@@ -76,4 +76,4 @@ The owning thread’s base priority is saved in the mutex when it obtains the lo
 
 This works well for priority inheritance as long as only one locked mutex is involved. However, if multiple mutexes are involved, sub-optimal behavior will be observed if the mutexes are not unlocked in the reverse order to which the owning thread’s priority was previously raised. Consequently it is recommended that a thread lock only a single mutex at a time when multiple mutexes are shared between threads of different priorities.
 
-当一个线程同时占用了两个或者多个互斥量时，内核不会完全支持优先级继承。这种情形会导致当所有的互斥量被释放后该线程的优先级不能恢复到它原先未被提升时的优先级。因此，当多个互斥量在不同的优先级的线程之间共享时，建议同一时刻只锁定一个互斥量。
+只要只涉及一个互斥锁，这种方法就可以很好地用于优先级继承。但是，如果涉及多个互斥锁，如果互斥锁没有按照先前提升所属线程优先级的相反顺序解锁，则会看到次优行为。因此，当多个互斥量在不同的优先级的线程之间共享时，建议同一时刻只锁定一个互斥量。
