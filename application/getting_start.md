@@ -112,18 +112,52 @@ xcode-select --install
     groupId="operating-systems"
     defaultValue="windows"
     values={[
+        {label: 'Ubuntu', value: 'ubuntu'},
         {label: 'Windows', value: 'windows'},
-        {label: 'macOS、Ubuntu', value: 'unix'}
+        {label: 'macOS', value: 'mac'}
     ]}
 >
   <TabItem value="windows">
     
 <p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">CSK6一键安装包</a> 并运行，根据安装引导进行安装。</p>
 
-> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 集成安装包，包含 CSK6 集成开发环境、CSK SDK 等，方便开发者能快速进行 CSK6 的应用开发。
+> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一些列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
   </TabItem>
-  <TabItem value="unix">
+  <TabItem value="mac">
+
+在 **用户权限** 下执行：
+
+<Tabs
+    defaultValue="curl"
+    values={[
+        {label: '使用 curl', value: 'curl'},
+        {label: '使用 wget', value: 'wget'}
+    ]}
+>
+
+<TabItem value="curl">
+
+```bash
+curl -o- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
+```
+</TabItem>
+<TabItem value="wget">
+
+```bash
+wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
+```
+</TabItem>
+</Tabs>
+
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 以及完成CSK6 SDK的拉取，执行完毕后开发者即可开始进行CSK6 的应用开发。
+
+  </TabItem>
+  <TabItem value="ubuntu">
+
+对于Ubuntu平台的开发者，你可以选用以下方式之一进行搭建：
+
+__1、通过脚本在线安装__
 
 在 **用户权限** 下执行：
 
@@ -151,9 +185,39 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 > 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
+__2、通过snap离线安装__
+
+- 下载[Ubuntu 18.04 snap离线包](https://cdn.iflyos.cn/public/lisa-binary/lisa_2.4.2.tgz)：
+
+- 解压后执行：
+
+```bash
+./install.sh
+```
+
+或执行：
+
+```bash
+snap install lisa_2.4.2_amd64.snap
+```
+
   </TabItem>
 </Tabs>
 </div>
+
+
+## 检查开发环境
+
+完成环境的安装后，打开终端，执行你的第一个lisa命令，检查当前开发环境吧~
+
+ ```bash
+lisa info zep
+```
+
+
+`lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决。
+
+
 
 ## 编译 Hello world 示例
 

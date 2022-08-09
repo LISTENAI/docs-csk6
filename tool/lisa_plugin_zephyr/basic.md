@@ -1,6 +1,24 @@
 # 基础命令
 本章介绍 `lisa zephyr` 一些常用的基础命令，让你快速了解到如何使用 `lisa zephyr` 工具进行 CSK 应用的开发。
 
+
+## 终端命令行补全
+
+lisa zep 目前支持以下平台和 shell 组合中的补全：
+
+- Linux：bash
+
+- macOS：bash
+
+- windows：暂不支持
+
+执行：
+
+```bash
+lisa completion-install
+```
+
+
 ## lisa info zep
 
 ```bash
@@ -19,7 +37,7 @@ lisa info zep
 lisa zep sdk
 ```
 
-该命令为 sdk 的管理命令，执行后会根据当前环境，进行 sdk 的拉取安装和版本切换等操作.
+该命令为 sdk 的管理命令，执行后会根据当前环境，提供 sdk 的拉取安装和版本切换等操作.
 
 ## 创建项目
 通过上述的步骤，你终于完成应用开发的前步骤了，接下来就是创建项目进行开发了，命令如下：

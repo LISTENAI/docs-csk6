@@ -27,25 +27,6 @@ __模块project更新流程:__
 
 5.如果提货单文件有 `import` 其他提货单，则递归更新子模块。
 
-## 更新
-
-更新 `lisa zephyr` 工具到最新 `latest` 版本
-
-```bash
-lisa update zephyr
-```
-
-更新 `lisa zephyr` 工具到最新 `beta` 版本
-
-```bash
-lisa install @lisa-plugin/zephyr@beta -g
-```
-
-更新 `lisa zephyr` 工具到指定的版本
-
-```bash
-lisa install @lisa-plugin/zephyr@1.6.0 -g
-```
 
 ## 打包lpk包
 

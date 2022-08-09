@@ -31,7 +31,8 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 **步骤二：** 在已有项目目录下使用 `lisa zep ide` 生成debug配置文件lauch.json。
 
-**步骤三：** 关闭所有已经打开的VSCode窗口，重新打开一个新的VSCode窗口并且导入已有项目目录。可以查看到该目录下已经存在.vscode > lauch.json文件。
+**步骤三：** 关闭所有已经打开的VSCode，重新运行并打开刚才的项目文件夹。可以查看到该目录下已经存在.vscode > lauch.json文件。
+
 
 #### 创建新项目并完成 debug 环境配置
 
@@ -52,7 +53,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 ![](./files/venus-debug_config.png)
 
 :::tip
-.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，如遇配置文件不生效的情况，可关闭所有vscode窗口之后重新打开新的窗口重试。
+.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，如遇配置文件不生效的情况，可关闭所有已打开VSCode之后重新运行。
 :::
 
 ### 对 `hello_world` 项目进行 debug 调试

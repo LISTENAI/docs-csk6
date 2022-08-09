@@ -1,7 +1,7 @@
 # 基于 DAPLink 的 GDB 调试
 
 ## 概述
-Zephyr 提供了多种 debug 调试方式，支持 gdb 调试，本章节主要介绍如何基于 VSCode 和 CSK6-NanoKit 开发板板载调试器芯片 DAPLink 实现应用项目的调试。通过本章节学习，开发者可以了解到：
+Zephyr 提供了多种 debug 调试方式，支持 gdb 调试，本章节主要介绍如何基于 VSCode 和 CSK6-NanoKit 开发板板载DAPLink调试器实现应用项目的调试。通过本章节学习，开发者可以了解到：
 - PC端如何对应用项目进行调试
 - 基于 VSCode 和 DAPLink 的调试方法
 
@@ -27,7 +27,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 **步骤二：** 在已有项目目录下使用 `lisa zep ide` 生成debug配置文件lauch.json。
 
-**步骤三：** 关闭所有已经打开的VSCode窗口，重新打开一个新的VSCode窗口并且导入已有项目目录。可以查看到该目录下已经存在.vscode > lauch.json文件。
+**步骤三：** 关闭所有已经打开的VSCode，重新运行并打开刚才的项目文件夹。可以查看到该目录下已经存在.vscode > lauch.json文件。
 
 #### 创建新项目并完成 debug 环境配置
 
@@ -49,7 +49,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 ![](./files/venus-debug_config_daplink.png)
 
 :::tip
-.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，如遇配置文件不生效的情况，可关闭所有vscode窗口之后重新打开新的窗口重试。
+.vscode 下放置的是各种配置文件，如：task.json 文件、lauch.json 文件等，如遇配置文件不生效的情况，可关闭所有已打开VSCode之后重新运行。
 :::
 
 ### 对 `hello_world` 项目进行 debug 调试
