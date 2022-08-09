@@ -174,7 +174,8 @@
         "type": "category",
         "label": "存储",
         "items": [
-          "service/storage/nvs"
+          "service/storage/nvs",
+          "service/storage/flash_map"
         ]
       }
     ],
