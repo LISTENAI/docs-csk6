@@ -150,7 +150,7 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 </TabItem>
 </Tabs>
 
-> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 以及完成CSK6 SDK的拉取，执行完毕后开发者即可开始进行CSK6 的应用开发。
+> 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 以及完成 CSK6 SDK 的拉取，执行完毕后开发者即可开始进行 CSK6 的应用开发。
 
   </TabItem>
   <TabItem value="ubuntu">
@@ -187,7 +187,7 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 __2、通过snap离线安装__
 
-- 下载[Ubuntu 18.04 snap离线包](https://cdn.iflyos.cn/public/lisa-binary/lisa_2.4.2.tgz)：
+- 下载[Ubuntu 18.04 snap离线包](https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=linux-snap)：
 
 - 解压后执行：
 
@@ -195,16 +195,15 @@ __2、通过snap离线安装__
 ./install.sh
 ```
 
-或执行：
+或直接通过`snap`进行安装解压后的`snap包`：
 
 ```bash
-snap install lisa_2.4.2_amd64.snap
+snap install lisa_xxx.snap
 ```
 
   </TabItem>
 </Tabs>
 </div>
-
 
 ## 检查开发环境
 
@@ -214,10 +213,7 @@ snap install lisa_2.4.2_amd64.snap
 lisa info zep
 ```
 
-
 `lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决。
-
-
 
 ## 编译 Hello world 示例
 
