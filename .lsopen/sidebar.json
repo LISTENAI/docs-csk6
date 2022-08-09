@@ -50,7 +50,7 @@
       },
       {
         "type": "category",
-        "label": "lisa zephyr 命令行工具",
+        "label": "lisa zep 命令行工具",
         "items": [
           "tool/lisa_plugin_zephyr/index",
           "tool/lisa_plugin_zephyr/install",

@@ -9,7 +9,7 @@
 :::
 
 :::tip
-该功能特性仅在 lisa zephyr 工具 `1.5.1` 及以上版本支持，执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
+该功能特性仅在 lisa zep 工具 `1.5.1` 及以上版本支持，执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
 :::
 
 ## 应用获取
