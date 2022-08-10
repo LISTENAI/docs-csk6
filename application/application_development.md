@@ -159,7 +159,8 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 5. 设置 Kconfig 配置选项。请参阅 [Kconfig 配置](#kconfig-配置) 。
 
-6. 配置你的应用所需的设备树 overlay 。请参阅 [设置设备树 overlay](../build/dts/howtos.md#设置设备树-overlay) 。
+
+6. 配置你的应用所需的设备树 overlay 。请参阅 [设置设备树 overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
 
 ## 引入构建系统变量
 
@@ -183,7 +184,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 - **OVERLAY_CONFIG** ：附加的 Kconfig 配置片段文件。多个文件名可以用空格或分号分隔。但你想要将 `CONF_FILE` 保持为其默认值，但“混入”了一些额外的配置选项时，此配置十分有用。
 
-- **DTC_OVERLAY_FILE** ：要使用的若干个设备树覆盖文件。多个文件时用分号分隔。设备树覆盖文件如何使用请参阅 [设置设备树 Overlay](../build/dts/howtos.md#设置设备树-overlay) ;有关设备树和 Zephyr 的关系，请参阅 [设备树的介绍](../build/dts/intro.md) 。
+- **DTC_OVERLAY_FILE** ：要使用的若干个设备树覆盖文件。多个文件时用分号分隔。设备树覆盖文件如何使用请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) ;有关设备树和 Zephyr 的关系，请参阅 [设备树的介绍](../build/dts/intro.md) 。
 
 - **ZEPHYR_MODULES** ：一个 CMake 列表，其中包含应在应用程序构建中使用的源代码、 Kconfig 等附加目录的绝对路径。有关详细信息，请参阅 [模块（外部项目）](https://docs.zephyrproject.org/latest/develop/modules.html#modules) 。如果你设置此变量，它必须是包含所有要使用的模块的完整列表，因为设置此变量后构建系统不会自动从通过 `lisa zep` 获取任何模块。
 
@@ -220,7 +221,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
   请参阅 [初始配置](../build/kconfig/setting.md#初始配置) 了解更多详细信息。
 
-3. 如果你的应用程序使用设备树覆盖，可能需要设置 [DTC_OVERLAY_FILE](#引入构建系统变量) 。请参阅 [设置设备树 Overlay](../build/dts/howtos.md#设置设备树-overlay) 。
+3. 如果你的应用程序使用设备树覆盖，可能需要设置 [DTC_OVERLAY_FILE](#引入构建系统变量) 。请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
 
 4. 如果你的应用程序有自己的内核配置选项，请在与应用程序 `CMakeLists.txt` 的同级目录中创建一个 `Kconfig` 文件。
 
@@ -344,7 +345,7 @@ Zephyr 构建系统将应用程序的所有组件编译并链接到单个应用�
 
 与任何其他基于 CMake 的系统一样，构建过程分 [两个阶段](https://docs.zephyrproject.org/latest/build/cmake/index.html#cmake-details) 进行。首先，在指定生成器时使用 `cmake` 命令行工具生成构建文件（也称为构建系统）。此生成器确定构建系统将在第二阶段使用的本机构建工具。第二阶段运行本机构建工具，执行实际的构建源文件过程并生成镜像。要了解有关这些概念的更多信息，请参阅 CMake 官方文档中的 [CMake 介绍](https://cmake.org/cmake/help/latest/manual/cmake.1.html#description) 。
 
-[lisa zephyr 命令行工具](../tool/lisa_plugin_zephyr/index.md) 是默认用于构建 Zephyr 的工具，它是 CSK6 SDK 的伴生工具。它在后台最终调用 cmake 和底层构建工具（ `ninja` 或 `make` ）来完成构建工作的。而在 Windows 上，最终使用的是 `ninja` ，因为该平台不支持 `make` 。当你使用 `lisa zep build` 来构建你的应用程序，请知道它将默认使用 `ninja` 。
+[lisa zep 命令行工具](../tool/lisa_plugin_zephyr/index.md) 是默认用于构建 Zephyr 的工具，它是 CSK6 SDK 的伴生工具。它在后台最终调用 cmake 和底层构建工具（ `ninja` 或 `make` ）来完成构建工作的。而在 Windows 上，最终使用的是 `ninja` ，因为该平台不支持 `make` 。当你使用 `lisa zep build` 来构建你的应用程序，请知道它将默认使用 `ninja` 。
 
 例如，让我们来尝试为 `csk6002_9s_nano` 编译 Hello World 示例：
 
@@ -424,7 +425,7 @@ Zephyr 构建系统仅重建可能受更改影响的应用程序镜像的部分�
   lisa zep build -t pristine
   ```
   
-  你可以利用 `lisa zephyr` 工具的功能在需要时自动 [使构建文件夹保持原始状态](https://docs.zephyrproject.org/latest/develop/west/build-flash-debug.html#west-building-config) 。
+  你可以利用 `lisa zep` 工具的功能在需要时自动 [使构建文件夹保持原始状态](https://docs.zephyrproject.org/latest/develop/west/build-flash-debug.html#west-building-config) 。
 
 3. 通常按照上面 [构建应用程序](#构建应用程序) 中指定的步骤重新构建应用程序。
 

@@ -12,7 +12,7 @@
 lisa update zephyr
 ```
 
-执行该命令可将 lisa zephyr 工具更新到最新的`latest`版本。
+执行该命令可将 lisa zep 工具更新到最新的`latest`版本。
 
 #### 更新到 `beta` 版本
 
@@ -20,7 +20,7 @@ lisa update zephyr
 lisa install @lisa-plugin/zephyr@beta -g
 ```
 
-执行该命令可将 lisa zephyr 工具更新到最新的`beta`版本。
+执行该命令可将 lisa zep 工具更新到最新的`beta`版本。
 
 #### 更新到 `指定` 版本
 
@@ -28,11 +28,11 @@ lisa install @lisa-plugin/zephyr@beta -g
 lisa install @lisa-plugin/zephyr@1.6.0 -g
 ```
 
-执行该命令可将 lisa zephyr 工具更新到最新的`指定的1.6.0` 版本。
+执行该命令可将 lisa zep 工具更新到最新的`指定的1.6.0` 版本。
 
-## 查看当前 lisa zephyr 工具版本
+## 查看当前 lisa zep 工具版本
 
-执行 `lisa info zephyr`，如下图红框显示的为当前 lisa zephyr 工具版本。
+执行 `lisa info zephyr`，如下图红框显示的为当前 lisa zep 工具版本。
 
 ![image](./images/update_1.png)
 

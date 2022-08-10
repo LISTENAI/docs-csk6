@@ -335,4 +335,3 @@ static void timer_handler_expiry(struct k_timer *dummy)
 }
 ```
 更多关于k_work使用可参考Zephyr官网[Workqueue Threads](https://docs.zephyrproject.org/latest/kernel/services/threads/workqueue.html)章节、[Work Queue APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__workqueue__apis.html)章节。
-

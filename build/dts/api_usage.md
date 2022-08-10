@@ -25,6 +25,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 调用 [`DT_PATH()`](./api/api.md#dt_path) 所需参数为，设备树中节点的完整路径，它需要从根节点开始。此方式旨在明确节点确切位置时发挥作用。
 
+
 </div>
 
 <h4 style={{
@@ -45,7 +46,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 <div style={{ paddingLeft: 16 }}>
 
-使用 [`DT_ALIAS()`](./api/api.md#dt_aliasalias) 获取由特殊 `/aliases` 节点属性表示的节点 id 。这有时是由应用程序（如在 [GPIO 示例](../../application/peripheral/samples/gpio.md) 中即使用 `led0` 别名）完成的；这些程序中，需要引用特定类型的某些设备，但不关心使用哪个设备（例如，某个应用程序希望运行起来后可亮起某个 LED 用作提示，但用户可自行配置最终指定哪一个 LED 而程序本身不关心）。
+使用 [`DT_ALIAS()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_ALIAS) 获取由特殊 `/aliases` 节点属性表示的节点 id 。这有时是由应用程序（如在 [GPIO 示例](../../application/peripheral/samples/gpio.md) 中即使用 `led0` 别名）完成的；这些程序中，需要引用特定类型的某些设备，但不关心使用哪个设备（例如，某个应用程序希望运行起来后可亮起某个 LED 用作提示，但用户可自行配置最终指定哪一个 LED 而程序本身不关心）。
 
 </div>
 
@@ -115,6 +116,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 - `DT_NODELABEL(i2c1)`
 - `DT_ALIAS(sensor_controller)`
 - `DT_INST(x, vnd_soc_i2c)` 用于某个未知数 `x` 。请参阅 [`DT_INST()`](./api/api.md#dt_instinst-compat) 文档了解相关详细信息。
+
 
 :::tip 重要
 设备树名称中，非字母数字字符（例如破折号 ( `-` ) 和 at 符号 ( `@` ) 等）将转换为下划线 ( `_` )。 DTS 中的名称也会转换为小写。

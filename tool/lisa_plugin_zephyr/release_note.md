@@ -1,13 +1,30 @@
-# lisa zephyr 更新日志
+# lisa zep 更新日志
 
-## v1.6.0 (beta)
+## v1.6.2 (beta)
+
+#### New features:
+
+* `lisa zep sdk` : 新增 sdk 管理命令，交互式对 sdk 进行操作指引。详情查看 [对应章节](../lisa_plugin_zephyr/basic#csk-sdk-操作) 。
+* `lisa zep ide` : 新增 ide 操作指引命令，针对 ide 对应插件的插件配置自动生成。详情查看 [对应章节](../lisa_plugin_zephyr/build_flash_debug#csk6) 。
+* `lisa zep fs` : 新增文件系统操作指引命令。
+
+## v1.6.1 (latest)
+
+#### New features:
+
+* 应用级工程项目：lisa zep init-app 命令支持命令失败后，能继续init，并执行后 install 底层sdk的requirement。
+* lisa zep use-sdk 拉取sdk支持失败后，命令执行能从失败处续上。
+* lisa zep lpk：新增支持 lpk 包打包输出。
+* lisa zep create：修改创建过程的交互。
+
+## v1.6.0
 
 #### New features:
 
 * `lisa zep create` 重构 项目sample 创建的交互。
 * `lisa zep lpk` 新增支持打包lpk的命令，用于量产烧录。
 
-## v1.5.2 (latest)
+## v1.5.2
 
 #### New features:
 
@@ -21,9 +38,9 @@
 
 #### New features:
 
-* `use-sdk` 新增 `--default` 参数，默认拉取csk官方sdk。详情查看 [对应章节](sdk_command#远端获取) 。
+* `use-sdk` 新增 `--default` 参数，默认拉取csk官方sdk。
 
-* 支持应用级提货单，并根据 topdir 来处理 ZEPHYR_BASE。详情查看 [对应章节](application_project) 。
+* 支持应用级提货单，并根据 topdir 来处理 ZEPHYR_BASE。
 
 #### Bug fixes:
 

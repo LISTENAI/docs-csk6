@@ -4,7 +4,7 @@ CSK SDK 提供文件系统类似电脑操作系统的硬盘，支持存放数据
 
 如果你在开发中需要放置一些资源或者保存一些数据到 CSK 上，那么你就需要用到 CSK 的文件系统了。
 
-`lisa zephyr` 工具提供了几个命令，用于对文件系统打包、烧录。
+`lisa zep` 工具提供了几个命令，用于对文件系统打包、烧录。
 
 :::tip
 文件系统相关操作依赖于当前工程的编译产物，请确保你已经执行过 `lisa zep build` 相关的应用程序编译操作。另外，你的工程项目需要有对应文件系统相关的分区信息。
@@ -41,11 +41,11 @@ lisa zep fs:flash
 ## 打包：自定义分区文件夹
 
 … -->
-
+<!-- 
 ## 串口烧录
 
 :::tip
-该功能特性仅在 lisa zephyr 工具 `1.5.2` 及以上版本支持，执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
+该功能特性仅在 lisa zep 工具 `1.5.2` 及以上版本支持，执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
 :::
 
 ```bash
@@ -56,4 +56,4 @@ lisa zep fs:flash --runner csk --port [port]
 
 ```bash
 lisa zep fs:flash --runner csk --port "\\.\COM36"
-```
+``` -->

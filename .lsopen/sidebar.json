@@ -50,7 +50,7 @@
       },
       {
         "type": "category",
-        "label": "lisa zephyr 命令行工具",
+        "label": "lisa zep 命令行工具",
         "items": [
           "tool/lisa_plugin_zephyr/index",
           "tool/lisa_plugin_zephyr/install",
@@ -62,6 +62,15 @@
           "tool/lisa_plugin_zephyr/application_project",
           "tool/lisa_plugin_zephyr/trouble_shooting",
           "tool/lisa_plugin_zephyr/release_note"
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "vscode开发插件推荐",
+        "items": [
+          "tool/vscode_plugin/code_completion",
+          "tool/vscode_plugin/debug"
         ],
         "collapsed": true
       },
