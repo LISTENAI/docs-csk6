@@ -80,16 +80,10 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
 
 void main(void)
 {
-	int ret;
-
-	LOG_INF("SOF on %s", CONFIG_BOARD);
-    
-	ret = sof_main(0, NULL);
-	if (ret) {
-		LOG_ERR("SOF initialization failed");
-	}
-
-	LOG_INF("SOF initialized");
+	LOG_INF("Hello Wolrd INF on %s", CONFIG_BOARD);
+	LOG_ERR("Hello Wolrd ERR on %s", CONFIG_BOARD);
+	LOG_DBG("Hello Wolrd DBG on %s", CONFIG_BOARD);
+	LOG_WRN("Hello Wolrd WRN on %s", CONFIG_BOARD);
 }
 ```
-
+修改`LOG_LEVEL_DBG`日志等级进行日志过滤。
