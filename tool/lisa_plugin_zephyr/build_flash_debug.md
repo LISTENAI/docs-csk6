@@ -247,12 +247,10 @@ lisa zep flash --runner pyocd
 当前烧录产物支持哪些 `runner`，以及默认设置的是什么，可查看 `build\\zephyr\\runners.yaml` 文件。
 
 :::info
-官方开发板 csk6002_c3_nano 支持的 runner
+官方NanoKit系列开发板支持的 runner 有：
 
 - jlink
-
 - pyocd
-
 - csk （串口烧录）
 
 :::
