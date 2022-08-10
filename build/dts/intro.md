@@ -141,8 +141,7 @@ DTS 文件看起来像这样：
 在设备树中，单元地址表示了一个节点在其父节点地址空间中的地址。以下是不同类型硬件的一些示例单元地址。
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>内存映射外设</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -152,8 +151,7 @@ DTS 文件看起来像这样：
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>I2C 外设</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -163,8 +161,7 @@ I2C 总线上的外设地址。比如上一节中， I2C 控制器的子节点 `
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>SPI 外设</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -174,8 +171,7 @@ I2C 总线上的外设地址。比如上一节中， I2C 控制器的子节点 `
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>内存</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -185,8 +181,7 @@ I2C 总线上的外设地址。比如上一节中， I2C 控制器的子节点 `
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>内存映射闪存</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -196,8 +191,7 @@ I2C 总线上的外设地址。比如上一节中， I2C 控制器的子节点 `
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>固定闪存分区</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -224,8 +218,7 @@ flash@8000000 {
 一些重要的属性是：
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>compatible</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -245,21 +238,19 @@ flash@8000000 {
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>label</h4>
 
 <div style={{ paddingLeft: 16 }}>
 
-设备的名称，根据 Zephyr 的 [设备驱动模型](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#device-model-api) 确定。该值可以传给 [`device_get_binding()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device_get_binding) 以查找对应的驱动程序级 [struct device*](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#device-struct) 指针。然后，应用程序代码通过将此指针传给正确的驱动程序 API ，从而与设备交互。例如，调用 `device_get_binding("I2C_0")` 将返回一个指向设备结构体的指针，它可以传给 [I2C 的 API](https://docs.zephyrproject.org/latest/hardware/peripherals/i2c.html#i2c-api) 函数，如 [`i2c_transfer()`](https://docs.zephyrproject.org/latest/hardware/peripherals/i2c.html#c.i2c_transfer) 。生成的 C 头文件还将包含一个可展开为此字符串的宏。
+设备的名称，根据 Zephyr 的 [设备驱动模型](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#device-model-api) 确定。该值可以传给 [`device_get_binding()`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device_get_binding) 以查找对应的驱动程序级 [`struct device*`](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#device-struct) 指针。然后，应用程序代码通过将此指针传给正确的驱动程序 API ，从而与设备交互。例如，调用 `device_get_binding("I2C_0")` 将返回一个指向设备结构体的指针，它可以传给 [I2C 的 API](https://docs.zephyrproject.org/latest/hardware/peripherals/i2c.html#i2c-api) 函数，如 [`i2c_transfer()`](https://docs.zephyrproject.org/latest/hardware/peripherals/i2c.html#c.i2c_transfer) 。生成的 C 头文件还将包含一个可展开为此字符串的宏。
 
 请注意，这里的 `label` 属性与上文的 [节点标签](#node-label) 并不同。
 
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>reg</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -281,8 +272,7 @@ You may notice some similarities between the `reg` property and common unit addr
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>status</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -296,8 +286,7 @@ You may notice some similarities between the `reg` property and common unit addr
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>interrupts</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -460,12 +449,9 @@ dts/bindings/.../binding.yaml
 以下库和脚本位于 [scripts/dts/](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/) 中，用于从输入文件创建输出文件。他们的源码中包含大量的文档。
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
-<a href="https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/python-devicetree/src/devicetree/dtlib.py" style={{
-  color: "var(--ra-color-note)"
-}}>dtlib.py</a>
+<a href="https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/python-devicetree/src/devicetree/dtlib.py">dtlib.py</a>
 </h4>
 
 <div style={{paddingLeft: 16}}>
@@ -475,12 +461,9 @@ dts/bindings/.../binding.yaml
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
-<a href="https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/python-devicetree/src/devicetree/edtlib.py" style={{
-  color: "var(--ra-color-note)"
-}}>edtlib.py</a>
+<a href="https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/python-devicetree/src/devicetree/edtlib.py">edtlib.py</a>
 </h4>
 
 <div style={{paddingLeft: 16}}>
@@ -490,12 +473,9 @@ dts/bindings/.../binding.yaml
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
-<a href="https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/gen_defines.py" style={{
-  color: "var(--ra-color-note)"
-}}>gen_defines.py</a>
+<a href="https://cloud.listenai.com/zephyr/zephyr/-/blob/master/scripts/dts/gen_defines.py">gen_defines.py</a>
 </h4>
 
 <div style={{paddingLeft: 16}}>
@@ -520,8 +500,7 @@ list(APPEND EXTRA_DTC_FLAGS "-Wno-simple_bus_reg")
 
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
 <code style={{
  "background": "var(--ra-color-note)",
@@ -535,8 +514,7 @@ list(APPEND EXTRA_DTC_FLAGS "-Wno-simple_bus_reg")
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
 <code style={{
  "background": "var(--ra-color-note)",
@@ -550,8 +528,7 @@ list(APPEND EXTRA_DTC_FLAGS "-Wno-simple_bus_reg")
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
 <code style={{
  "background": "var(--ra-color-note)",
@@ -565,8 +542,7 @@ list(APPEND EXTRA_DTC_FLAGS "-Wno-simple_bus_reg")
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>
 <code style={{
  "background": "var(--ra-color-note)",

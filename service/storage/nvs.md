@@ -104,11 +104,8 @@ NVS 的使用示例可参考使用 SDK 中的 [`samples/subsys/nvs`](https://clo
 ---------------
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
-  padding: 4 }}>使用 NVS 时抛出 MPU fault ，或返回 <code style={{
- "background": "var(--ra-color-note)",
- "color": "var(--ra-color-important)" }}>-ETIMEDOUT</code> 错误</h4>
+ "background": "var(--ifm-color-info-lightest)",
+  padding: 4 }}>使用 NVS 时抛出 MPU fault ，或返回 <code>-ETIMEDOUT</code> 错误</h4>
 
 <div style={{paddingLeft: 16}}>
 

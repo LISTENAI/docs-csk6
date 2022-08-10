@@ -17,11 +17,10 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 以下是获取节点 id 的主要方法：
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>通过路径</h4>
 
-<div style={{ paddingLeft: 16 }}>
+<div style={{  paddingLeft: 16 }}>
 
 调用 [`DT_PATH()`](./api/api.md#dt_path) 所需参数为，设备树中节点的完整路径，它需要从根节点开始。此方式旨在明确节点确切位置时发挥作用。
 
@@ -29,55 +28,50 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>通过节点标签</h4>
 
-<div style={{ paddingLeft: 16 }}>
+<div style={{  paddingLeft: 16 }}>
 
 使用 [节点标签](./intro.md#node-label) 通过 [`DT_NODELABEL()`](./api/api.md#dt_nodelabellabel) 获取节点 id 。节点标签通常在 SoC `.dtsi` 中提供，节点标签通常是与 SoC datasheet 匹配的节点名称，如 `i2c1` 、 `spi2` 等。
 
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>通过别名</h4>
 
-<div style={{ paddingLeft: 16 }}>
+<div style={{  paddingLeft: 16 }}>
 
 使用 [`DT_ALIAS()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_ALIAS) 获取由特殊 `/aliases` 节点属性表示的节点 id 。这有时是由应用程序（如在 [GPIO 示例](../../application/peripheral/samples/gpio.md) 中即使用 `led0` 别名）完成的；这些程序中，需要引用特定类型的某些设备，但不关心使用哪个设备（例如，某个应用程序希望运行起来后可亮起某个 LED 用作提示，但用户可自行配置最终指定哪一个 LED 而程序本身不关心）。
 
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>通过实例编号</h4>
 
-<div style={{ paddingLeft: 16 }}>
+<div style={{  paddingLeft: 16 }}>
 
 这主要由设备驱动程序完成，因为实例编号是一种基于匹配兼容来引用单个节点的方法。这些编号通过 [`DT_INST()`](./api/api.md#dt_instinst-compat) 获取，但这一做法需要小心处理（下文将提到为何需要）。
 
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>通过选中的节点</h4>
 
-<div style={{ paddingLeft: 16 }}>
+<div style={{  paddingLeft: 16 }}>
 
 使用 [`DT_CHOSEN()`](./api/api.md#dt_chosenprop) 获取 `/chosen` 节点属性所表示的节点 id 。
 
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>通过父子关系</h4>
 
-<div style={{ paddingLeft: 16 }}>
+<div style={{  paddingLeft: 16 }}>
 
 从已有的节点 id 开始获取父节点或子节点的节点 id ，通过使用 [`DT_PARENT()`](./api/api.md#dt_parentnode_id) 和 [`DT_CHILD()`](./api/api.md#dt_childnode_id-child) 实现。
 
