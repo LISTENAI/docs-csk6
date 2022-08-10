@@ -6,7 +6,7 @@ The `<storage/flash_map.h>` API allows accessing information about device flash 
 
 Each `struct flash_area` describes a flash partition. The API provides access to a “flash map”, which contains predefined flash areas accessible via globally unique ID numbers. You can also create `flash_area` structures at runtime for application-specific purposes.
 
-每个 `struct flash_area` 代表一个 flash 分区。API 提供对 “flash map” 的访问，其中包含可通过全局唯一 ID 号访问的预定义 flash 区域。你也可以在运行时为应用程序特定的目的创建 `flash_area` 结构。
+每个 `struct flash_area` 代表一个 flash 分区。该API提供对 “flash map” 的访问，其中包含预定义的 flash 区域，可通过全局唯一的 ID 号访问。你也可以在运行时为特定的应用程序创建 `flash_area` 结构。
 
 The `flash_area` structure contains the name of the flash device the partition is part of; this name can be passed to [device_get_binding()](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device_get_binding) to get the corresponding [device](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#c.device) structure which can be read and written to using the [flash API](https://docs.zephyrproject.org/latest/hardware/peripherals/flash.html#flash-api). The `flash_area` also contains the start offset and size of the partition within the flash memory the device represents.
 
@@ -113,7 +113,7 @@ The same rules apply for other macros which take a “label”, such as [FLASH_A
 
 To get a pointer to the flash area structure and do something with it starting with a devicetree label like `"image-0"`, use something like this:
 
-要获取指向 flash 区域结构的指针并使用它以 `"image-0"` 之类的设备树标签开头，请使用以下内容：
+要获取指向 flash 区域结构的指针，并从 `"image-0"` 的设备树标签开始使用它，请使用以下内容：
 
 ```c
 struct flash_area *my_area;
