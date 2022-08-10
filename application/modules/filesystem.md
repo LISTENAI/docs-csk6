@@ -4,7 +4,7 @@
 
 Zephyr 提供的文件系统功能允许应用程序在不同的挂载点（例如/fatfs和/lfs）挂载多个文件系统，每个挂载点维护文件系统的实例化，挂载和文件操作等必要信息。
 
-本章节通过Zephyr SDK提供的示例-`littlefs`展示如何在`lfs`挂载点上挂载一个文件系统，并实现文件的读写操作。
+本章节通过Zephyr SDK提供的示例`littlefs`展示如何在`lfs`挂载点上挂载一个文件系统，并实现文件的读写操作。
 
 ## 常用API接口
 
@@ -307,7 +307,7 @@ $ make dist
 
 ```c
 $ mklittlefs --version
-./mklittlefs  version: 0.2.3-6-g9a0e072
+version: 0.2.3-6-g9a0e072
 ```
 
 - 生成bin文件
@@ -319,13 +319,17 @@ $ mklittlefs --version
 参数说明:
 
 ```shell
-`littlefs_image/`-待打包到 `littlefs_image.bin` 的文件夹
+`littlefs_image/`-待打包到 `littlefs_image.bin` 的文件夹。
+
 -d <0-5>,  --debug <0-5>
 debug等级， 0 表示没有debug输出。
+
 -b <number>,  --block <number>
 文件系统的块大小，以字节为单位。
+
 -p <number>,  --page <number>
 文件系统的页大小，以字节为单位。
+
 -s <number>,  --size <number>
 文件系统镜像bin文件的大小，以字节为单位。     
 ```
