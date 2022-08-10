@@ -157,6 +157,7 @@
     "items": [
       "kernel/index",
       "kernel/threads",
+      "kernel/scheduling",
       "kernel/system_threads",
       "kernel/workqueue",
       "kernel/interrupts",
