@@ -5,7 +5,7 @@
 本示例通过 NVS API 的调用演示了NVS用于存储不同类型的数据(strings, binary blobs, unsigned 32 bit integer)，以及如何从flash中读取和删除数据。
 
 :::tip
-更多关于NVS的内容可以学习[系统服务-NVS]章节。
+更多关于NVS的内容可以学习[系统服务-NVS](../../service/storage/nvs.md)章节。
 :::
 
 ## NVS 常用接口
