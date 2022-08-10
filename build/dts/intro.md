@@ -359,7 +359,7 @@ You may notice some similarities between the `reg` property and common unit addr
 
   3. 数值 2
 
-  在设备树中，一个 phandle 值是一个单元格 —— 这又是一个 32 位无符号整数。但是，Zephyr 设备树 API 通常将这些值公开为 *节点标识符* 。节点标识符将在 [从 C/C++ 访问设备树](./api_usage) 章节中更详细地介绍。
+  在设备树中，一个 phandle 值是一个单元格 —— 这又是一个 32 位无符号整数。但是，Zephyr 设备树 API 通常将这些值以 *节点 id* 的形式公开。节点 id 将在 [从 C/C++ 访问设备树](./api_usage#节点-id) 章节中更详细地介绍。
 
 - 数组和类似类型的属性值可以分成若干个 `<>` 块，如下所示：
 
@@ -403,7 +403,7 @@ You may notice some similarities between the `reg` property and common unit addr
 
 有时在 Zephyr 示例应用程序中，一种通用的方式是使用别名来允许覆盖应用程序使用的特定硬件设备。例如， [GPIO 示例](../../application/peripheral/samples/gpio.md) 使用这种方式通过 `led0` 别名来抽象要闪烁的 LED 。
 
-`/chosen` 节点的属性用于配置系统或子系统范围的值。请参阅 [选择的节点](./api#选择的节点) 了解相关详细信息。
+`/chosen` 节点的属性用于配置系统或子系统范围的值。请参阅 [选定节点](./api/api.md#devicetree-chosen-nodes) 了解相关详细信息。
 
 ## 输入与输出文件
 

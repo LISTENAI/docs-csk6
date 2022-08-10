@@ -56,6 +56,7 @@
           "tool/lisa_plugin_zephyr/install",
           "tool/lisa_plugin_zephyr/basic",
           "tool/lisa_plugin_zephyr/command_detail",
+          "tool/lisa_plugin_zephyr/config",
           "tool/lisa_plugin_zephyr/build_flash_debug",
           "tool/lisa_plugin_zephyr/filesystem",
           "tool/lisa_plugin_zephyr/application_project",
@@ -97,7 +98,9 @@
           "application/kernel/multithread",
           "application/kernel/sync_semaphore",
           "application/kernel/sync_mutex",
-          "application/kernel/sync_poll"
+          "application/kernel/sync_poll",
+          "application/kernel/thread_analyzer",
+          "application/kernel/workqueue"
         ],
         "collapsed": true
       },
@@ -111,6 +114,7 @@
           "application/modules/display_kscan",
           "application/modules/lvgl",
           "application/shell_sample",
+          "application/modules/nvs",
           {
             "type": "category",
             "label": "音频",
@@ -155,12 +159,16 @@
     "items": [
       "kernel/index",
       "kernel/threads",
+      "kernel/scheduling",
       "kernel/system_threads",
       "kernel/workqueue",
       "kernel/interrupts",
       "kernel/semaphores",
+      "kernel/mutexes",
       "kernel/timing/timers",
-      "kernel/datapassing/message_queues"
+      "kernel/datapassing/message_queues",
+      "kernel/fifos",
+      "kernel/data_passing/pipes"
     ],
     "collapsed": true
   },
@@ -169,14 +177,15 @@
     "label": "系统服务",
     "items": [
       "service/index",
-      "service/shell",
       {
         "type": "category",
         "label": "存储",
         "items": [
           "service/storage/nvs"
         ]
-      }
+      },
+      "service/portability/posix",
+      "service/shell"
     ],
     "collapsed": true
   },
@@ -195,7 +204,16 @@
           "build/dts/howtos",
           "build/dts/api_usage",
           "build/dts/troubleshooting",
-          "build/dts/dt_vs_kconfig"
+          "build/dts/dt_vs_kconfig",
+          {
+            "type":"category",
+            "label": "API 引用",
+            "items": [
+              "build/dts/api/index",
+              "build/dts/api/api",
+              "build/dts/api/bindings"
+            ]
+          }
         ]
       },
       {
