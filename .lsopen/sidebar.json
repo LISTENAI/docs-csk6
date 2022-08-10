@@ -166,6 +166,7 @@
       "kernel/semaphores",
       "kernel/mutexes",
       "kernel/timing/timers",
+      "kernel/datapassing/message_queues",
       "kernel/fifos",
       "kernel/data_passing/pipes"
     ],
