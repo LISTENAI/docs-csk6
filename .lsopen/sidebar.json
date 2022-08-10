@@ -165,13 +165,7 @@
       "kernel/mutexes",
       "kernel/timing/timers",
       "kernel/fifos",
-      {
-        "type": "category",
-        "label": "数据传递",
-        "items": [
-          "kernel/data_passing/pipes"
-        ]
-      }
+      "kernel/data_passing/pipes"
     ],
     "collapsed": true
   },
