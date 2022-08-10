@@ -29,8 +29,7 @@ CMake 从处理应用程序目录中的 `CMakeLists.txt` 文件开始，这一�
 请注意，下文中以 `build/` 开头的路径指的是在运行 CMake 时创建的构建目录。
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>设备树</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -52,8 +51,7 @@ CMake 从处理应用程序目录中的 `CMakeLists.txt` 文件开始，这一�
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>Kconfig</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -79,8 +77,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 预构建发生在编译任何源码文件之前，因为在此阶段会生成源码文件可用的头文件。
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>生成偏移</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -90,8 +87,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 </div>
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>生成系统调用模板</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -113,8 +109,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 如果启用了内存保护，那么：
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>分区分组</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -126,8 +121,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 然后 C 预处理器用于将来自目标架构或 SoC 的链接脚本片段、内核树、可选的分区输出（如果启用内存保护）以及任何在配置阶段中选择的其他片段组合到一个 *linker.cmd* 文件中。接着，编译后的文件通过 *linker.cmd* 中声明的指定关系，使用 *ld* 建立链接。
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>不固定大小的二进制产物</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -139,8 +133,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 ![](../images/build-build-phase-3.svg)
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>固定大小的二进制产物</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -160,8 +153,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 当启用 [用户模式](../../kernel/usermode/index.md) 时：
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>分区对齐</h4>
 
 <div style={{ paddingLeft: 16 }}>
@@ -175,8 +167,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 当使用 [设备树 API](../dts/api/api) 时：
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>设备依赖</h4>
 
 <div style={{ paddingLeft: 16 }}> 
@@ -188,13 +179,9 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 ![](../images/build-postprocess-2.svg)
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>当启用 
-<a href="https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_GEN_ISR_TABLES"><code 
-style={{
-  background: "var(--ra-color-note)",
-}}>CONFIG_GEN_ISR_TABLES</code></a> 时:
+<a href="https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_GEN_ISR_TABLES"><code>CONFIG_GEN_ISR_TABLES</code></a> 时:
 </h4>
 
 <div style={{ paddingLeft: 16 }}> 
@@ -209,8 +196,7 @@ style={{
 
 
 <h4 style={{
- "background": "var(--ra-color-important)",
- "color": "var(--ra-color-note)",
+ "background": "var(--ifm-color-info-lightest)",
   padding: 4 }}>内核对象哈希</h4>
 
 <div style={{ paddingLeft: 16 }}> 
