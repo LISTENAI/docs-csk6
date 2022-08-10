@@ -50,7 +50,7 @@ Zephyr CMake Package(包)允许 CMake 自动查找 Zephyr，必须导出一个�
 
 ## 导出 Zephyr CMake 包
 
-可使用 `lisa zep` 的以下命令导出。
+可使用 `lisa zephyr` 的以下命令导出。
 
 ```bash
 lisa zep zephyr-export

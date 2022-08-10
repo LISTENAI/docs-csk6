@@ -1,4 +1,4 @@
-# 日志
+# 日志输出
 
 日志是我们平时开发调试过程中高频使用的功能之一，本节将主要介绍日志功能的使用，通过本章节你讲了解到：
 - 日志功能具备的特性
@@ -7,10 +7,7 @@
 ## 概述
 Zephyr的日志组件提供了较为完整的日志级别控制和日志输出形式。包括但不限于
 - 多等级日志输出控制
-- 延迟日志输出
-- 时间戳
 - 数据输出专用API
-- 模块级编译时过滤
 
 
 日志组件由前端和后端组成，前后端均提供了公共API，可由开发者自由处理消息流向。
@@ -43,7 +40,7 @@ CONFIG_SERIAL=y
     - LOG_LEVEL_DBG          -- 显示所有级别的日志
 
 
-对应不同级别，格式化字符输出对顶的API如下：
+对应不同级别，格式化字符输出对应的API接口如下：
 
     - LOG_ERR
     - LOG_WRN
@@ -52,26 +49,41 @@ CONFIG_SERIAL=y
     - LOG_PRINTK
 
 :::note
-其中，LOG_PRINTK是不受等级限制的输出
+其中，LOG_PRINTK是不受等级限制的输出。
 :::
 
 
-对应不同级别，数据输出也有不同API：
+对应不同级别数据输出也有不同API接口：
 
     - LOG_HEXDUMP_ERR
     - LOG_HEXDUMP_WRN
     - LOG_HEXDUMP_INF
     - LOG_HEXDUMP_DBG
 
-### 日志的模块化管理
-Zephyr日志组件支持模块化的日志管理
-   
-
+### 使用示例
+在应用程序中引入Zephyr日志组件支持模块化的日志管理。
 ```c
-
-    #include <logging/log.h>
-    LOG_MODULE_REGISTER(LOG_MODULE_NAME, LOG_MODULE_LEVEL_DBG);
+#include <logging/log.h>
+LOG_MODULE_REGISTER(LOG_MODULE_NAME, LOG_MODULE_LEVEL_DBG);
 ```
 参数说明：
 - LOG_MODULE_NAME：用来指定该模块化log的名称
 - LOG_MODULE_LEVEL_DBG：用于指定该模块化log的输出级别，若此参数未定义，则默认为 ``CONFIG_LOG_DEFAULT_LEVEL``。
+
+代码示例：
+
+```c
+#include <zephyr.h>
+
+#include <logging/log.h>
+LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
+
+void main(void)
+{
+	LOG_INF("Hello Wolrd INF on %s", CONFIG_BOARD);
+	LOG_ERR("Hello Wolrd ERR on %s", CONFIG_BOARD);
+	LOG_DBG("Hello Wolrd DBG on %s", CONFIG_BOARD);
+	LOG_WRN("Hello Wolrd WRN on %s", CONFIG_BOARD);
+}
+```
+修改`LOG_LEVEL_DBG`日志等级进行日志过滤。

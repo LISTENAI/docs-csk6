@@ -31,14 +31,18 @@ Timer定时器是Zephyr RTOS中的一个内核对象，它使用内核的系统�
 
     timer提供了一个status值，用来标记上一次读取状态到当前这个时间段内timer到期了多少次。
 
-
 ### Timer工作的示例图
 
 ![](./files/timer.png)
-duration：设定timer第一次到期的时间。
-period: timer第一次到期后的触发时间间隔。
-expiry：触发回调。
+**duration**：设定timer第一次到期的时间。
 
+**period**: timer第一次到期后的触发时间间隔。
+
+**expiry**：触发回调。
+
+:::tip
+更多关于timer定时器的说明请学习[内核-定时器](../../kernel/timing/timers.md)章节。
+:::
 ## Timer使用示例
 
 ### 常用API接口
@@ -331,4 +335,3 @@ static void timer_handler_expiry(struct k_timer *dummy)
 }
 ```
 更多关于k_work使用可参考Zephyr官网[Workqueue Threads](https://docs.zephyrproject.org/latest/kernel/services/threads/workqueue.html)章节、[Work Queue APIs](https://docs.zephyrproject.org/latest/doxygen/html/group__workqueue__apis.html)章节。
-

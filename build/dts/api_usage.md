@@ -1,6 +1,6 @@
 # 在 C/C++ 中访问设备树
 
-本文描述了 Zephyr 的 `<devicetree.h>` API，用于在 C 源码中读取设备树。我们假设你已熟悉 [设备树概述](./intro.md) 和 [设备树绑定](./bindings.md) 中的概念。对具体接口的描述可参阅 [API 引用](./api.md) 。
+本文描述了 Zephyr 的 `<devicetree.h>` API，用于在 C 源码中读取设备树。我们假设你已熟悉 [设备树概述](./intro.md) 和 [设备树绑定](./bindings.md) 中的概念。对具体接口的描述可参阅 [API 引用](./api/index.md) 。
 
 ## 给 Linux 开发者的小贴士
 
@@ -23,7 +23,8 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 <div style={{ paddingLeft: 16 }}>
 
-调用 [`DT_PATH()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PATH) 所需参数为，设备树中节点的完整路径，它需要从根节点开始。此方式旨在明确节点确切位置时发挥作用。
+调用 [`DT_PATH()`](./api/api.md#dt_path) 所需参数为，设备树中节点的完整路径，它需要从根节点开始。此方式旨在明确节点确切位置时发挥作用。
+
 
 </div>
 
@@ -34,7 +35,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 <div style={{ paddingLeft: 16 }}>
 
-使用 [节点标签](./intro.md#node-label) 通过 [`DT_NODELABEL()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_NODELABEL) 获取节点 id 。节点标签通常在 SoC `.dtsi` 中提供，节点标签通常是与 SoC datasheet 匹配的节点名称，如 `i2c1` 、 `spi2` 等。
+使用 [节点标签](./intro.md#node-label) 通过 [`DT_NODELABEL()`](./api/api.md#dt_nodelabellabel) 获取节点 id 。节点标签通常在 SoC `.dtsi` 中提供，节点标签通常是与 SoC datasheet 匹配的节点名称，如 `i2c1` 、 `spi2` 等。
 
 </div>
 
@@ -56,7 +57,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 <div style={{ paddingLeft: 16 }}>
 
-这主要由设备驱动程序完成，因为实例编号是一种基于匹配兼容来引用单个节点的方法。这些编号通过 [`DT_INST()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_INST) 获取，但这一做法需要小心处理（下文将提到为何需要）。
+这主要由设备驱动程序完成，因为实例编号是一种基于匹配兼容来引用单个节点的方法。这些编号通过 [`DT_INST()`](./api/api.md#dt_instinst-compat) 获取，但这一做法需要小心处理（下文将提到为何需要）。
 
 </div>
 
@@ -67,7 +68,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 <div style={{ paddingLeft: 16 }}>
 
-使用 [`DT_CHOSEN()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_CHOSEN) 获取 `/chosen` 节点属性所表示的节点 id 。
+使用 [`DT_CHOSEN()`](./api/api.md#dt_chosenprop) 获取 `/chosen` 节点属性所表示的节点 id 。
 
 </div>
 
@@ -78,7 +79,7 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 
 <div style={{ paddingLeft: 16 }}>
 
-从已有的节点 id 开始获取父节点或子节点的节点 id ，通过使用 [`DT_PARENT()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PARENT) 和 [`DT_CHILD()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_CHILD) 实现。
+从已有的节点 id 开始获取父节点或子节点的节点 id ，通过使用 [`DT_PARENT()`](./api/api.md#dt_parentnode_id) 和 [`DT_CHILD()`](./api/api.md#dt_childnode_id-child) 实现。
 
 </div>
 
@@ -114,7 +115,8 @@ Zephyr 不能以这种方式工作，因为设备树二进制文件和相关处�
 - `DT_PATH(soc, i2c_40002000)`
 - `DT_NODELABEL(i2c1)`
 - `DT_ALIAS(sensor_controller)`
-- `DT_INST(x, vnd_soc_i2c)` 用于某个未知数 `x` 。请参阅 [`DT_INST()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_INST) 文档了解相关详细信息。
+- `DT_INST(x, vnd_soc_i2c)` 用于某个未知数 `x` 。请参阅 [`DT_INST()`](./api/api.md#dt_instinst-compat) 文档了解相关详细信息。
+
 
 :::tip 重要
 设备树名称中，非字母数字字符（例如破折号 ( `-` ) 和 at 符号 ( `@` ) 等）将转换为下划线 ( `_` )。 DTS 中的名称也会转换为小写。
@@ -156,7 +158,7 @@ long my_i2c = DT_NODELABEL(i2c1);
 
 ### 检查属性与对应值
 
-你可以使用 [`DT_NODE_HAS_PROP()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_NODE_HAS_PROP) 来检查节点是否具有某属性。对于上文提及的 [示例设备树](#dts-example) ：
+你可以使用 [`DT_NODE_HAS_PROP()`](./api/api.md#dt_node_has_propnode_id-prop) 来检查节点是否具有某属性。对于上文提及的 [示例设备树](#dts-example) ：
 
 ```c
 DT_NODE_HAS_PROP(DT_NODELABEL(i2c1), clock_frequency)  /* expands to 1 */
@@ -211,7 +213,7 @@ unsigned char b[] = DT_PROP(FOO, b); /* {0xaa, 0xbb, 0xcc, 0xdd} */
 char* c[] = DT_PROP(FOO, c);         /* {"foo", "bar"} */
 ```
 
-你可以使用 [`DT_PROP_LEN()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PROP_LEN) 来获取这些数组属性的长度。
+你可以使用 [`DT_PROP_LEN()`](./api/api.md#dt_prop_lennode_id-prop) 来获取这些数组属性的长度。
 
 ```c
 size_t a_len = DT_PROP_LEN(FOO, a); /* 3 */
@@ -232,9 +234,7 @@ size_t c_len = DT_PROP_LEN(FOO, c); /* 2 */
 - `DT_REG_ADDR(node_id)`: 给定节点的寄存器块的地址
 - `DT_REG_SIZE(node_id)`: 给定的寄存器块的大小
 
-Use [`DT_REG_ADDR_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_REG_ADDR_BY_IDX) or [`DT_REG_SIZE_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_REG_SIZE_BY_IDX) instead if the node has multiple register blocks:
-
-如果节点有多个寄存器块，则改用 [`DT_REG_ADDR_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_REG_ADDR_BY_IDX) 或 [`DT_REG_SIZE_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_REG_SIZE_BY_IDX) ：
+如果节点有多个寄存器块，则改用 [`DT_REG_ADDR_BY_IDX()`](./api/api.md#dt_reg_addr_by_idxnode_id-idx) 或 [`DT_REG_SIZE_BY_IDX()`](./api/api.md#dt_reg_size_by_idxnode_id-idx) ：
 
 - `DT_REG_ADDR_BY_IDX(node_id, idx)`: 索引 `idx` 对应寄存器块的地址
 - `DT_REG_SIZE_BY_IDX(node_id, idx)`: 索引 `idx` 对应寄存器块的大小
@@ -255,7 +255,7 @@ for (size_t i = 0; i < DT_NUM_REGS(node_id); i++) {
 
 给定节点 id  `node_id` ， `DT_NUM_IRQS(node_id)` 表示节点 `interrupts` 属性中的中断说明符的总数。
 
-在访问这些变量的场景中，最通用 API 宏是 [`DT_IRQ_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_IRQ_BY_IDX) ：
+在访问这些变量的场景中，最通用 API 宏是 [`DT_IRQ_BY_IDX()`](./api/api.md#dt_irq_by_idxnode_id-idx-cell) ：
 
 ```c
 DT_IRQ_BY_IDX(node_id, idx, val)
@@ -263,7 +263,7 @@ DT_IRQ_BY_IDX(node_id, idx, val)
 
 这里的 `idx` 是 `interrupts` 数组的逻辑索引（ index ），它用于指向属性中的单个中断说明符。 `val` 参数是中断说明符中的单元格的名称。要使用此宏，请在绑定文件中查找对应节点的 `val` 名称。
 
-大多数 Zephyr 设备树绑定都有一个名为 `irq` 的单元，即中断编号。若你要获取此值的处理完成的概览，使用 [`DT_IRQN()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_IRQN) 是一种便捷的方式。
+大多数 Zephyr 设备树绑定都有一个名为 `irq` 的单元，即中断编号。若你要获取此值的处理完成的概览，使用 [`DT_IRQN()`](./api/api.md#dt_irqnnode_id) 是一种便捷的方式。
 
 :::caution 警告
 这里提到的“处理完成”指的是， Zephyr 的设备树 [脚本和工具](./intro.md#脚本与工具) 会更改 [zephyr.dts](./intro.md#输入与输出文件) 中的 `irq` 编号以处理某些 SoC 上的硬件约束，并使其符合 Zephyr 的多级中断编号。
@@ -275,29 +275,29 @@ DT_IRQ_BY_IDX(node_id, idx, val)
 
 在 [设置属性值](./intro.md#设置属性值) 中介绍过，phandle 语法支持使用 `&another-node` 在属性值中引用其他节点。在绑定中， phandle 属性包含在 `phandle` 、 `phandles` 或 `phandle-array` 中。我们将这些统称为为“phandle 属性”。
 
-当你要将 phandle 转换为节点 id 时，可以使用 [`DT_PHANDLE()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PHANDLE) 、 [`DT_PHANDLE_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PHANDLE_BY_IDX) 或 [`DT_PHANDLE_BY_NAME()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PHANDLE_BY_NAME) ，具体取决于你使用的属性类型。
+当你要将 phandle 转换为节点 id 时，可以使用 [`DT_PHANDLE()`](./api/api.md#dt_phandlenode_id-prop) 、 [`DT_PHANDLE_BY_IDX()`](./api/api.md#dt_phandle_by_idxnode_id-prop-idx) 或 [`DT_PHANDLE_BY_NAME()`](./api/api.md#dt_phandle_by_namenode_id-pha-name) ，具体取决于你使用的属性类型。
 
 phandle 属性的一个常见用例是，引用其他在设备树中的硬件。在这一场景中，你通常希望将设备树级别的 phandle 转换为 Zephyr 驱动程序级别的设备结构体 [struct device](https://docs.zephyrproject.org/latest/kernel/drivers/index.html#device-model-api) 。可参阅 [从设备树中获取设备结构体](./howtos.md#从设备树中获取设备结构体) 了解怎么做。
 
-另一个常见用例是访问 phandle 数组中的标识符值。实现这一用法的通用 API 是 [`DT_PHA_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PHA_BY_IDX) 和 [`DT_PHA()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PHA) 。也有特定于硬件的一些用法：[`DT_GPIO_CTLR_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_CTLR_BY_IDX) 、 [`DT_GPIO_CTLR()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_CTLR) 、 [`DT_GPIO_LABEL_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_LABEL_BY_IDX) 、 [`DT_GPIO_LABEL()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_LABEL) 、 [`DT_GPIO_PIN_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_PIN_BY_IDX) 、 [`DT_GPIO_PIN()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_PIN) 、 [`DT_GPIO_FLAGS_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_FLAGS_BY_IDX) 或 [`DT_GPIO_FLAGS()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_FLAGS)
+另一个常见用例是访问 phandle 数组中的标识符值。实现这一用法的通用 API 是 [`DT_PHA_BY_IDX()`](./api/api.md#dt_pha_by_idxnode_id-pha-idx-cell) 和 [`DT_PHA()`](./api/api.md#dt_phanode_id-pha-cell) 。也有特定于硬件的一些用法：[`DT_GPIO_CTLR_BY_IDX()`](./api/api.md#dt_gpio_ctlr_by_idxnode_id-gpio_pha-idx) 、 [`DT_GPIO_CTLR()`](./api/api.md#dt_gpio_ctlrnode_id-gpio_pha) 、 [`DT_GPIO_LABEL_BY_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_LABEL_BY_IDX) 、 [`DT_GPIO_LABEL()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_GPIO_LABEL) 、 [`DT_GPIO_PIN_BY_IDX()`](./api/api.md#dt_gpio_pin_by_idxnode_id-gpio_pha-idx) 、 [`DT_GPIO_PIN()`](./api/api.md#dt_gpio_pinnode_id-gpio_pha) 、 [`DT_GPIO_FLAGS_BY_IDX()`](./api/api.md#dt_gpio_flags_by_idxnode_id-gpio_pha-idx) 或 [`DT_GPIO_FLAGS()`](./api/api.md#dt_gpio_flagsnode_id-gpio_pha)
 
-要检查标识符值是否存在于 phandle 属性中，请参阅 [`DT_PHA_HAS_CELL_AT_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PHA_HAS_CELL_AT_IDX) 和 [`DT_PROP_HAS_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PROP_HAS_IDX) 。
+要检查标识符值是否存在于 phandle 属性中，请参阅 [`DT_PHA_HAS_CELL_AT_IDX()`](./api/api.md#dt_pha_has_cell_at_idxnode_id-pha-idx-cell) 和 [`DT_PROP_HAS_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_PROP_HAS_IDX) 。
 
 ## 其他 API
 
 以下是其他一些可用 API 。
 
-- [`DT_CHOSEN()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_CHOSEN), [`DT_HAS_CHOSEN()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_HAS_CHOSEN): 用于特殊 /chosen 节点的属性
-- [`DT_HAS_COMPAT_STATUS_OKAY()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_HAS_COMPAT_STATUS_OKAY), [`DT_NODE_HAS_COMPAT()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_NODE_HAS_COMPAT): 与 `compatible` 属性相关的全局的或节点特定的测试
-- [`DT_BUS()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_BUS): 获取一个节点的总线控制器（如果有）
-- [`DT_ENUM_IDX()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_ENUM_IDX): 用于取值声明为 enum 的属性，用于查找属性值在其固定选项列表中的索引
-- [固定的 flash 分区](https://docs.zephyrproject.org/latest/build/dts/api/api.html#devicetree-flash-api): 用于管理固定的 flash 分区。也可参考 [Flash map](../../service/storage/flash_map.md) 查阅如何使用更友好的 API 达成目的。
+- [`DT_CHOSEN()`](./api/api.md#dt_chosenprop), [`DT_HAS_CHOSEN()`](./api/api.md#dt_has_chosenprop): 用于特殊 /chosen 节点的属性
+- [`DT_HAS_COMPAT_STATUS_OKAY()`](./api/api.md#dt_has_compat_status_okaycompat), [`DT_NODE_HAS_COMPAT()`](./api/api.md#dt_node_has_compatnode_id-compat): 与 `compatible` 属性相关的全局的或节点特定的测试
+- [`DT_BUS()`](./api/api.md#dt_busnode_id): 获取一个节点的总线控制器（如果有）
+- [`DT_ENUM_IDX()`](./api/api.md#dt_enum_idxnode_id-prop): 用于取值声明为 enum 的属性，用于查找属性值在其固定选项列表中的索引
+- [固定的 flash 分区](./api/api.md#devicetree-flash-api): 用于管理固定的 flash 分区。也可参考 [Flash map](../../service/storage/flash_map.md) 查阅如何使用更友好的 API 达成目的。
 
 ## 设备驱动便捷性
 
 在编写一些设备驱动程序时特殊的宏很有用，这类驱动通常依赖于 [实例的节点 id](#节点-id) 。
 
-要使用这些宏，你必须定义 `DT_DRV_COMPAT` 为驱动程序实现支持的 `compat` 值。该 `compat` 值最终将传给 [`DT_INST()`](https://docs.zephyrproject.org/latest/build/dts/api/api.html#c.DT_INST) 。
+要使用这些宏，你必须定义 `DT_DRV_COMPAT` 为驱动程序实现支持的 `compat` 值。该 `compat` 值最终将传给 [`DT_INST()`](./api/api.md#dt_instinst-compat) 。
 
 ```c
 #include <zephyr/devicetree.h>
@@ -313,17 +313,17 @@ DT_DRV_INST(0)
 DT_INST_PROP(0, clock_frequency)
 ```
 
-请在 [基于实例的 API](https://docs.zephyrproject.org/latest/build/dts/api/api.html#devicetree-inst-apis) 中参考相关通用 API 引用。
+请在 [基于实例的 API](./api/api.md#devicetree-inst-apis) 中参考相关通用 API 引用。
 
 ## 特定于硬件的 API
 
-这些 API 是基于上述 API 之上构建的，它们提供了更便利的方式访问硬件，也提升了硬件特定代码的可读性。请参阅 [特定于硬件的 API](https://docs.zephyrproject.org/latest/build/dts/api/api.html#devicetree-hw-api) 了解相关详细信息。
+这些 API 是基于上述 API 之上构建的，它们提供了更便利的方式访问硬件，也提升了硬件特定代码的可读性。请参阅 [特定于硬件的 API](./api/api.md#devicetree-hw-api) 了解相关详细信息。
 
 ## 生成的宏
 
 在 `devicetree.h` API 还未生成之前，本小节所阐述的生成的宏依赖 [devicetree_unfixed.h](./intro.md#输出文件)。这一 C 头文件在每个应用程序构建目录中都将生成，其中包含的宏用于描述设备树数据。
 
-这些宏具有棘手的命名约定， [设备树 API](https://docs.zephyrproject.org/latest/build/dts/api/api.html#devicetree-api) 将其抽象出来。实际上可视这些宏为设备树 API 的实现细节，但因为它们经常出现在编译器错误消息中，所以理解它们也是很有用的。
+这些宏具有棘手的命名约定， [设备树 API](./api/api.md) 将其抽象出来。实际上可视这些宏为设备树 API 的实现细节，但因为它们经常出现在编译器错误消息中，所以理解它们也是很有用的。
 
 本节包含这些宏所使用语法基于扩充巴科斯-瑙尔范式（ABNF），并在注释中提供示例和更多详细信息。请参阅 [RFC 7405](https://tools.ietf.org/html/rfc7405)（本质上是 [RFC 5234](https://tools.ietf.org/html/rfc5234) 的扩展）了解其语法规范。
 

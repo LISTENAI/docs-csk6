@@ -132,7 +132,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 
 <div style={{ paddingLeft: 16 }}>
 
-当启用 [用户模式](../../kernel/usermode/index.md) 或使用 [设备树 API](../dts/api.md) 时，会生成不固定大小的中间二进制文件。它会生成一个大小不固定的二进制文件，因此它可以被后处理步骤用于影响二进制最终产物大小。
+当启用 [用户模式](../../kernel/usermode/index.md) 或使用 [设备树 API](../dts/api/api) 时，会生成不固定大小的中间二进制文件。它会生成一个大小不固定的二进制文件，因此它可以被后处理步骤用于影响二进制最终产物大小。
 
 </div>
 
@@ -172,7 +172,7 @@ Kconfig 输出一个带有预处理器分配的 `autoconf.h` 头文件以及一�
 
 ![](../images/build-postprocess-1.svg)
 
-当使用 [设备树 API](../dts/api.md) 时：
+当使用 [设备树 API](../dts/api/api) 时：
 
 <h4 style={{
  "background": "var(--ra-color-important)",

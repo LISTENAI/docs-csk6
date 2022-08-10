@@ -359,7 +359,7 @@ You may notice some similarities between the `reg` property and common unit addr
 
   3. 数值 2
 
-  在设备树中，一个 phandle 值是一个单元格 —— 这又是一个 32 位无符号整数。但是，Zephyr 设备树 API 通常将这些值公开为 *节点标识符* 。节点标识符将在 [从 C/C++ 访问设备树](./api_usage) 章节中更详细地介绍。
+  在设备树中，一个 phandle 值是一个单元格 —— 这又是一个 32 位无符号整数。但是，Zephyr 设备树 API 通常将这些值以 *节点 id* 的形式公开。节点 id 将在 [从 C/C++ 访问设备树](./api_usage#节点-id) 章节中更详细地介绍。
 
 - 数组和类似类型的属性值可以分成若干个 `<>` 块，如下所示：
 
@@ -403,7 +403,7 @@ You may notice some similarities between the `reg` property and common unit addr
 
 有时在 Zephyr 示例应用程序中，一种通用的方式是使用别名来允许覆盖应用程序使用的特定硬件设备。例如， [GPIO 示例](../../application/peripheral/samples/gpio.md) 使用这种方式通过 `led0` 别名来抽象要闪烁的 LED 。
 
-`/chosen` 节点的属性用于配置系统或子系统范围的值。请参阅 [选择的节点](./api#选择的节点) 了解相关详细信息。
+`/chosen` 节点的属性用于配置系统或子系统范围的值。请参阅 [选定节点](./api/api.md#devicetree-chosen-nodes) 了解相关详细信息。
 
 ## 输入与输出文件
 
@@ -449,7 +449,7 @@ dts/bindings/.../binding.yaml
 
 - 定义 [Shields](https://docs.zephyrproject.org/latest/hardware/porting/shields.html#shields) 时也会使用 overlay 。
 
-构建系统会自动收集存储在特定位置的 `.overlay` 文件。还可以通过 CMake 变量 **DTC_OVERLAY_FILE** 显式列出要包含的 overlay 文件。请参阅 [设置设备树 overlay](./howtos.md#如何设置设备树-overlay) 了解相关详细信息。
+构建系统会自动收集存储在特定位置的 `.overlay` 文件。还可以通过 CMake 变量 **DTC_OVERLAY_FILE** 显式列出要包含的 overlay 文件。请参阅 [设置设备树 overlay](./howtos.md#设置设备树-overlay) 了解相关详细信息。
 
 构建系统通过将 `BOARD.dts` 和任何 `.overlay` 文件关联起来，将它们组合在一起，overlay 在最后放入。这依赖于 DTS 语法中允许合并设备树中节点的重复定义的设计。有关其工作原理的示例，请参见 [示例：FRDM-K64F 和 Hexiwear K64](https://docs.zephyrproject.org/latest/hardware/porting/board_porting.html#dt-k6x-example) （在 `.dtsi` 文件的上下文中，但 overlay 文件的原理相同）。最后将 `.overlay` 文件的内容放进来以允许它们覆盖 `BOARD.dts` 。
 

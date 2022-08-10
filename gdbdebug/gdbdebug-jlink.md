@@ -1,9 +1,10 @@
 # 基于 J-Link 的 GDB 调试
 
 ## 概述
-Zephyr 提供了多种 debug 调试方式，支持 GDB 调试，本章节主要介绍如何基于 VSCode 和 J-Link 仿真器实现应用调试。通过本章节学习，开发者可以了解到：
+
+Zephyr 提供了多种 debug 调试方式，支持 GDB 调试，本章节主要介绍如何基于 VS Code 和 J-Link 仿真器实现应用调试。通过本章节学习，开发者可以了解到：
 - PC 端如何对应用项目进行调试
-- 基于 VSCode 和 J-Link 的调试方法
+- 基于 VS Code 和 J-Link 的调试方法
 
 :::note
 Windows 系统和 Ubuntu 系统下配置的基本一致。
@@ -19,6 +20,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 ![](./files/connect.png)
 
 ## 调试过程
+
 ### VSCode 调试环境搭建
 #### VSCode 安装 `Cortex-Debug` 调试插件
 在 VSCode 应用商店中搜索 `Cortex-Debug` 扩展插件，并完成安装，如下图所示：

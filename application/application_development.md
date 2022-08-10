@@ -159,6 +159,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 5. 设置 Kconfig 配置选项。请参阅 [Kconfig 配置](#kconfig-配置) 。
 
+
 6. 配置你的应用所需的设备树 overlay 。请参阅 [设置设备树 overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
 
 ## 引入构建系统变量

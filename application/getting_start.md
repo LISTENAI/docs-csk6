@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 快速开始
 
 学习本文后，你将可以：
@@ -9,9 +12,6 @@
 ## 操作系统要求
 
 选择你正在使用的操作系统。
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <div style={{
     border: 'solid 1px #80808080',

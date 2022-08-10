@@ -1,5 +1,7 @@
 # 外设驱动的使用
 
+## 概述
+
 本节主要介绍在CSK6 SDK中的外设驱动使用方法。通过本章节，你将了解：
 
 - 在系统架构中外设驱动的位置
@@ -8,6 +10,15 @@
 
 - 上手使用一个外设驱动的方法
 
+## 外设驱动及sample章节目录：
+* 章节一:[GPIO](./samples/gpio)
+* 章节二:[PWM](./samples/pwm)
+* 章节三:[UART](./samples/uart)
+* 章节四:[I2C](./samples/i2c)
+* 章节五:[SPI](./samples/spi)
+* 章节六:[ADC](./samples/adc)
+* 章节七:[RTC](./samples/rtc)
+* 章节八:[WatchDog](./samples/watchdog)
 
 ## Zephyr OS 中的外设驱动
 
@@ -72,16 +83,6 @@ xxx_set(dev, xxx, xxx);
 通过本节内容，我们大致了解了驱动外设在CSK6 SDK中使用方式，在接下来的章节里我们将提供更多常用的外设驱动使用示例讲解，来帮助大家进一步掌握常用外设驱动的使用。
 :::
 
-
-外设驱动及sample章节目录：
-* 章节一:[GPIO](./samples/gpio)
-* 章节二:[PWM](./samples/pwm)
-* 章节三:[UART](./samples/uart)
-* 章节四:[I2C](./samples/i2c)
-* 章节五:[SPI](./samples/spi)
-* 章节六:[ADC](./samples/adc)
-* 章节七:[RTC](./samples/rtc)
-* 章节八:[WatchDog](./samples/watchdog)
 
 
 
