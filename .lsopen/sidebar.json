@@ -233,7 +233,7 @@
   {
     "type": "category",
     "label": "硬件支持",
-    "items": ["hardware/pinctrl"],
+    "items": ["hardware/pinctrl", "hardware/peripherals"],
     "collapsed": true
   },
   {
