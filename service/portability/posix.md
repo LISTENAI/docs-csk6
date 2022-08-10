@@ -2,11 +2,11 @@
 
 The Portable Operating System Interface (POSIX) is a family of standards specified by the IEEE Computer Society for maintaining compatibility between operating systems. Zephyr implements a subset of the embedded profiles PSE51 and PSE52, and BSD Sockets API.
 
-可移植操作系统接口 (POSIX) 是由 IEEE 计算机组织指定一些列的标准，用于维护操作系统之间的兼容性。Zephyr 实现了嵌入式 PSE51 和 PSE52 以及 BSD Sockets API 的子集。
+可移植操作系统接口 (POSIX) 是由 IEEE 计算机组织制定一系列的标准，用于维护操作系统之间的兼容性。Zephyr 实现了嵌入式 PSE51 和 PSE52 以及 BSD Sockets API 的子集。
 
 With the POSIX support available in Zephyr, an existing POSIX compliant application can be ported to run on the Zephyr kernel, and therefore leverage Zephyr features and functionality. Additionally, a library designed for use with POSIX threading compatible operating systems can be ported to Zephyr kernel based applications with minimal or no changes.
 
-有了 Zephyr 支持的 POSIX，可以将现有的 POSIX 兼容的应用程序移植到 Zephyr 内核上运行，从而利用 Zephyr 特性和功能。此外，设计用于与 POSIX 线程兼容的操作系统的库可以移植到基于 Zephyr 内核的应用程序，并且仅需要少量或无需修改。
+Zephyr 支持 POSIX 后，可以将现有的 POSIX 兼容的应用程序移植到 Zephyr 内核上运行，从而利用 Zephyr 特性和功能。此外，设计用于与 POSIX 线程兼容的操作系统的库可以移植到基于 Zephyr 内核的应用程序，并且仅需要少量或无需修改。
 
 ![](../images/posix.svg)
 
@@ -32,7 +32,7 @@ The system profile is defined in terms of component profiles that specify Units 
 
 A Minimal Realtime System Profile implementation must support the following Units of Functionality as defined in IEEE Std. 1003.1 (also referred to as POSIX.1-2017).
 
-最小实时系统概要实现必须支持 IEEE Std 中定义的以下功能单元。1003.1(亦称 POSIX.1-2017)。
+最小实时系统概要实现必须支持 IEEE Std 1003.1(亦称 POSIX.1-2017)中定义的以下功能单元。
 
 | 需求 | 支持 | 备注 |
 | ---- | ---- | ---- |
@@ -46,15 +46,15 @@ A Minimal Realtime System Profile implementation must support the following Unit
 | XSI_THREAD_MUTEX_EXT | yes |  |
 | XSI_THREADS_EXT | yes |  |
 
-### 选项要求
+### 功能选项
 
 An implementation supporting the Minimal Realtime System Profile must support the POSIX.1 Option Requirements which are defined in the standard. Options Requirements are used for further sub-profiling within the units of functionality: they further define the functional behavior of the system service (normally adding extra functionality). Depending on the profile to which the POSIX implementation complies,parameters and/or the precise functionality of certain services may differ.
 
-支持最小实时系统配置文件的实现必须支持标准中定义的 POSIX.1 选项要求。选项需求用于功能单元内的进一步子分析：它们进一步定义系统服务的功能行为（通常添加额外的功能）。根据 POSIX 实现所遵循的配置文件，某些服务的参数和/或精确功能可能会有所不同。
+POSIX 1003.1 标准定义了一个最小的 Unix 操作系统接口，任何操作系统只有符合这一标准，才有可能运行 Unix 程序。其中有一些功能选项，要实现相关的功能得照着标准的功能选项要求来实现。
 
 The following list shows the option requirements that are implemented in Zephyr.
 
-以下列表显示了在 Zephyr 中实现的选项要求。
+以下列表显示了在 Zephyr 中实现的功能选项。
 
 | 需求 | 支持 |
 | ---- | ---- |
