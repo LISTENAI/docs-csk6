@@ -198,7 +198,7 @@ __2、通过snap离线安装__
 或直接通过`snap`进行安装解压后的`snap包`：
 
 ```bash
-snap install lisa_xxx.snap
+snap install xxxxxxx.snap --classic --dangerous && lisa.init
 ```
 
   </TabItem>
