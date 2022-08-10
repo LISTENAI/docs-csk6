@@ -31,11 +31,11 @@ Data is synchronously sent either in whole or in part to a pipe by a thread. If 
 
 Data is synchronously received from a pipe by a thread. If the specified minimum number of bytes can not be immediately satisfied, then the operation will either fail immediately or attempt to receive as many bytes as possible and then pend in the hope that the receive can be completed later. Accepted data is either copied from the pipe’s ring buffer or directly from the waiting sender(s).
 
-线程从管道同步接收数据。如果不能立即满足指定的最小字节数，则操作将立即失败或尝试接收尽可能多的字节然后等待，希望稍后可以完成接收。接收的数据要么从管道环形缓冲区法制，要么直接从等待的发送者复制。
+线程从管道同步接收数据。如果不能立即满足指定的最小字节数，则操作将立即失败或尝试接收尽可能多的字节然后等待，希望稍后可以完成接收。接收的数据要么从管道环形缓冲区复制，要么直接从等待的发送者复制。
 
 Data may also be flushed from a pipe by a thread. Flushing can be performed either on the entire pipe or on only its ring buffer. Flushing the entire pipe is equivalent to reading all the information in the ring buffer and waiting to be written into a giant temporary buffer which is then discarded. Flushing the ring buffer is equivalent to reading only the data in the ring buffer into a temporary buffer which is then discarded. Flushing the ring buffer does not guarantee that the ring buffer will stay empty; flushing it may allow a pended writer to fill the ring buffer.
 
-数据也可以线程在管道中刷新。可以在整个管道或仅在其环形缓冲区上执行刷新。刷新整个管道相当于读取环形缓冲区中的所有信息并等待写入一个巨大的临时缓冲区，然后将其丢弃。刷新环形缓冲区相当于只将环形缓冲区中的数据读取到临时缓冲区中，然后将其丢弃。刷新环形缓冲区并不能抱枕环形缓冲区保持为空，刷新它可能允许挂起的写入器填充环形缓冲区。
+线程也可以在管道中刷新数据。可以在整个管道或仅在其环形缓冲区上执行刷新。刷新整个管道相当于读取环形缓冲区中的所有信息并等待写入一个巨大的临时缓冲区，然后将其丢弃。刷新环形缓冲区相当于只将环形缓冲区中的数据读取到临时缓冲区中，然后将其丢弃。刷新环形缓冲区并不能保证环形缓冲区保持为空，刷新它可能允许挂起的写入器填充环形缓冲区。
 
 :::info 注意
 Flushing does not in practice allocate or use additional buffers.
@@ -46,7 +46,7 @@ Flushing does not in practice allocate or use additional buffers.
 :::info 注意
 The kernel does NOT allow for an ISR to send or receive data to/from a pipe or flush even if it does not attempt to wait for space/data.
 
-内核不允许 ISR 向 / 从 管道发送或接收数据或刷新，即使它不尝试等待 空间 / 数据。
+内核不允许 ISR 向/从 管道发送或接收数据或刷新，即使它不尝试等待 空间/数据。
 :::
 
 ## 实现
@@ -57,7 +57,7 @@ A pipe is defined using a variable of type [k_pipe](https://docs.zephyrproject.o
 
 The following code defines and initializes an empty pipe that has a ring buffer capable of holding 100 bytes and is aligned to a 4-byte boundary.
 
-一下代码定义并初始化一个空管道，该管道具有一个能够容纳 100 字节的环形缓冲区并与 4 字节范围对其。
+以下代码定义并初始化一个空管道，该管道具有一个能够容纳 100 字节的环形缓冲区并与 4 字节范围对齐。
 
 ```c
 unsigned char __aligned(4) my_ring_buffer[100];
