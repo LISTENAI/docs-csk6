@@ -131,6 +131,7 @@
           "application/modules/lvgl",
           "application/shell_sample",
           "application/modules/nvs",
+          "application/modules/filesystem",
           {
             "type": "category",
             "label": "音频",
