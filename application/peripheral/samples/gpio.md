@@ -323,7 +323,7 @@ CONFIG_GPIO=y
 
 :::tip
 
-更多关于设备树的内容请学习[设备树](../../device_tree.md)章节。
+更多关于设备树的内容请学习[设备树](../../../build/dts/intro.md)章节。
 
 :::
 

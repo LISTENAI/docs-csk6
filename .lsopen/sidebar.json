@@ -240,7 +240,7 @@
         "type": "category",
         "label": "Kconfig配置系统",
         "items": [
-          "build/kconfig/overview",
+          "build/kconfig/index",
           "build/kconfig/Kconfig_gui",
           "build/kconfig/Kconfig_configuration",
           "build/kconfig/Kconfig_tips_and_demo",
