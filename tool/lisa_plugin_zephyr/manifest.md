@@ -198,7 +198,6 @@ The available project keys and their usage are in the following table. Sometimes
 | import | Optional. If true, imports projects from manifest files in the given repository into the current manifest. See Manifest Imports for details.可选，如果为 `true` 则将项目从给定仓库中的 YAML 文件导入到当前 YAML 文件中。 |
 | groups | Optional, a list of groups the project belongs to. See Project Groups and Active Projects for details. 可选，项目所属的组(group)列表，请参阅 [项目组与活跃的项目](#项目组与活跃的项目) |
 | submodules | Optional. You can use this to make west update also update Git submodules defined by the project. See Git Submodules in Projects for details. 可选，你可以使用 `lisa zep update` 更新代码同时更新 Git 子模块的代码，请参阅 [项目的 Git 子模块](#项目的git子模块) |
-| userdata | Optional. The value is an arbitrary YAML value. See Repository user data. 可选，该值是任意的 YAML 值。 |
 
 ## Defaults 
 
@@ -1110,22 +1109,22 @@ A more [formal description] of how this works is last, after the examples.
 
 `import` 字段可以是布尔值、路径、映射或者序列。我们将用示例按顺序来讲解这些内容：
 
-- 布尔值
-  - 示例 1.1: Zephyr 版本下游
-  - 示例 1.2: “滚动发布” Zephyr 下游
-  - 示例 1.3: Zephyr 版本下游和 fork 模块
-- 相对路径
-  - 示例 2.1: 带明确路径的 Zephyr 下游
-  - 示例 2.2: 提货单文件目录的下游
-  - 示例 2.3: 持续集成重写
-- 映射，其中可以添加额外的配置:
-    - 示例 3.1： name allowlist 的下游
-    - 示例 3.2： path allowlist 的下游
-    - 示例 3.3： path blocklist 的下游
-    - 示例 3.4： 导入到一个子目录
-- 序列路径和映射:
-    - 示例 4.1： 提货单文件序列的下游
-    - 示例 4.2： 导入顺序的说明
+- [布尔值](#manifest-opt-1)
+  - [示例 1.1：Zephyr 版本下游](#manifest-ext1-1)
+  - [示例 1.2：“滚动发布” Zephyr 下游](#manifest-ext1-2)
+  - [示例 1.3：Zephyr 版本下游和 fork 模块](#manifest-ext1-3)
+- [相对路径](#manifest-opt-2)
+  - [示例 2.1：具有路径的 Zephyr 下游](#manifest-ext2-1)
+  - [示例 2.2：提货单文件目录的下游](#manifest-ext2-2)
+  - [示例 2.3：持续集成重写](#manifest-ext2-3)
+- [映射](#manifest-opt-3):
+    - [示例 3.1：name allowlist 的下游](#manifest-ext3-1)
+    - [示例 3.2：path allowlist 的下游](#manifest-ext3-2)
+    - [示例 3.3：path blocklist 的下游](#manifest-ext3-3)
+    - [示例 3.4：导入到一个子目录](#manifest-ext3-4)
+- [序列](#manifest-opt-4):
+    - [示例 4.1：提货单文件序列的下游](#manifest-ext4-1)
+    - [示例 4.2：导入顺序的说明](#manifest-ext4-2)
 
 ### Troubleshooting Note  
 ### 疑难笔记
@@ -1135,7 +1134,7 @@ If you’re using this feature and find west’s behavior confusing, try [resolv
 如果你使用此功能并发现 Lisa 的行为令人困惑，请尝试 [解析你的提货单](#解析提货单) 查看导入后的最终结果。
 
 ### Option 1: Boolean
-### 选项1：布尔值
+### 选项1：布尔值 {#manifest-opt-1}
 
 This is the easiest way to use `import`.
 
@@ -1169,7 +1168,7 @@ manifest:
 ```
 
 #### Example 1.1: Downstream of a Zephyr release
-#### 示例 1.1：Zephyr 版本的下游
+#### 示例 1.1：Zephyr 版本的下游 {#manifest-ext1-1}
 
 You have a source code repository you want to use with Zephyr v1.14.1 LTS. You want to maintain the whole thing using west. You don’t want to modify any of the mainline repositories.
 
@@ -1230,14 +1229,14 @@ After `west update`, all of the projects defined in the `zephyr` repository’s 
 
 You can add and commit any code to `my-repo` you please at this point, including your own Zephyr applications, drivers, etc. See [Application Development](https://docs.zephyrproject.org/latest/develop/application/index.html#application).
 
-在这种情况下，你可以添加和提交任何代码到 `my-repo`，包括你自己 Zephyr 应用，驱动程序等等，参考[应用开发](https://docs.zephyrproject.org/latest/develop/application/index.html#application)。
+在这种情况下，你可以添加和提交任何代码到 `my-repo`，包括你自己 Zephyr 应用，驱动程序等等，参考[应用开发](../../application/application_development.md)。
 
 #### Example 1.2: “Rolling release” Zephyr downstream
-#### 示例 1.2：“滚动发布” Zephyr 下游
+#### 示例 1.2：“滚动发布” Zephyr 下游 {#manifest-ext1-2}
 
 This is similar to [Example 1.1: Downstream of a Zephyr release](https://docs.zephyrproject.org/latest/develop/west/manifest.html#west-manifest-ex1-1), except we’ll use `revision: main` for the zephyr repository:
 
-这类似于[示例 1.1：Zephyr 版本的下游](#示例-11zephyr-版本的下游)，只不过 zephyr 仓库将使用 `revision: main`：
+这类似于[示例 1.1：Zephyr 版本的下游](#manifest-ext1-1)，只不过 zephyr 仓库将使用 `revision: main`：
 
 ```
 # my-repo/west.yml:
@@ -1264,7 +1263,7 @@ west update
 
 This time, whenever you run `west update`, the special [manifest-rev](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-manifest-rev) branch in the `zephyr` repository will be updated to point at a newly fetched main branch tip from the URL https://github.com/zephyrproject-rtos/zephyr.
 
-这时候，无论何时运行 `lisa zep update`，`zephyr` 仓库中的特殊 [manifest-rev](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-manifest-rev) 分支将呗更新为指向 URL https://github.com/zephyrproject-rtos/zephyr `main` 的分支。
+这时候，无论何时运行 `lisa zep update`，`zephyr` 仓库中的特殊 [manifest-rev](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-manifest-rev) 分支将呗更新为指向 URL `https://github.com/zephyrproject-rtos/zephyr` `main` 的分支。
 
 The contents of `zephyr/west.yml` at the new `manifest-rev` will then be used to import projects from Zephyr. This lets you stay up to date with the latest changes in the Zephyr project. The cost is that running `west update` will not produce reproducible results, since the remote `main` branch can change every time you run it.
 
@@ -1276,14 +1275,14 @@ It’s also important to understand that west **ignores your working tree’s** 
 
 You can only import manifest from the file system if they are in your manifest repository’s working tree. See Example 2.2: Downstream with directory of manifest files for an example.
 
-你只能在提货单仓库工作树中才能从文件系统导入提货单。参见 [Example 2.2: Downstream with directory of manifest files](https://docs.zephyrproject.org/latest/develop/west/manifest.html#west-manifest-ex2-2)。
+你只能在提货单仓库工作树中才能从文件系统导入提货单。参见 [示例 2.2：提货单文件目录的下游](#manifest-ext2-2)。
 
 #### Example 1.3: Downstream of a Zephyr release, with module fork
-#### 示例 1.3：Zephyr 版本下游和 fork 模块
+#### 示例 1.3：Zephyr 版本下游和 fork 模块 {#manifest-ext1-3}
 
 This manifest is similar to the one in [Example 1.1: Downstream of a Zephyr release](https://docs.zephyrproject.org/latest/develop/west/manifest.html#west-manifest-ex1-1), except it:
 
-这提货单类似于[示例 1.1：Zephyr 版本的下游](#示例-11zephyr-版本的下游)，除了：
+这提货单类似于[示例 1.1：Zephyr 版本的下游](#manifest-ext1-1)，除了：
 
 - is a downstream of Zephyr 2.0
 - includes a downstream fork of the `modules/hal/nordic` [module](https://docs.zephyrproject.org/latest/develop/modules.html#modules) which was included in that release
@@ -1357,7 +1356,7 @@ When you run `west update`, west will:
 
 
 ### Option 2: Relative path
-### 选项2：相对路径
+### 选项2：相对路径 {#manifest-opt-2}
 
 The `import` value can also be a relative path to a manifest file or a directory containing manifest files. The path is relative to the root directory of the `projects` or `self` repository the `import` key appears in.
 
@@ -1397,11 +1396,11 @@ Notice how `projects` imports get data from Git using `manifest-rev`, while `sel
 注意 `projects` 导入如何使用 `manifest-rev` 从 Git 获取数据，而 `self` 导入如何从文件系统获取数据。因为，lisa 将提货单仓库的版本控制权留给你。
 
 #### Example 2.1: Downstream of a Zephyr release with explicit path
-#### 示例 2.1：具有明确路径的 Zephyr 的下游
+#### 示例 2.1：具有路径的 Zephyr 的下游 {#manifest-ext2-1}
 
 This is an explicit way to write an equivalent manifest to the one in [Example 1.1: Downstream of a Zephyr release](https://docs.zephyrproject.org/latest/develop/west/manifest.html#west-manifest-ex1-1).
 
-这是编写与[示例 1.1：Zephyr 版本的下游](#示例-11zephyr-版本的下游)相同的方法。
+这是编写与[示例 1.1：Zephyr 版本的下游](#manifest-ext1-1)相同的方法。
 
 ```
 manifest:
@@ -1424,7 +1423,7 @@ This can be useful in practice when the name of the manifest file you want to im
 在实践中，如果你要导入的提货单文件的名称不是 `west.yml`，将会非常有用。
 
 #### Example 2.2: Downstream with directory of manifest files
-#### 示例 2.2：提货单文件目录的下游
+#### 示例 2.2：提货单文件目录的下游 {#manifest-ext2-2}
 
 Your Zephyr downstream has a lot of additional repositories. So many, in fact, that you want to split them up into multiple manifest files, but keep track of them all in a single manifest repository, like this:
 
@@ -1495,7 +1494,7 @@ This may seem strange, but it allows you to redefine projects “after the fact�
 这可能看起来很奇怪，但是它允许你在“事后”重新定义项目，正如我们将在下一个示例看到的那样。
 
 #### Example 2.3: Continuous Integration overrides
-#### 示例 2.3：持续集成重写
+#### 示例 2.3：持续集成重写 {#manifest-ext2-3}
 
 Your continuous integration system needs to fetch and test multiple repositories in your west workspace from a developer’s forks instead of your mainline development trees, to see if the changes all work well together.
 
@@ -1503,7 +1502,7 @@ Your continuous integration system needs to fetch and test multiple repositories
 
 Starting with [Example 2.2: Downstream with directory of manifest files](https://docs.zephyrproject.org/latest/develop/west/manifest.html#west-manifest-ex2-2), the CI scripts add a file 00-ci.yml in my-repo/submanifests, with these contents:
 
-从[示例 2.2：提货单文件目录的下游](#示例-22提货单文件目录的下游)开始, CI 脚本在 `my-repo/submanifests` 中添加一个文件 `00-ci.yml`，包含一下内容：
+从[示例 2.2：提货单文件目录的下游](#manifest-ext2-2)开始, CI 脚本在 `my-repo/submanifests` 中添加一个文件 `00-ci.yml`，包含一下内容：
 
 ```YAML
 # my-repo/submanifests/00-ci.yml:
@@ -1526,7 +1525,7 @@ Thus, `west update` always checks out the developer’s branches in the projects
 因此，`lisa zep update` 总是在名为 `a-vendor-hal` 和 `an-application` 的项目中检查开发分支，即使这些相同的项目也在其他地方定义。
 
 ### Option 3: Mapping
-### 选项3：映射
+### 选项3：映射 {#manifest-opt-3}
 
 The `import` key can also contain a mapping with the following keys:
 
@@ -1551,7 +1550,9 @@ Allowlists override blocklists if both are given. For example, if a project is b
 Allowlists 和 blocklists 都设置的话，allowlists 会覆盖 blocklists。例如，如果一个项目被路径排除，但是不排除名称，它仍然会被导入。
 
 #### Example 3.1: Downstream with name allowlist
-#### 示例 3.1：name allowlist 的下游
+#### 示例 3.1：name allowlist 的下游 {#manifest-ext3-1}
+
+```yaml
 
 Here is a pair of manifest files, representing a mainline and a downstream. The downstream doesn’t want to use all the mainline projects, however. We’ll assume the mainline `west.yml` is hosted at `https://git.example.com/mainline/manifest`.
 
@@ -1614,7 +1615,9 @@ If an allowlist had not been used, the `lib` project from the mainline manifest 
 如果没有使用 allowlist，则会导入 mainline manifest 中的 `lib` 项目。
 
 #### Example 3.2: Downstream with path allowlist
-#### 示例 3.2：path allowlist 的下游
+#### 示例 3.2：path allowlist 的下游 {#manifest-ext3-2}
+
+```yaml
 
 Here is an example showing how to allowlist mainline’s libraries only, using `path-allowlist`.
 
@@ -1671,7 +1674,9 @@ manifest:
 ```
 
 #### Example 3.3: Downstream with path blocklist
-#### 示例 3.3：path blocklist 的下游
+#### 示例 3.3：path blocklist 的下游 {#manifest-ext3-3}
+
+```yaml
 
 Here’s an example showing how to block all vendor HALs from mainline by common path prefix in the workspace, add your own version for the chip you’re targeting, and keep everything else.
 
@@ -1735,7 +1740,9 @@ manifest:
 ```
 
 #### Example 3.4: Import into a subdirectory
-#### 示例 3.4：导入到一个子目录
+#### 示例 3.4：导入到一个子目录 {#manifest-ext3-4}
+
+```yaml
 
 You want to import a manifest and its projects, placing everything into a subdirectory of your [west workspace](https://docs.zephyrproject.org/latest/glossary.html#term-west-workspace).
 
@@ -1805,18 +1812,20 @@ manifest:
 ```
 
 ### Option 4: Sequence
-### 选项4：序列
+### 选项4：序列 {#manifest-opt-4}
 
 The `import` key can also contain a sequence of files, directories, and mappings.
 
 `import` 字段还可以包含文件、目录和映射的序列。
 
 #### Example 4.1: Downstream with sequence of manifest files
-#### 示例 4.1：提货单文件序列的下游
+#### 示例 4.1：提货单文件序列的下游 {#manifest-ext4-1}
+
+```yaml
 
 This example manifest is equivalent to the manifest in [Example 2.2: Downstream with directory of manifest files](https://docs.zephyrproject.org/latest/develop/west/manifest.html#west-manifest-ex2-2), with a sequence of explicitly named files.
 
-此示例 manifest 等效于[示例 2.2：提货单文件目录的下游](#示例-22提货单文件目录的下游)中的 manifest：
+此示例 manifest 等效于[示例 2.2：提货单文件目录的下游](#manifest-ext2-2)中的 manifest：
 
 ```YAML
 # my-repo/west.yml:
@@ -1833,7 +1842,9 @@ manifest:
 ```
 
 #### Example 4.2: Import order illustration
-#### 示例 4.2：导入顺序说明
+#### 示例 4.2：导入顺序说明 {#manifest-ext4-2}
+
+```yaml
 
 This more complicated example shows the order that west imports manifest files:
 
@@ -1879,15 +1890,15 @@ For this example, west resolves imports in this order:
 
 4. 最后是 `another-manifest-repo/submanifests`（按文件名排序），因为这是最后一个项目 `import`
 
-### Manifest Import Details
-### 提货单导入详情
+## Manifest Import Details
+## 提货单导入详情
 
 This section describes how west resolves a manifest file that uses `import` a bit more formally.
 
 本节更正式地描述了 lisa zep 如何解析使用 `import` 的提货单文件。
 
-#### Overview
-#### 概述
+### Overview
+### 概述
 
 The `import` key can appear in a west manifest’s `projects` and `self` sections. The general case looks like this:
 
@@ -1954,7 +1965,7 @@ This process recurses if necessary. E.g., if `import-1` produces a manifest file
 
 如有必要，此过程会递归进行。例如，如果 `import-1` 生成一个包含 `import` 字段的提货单文件，则在进一步处理其他内容之前，它会使用相同的规则递归解析。
 
-#### Projects
+### Projects
 
 This section describes how the final `projects` list is created.
 
@@ -1978,10 +1989,10 @@ For this reason, it’s not possible to run `west update P` if `P` is defined in
 
 By default, west won’t fetch any project data over the network if a project’s revision is a SHA or tag which is already available locally, so updating the extra projects shouldn’t take too much time unless it’s really needed. See the documentation for the [update.fetch](https://docs.zephyrproject.org/latest/develop/west/config.html#west-config-index) configuration option for more information.
 
-默认情况下，如果项目的修订号是一个 SHA 或 tag，并且已经在本地可用，lisa zep 不会在网络上获取任何项目数据，因此，除非确实需要，否则更新额外的项目不会花费太多时间。请参阅 [update.fetch](https://docs.zephyrproject.org/latest/develop/west/config.html#west-config-index) 配置选项以获取更多信息。
+默认情况下，如果项目的修订号是一个 SHA 或 tag，并且已经在本地可用，lisa zep 不会在网络上获取任何项目数据，因此，除非确实需要，否则更新额外的项目不会花费太多时间。请参阅 [update.fetch](./config.md#内置配置选项) 配置选项以获取更多信息。
 
-#### Extensions
-#### 扩展
+### Extensions
+### 扩展
 
 All extension commands defined using `west-commands` keys discovered while handling imports are available in the resolved manifest.
 
@@ -1991,7 +2002,7 @@ If an imported manifest file has a `west-commands:` definition in its `self:` se
 
 如果导入的提货单文件在其 `self:` 区域有一个 `west-commands:` 定义，则在导入提货单时，将会添加到导入提货单时的可用扩展命令集合中。因此，这些扩展命令将会替换任何添加后的相同名称的扩展命令。
 
-#### Group filters
+### Group filters
 
 The resolved manifest has a `group-filter` value which is the result of concatenating the `group-filter` values in the top-level manifest and any imported manifests.
 
