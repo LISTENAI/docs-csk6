@@ -2,9 +2,10 @@
 
 ## 概述
 
-Zephyr 提供的文件系统功能允许应用程序在不同的挂载点（例如/fatfs和/lfs）挂载多个文件系统，每个挂载点维护文件系统的实例化，挂载和文件操作等必要信息。
+Zephyr SDK当前支持两种文件系统，分别是littlefs和fatfs。针对嵌入式RTOS，推荐使用littlefs文件系统。
 
-本章节通过Zephyr SDK提供的示例`littlefs`展示如何在`lfs`挂载点上挂载一个文件系统，并实现文件的读写操作。
+Zephyr提供的文件系统功能允许应用程序在不同的挂载点（例如/lfs和/fatfs）挂载多个文件系统（littlefs或fatfs），每个挂载点维护文件系统的实例化、挂载和文件操作等必要信息。
+本章节通过Zephyr SDK提供的示例`littlefs`展示如何在`lfs`挂载点上挂载一个littlefs文件系统，并实现文件的读写操作。
 
 ## 常用API接口
 
@@ -232,7 +233,7 @@ CONFIG_FILE_SYSTEM_LITTLEFS=y
 
 ### 设备树配置
 
-在设备树配置文件`csk6002_9s_nano.overlay`中配置挂载点并指定文件系统在flash的便宜地址。
+在设备树配置文件`csk6002_9s_nano.overlay`中配置挂载点并指定文件系统在flash的偏移地址。
 
 ```c
 /delete-node/ &storage_partition;
@@ -252,6 +253,8 @@ CONFIG_FILE_SYSTEM_LITTLEFS=y
 		lfs1: lfs1 {
 			compatible = "zephyr,fstab,littlefs";
 			mount-point = "/lfs1";
+			
+			/* 文件系统对应的flash partition*/
 			partition = <&filesystem_part>;
 			automount;
 			no-format;
@@ -265,12 +268,14 @@ CONFIG_FILE_SYSTEM_LITTLEFS=y
 
 };
 
-/* /lfs1在 flash 的偏移地址0x160000 */
+
 &flash0 {
 	partitions {
 		compatible = "fixed-partitions";
 		#address-cells = <1>;
 		#size-cells = <1>;
+		
+		/* /lfs1在 flash 的偏移地址0x160000，空间大小 0x00300000 */
 		filesystem_part: partition@160000 {
 			label = "filesystem";
 			reg = <0x160000 0x00300000>;
@@ -331,7 +336,7 @@ debug等级， 0 表示没有debug输出。
 文件系统的页大小，以字节为单位。
 
 -s <number>,  --size <number>
-文件系统镜像bin文件的大小，以字节为单位。     
+文件系统镜像bin文件的大小，以字节为单位。（注意：不要超过dts给文件系统partition分配的flash空间）     
 ```
 
 #### 步骤二：应用实现
@@ -377,10 +382,10 @@ void main(void)
 	const struct flash_area *pfa;
 	int rc;
 	
-    
+    	/* 构建待操作文件的绝对路径（文件名为boot_count）*/
 	snprintf(fname, sizeof(fname), "%s/boot_count", mp->mnt_point);
 	
-    /* 从flash_ map中检索flash分区。 */
+    	/* 从flash_ map中检索flash分区。 */
 	rc = flash_area_open(id, &pfa);
 	if (rc < 0) {
 		printk("FAIL: unable to find flash area %u: %d\n",
@@ -415,7 +420,7 @@ void main(void)
 	printk("%s automounted\n", mp->mnt_point);
 #endif
 	
-    /* 检索文件系统信息 */
+    	/* 检索文件系统信息 */
 	rc = fs_statvfs(mp->mnt_point, &sbuf);
 	if (rc < 0) {
 		printk("FAIL: statvfs: %d\n", rc);
@@ -430,7 +435,7 @@ void main(void)
 
 	struct fs_dirent dirent;
 	
-    /* 获取boot_count文件状态 */
+    	/* 获取boot_count文件状态 */
 	rc = fs_stat(fname, &dirent);
 	printk("%s stat: %d\n", fname, rc);
 	if (rc >= 0) {
@@ -441,7 +446,7 @@ void main(void)
 
 	fs_file_t_init(&file);
 	
-    /* 打开boot_count文件 */
+    	/* 打开boot_count文件 */
 	rc = fs_open(&file, fname, FS_O_CREATE | FS_O_RDWR);
 	if (rc < 0) {
 		printk("FAIL: open %s: %d\n", fname, rc);
@@ -460,7 +465,7 @@ void main(void)
 	}
 
 	boot_count += 1;
-    /* 写boot_count文件，内容为读取boot_count内容的递增 */
+    	/* 写boot_count文件，内容为读取boot_count内容的递增 */
 	rc = fs_write(&file, &boot_count, sizeof(boot_count));
 	printk("%s write new boot count %u: %d\n", fname,
 	       boot_count, rc);
@@ -495,7 +500,7 @@ void main(void)
 	(void)fs_closedir(&dir);
 
 out:
-    /* 卸载文件系统 */
+    	/* 卸载文件系统 */
 	rc = fs_unmount(mp);
 	printk("%s unmount: %d\n", mp->mnt_point, rc);
 }
