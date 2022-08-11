@@ -27,8 +27,12 @@ todo
 
 ## 固件开发
 
-todo
+** 使用32M Flash 的 Nano 板烧录程序后无法运行 **
 
+【可能原因】：32M Flash 的 Nano 板Flash Reset有缺陷，所以烧录程序后无法通过硬件或软件进行复位。
+
+
+【解决方法】：使用32M Flash 的 Nano 板烧录程序后需要断电复位。
 
 ---
 
