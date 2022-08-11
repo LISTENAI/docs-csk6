@@ -18,7 +18,7 @@
 
 - [I2C](https://zephyr-docs.listenai.com/reference/peripherals/i2c.html)，使用 [示例](../application/peripheral/samples/I2C.md)
   
-- [KSCAN](https://zephyr-docs.listenai.com/reference/peripherals/kscan.html)
+- [KSCAN](https://zephyr-docs.listenai.com/reference/peripherals/kscan.html)，使用 [示例](../application/modules/display_kscan.md)
 
 - [Pinmux](https://zephyr-docs.listenai.com/reference/peripherals/pinmux.html)
 
@@ -30,4 +30,4 @@
 
 - [Watchdog](https://zephyr-docs.listenai.com/reference/peripherals/watchdog.html)，使用 [示例](../application/peripheral/samples/watchdog.md)
 
-- [Wifi](../application/network/wifi_connect.md)
+- [Wifi](../application/network/wifi_connect.md)，使用 [示例](../application/network/wifi_connect.md)
