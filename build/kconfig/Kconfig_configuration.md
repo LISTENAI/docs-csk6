@@ -102,7 +102,7 @@ CONFIG_SOME_INT=123
 
 所有的配置文件都将从应用程序的配置目录中获取，除了带有 `CONF_FILE` 参数给出的绝对路径的文件。
 
-有关如何定义应用程序配置目录，请参考[应用程序配置目录](http://localhost:3000/chips/600X/application/application_development#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%9B%AE%E5%BD%95)。
+有关如何定义应用程序配置目录，请参考[应用程序配置目录](../../application/application_development#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%9B%AE%E5%BD%95)。
 
 如果在`<BOARD>_defconfig`和应用配置中都指定了选项，则应用配置中的赋值优先使用。
 
