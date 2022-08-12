@@ -5,7 +5,7 @@
 当应用项目包含提货单时，可不设置全局的 SDK 。
 
 :::info
-如果你对提货单相关概念比较模糊，可查阅 Zephyr 官方文档的 [Manifests章节](https://zephyr-docs.listenai.com/guides/west/manifest.html) 进行了解。
+如果你对提货单相关概念比较模糊，[提货单](manifest.md) 进行了解。
 :::
 
 :::tip
