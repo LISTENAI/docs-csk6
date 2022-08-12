@@ -110,7 +110,6 @@
         "type": "category",
         "label": "系统内核",
         "items": [
-          "application/kernel/overview",
           "application/kernel/timer",
           "application/kernel/multithread",
           "application/kernel/sync_semaphore",
@@ -125,7 +124,6 @@
         "type": "category",
         "label": "系统服务",
         "items": [
-          "application/modules/overview",
           "application/modules/logger",
           "application/modules/usb_class",
           "application/modules/display_kscan",
