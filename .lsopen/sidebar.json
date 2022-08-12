@@ -133,6 +133,7 @@
           "application/shell_sample",
           "application/modules/nvs",
           "application/modules/filesystem",
+          "application/modules/cskwifi_driver",
           {
             "type": "category",
             "label": "音频",
