@@ -27,10 +27,10 @@ zephyr包括但不限于依赖这些模块：
 
 * 如果模块有一个外部（上游）项目代码仓库，那么模块代码仓库应该保留上游代码仓库的文件夹结构。
   :::info
-  不需要维护一个与外部代码仓库主分支成镜像关系的“master”分支，之所以不建议这样去做，因为这可能会使模块的主分支产生混乱，它应在zephyr分支。
+  不需要维护一个与外部代码仓库主分支成镜像关系的“master”分支，之所以不建议这样去做，因为这可能会使模块的主分支(这里是"zephyr")产生混乱，它应在zephyr分支。
   :::
 
-## <span id="docrequirements">文件要求</span>
+## <span id="docrequirements">文档要求</span>
 
 所有zephyr模块代码仓库都包含一个.rst文件，其中记录：
 
@@ -38,7 +38,6 @@ zephyr包括但不限于依赖这些模块：
   * 模块如何和zephyr集成
   * 模块代码仓库的所有者
   * 与外部项目（提交、SHA、版本等）的同步信息
-  * [许可证要求和政策](#)中所述的许可信息
 
 该文件是包含模块所必需的，而且它(所包含)的信息应该保持最新
 
@@ -46,13 +45,13 @@ zephyr包括但不限于依赖这些模块：
 
 构建系统变量 **ZEPHYR_MODULES** 是包含zephyr模块目录绝对路径的[CMake](https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#lists)列表。这些模块分别包含描述如何构建和配置它们的`CMakeLists.txt`和`Kconfig`文件。使用CMake的[add_subdirectory()](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)命令把`Kconfig`模块的`CMakeLists.txt`文件添加到构建中，`Kconfig`文件包含在构建的Kconfig菜单树中。
  
-如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)命令行工具，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 lisa zep 设置的  **ZEPHYR_MODULES**。你可以通过设置 **ZEPHYR_EXTRA_MODULES** CMake 变量或添加 **ZEPHYR_EXTRA_MODULES** 行来把其他模块添加到`.zephyrrc`列表中。(有关详情信息，请参考 [设置变量](https://docs.zephyrproject.org/2.7.0/application/index.html#env-vars)部分)。它有利于你想通过保存在west中找到的模块列表并添加自的模块列表。
+如果你安装了[lisa zep](../tool/lisa_plugin_zephyr/install.md)命令行工具，则无需担心如何定义此变量，除非你添加一个新的模块。构建系统需要知道如何使用 lisa zep 设置的  **ZEPHYR_MODULES**。你可以通过设置 **ZEPHYR_EXTRA_MODULES** CMake 变量或添加 **ZEPHYR_EXTRA_MODULES** 行来把其他模块添加到`.zephyrrc`列表中。(有关详情信息，请参考 [设置变量](https://docs.zephyrproject.org/2.7.0/application/index.html#env-vars)部分)。它有利于你想通过保存在lisa zep中找到的模块列表并添加自的模块列表。
 
 :::info 注意
-如果模块 `FOO` 是由 [west](https://docs.zephyrproject.org/2.7.0/guides/west/index.html#west) 提供的，但也是由 `-DZEPHYR_EXTRA_MODULES=/<path>/foo` 提供的，那么命令行变量 `ZEPHYR_EXTRA_MODULES` 给出的模块将优先。它允许你在构建时使用自定义版本的 `FOO` ，并且仍然使用west提供的其他zephyr模块。例如，它可用于特殊的测试目的。
+如果模块 `FOO` 是由 [lisa zep](https://docs.zephyrproject.org/2.7.0/guides/lisa zep/index.html#lisa zep) 提供的，但也是由 `-DZEPHYR_EXTRA_MODULES=/<path>/foo` 提供的，那么命令行变量 `ZEPHYR_EXTRA_MODULES` 给出的模块将优先。它允许你在构建时使用自定义版本的 `FOO` ，并且仍然使用lisa zep提供的其他zephyr模块。例如，它可用于特殊的测试目的。
 :::
  
-有关 west 工作空间的更多信息，请查看[Basics](https://docs.zephyrproject.org/2.7.0/guides/west/basics.html#west-basics)。
+有关 lisa zep 工作空间的更多信息，请查看[Basics](https://docs.zephyrproject.org/latest/develop/west/basics.html#west-basics)。
 
 最后，你还可以通过各种方式自己指定模块列表，如果你的应用程序不需要，则不需要使用模块。
 
@@ -75,7 +74,7 @@ name: <name>
 当用于CMake和Kconfig变量时，模块名称中的所有字母都转换为大写，所有非字母数字字符都转换为下划线（_）。例如，在CMake和Kconfig中，模块`foo-bar`需要转换为`ZEPHYR_FOO_BAR_MODULE_DIR`引用。
 :::
 
-这是zephyr模块的示例foo:
+这是zephyr模块 `foo` 的示例:
 ```
 name:foo
 ```
@@ -86,7 +85,7 @@ name:foo
 
 ### <span id="mn">模块集成文件(模块内)</span>
 
-包含构建文件`CMakeLists.txt`和`kconfig`可以描述为：
+包含build中`CMakeLists.txt`和`kconfig`可以描述为：
 ```
 build:
   cmake: <cmake-directory>
@@ -163,7 +162,7 @@ build:
     - <module>
 ```
 
-以下是zephyr模块示例 `foo` , 它依赖于 `bar` 构建系统中存在的zephyr模块：
+以下是zephyr模块示例 `foo` , 它依赖于构建系统中存在的zephyr模块`bar`：
 ```
 name: foo
 build:
@@ -216,7 +215,7 @@ Zephyr 代码仓库包含某些已知 Zephyr 模块的 `CMakeLists.txt` 和 `Kco
 
 若要包含模块的 CMake 文件，请将变量`ZEPHYR_<MODULE_NAME>_CMAKE_DIR` 设置为包含 CMake 文件的路径。
 
-若要包含模块的 Kconfig 文件，请将变量 `ZEPHYR_<MODULE_NAME>_KCONFIG` 设置为 KCONFIG 文件的路径。
+若要包含模块的 Kconfig 文件，请将变量 `ZEPHYR_<MODULE_NAME>_KCONFIG` 设置为 Kconfig 文件的路径。
 
 下面是一个关于如何添加对 `FOO` 模块的支持的示例。
 
@@ -236,9 +235,9 @@ set(ZEPHYR_FOO_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR}/foo)
 set(ZEPHYR_FOO_KCONFIG   ${CMAKE_CURRENT_LIST_DIR}/foo/Kconfig)
 ```
 
-#### <span id="mif">模块集成文件(zephyr/Module.yml)</span>
+#### <span id="mif">模块集成文件(zephyr/module.yml)</span>
  
-模块描述文件 `zephyr/Module.yml` 可用于指定构建文件 `CMakeLists.txt` 和 `Kconfig` 位于模块集成文件(外部)中。
+模块描述文件 `zephyr/module.yml` 可用于指定构建文件 `CMakeLists.txt` 和 `Kconfig` 位于模块集成文件(外部)中。
 
 `MODULE_EXT_ROOT` 中的构建文件可以描述为：
 ```
@@ -260,7 +259,7 @@ zephyr 代码仓库本身始终作为 zephyr 模块 ext 根目录添加。
 `module.yml` 文件中支持的构建设置如下：
 
   * `board_root` : 包含用于生成系统的其他板。其他板必须位于 `<board_root>/boards` 文件夹中。
-  * `dts_root` : 包含与体系结构/soc 系列相关的其他 dts 文件，其他 dts 文件必须位于 `<dts_root>/dts` 文件夹中。
+  * `dts_root` : 包含与芯片架构/soc 系列相关的其他 dts 文件，其他 dts 文件必须位于 `<dts_root>/dts` 文件夹中。
   * `soc_root` : 包含构建系统可用的其他 SoC。其他 SoC 必须位于 `<soc_root>/soc` 文件夹中。
   * `arch_root` : 包含可用于生成系统的其他架构。其他架构必须位于 `<arch_root>/arch` 文件夹中。
   * `module_ext_root` : 包含 Zephyr 模块的 CMakeLists.txt 和 Kconfig 文件 , 请参考[模块集成文件(外部)](#mife)
@@ -288,19 +287,19 @@ build:
 
 ### <span id="mi">包含模块</span>
 
-#### <span id="uw">使用west</span>
+#### <span id="uw">使用lisa zep</span>
 
-如果 west 已安装，**ZEPHYR_MODULES** 尚未设置，则构建系统将查找你的 `west安装` 中的所有模块并使用这些模块。它通过运行 `west list` 获取安装中所有项目的路径，然后将结果过滤到具有必要模块元数据文件的项目。
+如果 lisa zep 命令行工具已安装(命令行工具已经包含了west)，**ZEPHYR_MODULES** 尚未设置，则构建系统将查找你的 `lisa zep安装` 中的所有模块并使用这些模块。通过运行 `lisa zep list` 获取安装中所有项目的路径，然后将结果过滤到具有必要模块元数据文件的项目。
  
-`west list` 中的每个项目都经过如下测试：  
+`lisa zep list` 中的每个项目都经过如下测试：  
 
   * 如果项目包含一个名为 `zephyr/module.yml` 的文件，那么将使用该文件的内容来确定应该将哪些文件添加到构建中，如前一节所述。
   * 否则(即如果项目没有 `zephyr/module.yml`) ，构建系统将在项目中查找 `zephyr/CMakeLists.txt` 和 `zephyr/Kconfig` 文件。如果两者都存在，则将项目视为模块，并将这些文件添加到构建中。
   * 如果这两个检查都没有成功，那么项目就不被认为是一个模块，也不会被添加到 **ZEPHYR_MODULES** 中。
 
-#### <span id="wuw">没有使用west</span>
+#### <span id="wuw">没有使用lisa zep</span>
 
-如果你没有安装 west，或者不希望构建系统使用它来查找 zephyr 模块，可以使用下列选项之一自己设置 **ZEPHYR_MODULES**。列表中的每个目录必须包含 `zephyr/module.yml` 文件或者 `zephyr/CMakeLists.txt` 和 `Kconfig` 文件，如前一节所述。
+如果你没有安装 lisa zep，或者不希望构建系统使用它来查找 zephyr 模块，可以使用下列选项之一自己设置 **ZEPHYR_MODULES**。列表中的每个目录必须包含 `zephyr/module.yml` 文件或者 `zephyr/CMakeLists.txt` 和 `Kconfig` 文件，如前一节所述。
 
 1. 在 CMake 命令行中，如下所示:
   ```
@@ -324,4 +323,4 @@ build:
 
 #### <span id="num">没有使用模块</span>
 
-如果你没有安装 west，也没有自己指定 **ZEPHYR_MODULES**则不会向构建添加其他模块。你仍然可以构建任何不需要在外部代码仓库中定义代码或 Kconfig 选项的应用程序。
+如果你没有安装 lisa zep，也没有自己指定 **ZEPHYR_MODULES**则不会向构建添加其他模块。你仍然可以构建任何不需要在外部代码仓库中定义代码或 Kconfig 选项的应用程序。
