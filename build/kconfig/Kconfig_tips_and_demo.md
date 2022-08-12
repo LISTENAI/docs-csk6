@@ -756,4 +756,4 @@ CONFIG_FOO_SETTING_2=2
 
 ## <span id="or">其他资源</span>
 
-[Kconfiglib 文档字符串](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/kconfiglib.py)的符号值入门部分将详细介绍如何运算符号值。
+[kconfiglib.py](https://cloud.listenai.com/zephyr/zephyr/-/tree/master/scripts/kconfig/kconfiglib.py)（位于文件顶部）详细介绍了选项值的计算方式。
