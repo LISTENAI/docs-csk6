@@ -87,7 +87,7 @@ CONFIG_SOME_INT=123
 1. 如果`CONF_FILE`设置后，其中指定的配置文件将合并用作应用程序配置。 `CONF_FILE` 可通过多种方式设置：
 
    1. 在 `CMakeLists.txt`, 在调用之前`find_package(Zephyr)`
-   2. 通过 `lisa zep` 参数传递
+   2. 通过 `lisa zep build` 参数 `-DCONF_FILE=<conf file(s)>` 传递
    3. 来自 CMake 变量缓存
 
 2.  如果`CONF_FILE` 被设置，并且单个配置文件形式 `prj_<build>.conf` 被使用，那么如果文件 `boards/<BOARD>_<build>.conf` 与文件存在同一文件夹中  `prj_<build>.conf` ,是用 `prj_<build>.conf` 和 `boards/<BOARD>_<build>.conf` 合并而来
@@ -99,6 +99,10 @@ CONFIG_SOME_INT=123
 5. 如果board版本使用`boards/<BOARD>_<revision>.conf`存在应用程序目录中，则结果与`prj.conf`和`boards/<BOARD>.conf`合并使用。
 
 6. 如果`prj.conf`存在应用目录中，则使用它。
+
+所有的配置文件都将从应用程序的配置目录中获取，除了带有 `CONF_FILE` 参数给出的绝对路径的文件。
+
+有关如何定义应用程序配置目录，请参考[应用程序配置目录](http://localhost:3000/chips/600X/application/application_development#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%9B%AE%E5%BD%95)。
 
 如果在`<BOARD>_defconfig`和应用配置中都指定了选项，则应用配置中的赋值优先使用。
 
