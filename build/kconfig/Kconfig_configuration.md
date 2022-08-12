@@ -2,7 +2,7 @@
 
 [menuconfig](./Kconfig_gui.md) 可用于在应用程序开发期间测试配置，本页说明如何进行永久设置。
 
-可以在[Kconfig搜索页](https://docs.zephyrproject.org/latest/build/kconfig/setting.html)中找到所有 Kconfig 选项的自动生成列表。
+可以在[Kconfig搜索页](https://zephyr-docs.listenai.com/kconfig.html)中找到所有 Kconfig 选项的自动生成列表。
 
 :::info 注意
 在对 Kconfig 文件进行更改之前，最好也浏览一下Kconfig - [小贴士与最佳实践](./Kconfig_tips_and_demo.md)。
@@ -74,20 +74,20 @@ CONFIG_SOME_INT=123
 
 ## <span id="config_init">初始配置</span>
 
-应用程序的初始配置来自于合并三个来源设置：
+应用程序的初始配置来自于合并三个来源的配置设置：
 
-1. 一个 `BOARD` 特定配置文件存储在 `boards/<architecture>/<BOARD>/<BOARD>_defconfig`
+1. 一个 `BOARD` 特定配置文件存储在 `boards/<architecture>/<BOARD>/<BOARD>_defconfig`。
 
-2. 任何CMake条目的前缀为 `CONFIG_`
+2. 任何前缀为 CONFIG_ 的 CMake 缓存项
 
 3. 应用程序设置 `./prj.conf`
  
-应用程序配置可以来自一下源。默认情况下`prj.conf`使用。
+应用程序配置可以来自以下源。默认情况下`prj.conf`使用。
 
 1. 如果`CONF_FILE`设置后，其中指定的配置文件将合并用作应用程序配置。 `CONF_FILE` 可通过多种方式设置：
 
    1. 在 `CMakeLists.txt`, 在调用之前`find_package(Zephyr)`
-   2. 通过传递 `-DCONF_FILE=<conf file(s)>`, 或`lisa zep`
+   2. 通过 `lisa zep` 参数传递
    3. 来自 CMake 变量缓存
 
 2.  如果`CONF_FILE` 被设置，并且单个配置文件形式 `prj_<build>.conf` 被使用，那么如果文件 `boards/<BOARD>_<build>.conf` 与文件存在同一文件夹中  `prj_<build>.conf` ,是用 `prj_<build>.conf` 和 `boards/<BOARD>_<build>.conf` 合并而来
