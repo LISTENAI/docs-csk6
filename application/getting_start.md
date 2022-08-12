@@ -185,20 +185,14 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 > 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
-__2、通过snap离线安装__
+__2、通过离线安装包__
 
-- 下载[Ubuntu 18.04 snap离线包](https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=linux-snap)：
+- 下载[Ubuntu 离线安装包](https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=linux-snap)，建议使用 Ubuntu 18.04 版本及以上。
 
 - 解压后执行：
 
 ```bash
 ./install.sh
-```
-
-或直接通过`snap`进行安装解压后的`snap包`：
-
-```bash
-snap install lisa_xxx.snap
 ```
 
   </TabItem>

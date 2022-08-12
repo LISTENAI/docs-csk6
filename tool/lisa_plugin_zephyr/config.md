@@ -19,11 +19,13 @@ base = zephyr
 配置文件有三种类型：
 
 1. **系统**：这个文件中的设置会影响 lisa zep 对每个登录到计算机的用户的行为。它的位置取决于平台：
+
     - Linux: `/etc/westconfig`
     - macOS: `/usr/local/etc/westconfig`
     - Windows: `%PROGRAMDATA%\west\config`
-  
+
 2. **全局** (每个用户)：这个文件中的设置会影响在计算机上的指定用户运行 lisa zep 的行为。
+
     - 全部平台：默认是用户的主目录中的 `.westconfig`
     - Linux: 如果设置环境变量 `XDG_CONFIG_HOME`，那么 `$XDG_CONFIG_HOME/west/config` 将被使用。
     - Windows：测试以下环境变量以查找用户目录：`%HOME%`, 然后 `%USERPROFILE%`, 然后组合 `%HOMEDRIVE%` 和 `%HOMEPATH%`。
