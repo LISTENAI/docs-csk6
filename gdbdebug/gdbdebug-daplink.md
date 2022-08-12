@@ -13,43 +13,6 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 ## 准备工作
 - CSK6-NanoKit 开发板，DAPLink 调试 USB 口接 PC 端。
-<<<<<<< HEAD
-- PC 端安装 `VS Code`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
-- `csk6002_9s_nano` 的日志串口接 NanoKit 板子的 `DAPLink` 的 `USB TYPE C` 口即可在电脑端上使用串口调试助手查看日志。如果不是使用 NanoKit 的话，可以通过 `A03 TX A02 RX` 接串口板连接电脑来查看日志，波特率为 115200。
-
-## 调试过程
-### VS Code 调试环境搭建
-#### VS Code 安装 `Venus's Cortex-Debug` 调试插件
-在 VS Code 应用商店中搜索 `Venus's Cortex-Debug` 扩展插件，并完成安装，如下图所示：
-
-![](./files/venus-debug.png)
-
-#### 创建 `hello_world` 项目并完成 debug 环境配置
-
-**步骤一：** 在 Windows 下新建一个文件夹，如 `csk6-develop`，并将其导入 VS Code。
-
-**步骤二：** 在 `csk6-develop` 目录下新建 .vscode 目录，将 [launch.json](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/jlink-debug/launch.json) 文件放置到该目录下。
-
-**步骤三：** 在 `csk6-develop` 文件夹下使用 `lisa zep create` 命令创建 `hello_world` 项目，并使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
-
-**步骤四：** 修改 `luncher.json` 文件 `executable`、`serverpath`、 `armToolchainPath` 三项配置，具体如下：
-
-`executable` 修改为需要 debug 应用项目的 zephyr.elf 文件路径，本示例为`hello_world` 项目的 zephyr.elf 路径：
-```c 
-# 需要 debug 应用的 zephyr.elf 文件路径，本示例为 `hello_world` 项目的 zephyr.elf 路径 
- "executable": "E:\\csk6-develop\\hello_world\\build\\zephyr\\zephyr.elf",
-```
-
-`serverpath` 修改为 lisa 安装时带入的 pyocd 执行文件路径：
-```c 
-"serverpath": "C:/Users/xiaoqingqin/.listenai/lisa-zephyr/venv/Scripts/pyocd.exe",
-```
-
-`armToolchainPath` 修改为 lisa 安装时带入编译链的路径：
-```c
-"armToolchainPath": "C:/Users/xxxx/.listenai/lisa-zephyr/packages/node_modules/@binary/gcc-arm-none-eabi-9/binary/bin",
-``` 
-=======
 - PC 端安装 `VSCode`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
 - `csk6002_9s_nano` 的日志串口接 NanoKit 板子的 `DAPLink` 的 `USB TYPE C` 口即可在电脑端上使用串口调试助手查看日志。如果不是使用 NanoKit 的话，可以通过 `A03 TX A02 RX` 接串口板连接电脑来查看日志，波特率为 115200。
 
@@ -61,7 +24,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 #### VSCode 安装 `Cortex-Debug` 调试插件
 在 VSCode 应用商店中搜索 `Cortex-Debug` 扩展插件，并完成安装，如下图所示：
 
-![](./files/venus-debug.png)
+![](../tool/vscode_plugin/files/debug.png)
 
 #### 基于已有项目的完成 debug 环境配置
 

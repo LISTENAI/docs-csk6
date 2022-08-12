@@ -43,4 +43,3 @@ lisa zep lpk
 执行该命令，按照提示的步骤进行输入，即可输出当前项目的lpk包。
 
 ![image](./images/lpk_1.png)
-<<<<<<< HEAD
