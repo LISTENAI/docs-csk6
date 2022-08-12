@@ -265,8 +265,6 @@ flash@8000000 {
 
 - SPI设备： `address` 表示片选线号；没有 `length` 值。
 
-You may notice some similarities between the `reg` property and common unit addresses described above. This is not a coincidence. The `reg` property can be seen as a more detailed view of the addressable resources within a device than its unit address.
-
 你可能会注意到 `reg` 属性和上面描述通用的单元地址之间的一些相似之处。这并不是巧合。 `reg` 属性可以看作是设备内比其单元地址更详细的可寻址资源的视图。
 
 </div>
