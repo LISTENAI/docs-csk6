@@ -268,12 +268,6 @@ manifest:
 
 :::info
 ```YAML
-manifest:
-  group-filter:
-    - -groupA
-    - -groupB
-```
-
 因为 `group-filter` 是一个 YAML 列表，所以你可以写成这样：
 
 ```YAML
