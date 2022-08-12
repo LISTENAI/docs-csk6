@@ -27,7 +27,7 @@ zephyr包括但不限于依赖这些模块：
 
 * 如果模块有一个外部（上游）项目代码仓库，那么模块代码仓库应该保留上游代码仓库的文件夹结构。
   :::info
-  不需要维护一个与外部代码仓库主分支成镜像关系的“master”分支，之所以不建议这样去做，因为这可能会使模块的主分支(这里是"zephyr")产生混乱，它应在zephyr分支。
+  不需要维护一个与外部代码仓库主分支成镜像关系的“master”分支，之所以不建议这样去做，因为这可能会使模块的主分支(应是"zephyr")产生混乱。
   :::
 
 ## <span id="docrequirements">文档要求</span>
@@ -296,30 +296,6 @@ build:
   * 如果项目包含一个名为 `zephyr/module.yml` 的文件，那么将使用该文件的内容来确定应该将哪些文件添加到构建中，如前一节所述。
   * 否则(即如果项目没有 `zephyr/module.yml`) ，构建系统将在项目中查找 `zephyr/CMakeLists.txt` 和 `zephyr/Kconfig` 文件。如果两者都存在，则将项目视为模块，并将这些文件添加到构建中。
   * 如果这两个检查都没有成功，那么项目就不被认为是一个模块，也不会被添加到 **ZEPHYR_MODULES** 中。
-
-#### <span id="wuw">没有使用lisa zep</span>
-
-如果你没有安装 lisa zep，或者不希望构建系统使用它来查找 zephyr 模块，可以使用下列选项之一自己设置 **ZEPHYR_MODULES**。列表中的每个目录必须包含 `zephyr/module.yml` 文件或者 `zephyr/CMakeLists.txt` 和 `Kconfig` 文件，如前一节所述。
-
-1. 在 CMake 命令行中，如下所示:
-  ```
-  cmake -DZEPHYR_MODULES=<path-to-module1>[;<path-to-module2>[...]] ...
-  ```
-
-2. 在应用程序的顶级 `CMakeLists.txt` 的顶部，如下所示:  
-   ```
-    set(ZEPHYR_MODULES <path-to-module1> <path-to-module2> [...])
-    find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-   ```
-   如果选择此选项，请确保在调用 `find_package(Zephyr ...)` **之前**设置变量，如上所示。
-
-3. 在一个单独的 CMake 脚本中，该脚本被预先加载来填充 CMake 缓存，如下所示:
-   ```
-   # Put this in a file with a name like "zephyr-modules.cmake"
-    set(ZEPHYR_MODULES <path-to-module1> <path-to-module2>
-      CACHE STRING "pre-cached modules")
-   ```
-    你可以通过在 CMake 命令行中添加 `-C zephyr-modules.cmake` 来告诉构建系统使用这个文件。
 
 #### <span id="num">没有使用模块</span>
 
