@@ -125,8 +125,8 @@ target_sources(app PRIVATE src/main.c)
 ### 步骤四：修改dts和配置文件
 
 #### .dts文件修改
-在[设备树](./device_tree.md)章节中可学习到`.dts`文件是设备树的源文件，用来定义硬件设备的细节，比如定义一个uart设备，并定义其引脚信息等。
-参考`csk6002_9s_nano`配置在该文件中完成`leds`、`gpio_keys`、`wifi_module`、`uart0`、`flash0`、 `psram0`、`spi0`等外设的设备树配置，更多关于设备树配置和规则请查阅[设备树](./device_tree.md)章节。
+在[设备树](../build/dts/intro.md)章节中可学习到`.dts`文件是设备树的源文件，用来定义硬件设备的细节，比如定义一个uart设备，并定义其引脚信息等。
+参考`csk6002_9s_nano`配置在该文件中完成`leds`、`gpio_keys`、`wifi_module`、`uart0`、`flash0`、 `psram0`、`spi0`等外设的设备树配置，更多关于设备树配置和规则请查阅[设备树](../build/dts/intro.md)章节。
 
 修改示例：
 

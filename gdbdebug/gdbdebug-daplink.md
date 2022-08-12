@@ -55,24 +55,46 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 ## 调试过程
 ### VSCode 调试环境搭建
+
+> 以下方式中以 `csk6002_9s_nano` 为例
+
 #### VSCode 安装 `Cortex-Debug` 调试插件
 在 VSCode 应用商店中搜索 `Cortex-Debug` 扩展插件，并完成安装，如下图所示：
 
 ![](./files/venus-debug.png)
 
-#### 基于已有项目的完成debug 环境配置
+#### 基于已有项目的完成 debug 环境配置
 
-**步骤一：** 在已有项目目录下使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
 
-**步骤二：** 在已有项目目录下使用 `lisa zep ide` 生成debug配置文件launch.json。
+**步骤一：** 在已有项目目录下使用以下命令完成编译。
 
-**步骤三：** 关闭所有已经打开的VSCode，重新运行并打开刚才的项目文件夹。可以查看到该目录下已经存在 `.vscode/launch.json` 文件。
+```bash
+lisa zep build -b csk6002_9s_nano
+```
+
+**步骤二：** 在已有项目目录下使用生成 debug 配置文件 `launch.json` 。
+
+```bash
+lisa zep ide
+```
+
+**步骤三：** 关闭所有已经打开的 VSCode 窗口，重新运行 VSCode 并打开刚才的项目文件夹。可以在路径 `.vscode/launch.json` 下看到 debug 调试文件。
 
 #### 创建新项目并完成 debug 环境配置
 
-**步骤一：** 选择一个目录用于存放我们即将创建的项目，在该目录下使用 `lisa zep create` 命令创建 `hello_world` 项目，并使用 `lisa zep build -b csk6002_9s_nano` 命令完成编译。
+**步骤一：** 选择一个目录用于存放我们即将创建的项目，终端中进入该目录执行以下命令，创建 `hello_world` 项目。
 
-**步骤二：** 在VSCode中打开刚刚创建的hello_world项目，可以查看到该目录下已经存在 `.vscode/launch.json` 文件。
+```bash
+lisa zep create
+```
+
+**步骤二：** 在项目目录下使用以下命令完成编译。
+
+```bash
+lisa zep build -b csk6002_9s_nano
+```
+
+**步骤三：** 在 VSCode 中打开刚刚创建的 hello_world 项目，可以在路径 `.vscode/launch.json` 下看到 debug 调试文件。
 
 #### 配置文件变量说明
 
@@ -107,7 +129,8 @@ void main(void)
 	}
 }
 ```
-#### 步骤二：编译和烧录  
+#### 步骤二：编译和烧录
+
 - **编译**
 在 app 根目录下通过以下指令完成编译：
 ```
@@ -145,12 +168,15 @@ lisa zep flash --runner pyocd
 ![](./files/debug_but.png)
 
 ##### 常用调试快捷键
-- F5 继续(执行到下一个断点)
-- F10 单步调过
-- F11 单步调试
-- Shift+F11 单步跳出
-- ctrl+shift+F5 重启
-- shift+F5 停止
+
+| 按键 | 功能 |
+| --- | --- |
+| F5 | 继续(执行到下一个断点) |
+| F10 | 单步调过 |
+| F11 | 单步调试 |
+| Shift + F11 | 单步跳出 |
+| Ctrl + Shift +F5 | 重启 |
+| Shift + F5 | 停止 |
 
 以上就是 Zephyr 应用程序的基本调试方法，开发者可以在使用过程中尝试更多的调试手段。
 

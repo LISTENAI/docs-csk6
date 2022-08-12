@@ -170,7 +170,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 变量 **BOARD** 、 **CONF_FILE** 和 **DTC_OVERLAY_FILE** 可以通过 3 种方式（按优先顺序）提供给构建系统：
 
 * 调用 `lisa zep build` 时通过 `-D` 增加命令行参数。如果你有多个覆盖文件，你应该使用引号，例如  `"file1.overlay;file2.overlay"`
-* 作为 [环境变量](./env_vars.md) 声明。
+* 作为 [环境变量](https://docs.zephyrproject.org/3.1.0/develop/env_vars.html) 声明。
 * 在 `CMakeLists.txt` 中以 `set(<VARIABLE> <VALUE>)` 声明。
 :::
 
@@ -208,7 +208,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
     1. 由 CMake 缓存确定的任何先前使用的值都具有最高优先级。这可确保你不会尝试使用与在构建配置步骤中设置的不同的 **BOARD** 值运行构建。
     2. 任何在 CMake 命令行（直接或间接通过 `lisa zep build` ）使用 `-DBOARD=YOUR_BOARD` 配置的值，都将被检查并在其执行的过程中使用。
-    3. 如果 [环境变量](./env_vars.md) 中设置了 `BOARD` ，则将使用其值。
+    3. 如果 [环境变量](https://docs.zephyrproject.org/3.1.0/develop/env_vars.html) 中设置了 `BOARD` ，则将使用其值。
     4. 最后，如果你按照前文所述在应用的 `CMakeLists.txt` 中设置 `BOARD` ，则将使用该值。
 
 
