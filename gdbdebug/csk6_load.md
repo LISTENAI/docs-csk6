@@ -45,7 +45,7 @@ lisa zep flash --build-dir .\blinky\build
 ```bash
 lisa zep flash --runner pyocd
 ```
-当前烧录产物支持的 `runner`，以及默认设置烧录工具可以在 `app\build\zephyr\runners.yaml` 文件中找到,，具体如下：
+当前烧录产物支持的 `runner`，以及默认设置烧录工具可以在 `app\build\zephyr\runners.yaml` 文件中找到，具体如下：
 ```bash
 # Available runners configured by board.cmake.
 runners:
@@ -70,8 +70,16 @@ debug-runner: pyocd
 
 从配置文件可以看到，当不指定烧录工具时默认 pyocd 作为烧录工具。
 
-### 烧录方式一：使用 pyOCD 作为烧录工具
-CSK6-NanoKit 板载了 DAPLink 调试器芯片，开发者可通过 DAPLink USB 接口对 CSK6 芯片进行固件烧录。
+## 烧录方式
+### 指定 pyocd 作为烧录工具
+
+![](./files/nano.png)
+
+从上图系统框图可看到，CSK6-NanoKit 板载了 DAPLink 调试器芯片，DAPLink和CSK芯片模组通过SWD和串口两种方式连接，开发者可通过指定烧录工具(pyocd或csk)的方式来选择SWD或者是串口烧录，两者是二选一的关系，
+
+**准备工作：**
+DAPLink USB 接口接PC端。
+
 
 **烧录指令：**
 
@@ -86,11 +94,7 @@ lisa zep flash --runner pyocd
 本烧录方式仅支持带 DAPLink 调试器芯片的开发板，若无 DAPLink 的硬件请选择其他烧录工具进行烧录。
 :::
 
-:::caution
-本烧录方式在Windows系统下可能出现烧录速度慢的问题，出现此问题时建议选择其他烧录方式。
-:::
-
-### 烧录方式二：使用 J-Link 作为烧录工具
+### 指定 J-Link 作为烧录工具
 CSK6-NanoKit 开发板预留了 SWD 烧录接口，开发者可以通过 SWD 接口将 J-Link 仿真器和开发板连接。
 
 **烧录指令：**
@@ -112,21 +116,24 @@ lisa zep flash --runner jlink
 该烧录方式需要硬件板子预留 SWD 接口。
 :::
 
-### 烧录方式三：使用 csk(串口) 作为烧录工具
-CSK6-NanoKit 板载了 DAPLink 调试器芯片，DAPLink 虚拟了一个串口，开发者可通过指定的虚拟串口对 csk6 进行烧录。
+### 指定 CSK 串口作为烧录工具
+**CSK的烧录串口：**
+PA15(RX) PA18(TX)，使能脚PA1(拉低使能脚上电即可进入烧录模式)。
+
+**CSK6-NanoKit 串口烧录有两种方式：**
+- 通过上文`指定 pyocd 作为烧录工具`小节可知，`CSK6-NanoKit` 板载了 `DAPLink` 调试器芯片，`DAPLink` 默认接到了`CSK6`的烧录串口`PA15(RX)`、 `PA18(TX)`，开发者可通过指定参数的方式通过 `DAPLink` 对 `CSK6` 进行烧录，该方式仅需要将 `DAPLink` 的 USB 接口接 PC 端即可。
+DAPLink 在电脑设备管理器中的虚拟串口为`USB串行设备(COMXX)`如下图所示：
+![](./files/uart_burn.png)
+
+
+- 通过串口转接板接`PA15(RX)`、`PA18(TX)`进行串口烧录，该方式需要让 `CSK6` 先进入烧录模式后才能开始烧录，csk6进入烧录模式的方法：拉低PA1引脚上电即可进入烧录模式。
 
 **烧录指令：**
 
 ```
 lisa zep flash --runner csk --port  \\.\COMXX
 ```
-
-其中，COMXX 为 DAPLink 在电脑设备管理器中的虚拟串口：
-![](./files/uart_burn.png)
+COMXX 为实际串口。
 
 烧录过程日志：
 ![](./files/burn_uart.png)
-
-:::tip
-该烧录方式仅支持带 DAPLink 调试器芯片的硬件板，若无板载 DAPLink 的硬件请选择其他烧录工具进行烧录。
-:::
