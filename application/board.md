@@ -9,9 +9,6 @@ csk6 sdk支持开发者在app应用目录下新增一个应用级别的board，�
 - 新增一个板型的正确方法
 - 如何针对新的硬件适配自定义板型
 
-
-
-
 ## 添加自定义board
 
 csk6 sdk适配了`csk6002_9s_nano`开发板，对应的board配置文件在`zephyr\boards\arm\csk6002_9s_nano`目录下，目录文件结构如下：
