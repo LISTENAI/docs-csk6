@@ -93,6 +93,8 @@ identifier: csk6002_myboard
 
 ```
 config BOARD_csk6002_myboard
+   bool "csk6002_myboard Board"
+   depends on SOC_CSK6
 ```
 
 - Kconfig.defconfig文件
@@ -106,7 +108,7 @@ endif # BOARD_csk6002_myboard
 
 ### 步骤三：CMake文件修改
 
-在`app/CMakeLists.txt`文件中添加`set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})`编译配置，指定项目编译时引用app目录下的board配置：
+在`app/CMakeLists.txt`(注意不是boads目录下的`CMakeLists.txt`)文件中添加`set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})`编译配置，指定项目编译时引用app目录下的board配置：
 
 ```
 # SPDX-License-Identifier: Apache-2.0
