@@ -26,7 +26,7 @@ Windows 系统和 Ubuntu 系统下配置的基本一致。
 
 ![](../tool/vscode_plugin/files/debug.png)
 
-#### 基于已有项目的完成 debug 环境配置
+### 基于已有项目的完成 debug 环境配置
 
 
 **步骤一：** 在已有项目目录下使用以下命令完成编译。
@@ -43,7 +43,7 @@ lisa zep ide
 
 **步骤三：** 关闭所有已经打开的 VSCode 窗口，重新运行 VSCode 并打开刚才的项目文件夹。可以在路径 `.vscode/launch.json` 下看到 debug 调试文件。
 
-#### 创建新项目并完成 debug 环境配置
+### 创建新项目并完成 debug 环境配置
 
 **步骤一：** 选择一个目录用于存放我们即将创建的项目，终端中进入该目录执行以下命令，创建 `hello_world` 项目。
 
@@ -59,7 +59,7 @@ lisa zep build -b csk6002_9s_nano
 
 **步骤三：** 在 VSCode 中打开刚刚创建的 hello_world 项目，可以在路径 `.vscode/launch.json` 下看到 debug 调试文件。
 
-#### 配置文件变量说明
+### 配置文件变量说明
 
 `executable`: debug 应用项目的 zephyr.elf 文件路径，本示例为`hello_world` 项目的 zephyr.elf 路径。
 
@@ -76,7 +76,7 @@ lisa zep build -b csk6002_9s_nano
 .vscode 下放置的是各种配置文件，如：task.json 文件、launch.json 文件等，如遇配置文件不生效的情况，可关闭所有已打开VSCode之后重新运行。
 :::
 
-### 对 `hello_world` 项目进行 debug 调试
+### 对应用项目进行 debug 调试
 #### 步骤一：基于 `hello_world` 应用代码增加简单的代码逻辑
 ```c
 void main(void)
@@ -141,7 +141,6 @@ lisa zep flash --runner pyocd
 | Ctrl + Shift +F5 | 重启 |
 | Shift + F5 | 停止 |
 
-以上就是 Zephyr 应用程序的基本调试方法，开发者可以在使用过程中尝试更多的调试手段。
 
 
 
