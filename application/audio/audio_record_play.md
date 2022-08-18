@@ -30,7 +30,7 @@ lisa zep create
 ## 应用实现
 ### 设备树配置
 
-在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，音频框架使用到了IPC的硬件通讯，因此需要在sample中重写`boad overlay`完成设备树配置。
+在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，音频框架使用到了IPC的硬件通讯，因此需要在sample中重写`board overlay`完成设备树配置。
 ```c
 / {
 	chosen {
