@@ -120,7 +120,7 @@ lisa zep create
 
 
 ### 设备树配置
-在`csk6002_9s_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`boad overlay`的方式完成ADC引脚和通道的配置。
+在`csk6002_9s_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`board overlay`的方式完成ADC引脚和通道的配置。
 `app/board/csk6002_9s_nano.overlay`详细配置：
 ```c
 /*给pinctrl_adc0_ch1_default配置对应的gpio pin脚*/

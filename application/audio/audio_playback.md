@@ -220,7 +220,7 @@ generate_inc_file_for_target(
 
 ### 设备树配置
 
-在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，因此需要在sample中重写`boad overlay`完成设备树配置。
+在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，因此需要在sample中重写`board overlay`完成设备树配置。
 ```c
  / {
     chosen {

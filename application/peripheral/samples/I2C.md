@@ -126,7 +126,7 @@ CONFIG_PRINTK=y
 CONFIG_I2C=y
 ```
 ### I2C设备树配置
-`csk6002_9s_nano`开发板提供了多组I2C。本示例使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可通过`boad overlay`的方式完成I2C引脚的配置。
+`csk6002_9s_nano`开发板提供了多组I2C。本示例使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可通过`board overlay`的方式完成I2C引脚的配置。
 
 在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
 ```c

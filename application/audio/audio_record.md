@@ -172,7 +172,7 @@ lisa zep create
 
 
 ### 设备树配置
-本示例基于`csk6002_9s_nano`开发板，使用到了共享内存，因此需要在sample中重写`boad overlay`完成设备树配置。
+本示例基于`csk6002_9s_nano`开发板，使用到了共享内存，因此需要在sample中重写`board overlay`完成设备树配置。
 ```c
 / {
 	chosen {

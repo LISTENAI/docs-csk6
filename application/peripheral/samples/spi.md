@@ -103,7 +103,7 @@ CONFIG_HEAP_MEM_POOL_SIZE=10240
 CONFIG_SPI_COMPLETION_TIMEOUT_TOLERANCE=10000
 ```
 ### SPI设备树配置
-CSK6-NanoKit开发板提供了两组SPI外设。本示例使用`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`作为SPI通讯接口，因此需要在设备树中将这GPIO引脚复用为SPI功能，可通过`boad overlay`的方式完成，具体如下：
+CSK6-NanoKit开发板提供了两组SPI外设。本示例使用`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`作为SPI通讯接口，因此需要在设备树中将这GPIO引脚复用为SPI功能，可通过`board overlay`的方式完成，具体如下：
 在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
 ```c
 &csk6002_9s_nano_pinctrl{
