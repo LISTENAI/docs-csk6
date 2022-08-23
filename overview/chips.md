@@ -6,9 +6,9 @@
 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
 <div style={{ flex: 1, minWidth: 345 }}>
 
-CSK6 是聆思科技新一代的 AI 芯片 SoC 产品系列，采用多核异构架构，集成了 ARM Star MCU，HiFi4 DSP，以及聆思全新设计的 AI 神经网络处理内核 NPU，算力达到 128 GOPS。多核异构的设计使芯片能以较低功耗有效支持音频及图像视频的 AI 应用需求。
+CSK6 是聆思科技新一代的 AI 芯片 SoC 产品系列，采用多核异构架构，集成了 ARM Star MCU，HiFi4 DSP，以及聆思全新设计的 AI 神经网络处理内核 NPU，算力达到 128 GOPS。多核异构的设计使芯片能以较低功耗满足音频及图像视频的 AI 应用需求。
 
-本系列芯片集成了 1M Byte 的 SRAM 并支持 PSRAM 和 Flash 的扩展，提供 4 入 2 出的 Audio Codec，VGA 像素的 DVP 摄像头接口，多达 6 路触控检测，以及 SPI、UART、USB、SDIO、I2C、I2S 等各类接口，丰富接口支持各类应用方案的开发。
+本系列芯片集成了 SRAM 与 PSRAM，支持内置或外接Flash，可提供最高 4 入 2 出的 Audio Codec，VGA 像素的 DVP 摄像头接口，多达 6 路的触控检测以及 SPI、UART、USB、SDIO、I2C、I2S 等各类外设接口，丰富接口支持各类应用方案的开发。
 
 </div>
 <div style={{ textAlign: 'center', minWidth: 180, marginLeft: 24 }}>
@@ -95,7 +95,7 @@ CSK6 是聆思科技新一代的 AI 芯片 SoC 产品系列，采用多核异构
 
 | 标题 | 版本 | 发布日期 | 操作 |
 | ---- | ---- | ---- | ---- |
-| CSK6002 技术规格书 | V1.3 | 2022.8.2 | [下载](./_downloads/6002_datasheet_V1.3_listenAI.pdf) |
-| CSK6011A 技术规格书 | V1.3 | 2022.8.2 | [下载](./_downloads/6011A_datasheet_V1.3_listenAI.pdf) |
-| CSK6012 技术规格书 | V1.3 | 2022.8.2 | [下载](./_downloads/6012_datasheet_V1.3_listenAI.pdf) |
+| CSK6002 技术规格书 | V1.4 | 2022.8.16 | [下载](./_downloads/6002_datasheet_V1.4_listenAI.pdf) |
+| CSK6011A 技术规格书 | V1.4 | 2022.8.16 | [下载](./_downloads/6011A_datasheet_V1.4_listenAI.pdf) |
+| CSK6012 技术规格书 | V1.4 | 2022.8.16 | [下载](./_downloads/6012_datasheet_V1.4_listenAI.pdf) |
 | CSK60XX用户使用手册 | - | - | 敬请期待 |
