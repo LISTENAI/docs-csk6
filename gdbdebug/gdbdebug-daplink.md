@@ -7,13 +7,14 @@ Zephyr 提供了多种 debug 调试方式，支持 gdb 调试，本章节主要�
 - PC端如何对应用项目进行调试
 - 基于 VS Code 和 DAPLink 的调试方法
 
-:::note
-Windows 系统和 Ubuntu 系统下配置的基本一致。
+:::tip
+本章节功能特性仅在 lisa zep 工具 <font color="#dd0000">1.6.2</font> 及以上版本支持，您可通过执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
 :::
+
 
 ## 准备工作
 - CSK6-NanoKit 开发板，DAPLink 调试 USB 口接 PC 端。
-- PC 端安装 `VSCode`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
+- PC 端安装 [Visual Studio Code](https://code.visualstudio.com/Download)，根据系统类型选择对应的 Windows 或 Linux 版本。
 - `csk6002_9s_nano` 的日志串口接 NanoKit 板子的 `DAPLink` 的 `USB TYPE C` 口即可在电脑端上使用串口调试助手查看日志。如果不是使用 NanoKit 的话，可以通过 `A03 TX A02 RX` 接串口板连接电脑来查看日志，波特率为 115200。
 
 ## 调试过程

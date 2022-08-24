@@ -121,8 +121,10 @@ lisa zep flash --runner jlink
 烧录过程日志：
 ![](./files/burn_jlink.png)
 
-:::tip
-该烧录方式需要硬件板子预留 SWD 接口。
+:::info
+该烧录方式需要PCBA预留 SWD 接口。
+
+若您使用的是NanoKit开发板，请不要使用DAPLink USB接口对开发板进行供电，已避免板载调试芯片对SWD接口造成占用。
 :::
 
 
