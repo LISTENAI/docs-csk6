@@ -103,7 +103,7 @@ csk6002-9s-nano开发板将CSK6002芯片默认的所有可用引脚均引至两�
 | 开发板管脚编号 | 管脚标识 | 819S占用关系 |
 | -------------- | -------- | -------------|
 | 26 | GPIOA_12 | bt_tx |
-| 27 | GPIOA_13 | bt_tx |
+| 27 | GPIOA_13 | bt_rx |
 | 28 | GPIOA_14 | bt_rst |
 | 31 | GPIOA_16 | wifi_wake |
 | 33 | GPIOA_17 | wifi_rst |
