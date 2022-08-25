@@ -6,7 +6,7 @@
 - 构建、运行应用程序的基础概念和基本操作
 - 板型的概念及自定义板型的方式
 
-:::note 注意
+:::info 注意
 在本文档中，我们假设你的 **应用程序目录** 是 `<home>/app` , 且它的 **构建目录** 是 `<home>/app/build` (下文的概述中会提及这些术语的定义)。 在 Linux/macOS 上, `<home>` 等于 `~` 代表的路径, 在 Windows 上则是 `%userprofile%` 。
 :::
 
@@ -166,14 +166,6 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 你可以控制 Zephyr 构建系统使用多个变量。该小节描述了 Zephyr 开发者应当了解的最重要的几个变量。
 
-:::info 注意
-变量 **BOARD** 、 **CONF_FILE** 和 **DTC_OVERLAY_FILE** 可以通过 3 种方式（按优先顺序）提供给构建系统：
-
-* 调用 `lisa zep build` 时通过 `-D` 增加命令行参数。如果你有多个覆盖文件，你应该使用引号，例如  `"file1.overlay;file2.overlay"`
-* 作为 [环境变量](https://docs.zephyrproject.org/3.1.0/develop/env_vars.html) 声明。
-* 在 `CMakeLists.txt` 中以 `set(<VARIABLE> <VALUE>)` 声明。
-:::
-
 - **ZEPHYR_BASE** ：构建系统使用的 Zephyr 基本变量。 `find_package(Zephyr)` 会自动将其设置为缓存的 CMake 变量。但是 `ZEPHYR_BASE` 也可以设置为环境变量，以强制 CMake 使用特定的 Zephyr 安装。
 
 - **BOARD** ：选择应用程序构建将用于默认配置的板型。
@@ -184,12 +176,22 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
 - **OVERLAY_CONFIG** ：附加的 Kconfig 配置片段文件。多个文件名可以用空格或分号分隔。但你想要将 `CONF_FILE` 保持为其默认值，但“混入”了一些额外的配置选项时，此配置十分有用。
 
-- **DTC_OVERLAY_FILE** ：要使用的若干个设备树覆盖文件。多个文件时用分号分隔。设备树覆盖文件如何使用请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) ;有关设备树和 Zephyr 的关系，请参阅 [设备树的介绍](../build/dts/intro.md) 。
+- **DTC_OVERLAY_FILE** ：要使用的若干个设备树 overlay 文件。多个文件时用分号分隔。设备树 overlay 文件如何使用请参阅 [设置设备树 overlay](../build/dts/howtos.md#如何设置设备树-overlay) ;有关设备树和 Zephyr 的关系，请参阅 [设备树的介绍](../build/dts/intro.md) 。
 
-- **ZEPHYR_MODULES** ：一个 CMake 列表，其中包含应在应用程序构建中使用的源代码、 Kconfig 等附加目录的绝对路径。有关详细信息，请参阅 [模块（外部项目）](https://docs.zephyrproject.org/latest/develop/modules.html#modules) 。如果你设置此变量，它必须是包含所有要使用的模块的完整列表，因为设置此变量后构建系统不会自动从通过 `lisa zep` 获取任何模块。
+- **ZEPHYR_MODULES** ：一个 CMake 列表，其中包含应在应用程序构建中使用的源代码、 Kconfig 等附加目录的绝对路径。有关详细信息，请参阅 [模块（外部项目）]/modules) 。如果你设置此变量，它必须是包含所有要使用的模块的完整列表，因为设置此变量后构建系统不会自动从通过 `lisa zep` 获取任何模块。
 
 :::info 注意
-你可以使用一个 [Zephyr 构建配置 CMake 包](../build/zephyr_cmake_package.md#cmake-build-config-package) 来为这些变量共享公用设置。
+
+1. 变量 **BOARD** 、 **CONF_FILE** 和 **DTC_OVERLAY_FILE** 可以通过 3 种方式（按优先顺序）提供给构建系统：
+ 
+    1. 调用 `lisa zep build` 时通过 `-D` 增加命令行参数。如果你有多个 overlay 文件，你应该使用引号，例如  `"file1.overlay;file2.overlay"`
+
+    2. 作为 [环境变量](https://docs.zephyrproject.org/3.1.0/develop/env_vars.html) 声明。
+    
+    3. 在 `CMakeLists.txt` 中以 `set(<VARIABLE> <VALUE>)` 声明。
+
+2. 你可以使用一个 [Zephyr 构建配置 CMake 包](../build/zephyr_cmake_package.md#cmake-build-config-package) 来为这些变量共享公用设置。
+
 :::
 
 ## 应用 CMakeLists.txt
@@ -221,7 +223,7 @@ src={require('./images/lisa_zep_create_sample.png').default}
 
   请参阅 [初始配置](../build/kconfig/setting.md#初始配置) 了解更多详细信息。
 
-3. 如果你的应用程序使用设备树覆盖，可能需要设置 [DTC_OVERLAY_FILE](#引入构建系统变量) 。请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
+3. 如果你的应用程序使用设备树 overlay ，可能需要设置 [DTC_OVERLAY_FILE](#引入构建系统变量) 。请参阅 [设置设备树 Overlay](../build/dts/howtos.md#如何设置设备树-overlay) 。
 
 4. 如果你的应用程序有自己的内核配置选项，请在与应用程序 `CMakeLists.txt` 的同级目录中创建一个 `Kconfig` 文件。
 
