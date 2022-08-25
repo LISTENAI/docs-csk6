@@ -6,18 +6,23 @@ Zephyr 提供了多种 debug 调试方式，支持 GDB 调试，本章节主要�
 - PC 端如何对应用项目进行调试
 - 基于 VS Code 和 J-Link 的调试方法
 
-:::note
-Windows 系统和 Ubuntu 系统下配置的基本一致。
+:::tip
+本章节功能特性仅在 lisa zep 工具 <font color="#dd0000">1.6.2</font> 及以上版本支持，您可通过执行 `lisa info zephyr` 检查本地的工具版本，并可通过 `lisa update zephyr` 更新到最新工具版本。
 :::
 
 ## 准备工作
 - CSK6-NanoKit 开发板。
 - `J-Link` 仿真器，并成功安装驱动，[J-Link驱动下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%B7%A5%E5%85%B7/JLink_Windows_V630d.exe)。
-- PC 端安装 `VSCode`，根据系统类型选择对应的 Windows 或 Linux 版本，[Visual Studio Code 官网下载入口](https://code.visualstudio.com/Download)。
-- `csk6002_9s_nano` 的日志串口 `A03 TX A02 RX` 接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为 115200。
+- PC 端安装 [Visual Studio Code](https://code.visualstudio.com/Download)，根据系统类型选择对应的 Windows 或 Linux 版本。
+- 将`csk6002_9s_nano` 开发板的日志串口 `A03 TX A02 RX` 通过串口板连接至电脑，在电脑端使用串口调试助手查看日志，波特率为 115200。
 
-将 CSK6-NanoKit 开发板和 J-Link 仿真器 SWD 接口按以下接线图完整连接：
+将 CSK6-NanoKit 开发板和 J-Link 仿真器 SWD 接口按以下接线图进行连接：
 ![](./files/connect.png)
+
+:::info
+由于使用JLink进行调试需使用到芯片的SWD接口，因此不要使用DAPLink USB接口对开发板进行供电，已避免板载调试芯片对SWD接口造成占用。
+:::
+
 
 ## 调试过程
 
@@ -137,7 +142,7 @@ lisa zep flash --runner jlink
 | 按键 | 功能 |
 | --- | --- |
 | F5 | 继续(执行到下一个断点) |
-| F10 | 单步调过 |
+| F10 | 单步跳过 |
 | F11 | 单步调试 |
 | Shift + F11 | 单步跳出 |
 | Ctrl + Shift +F5 | 重启 |

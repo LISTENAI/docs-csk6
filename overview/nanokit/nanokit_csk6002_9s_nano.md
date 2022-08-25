@@ -44,7 +44,7 @@ csk6002-9s-nano 是一款板载了CSK6002+XR819S模组的NanoKit开发板，您�
 | 用户LED[D1-绿] | 连接芯片 **GPIOA_5** 引脚，用户可通过编程进行控制。|
 | 电源LED[D2-红] | 开发板正常接通电源后，该指示灯亮起。|
 | DAPLink LED[D3/D4]| 用于指示DAPLink调试器工作状态的LED。 |
-| DAPLink USB | 调试器USB接口，可同时作为开发板供电接口、串口查看接口、烧录与调试接口。 |
+| DAPLink USB | 调试器USB接口，可同时作为开发板供电接口、串口查看接口、烧录与调试接口。<br/> (若需外接调试器至SWD接口，请勿使用此USB接口) |
 | CSK6 USB | CSK6的USB接口，可进行CSK6芯片USB接口的调试，支持对开发板进行供电。|
 
 :::info
@@ -103,7 +103,7 @@ csk6002-9s-nano开发板将CSK6002芯片默认的所有可用引脚均引至两�
 | 开发板管脚编号 | 管脚标识 | 819S占用关系 |
 | -------------- | -------- | -------------|
 | 26 | GPIOA_12 | bt_tx |
-| 27 | GPIOA_13 | bt_tx |
+| 27 | GPIOA_13 | bt_rx |
 | 28 | GPIOA_14 | bt_rst |
 | 31 | GPIOA_16 | wifi_wake |
 | 33 | GPIOA_17 | wifi_rst |
