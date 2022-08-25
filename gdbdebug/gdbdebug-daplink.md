@@ -41,7 +41,7 @@ lisa zep build -b csk6002_9s_nano
 lisa zep ide
 ```
 
-**步骤三：** 关闭所有已经打开的 VSCode 窗口，重新运行 VSCode 并打开刚才的项目文件夹。可以在路径 `.vscode/launch.json` 下看到 debug 调试文件。
+**步骤三：** 关闭所有已经打开的 VSCode 窗口，重新运行 VSCode 并打开刚才的项目文件夹。可以在路径 `.vscode/` 目录下看到名为 `launch.json` 的 debug 调试文件。
 
 ### 创建新项目并完成 debug 环境配置
 
@@ -57,7 +57,7 @@ lisa zep create
 lisa zep build -b csk6002_9s_nano
 ```
 
-**步骤三：** 在 VSCode 中打开刚刚创建的 hello_world 项目，可以在路径 `.vscode/launch.json` 下看到 debug 调试文件。
+**步骤三：** 在 VSCode 中打开刚刚创建的 hello_world 项目，可以在路径 `.vscode/` 目录下看到名为 `launch.json` 的 debug 调试文件。
 
 ### 配置文件变量说明
 
@@ -101,7 +101,7 @@ lisa zep build -b csk6002_9s_nano
 ```
 - **烧录**   
 
-指定 J-Link 作为烧录方式始烧录固件：
+指定 DAPLink + pyocd 作为烧录方式始烧录固件：
 ```
 lisa zep flash --runner pyocd
 ```

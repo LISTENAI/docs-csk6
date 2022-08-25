@@ -1816,7 +1816,7 @@ Zephyr 特定的选定节点
 | zephyr,console | 设置 console 驱动程序使用的 UART 设备 |
 | zephyr,display | 设置默认的显示控制器 |
 | zephyr,dtcm | 数据紧密耦合内存 (Data Tightly Coupled Memory) 节点，通常在某些 Arm SoC 上 |
-| zephyr,entropy | 可用作系统范围 *熵* 源的设备 |
+| zephyr,entropy | 可用作系统范围 *熵* 源的设备（用于随机数发生器等） |
 | zephyr,flash | 一个节点，其 `reg` 有时用于设置 [`CONFIG_FLASH_BASE_ADDRESS`](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_FLASH_BASE_ADDRESS) 和 [`CONFIG_FLASH_SIZE`](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_FLASH_SIZE) 的默认值 |
 | zephyr,flash-controller | `zephyr,flash` 节点的 flash 控制器设备对应的节点 |
 | zephyr,ipc | 由 OpenAMP 子系统用于指定进程间通信 (IPC) 设备 |
