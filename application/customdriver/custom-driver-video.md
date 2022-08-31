@@ -38,7 +38,7 @@ add_subdirectory_ifdef(CONFIG_VIDEO_BF30A2 video)
 ### 修改自定义驱动的 Kconfig 文件
 - 修改自定义驱动的Kconfig文件
 
-Kconfig.nv3030b是摄像头驱动代码bf30a2.c中要使用的配置选项，具体可参考csk6sdk/driver目录下对应类型驱动的Kconfig文件来完成修改，以下是BF30A2的Kconfig内容：
+Kconfig.bf30a2是摄像头驱动代码bf30a2.c中要使用的配置选项，具体可参考csk6sdk/driver目录下对应类型驱动的Kconfig文件来完成修改，以下是BF30A2的Kconfig内容：
 ```
 # BF30A2 driver
 
