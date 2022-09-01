@@ -255,7 +255,7 @@ sdk默认支持的触摸屏驱动(sdk/driver/kscan)：
 - kscan_ft5336
 - kscan_bl6xxx
 
-sdk默认支持的摄像头屏驱动(sdk/driver/video)：
+sdk默认支持的摄像头驱动(sdk/driver/video)：
 - ov9655
 
 ## 自定义驱动示例
@@ -271,7 +271,7 @@ lisa zep create
 ![](../../application/peripheral/samples/files/liza_zep_create.png)
 > boards→ csk6 → drivers → vidoe → bf30a2 → sample 
 
-bf302a sample创建成功。
+bf30a2 sample创建成功。
 
 #### 编译和烧录
 ##### 编译
