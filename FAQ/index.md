@@ -62,7 +62,7 @@
 
 ### Linux系统如何安装 udev 规则
 
-【解决方法】：按照 [PyOCD udev ReadMe](https://github.com/pyocd/pyOCD/blob/main/udev/README) 进行安装，需要注意的是，淘宝买的 Daplink 一般使用山寨 MCU，因此 pyOCD 源码目录的规则不能直接使用，要增加一项 udev 规则，把实际的 daplink USB PID, VID 填入(可使用 lsu 命令查看)规则中才能生效。
+【解决方法】：按照 [PyOCD udev ReadMe](https://github.com/pyocd/pyOCD/blob/main/udev/README.md) 进行安装，需要注意的是，淘宝买的 Daplink 一般使用山寨 MCU，因此 pyOCD 源码目录的规则不能直接使用，要增加一项 udev 规则，把实际的 daplink USB PID, VID 填入(可使用 lsu 命令查看)规则中才能生效。
 
 ### 参照上述指引依旧安装 udev 规则失败
 

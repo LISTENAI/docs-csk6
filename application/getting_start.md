@@ -121,7 +121,7 @@ xcode-select --install
     
 <p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">CSK6一键安装包</a> 并运行，根据安装引导进行安装。</p>
 
-> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一些列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
+> **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一系列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
   </TabItem>
   <TabItem value="mac">

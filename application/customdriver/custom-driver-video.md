@@ -38,7 +38,7 @@ add_subdirectory_ifdef(CONFIG_VIDEO_BF30A2 video)
 ### 修改自定义驱动的 Kconfig 文件
 - 修改自定义驱动的Kconfig文件
 
-Kconfig.nv3030b是摄像头驱动代码bf30a2.c中要使用的配置选项，具体可参考csk6sdk/driver目录下对应类型驱动的Kconfig文件来完成修改，以下是BF30A2的Kconfig内容：
+Kconfig.bf30a2是摄像头驱动代码bf30a2.c中要使用的配置选项，具体可参考csk6sdk/driver目录下对应类型驱动的Kconfig文件来完成修改，以下是BF30A2的Kconfig内容：
 ```
 # BF30A2 driver
 
@@ -255,7 +255,7 @@ sdk默认支持的触摸屏驱动(sdk/driver/kscan)：
 - kscan_ft5336
 - kscan_bl6xxx
 
-sdk默认支持的摄像头屏驱动(sdk/driver/video)：
+sdk默认支持的摄像头驱动(sdk/driver/video)：
 - ov9655
 
 ## 自定义驱动示例
@@ -271,7 +271,7 @@ lisa zep create
 ![](../../application/peripheral/samples/files/liza_zep_create.png)
 > boards→ csk6 → drivers → vidoe → bf30a2 → sample 
 
-bf302a sample创建成功。
+bf30a2 sample创建成功。
 
 #### 编译和烧录
 ##### 编译
