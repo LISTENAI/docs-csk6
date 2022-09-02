@@ -283,5 +283,5 @@ adc_vref 3300.
 `adc0 ch6`在本sample中未使用，故忽略输出结果。
 
 :::note
-更多关于CKS6 ADC的详细信息可以在用户数据手册《60xx User Manual》第`27 GPADC`章节中查阅。
+更多关于ADC的详细信息可以在芯片规格书对应章节中查阅。
 :::

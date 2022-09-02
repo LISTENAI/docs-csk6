@@ -38,7 +38,7 @@ lisa zep create
 ```
 ![](./files/liza_zep_create.png)
 
-\> basic → blinky_pwm
+> basic → blinky_pwm
 
 Blinky pwm sample创建成功。
 

@@ -5,9 +5,10 @@ SPI外设是我们常用的外设功能之一，CSK6 SDK支持SPI外设功能，
 
 CSK6 芯片有两组SPI硬件外设，SPI0和SPI1。
 CSK6 SPI驱动功能特性如下：
-- 支持主/从模式。
-- 支持DMA硬件握手。
-- SPI时钟最高可达50MHZ。
+- 支持主/从模式
+- 主模式下，最高速率为50Mb/s
+- 从模式下，最高速率为25Mb/s
+- 支持DMA硬件握手
 
 ### 常用API接口
 
@@ -20,7 +21,7 @@ const struct spi_buf_set *rx_bufs
 );
 ```
 
-成功返回0，非0表示失败。
+返回0表示成功，返回非0表示失败。
 
 **参数说明**
 
@@ -40,7 +41,7 @@ const struct spi_config *config,
 const struct spi_buf_set *tx_bufs);
 ```
 
-成功返回0，非0表示失败。
+返回0表示成功，返回非0表示失败。
 
 **参数说明**
 
@@ -61,7 +62,7 @@ const struct spi_buf_set *tx_bufs,
 const struct spi_buf_set *rx_bufs);
 ```
 
-这个函数可以实现同时读写功能，spi_write与spi_read都基于这个函数实现，spi_write在调用时候会将rx设置为空，而spi_read调用时会将tx设置为空。成功返回0，非0表示失败。
+这个函数可以实现同时读写功能，spi_write与spi_read都基于这个函数实现，spi_write在调用时候会将rx设置为空，而spi_read调用时会将tx设置为空。返回0表示成功，返回非0表示失败。
 
 **参数说明**
 
