@@ -1,6 +1,15 @@
 # lisa zep 更新日志
 
-## v1.6.2 (beta)
+## v1.6.3 (latest)
+
+#### New features:
+
+* `lisa zep erase` : 新增擦除命令，用于擦除flash指定片区。详情查看 [对应章节](../lisa_plugin_zephyr/build_flash_debug#擦除) 。
+
+* `lisa zep create` : 支持参数式新增sample。详情查看 [对应章节](../lisa_plugin_zephyr/basic#创建项目) 。
+
+
+## v1.6.2
 
 #### New features:
 
@@ -8,7 +17,7 @@
 * `lisa zep ide` : 新增 ide 操作指引命令，针对 ide 对应插件的插件配置自动生成。详情查看 [对应章节](../lisa_plugin_zephyr/build_flash_debug#csk6) 。
 * `lisa zep fs` : 新增文件系统操作指引命令。
 
-## v1.6.1 (latest)
+## v1.6.1 
 
 #### New features:
 
