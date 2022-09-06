@@ -277,3 +277,44 @@ lisa zep ide
 
 在你的 `工程项目` 目录下执行该命令，会基于当前 `csk6` 编译环境自动生成 vscode debug 和代码补全的配置。
 ![](./images/vscode.png)
+
+## 擦除
+
+:::tip
+该功能特性仅在 lisa zep 工具 `1.6.3` 及以上版本支持，请查看 [获取/更新](update) 章节进行工具的更新。
+:::
+
+### 基础
+
+```bash
+lisa zep erase --runner <RUNNER> --start <addr> --end <addr>
+
+lisa zep erase --runner <RUNNER> --start <addr> --size <size>
+```
+
+### 指定擦除工具
+
+若要指定烧录工具，可以带上 `--runner` 的参数，比如：
+
+```bash
+lisa zep erase --runner jlink
+```
+
+:::info
+当前仅支持的 runner 有：
+
+- jlink
+
+:::
+
+### 擦除指定片区
+
+```bash
+lisa zep erase --runner jlink --start 0x18000000 --end 0x18050000
+```
+
+或
+
+```bash
+lisa zep erase --runner jlink --start 0x18000000 --size 0x00050000
+```

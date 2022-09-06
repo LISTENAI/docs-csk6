@@ -53,6 +53,16 @@ lisa zep create
 
 选择想要创建的sample工程后，可以修改创建的文件夹名，默认为该sample工程原来的名字。
 
+或者使用单命令进行创建:
+
+```bash
+lisa zep create [target] --from <sample>
+
+例如：
+
+lisa zep create blinky --from ~/.listenai/csk-sdk/zephyr/samples/basic/blinky
+```
+
 ## 其他
 
 有关`lisa zep`命令其他的信息，请阅读以下页面：
