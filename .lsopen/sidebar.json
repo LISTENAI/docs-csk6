@@ -45,7 +45,8 @@
           "gdbdebug/overview",
           "gdbdebug/csk6_load",
           "gdbdebug/gdbdebug-daplink",
-          "gdbdebug/gdbdebug-jlink"
+          "gdbdebug/gdbdebug-jlink",
+          "gdbdebug/csk6_burn"
         ]
       },
       {
