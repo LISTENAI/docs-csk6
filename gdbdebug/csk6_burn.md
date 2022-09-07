@@ -58,15 +58,15 @@
 
 | Command| 值 | 功能描述 | Data字段格式|
 | ----| ---- | ---- |---- |
-| FLASH_BEGIN| 0x02 | 开始FLASH下载 | 参照[ FLASH_BEGIN 包数据格式](#FLASH_BEGIN包数据格式) |
-| FLASH_DATA| 0x03 | FLASH下载数据 | 参照[ FLASH_DATA 包数据格式](#FLASH_DATA包数据格式) |
-| FLASH_END| 0x04 | FLASH下载结束 |参照[ FLASH_END 包数据格式](#FLASH_END包数据格式)|
-| MEM_BEGIN| 0x05 | 开始Memory下载 |参照[ MEM_BEGIN 包数据格式](#MEM_BEGIN包数据格式) |
-| MEM_END| 0x06 | Memory下载结束 |参照[ MEM_END 包数据格式](#MEM_END包数据格式)|
-| MEM_DATA| 0x07 | Memory下载数据 |参照[ MEM_DATA 包数据格式](#MEM_DATA包数据格式) |
+| FLASH_BEGIN| 0x02 | 开始FLASH下载 | 参照[ FLASH_BEGIN 包数据格式](#flash_begin-包数据格式) |
+| FLASH_DATA| 0x03 | FLASH下载数据 | 参照[ FLASH_DATA 包数据格式](#flash_data-包数据格式) |
+| FLASH_END| 0x04 | FLASH下载结束 |参照[ FLASH_END 包数据格式](#flash_end-包数据格式)|
+| MEM_BEGIN| 0x05 | 开始Memory下载 |参照[ MEM_BEGIN 包数据格式](#mem_begin-包数据格式) |
+| MEM_END| 0x06 | Memory下载结束 |参照[ MEM_END 包数据格式](#mem_end-包数据格式)|
+| MEM_DATA| 0x07 | Memory下载数据 |参照[ MEM_DATA 包数据格式](#mem_data-包数据格式) |
 | SYNC|0x08 | 同步 | ``0x07 0x07 0x12 0x20`` + 32个 ``0x55`` |
-| CHANGE_BAUDRATE| 0x0F | 改变波特率 |参照[ CHANGE_BAUDRATE 包数据格式](#CHANGE_BAUDRATE包数据格式) |
-| SPI_FLASH_MD5|0x13 | MD5校验 |参照[ SPI_FLASH_MD5 包数据格式](#SPI_FLASH_MD5包数据格式) |
+| CHANGE_BAUDRATE| 0x0F | 改变波特率 |参照[ CHANGE_BAUDRATE 包数据格式](#change_baudrate-包数据格式) |
+| SPI_FLASH_MD5|0x13 | MD5校验 |参照[ SPI_FLASH_MD5 包数据格式](#spi_flash_md5-包数据格式) |
 | ERASE_FLASH| 0xD0 | 擦除整个FLASH | 无 |
 
 
@@ -85,7 +85,7 @@
 | UNSUPPORT_COMMAND| 0x09 | 未支持指令 |
 
 
-#### MEM_BEGIN包数据格式
+#### MEM_BEGIN 包数据格式
 
 | Byte| Tpye | Name | Value |
 | ----| ----| ---- | ---- |
@@ -105,7 +105,7 @@
 C0  00  05  10 00  00 00 00 00  CC 3E 00 00  08 00 00 00  00 08 00 00  00 00 00 00  C0
 ```
 
-#### MEM_DATA包数据格式
+#### MEM_DATA 包数据格式
 
 | Byte| Tpye |Name | Value |
 | ----| ---- | ---- | ---- |
@@ -123,7 +123,7 @@ C0  00  05  10 00  00 00 00 00  CC 3E 00 00  08 00 00 00  00 08 00 00  00 00 00 
 C0  00  07  10 08  F2 00 00 00  00 08 00 00  00 00 00 00  00 00 00 00 00 00 00 00 00 00 0A 00 F5 1C 08 …… 23 68 C0
 ```
 
-#### MEM_END包数据格式
+#### MEM_END 包数据格式
 
 | Byte| Tpye |Name | Value |
 | ----| ---- | ---- | ---- |
@@ -138,7 +138,7 @@ C0  00  07  10 08  F2 00 00 00  00 08 00 00  00 00 00 00  00 00 00 00 00 00 00 0
 C0  00  06  08 00  00 00 00 00  00 00 00 00  00 00 00 00  C0
 ```
 
-#### FLASH_BEGIN包数据格式
+#### FLASH_BEGIN 包数据格式
 
 | Byte| Tpye | Name | Value |
 | ----| ----| ---- | ---- |
@@ -159,7 +159,7 @@ C0  00  02  10 00  00 00 00 00  00 10 00 00  01 00 00 00  00 10 00 00  00 00 00 
 ```
 
 
-#### FLASH_DATA包数据格式
+#### FLASH_DATA 包数据格式
 
 | Byte| Tpye |Name | Value |
 | ----| ---- | ---- | ---- |
@@ -177,7 +177,7 @@ C0  00  02  10 00  00 00 00 00  00 10 00 00  01 00 00 00  00 10 00 00  00 00 00 
 C0  00  03  10 10  E1 00 00 00  00 10 00 00  00 00 00 00  00 00 00 00 00 00 00 00 00 7B E9 97 11 B5 48 …… 64 D1 A0 C0
 ```
 
-#### FLASH_END包数据格式
+#### FLASH_END 包数据格式
 
 | Byte| Tpye |Name | Value |
 | ----| ---- | ---- | ---- |
@@ -193,7 +193,7 @@ C0  00  04  04 00  00 00 00 00  FF 00 00 00  C0
 ```
 
 
-#### CHANGE_BAUDRATE包数据格式
+#### CHANGE_BAUDRATE 包数据格式
 
 | Byte| Tpye |Name | Value |
 | ----| ---- | ---- | ---- |
@@ -210,7 +210,7 @@ C0  00  0F  08 00  00 00 00 00  00 6D 0B 00  00 C2 01 00  C0
 ```
 > 示例中，将波特率由115200变更为748800
 
-##### SPI_FLASH_MD5包数据格式
+#### SPI_FLASH_MD5 包数据格式
 
 | Byte| Tpye |Name | Value |
 | ----| ---- | ---- | ---- |
@@ -244,21 +244,21 @@ C0  00  13  10 00  00 00 00 00  00 00 00 00  00 10 00 00  00 00 00 00  00 00 00 
 ### 更改波特率
 
 请参照以下步骤修改传输波特率，以提升固件升级的速率
-- 向芯片发送 [CHANGE_BAUDRATE](#CHANGE_BAUDRATE包数据格式) 报文，检查响应报文
+- 向芯片发送 [CHANGE_BAUDRATE](#change_baudrate-包数据格式) 报文，检查响应报文
 - 向芯片发送``SYNC`` 报文直至有报文响应
 
 ### 传输代理程序
 
 请参照以下步骤将代理程序传输给芯片，用于接收并烧录业务固件
 - 下载 [代理程序](./files/burner_6.img) 并解析得到其数据内容
-- 依次使用[ MEM_BEGIN ](#MEM_BEGIN包数据格式)、[ MEM_DATA ](#MEM_DATA包数据格式)(重复至发完)、[ MEM_END ](#MEM_END包数据格式)指令报文向芯片传输代理程序
+- 依次使用[ MEM_BEGIN ](#mem_begin-包数据格式)、[ MEM_DATA ](#mem_data-包数据格式)(重复至发完)、[ MEM_END ](#mem_end-包数据格式)指令报文向芯片传输代理程序
 - 向芯片发送``SYNC`` 报文直至有报文响应
 
 ### 向FLASH烧写业务固件
 请参照以下步骤烧录业务固件，完成固件更新
-- 依次使用[ FLASH_BEGIN ](#FLASH_BEGIN包数据格式)、[ FLASH_DATA ](#FLASH_DATA包数据格式)(重复至发完)、[ FLASH_END ](#FLASH_END包数据格式)指令报文向芯片传输固件
+- 依次使用[ FLASH_BEGIN ](#flash_begin-包数据格式)、[ FLASH_DATA ](#flash_data-包数据格式)(重复至发完)、[ FLASH_END ](#flash_end-包数据格式)指令报文向芯片传输固件
 - 向芯片发送``SYNC`` 报文直至有报文响应
-- 通过[ SPI_FLASH_MD5 ](#SPI_FLASH_MD5包数据格式)指令执行校验
+- 通过[ SPI_FLASH_MD5 ](#spi_flash_md5-包数据格式)指令执行校验
 
 :::info
  每烧录完一个分区都要执行一次``FLASH_END``操作，再进行下一个分区的烧录，以确保数据烧写完整。
