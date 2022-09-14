@@ -105,7 +105,7 @@ int gpio_pin_configure(const struct device *port, gpio_pin_t pin, gpio_flags_t f
 
 | 字段  | 说明                                                         |
 | ----- | ------------------------------------------------------------ |
-| ort   | 指向GPIO设备实例的指针                                       |
+| port   | 指向GPIO设备实例的指针                                       |
 | pin   | 要配置的引脚编号                                             |
 | flags | 引脚配置的标志:  GPIO 输入/输出配置标志， GPIO 引脚驱动标志， GPIO 引脚偏置标志 |
 
@@ -134,7 +134,7 @@ int gpio_pin_interrupt_configure(const struct device *port, gpio_pin_t pin, gpio
 
 | 字段  | 说明                                |
 | ----- | ----------------------------------- |
-| Port  | 指向GPIO设备实例的指针              |
+| port  | 指向GPIO设备实例的指针              |
 | pin   | 要配置的引脚编号                    |
 | flags | 由`GPIO_ INT_ *` 定义的中断配置标志 |
 

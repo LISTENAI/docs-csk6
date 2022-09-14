@@ -1,17 +1,26 @@
 [
+  "overview/read_guide",
+  "overview/chips",
   {
     "type": "category",
-    "label": "简介",
+    "label": "开发套件",
     "items": [
-      "overview/chips", 
+      "overview/nanokit/nanokit_introduction", 
       {
         "type": "category",
-        "label": "开发套件",
+        "label": "套件组合",
         "items": [
-          "overview/nanokit/nanokit_introduction",
+          "overview/nanokit/kit/audio_kit"
+        ],
+        "collapsed": true
+      }, 
+      {
+        "type": "category",
+        "label": "使用指南",
+        "items": [
           {
             "type": "category",
-            "label": "CSK6 NanoKit开发板",
+            "label": "NanoKit开发板",
             "items": [
               "overview/nanokit/nanokit_csk6002_9s_nano",
               "overview/nanokit/nanokit_csk6011a_9s_nano"
@@ -20,76 +29,55 @@
           },
           {
             "type": "category",
-            "label": "NanoKit 功能扩展板",
+            "label": "功能扩展模块",
             "items": [
-              "overview/nanokit/nanokit_audio"
+              "overview/nanokit/nanokit_audio",
+              "overview/nanokit/nanokit_extend"
             ],
             "collapsed": true
           }
         ],
         "collapsed": true
-      }, 
-      "overview/system"],
-    "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "开发",
-    "items": [
-      "application/getting_start",
-      "application/application_development",
-      {
-        "type": "category",
-        "label": "烧录与调试",
-        "items": [
-          "gdbdebug/overview",
-          "gdbdebug/csk6_load",
-          "gdbdebug/gdbdebug-daplink",
-          "gdbdebug/gdbdebug-jlink",
-          "gdbdebug/csk6_burn"
-        ]
-      },
-      {
-        "type": "category",
-        "label": "优化",
-        "items": [
-          "application/optimizations_ways"
-        ]
-      },
-      {
-        "type": "category",
-        "label": "lisa zephyr 命令行工具",
-        "items": [
-          "tool/lisa_plugin_zephyr/index",
-          "tool/lisa_plugin_zephyr/install",
-          "tool/lisa_plugin_zephyr/basic",
-          "tool/lisa_plugin_zephyr/command_detail",
-          "tool/lisa_plugin_zephyr/config",
-          "tool/lisa_plugin_zephyr/build_flash_debug",
-          "tool/lisa_plugin_zephyr/filesystem",
-          "tool/lisa_plugin_zephyr/manifest",
-          "tool/lisa_plugin_zephyr/application_project",
-          "tool/lisa_plugin_zephyr/trouble_shooting",
-          "tool/lisa_plugin_zephyr/release_note"
-        ],
-        "collapsed": true
-      },
-      {
-        "type": "category",
-        "label": "vscode开发插件推荐",
-        "items": [
-          "tool/vscode_plugin/code_completion",
-          "tool/vscode_plugin/debug"
-        ],
-        "collapsed": true
-      },
-      "application/modules"
+      }
     ],
     "collapsed": true
   },
   {
     "type": "category",
-    "label": "使用示例",
+    "label": "快速开始",
+    "items": [
+      "application/getting_start"
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "基础入门",
+    "items": [
+      "application/application_development",
+      {
+        "type": "category",
+        "label": "烧录",
+        "items": [
+          "gdbdebug/overview",
+          "gdbdebug/csk6_load",
+          "gdbdebug/csk6_burn"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "调试",
+        "items": [
+          "gdbdebug/gdbdebug-daplink",
+          "gdbdebug/gdbdebug-jlink"
+        ]
+      }
+    ],
+    "collapsed": true
+  },
+  {
+    "type": "category",
+    "label": "开发实践",
     "items": [
       {
         "type": "category",
@@ -174,100 +162,143 @@
   },
   {
     "type": "category",
-    "label": "内核",
+    "label": "进阶专题",
     "items": [
-      "kernel/threads",
-      "kernel/scheduling",
-      "kernel/system_threads",
-      "kernel/workqueue",
-      "kernel/interrupts",
-      "kernel/semaphores",
-      "kernel/mutexes",
-      "kernel/timing/timers",
-      "kernel/heap",
-      "kernel/datapassing/message_queues",
-      "kernel/fifos",
-      "kernel/data_passing/pipes"
-    ],
-    "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "系统服务",
-    "items": [
-      "service/logging",
-      "service/portability/posix",
-      "service/shell",
       {
         "type": "category",
-        "label": "存储",
+        "label": "内核",
         "items": [
-          "service/storage/nvs",
-          "service/storage/flash_map"
-        ]
+          "kernel/threads",
+          "kernel/scheduling",
+          "kernel/system_threads",
+          "kernel/workqueue",
+          "kernel/interrupts",
+          "kernel/semaphores",
+          "kernel/mutexes",
+          "kernel/timing/timers",
+          "kernel/heap",
+          "kernel/datapassing/message_queues",
+          "kernel/fifos",
+          "kernel/data_passing/pipes"
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "系统服务",
+        "items": [
+          "service/logging",
+          "service/portability/posix",
+          "service/shell",
+          {
+            "type": "category",
+            "label": "存储",
+            "items": [
+              "service/storage/nvs",
+              "service/storage/flash_map"
+            ]
+          }
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "构建与配置系统",
+        "items": [
+          "build/cmake/index",
+          {
+            "type": "category",
+            "label": "设备树",
+            "items": [
+              "build/dts/intro",
+              "build/dts/design",
+              "build/dts/bindings",
+              "build/dts/howtos",
+              "build/dts/api_usage",
+              "build/dts/troubleshooting",
+              "build/dts/dt_vs_kconfig",
+              {
+                "type":"category",
+                "label": "API 引用",
+                "items": [
+                  "build/dts/api/index",
+                  "build/dts/api/api",
+                  "build/dts/api/bindings"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Kconfig配置系统",
+            "items": [
+              "build/kconfig/index",
+              "build/kconfig/Kconfig_gui",
+              "build/kconfig/Kconfig_configuration",
+              "build/kconfig/Kconfig_tips_and_demo",
+              "build/kconfig/Kconfig_custom",
+              "build/kconfig/Kconfig_extension"
+            ],
+            "collapsed": true
+          },
+          "build/zephyr_cmake_package",
+          "application/modules"
+        ],
+        "collapsed": true
+      },
+      {
+        "type": "category",
+        "label": "硬件支持",
+        "items": ["hardware/pinctrl", "hardware/peripherals"],
+        "collapsed": true
       }
     ],
     "collapsed": true
   },
   {
     "type": "category",
-    "label": "构建与配置系统",
+    "label": "开发工具",
     "items": [
-      "build/cmake/index",
       {
         "type": "category",
-        "label": "设备树",
+        "label": "lisa zephyr 命令行工具",
         "items": [
-          "build/dts/intro",
-          "build/dts/design",
-          "build/dts/bindings",
-          "build/dts/howtos",
-          "build/dts/api_usage",
-          "build/dts/troubleshooting",
-          "build/dts/dt_vs_kconfig",
-          {
-            "type":"category",
-            "label": "API 引用",
-            "items": [
-              "build/dts/api/index",
-              "build/dts/api/api",
-              "build/dts/api/bindings"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Kconfig配置系统",
-        "items": [
-          "build/kconfig/index",
-          "build/kconfig/Kconfig_gui",
-          "build/kconfig/Kconfig_configuration",
-          "build/kconfig/Kconfig_tips_and_demo",
-          "build/kconfig/Kconfig_custom",
-          "build/kconfig/Kconfig_extension"
+          "tool/lisa_plugin_zephyr/index",
+          "tool/lisa_plugin_zephyr/install",
+          "tool/lisa_plugin_zephyr/basic",
+          "tool/lisa_plugin_zephyr/command_detail",
+          "tool/lisa_plugin_zephyr/build_flash_debug",
+          "tool/lisa_plugin_zephyr/filesystem",
+          "tool/lisa_plugin_zephyr/manifest",
+          "tool/lisa_plugin_zephyr/application_project",
+          "tool/lisa_plugin_zephyr/trouble_shooting",
+          "tool/lisa_plugin_zephyr/release_note"
         ],
         "collapsed": true
       },
-      "build/zephyr_cmake_package"
+      {
+        "type": "category",
+        "label": "vscode开发插件推荐",
+        "items": [
+          "tool/vscode_plugin/code_completion",
+          "tool/vscode_plugin/debug"
+        ],
+        "collapsed": true
+      }
     ],
     "collapsed": true
   },
+  
+
   {
     "type": "category",
-    "label": "硬件支持",
-    "items": ["hardware/pinctrl", "hardware/peripherals"],
-    "collapsed": true
-  },
-  {
-    "type": "category",
-    "label": "疑难解答",
+    "label": "FAQ",
     "items": ["FAQ/index", "quick_start/doc_issue"],
     "collapsed": true
   },
   {
     "type": "category",
-    "label": "引用",
+    "label": "索引查询",
     "collapsed": false,
     "items": [
       {
