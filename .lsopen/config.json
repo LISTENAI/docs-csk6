@@ -2,6 +2,6 @@
     "hiddenInProd": false,
     "subNavbar": {
         "to": "overview/chips",
-        "label": "CSK600X"
+        "label": "CSK6开发指南"
     }
 }
