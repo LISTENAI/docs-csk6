@@ -46,7 +46,8 @@
     "type": "category",
     "label": "快速开始",
     "items": [
-      "application/getting_start"
+      "application/getting_start",
+      "application/first_application"
     ],
     "collapsed": true
   },
