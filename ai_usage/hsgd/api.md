@@ -2,6 +2,13 @@
 
 以下说明来自 AI 能力基础 SDK `licak` （ _LISTENAI independent csk6-base ability kit_ ） 中的 `hsd` 模块。
 
+要使这些接口实现加入编译，Kconfig 配置中至少需要选择
+
+```c
+CONFIG_LICAK=y
+CONFIG_LICAK_MODULES_ALG_HSD=y
+```
+
 ## 使用说明
 
 目前推荐的使用方式，以伪代码表示可描述为
@@ -17,6 +24,8 @@ hsd_start(hsd, video_dev);
 1. 加载 DSP 固件；
 2. 通知创建对应算法引擎实例；
 3. 启动监听流程，开始向算法引擎传输图像数据。
+
+对于一个完整的使用流程示例，请参考 [app_algo_hsd_sample_for_csk6](https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6) 项目。
 
 ## 结构定义
 
@@ -39,14 +48,14 @@ typedef struct {
 - 其中的 `flag` 属性将在下文的的 `hsd_create(flag)` 中详细介绍。
 - `status` 包括以下几种状态。
 
-```c
-typedef enum {
-	HSD_STATUS_UNKNOWN = 0, /* This status is unknown and exists only if the hsd is
-				   									uninitialized or in some other abnormal */
-	HSD_STATUS_IDLE, /* This status is idle */
-	HSD_STATUS_RUNNING, /* This status is running */
-} hsd_status_t;
-```
+	```c
+	typedef enum {
+		HSD_STATUS_UNKNOWN = 0, /* This status is unknown and exists only if the hsd is
+															uninitialized or in some other abnormal */
+		HSD_STATUS_IDLE, /* This status is idle */
+		HSD_STATUS_RUNNING, /* This status is running */
+	} hsd_status_t;
+	```
 
 ### `hsd_head_shoulder_detect`
 
@@ -97,7 +106,7 @@ typedef struct {
 } __packed head_shoulder_detect;
 ```
 
-其中的 `ifr_rect` 代表头肩检测框的位置和大小
+其中的 `ifr_rect rect` 代表头肩检测框的位置和大小。其定义为
 
 ```c
 typedef struct {
@@ -122,20 +131,29 @@ typedef struct {
 /* 手势 */
 typedef enum {
 	GESTURE_OTHER = 0,
-	GESTURE_LIKE = 1, // 👍
-	GESTURE_OK = 2, // 👌
-	GESTURE_STOP = 3, // 🤚
-	GESTURE_YES = 4, // ✌️
-	GESTURE_SIX = 5, // 🤙
+	GESTURE_LIKE = 1,
+	GESTURE_OK = 2,
+	GESTURE_STOP = 3,
+	GESTURE_YES = 4,
+	GESTURE_SIX = 5,
 	GESTRUE_COUNT,
 	RESTURE_MAX = 0xFFFFFFFF,
 } GESTURE_STAT;
 ```
 
+| 枚举           | 含义 |
+| -------------- | ---- |
+| `GESTURE_LIKE` | 👍   |
+| `GESTURE_OK`   | 👌   |
+| `GESTURE_STOP` | 🤚   |
+| `GESTURE_YES`  | ✌️   |
+| `GESTURE_SIX`  | 🤙   |
+
 ## 函数定义
 
-> 注:
-> - 下文中提及的 `video.h` 指的是 zephyr 中对应的 video 驱动
+:::info 注意
+下文中提及的 `video.h` 指的是 zephyr 中对应的 video 驱动
+:::
 
 ### `hsd_create`
 
@@ -305,11 +323,6 @@ typedef enum {
 /**
  * @brief 事件回调类型，不同事件对应不同返回。
  *
- * event 为 HSD_EVENT_HEAD_SHOULDER 时，data 为 hsd_head_shoulder_detect ；
- * event 为 HSD_EVENT_GESTURE_RECOGNIZE 时，data 为 head_shoulder_detect ，result 中带 gesture_state 等相关参数；
- * event 为 HSD_EVENT_STATUS_CHANGED 时，data 为 hsd_status_data，
- * 其他 event 暂不生效
- *
  * @param hsd 指针
  * @param event 事件类型
  * @param data 事件数据指针
@@ -317,6 +330,12 @@ typedef enum {
  */
 typedef void (*hsd_event_callback_t)(hsd_t *hsd, hsd_event event, void *data, void *user_data);
 ```
+
+根据 `event` 不同， `data` 指针指向的结构也不同：
+- `event` 为 `HSD_EVENT_HEAD_SHOULDER` 时， `data` 为 `hsd_head_shoulder_detect` ；
+- `event` 为 `HSD_EVENT_GESTURE_RECOGNIZE` 时， `data` 为 `head_shoulder_detect` ， `result` 中带 `gesture_state` 等相关参数；
+- `event` 为 `HSD_EVENT_STATUS_CHANGED` 时， `data` 为 `hsd_status_data` ;
+- 其他 `event` 暂不生效
 
 ### `hsd_event_unregister`
 
@@ -379,7 +398,7 @@ typedef enum {
 	HSD_PARAM_HEAD_SHOULDER_DETECT_LOSS_CNT = 5002,
 	/* 像素值大小。头肩检测框 w,h 要大于该像素值才返回头肩框。范围: [1, 480] */
 	HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE = 5004,
-	/* 头肩检测超时时间。范围: [1. 100] */
+	/* 头肩检测超时时间。范围: [1, 100] */
 	HSD_PARAM_HEAD_SHOULDER_DETECT_TIMEOUT = 5011,
 	HSD_PARAM_MAX = 0xFFFFFFFF,
 } hsd_param;
