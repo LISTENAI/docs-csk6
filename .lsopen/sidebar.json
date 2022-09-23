@@ -5,15 +5,13 @@
     "type": "category",
     "label": "开发套件",
     "items": [
-      "overview/nanokit/nanokit_introduction", 
+      "overview/nanokit/nanokit_introduction",
       {
         "type": "category",
         "label": "套件组合",
-        "items": [
-          "overview/nanokit/kit/audio_kit"
-        ],
+        "items": ["overview/nanokit/kit/audio_kit"],
         "collapsed": true
-      }, 
+      },
       {
         "type": "category",
         "label": "使用指南",
@@ -68,10 +66,7 @@
       {
         "type": "category",
         "label": "调试",
-        "items": [
-          "gdbdebug/gdbdebug-daplink",
-          "gdbdebug/gdbdebug-jlink"
-        ]
+        "items": ["gdbdebug/gdbdebug-daplink", "gdbdebug/gdbdebug-jlink"]
       }
     ],
     "collapsed": true
@@ -163,6 +158,22 @@
   },
   {
     "type": "category",
+    "label": "AI 能力使用",
+    "items": [
+      {
+        "type": "category",
+        "label": "头肩&手势识别",
+        "items": [
+          "ai_usage/hsgd/user_guide",
+          "ai_usage/hsgd/viewer_usage",
+          "ai_usage/hsgd/api",
+          "ai_usage/hsgd/faq"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "进阶专题",
     "items": [
       {
@@ -194,10 +205,7 @@
           {
             "type": "category",
             "label": "存储",
-            "items": [
-              "service/storage/nvs",
-              "service/storage/flash_map"
-            ]
+            "items": ["service/storage/nvs", "service/storage/flash_map"]
           }
         ],
         "collapsed": true
@@ -219,7 +227,7 @@
               "build/dts/troubleshooting",
               "build/dts/dt_vs_kconfig",
               {
-                "type":"category",
+                "type": "category",
                 "label": "API 引用",
                 "items": [
                   "build/dts/api/index",
@@ -289,7 +297,6 @@
     ],
     "collapsed": true
   },
-  
 
   {
     "type": "category",
