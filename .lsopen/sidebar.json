@@ -162,12 +162,18 @@
     "items": [
       {
         "type": "category",
-        "label": "头肩&手势识别",
+        "label": "图像识别",
         "items": [
-          "ai_usage/hsgd/user_guide",
-          "ai_usage/hsgd/viewer_usage",
-          "ai_usage/hsgd/api",
-          "ai_usage/hsgd/faq"
+          {
+            "type": "category",
+            "label": "头肩&手势识别",
+            "items": [
+              "ai_usage/hsgd/user_guide",
+              "ai_usage/hsgd/viewer_usage",
+              "ai_usage/hsgd/api",
+              "ai_usage/hsgd/faq"
+            ]
+          }
         ]
       }
     ]
