@@ -2,7 +2,7 @@
 
 #### 导读
 
-本章节内容依赖[快速开始](../application/getting_start)中的知识点，请按照红框中的章节进行环境搭建和熟悉烧录方式后，再进行本章节的操作。
+本章节内容依赖[快速开始](../../application/getting_start)中的知识点，请按照红框中的章节进行环境搭建和熟悉烧录方式后，再进行本章节的操作。
 
 <img src={require("./_images/navigate_to_getting_start.png").default} style={{zoom:"50%"}} />
 
@@ -20,7 +20,7 @@
 
 #### 环境配置
 
-[安装lisa zep](../application/getting_start#%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
+[安装lisa zep](../../application/getting_start#%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
 
 
 
