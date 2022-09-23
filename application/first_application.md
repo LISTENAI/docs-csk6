@@ -163,7 +163,7 @@ lisa zep flash --runner pyocd
 
 :::note
 
-开发者可在完成本章节的学习后认真查阅 [CSK6烧录](gdbdebug/csk6_load.md) 章节，以掌握更多关于CSK6烧录的内容。
+开发者可在完成本章节的学习后认真查阅 [CSK6烧录](../gdbdebug/csk6_load.md) 章节，以掌握更多关于CSK6烧录的内容。
 
 :::
 ### 预期结果
