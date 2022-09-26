@@ -22,13 +22,13 @@
 
 ## 项目概述
 
-我们提供了视觉 SDK 和基于视觉 SDK 的 Sample，Sample 里实现了对 SDK 接口的基本调用，获取 Sensor 图像，并将算法处理后的结果传输至 PC 端。
+我们提供了视觉SDK与配套的头肩&手势识别Sample。这个Sample展示了对SDK接口的基本调用，实现了获取Sensor图像并将算法处理后的结果传输至PC上位机。
 
 ## 获取源码
 
 ### 获取 Sample
 
-拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6) 到本地，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
+执行以下命令拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6) 到本地，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
 
 ```bash
 git clone https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6.git
@@ -48,13 +48,14 @@ lisa zep update         # 初始化环境
   src={require('./_images/lisa_zep_update_succeed.png').default}
   />
 
+## 修改配置
+
+### 打开PC端图像预览功能
+打开 项目的根目录下找到 的 `prj.conf` 文件，将 `CONFIG_WEBUSB_ENABLE=n` 改为`CONFIG_WEBUSB_ENABLE=y` 。
+
+
+
 ## 编译固件
-
-:::info实验性
-当需要打开图像传输至 PC 端预览的功能时，我们需要先在 Sample 中进行以下修改：
-
-在 `app_algo_hsd_sample_for_csk6` 项目的根目录下找到 的 `prj.conf` 文件，将 `CONFIG_WEBUSB_ENABLE=n` 改为`CONFIG_WEBUSB_ENABLE=y` 。
-:::
 
 ```
 lisa zep build -b csk6011a_nano
@@ -105,7 +106,7 @@ lisa zep -v flash --runner jlink --bin-file resource/res.bin --flash-opt="--base
 ```
 
 :::info提示
-使用此方式烧录时，仅连接 CSK6 USB 接口即可。
+使用此方式烧录时，仅连接 CSK6 USB 接口即可，不连接 DAPLink USB 接口，以避免板载调试芯片对SWD接口造成占用。
 :::
 
 ## 查看结果
