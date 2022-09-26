@@ -33,14 +33,14 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 ### 第四步：安装驱动
 
-- 如果你是 Windows 系统，请点击网页上的【 Windows 系统，使用必读】按钮，按照步骤安装驱动；安装驱动过程，需将 CSK6 USB 接口连接电脑；
-- 如果你是 Mac/Linux 系统则直接进入下一步；
+- 如果你使用的是 Windows 系统，请点击网页上的【 Windows 系统，使用必读】按钮，按照步骤安装驱动；安装驱动过程，需将 CSK6 USB 接口连接电脑；
+- 如果你使用的是 Mac/Linux 系统，可忽略本步骤。
 
 ## 开始使用
 
 ### 使用工具查看
 
-1. 按顺序接入 USB 接口，先接入 DAPLink USB ，再插入 CSK6 USB 接口，在 PC 端即可弹出成功识别到设备提示；
+1. 先插入 DAPLink USB，再插入 CSK6 USB 接口，按顺序连接 USB 接口，若在PC端可看到如下图提示，说明设备已被识别成功
 
 ![](./_images/webusb_detected.png)
 
