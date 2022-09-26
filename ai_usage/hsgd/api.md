@@ -1,6 +1,6 @@
 # 接口说明
 
-以下说明来自 AI 能力基础 SDK `licak` （ _LISTENAI independent csk6-base ability kit_ ） 中的 `hsd` 模块。
+以下说明来自 AI 能力基础 SDK `licak` （ _`LISTENAI independent csk6-base ability kit`_ ） 中的 `hsd` ( _`Head shoulder detect`_ ) 模块。
 
 要使这些接口实现加入编译，Kconfig 配置中至少需要选择
 
@@ -48,14 +48,14 @@ typedef struct {
 - 其中的 `flag` 属性将在下文的的 `hsd_create(flag)` 中详细介绍。
 - `status` 包括以下几种状态。
 
-	```c
-	typedef enum {
-		HSD_STATUS_UNKNOWN = 0, /* This status is unknown and exists only if the hsd is
-															uninitialized or in some other abnormal */
-		HSD_STATUS_IDLE, /* This status is idle */
-		HSD_STATUS_RUNNING, /* This status is running */
-	} hsd_status_t;
-	```
+  ```c
+  typedef enum {
+  	HSD_STATUS_UNKNOWN = 0, /* This status is unknown and exists only if the hsd is
+  														uninitialized or in some other abnormal */
+  	HSD_STATUS_IDLE, /* This status is idle */
+  	HSD_STATUS_RUNNING, /* This status is running */
+  } hsd_status_t;
+  ```
 
 ### `hsd_head_shoulder_detect`
 
@@ -150,6 +150,20 @@ typedef enum {
 | `GESTURE_SIX`  | 🤙   |
 
 ## 函数定义
+
+### 概览
+
+| 函数名                                          | 用途简介                 |
+| ----------------------------------------------- | ------------------------ |
+| [`hsd_create`](#hsd_create)                     | 创建实例                 |
+| [`hsd_start`](#hsd_start)                       | 开始传输图像数据给算法   |
+| [`hsd_stop`](#hsd_stop)                         | 停止传输图像数据         |
+| [`hsd_destroy`](#hsd_destroy)                   | 销毁实例                 |
+| [`hsd_event_register`](#hsd_event_register)     | 注册事件回调             |
+| [`hsd_event_unregister`](#hsd_event_unregister) | 取消注册事件回调         |
+| [`hsd_set_params`](#hsd_set_params)             | 设置参数值               |
+| [`hsd_get_params`](#hsd_get_params)             | 获取参数值               |
+| [`hsd_exec`](#hsd_exec)                         | 传输图像数据获取单次结果 |
 
 :::info 注意
 下文中提及的 `video.h` 指的是 zephyr 中对应的 video 驱动
@@ -332,6 +346,7 @@ typedef void (*hsd_event_callback_t)(hsd_t *hsd, hsd_event event, void *data, vo
 ```
 
 根据 `event` 不同， `data` 指针指向的结构也不同：
+
 - `event` 为 `HSD_EVENT_HEAD_SHOULDER` 时， `data` 为 `hsd_head_shoulder_detect` ；
 - `event` 为 `HSD_EVENT_GESTURE_RECOGNIZE` 时， `data` 为 `head_shoulder_detect` ， `result` 中带 `gesture_state` 等相关参数；
 - `event` 为 `HSD_EVENT_STATUS_CHANGED` 时， `data` 为 `hsd_status_data` ;
