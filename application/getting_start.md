@@ -1,7 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 快速开始
+# 环境搭建
 
 学习本文后，你将可以：
 
