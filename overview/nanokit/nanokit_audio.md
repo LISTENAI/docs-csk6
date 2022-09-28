@@ -83,4 +83,4 @@
 
 | 文件 | 操作 |
 | -------------- | -------------|
-| NanoKit_aduio_v1 硬件原理图 | 敬请期待 |
+| NanoKit_aduio_v1 硬件原理图 | [下载](./_downloads/NanoKit_aduio_v1_sch.pdf) |

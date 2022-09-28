@@ -33,7 +33,7 @@ int acap_destroy(acapture_t* acap);
 
 **接口说明**
 
-创建并初始化一个acapture的实例。
+销毁一个acapture的实例。
 
 
 
@@ -108,7 +108,7 @@ int acap_start(acapture_t* acap);
 ### acap_stop
 
 ```c
-int acap_start(acapture_t* acap);
+int acap_stop(acapture_t* acap);
 ```
 
 **接口说明**
