@@ -16,7 +16,8 @@
 
 ## 功能演示
 
-GIF
+
+![](https://cdn.iflyos.cn/public/track.gif)
 
 
 

@@ -112,11 +112,11 @@ lisa zep exec cskburn -s \\.\COMx -C 6 0x500000 .\resource\res.bin -b 748800
   <TabItem value="unix">
 
 ```bash
-lisa zep exec cskburn -s COMx -C 6 0x400000 ./resource/cp.bin -b 748800
-lisa zep exec cskburn -s COMx -C 6 0x500000 ./resource/res.bin -b 748800
+lisa zep exec cskburn -s PORT -C 6 0x400000 ./resource/cp.bin -b 748800
+lisa zep exec cskburn -s PORT -C 6 0x500000 ./resource/res.bin -b 748800
 ```
 
-其中的 `COMx` 代表开发套件连接到 PC 上对应的串口号。例如：`COM3`
+其中的 `PORT` 代表开发套件连接到 PC 上对应的串口号。例如：`/dev/ttyACM0`
 
   </TabItem>
 
