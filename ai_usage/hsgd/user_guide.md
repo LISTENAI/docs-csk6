@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 用户操作指引
 
 ## 导读
@@ -82,12 +85,44 @@ lisa zep flash
 
 使用 USB 线接上 DAPLink USB 口进行烧录，依次执行以下命令，完成资源的烧录。
 
+<div style={{
+    border: 'solid 1px #80808080',
+    padding: 12,
+    borderRadius: 12
+  }}>
+<Tabs
+    groupId="operating-systems"
+    defaultValue="windows"
+    values={[
+        {label: 'Windows', value: 'windows'},
+        {label: 'macOS / Linux', value: 'unix'}
+    ]}
+>
+  <TabItem value="windows">
+
 ```bash
-lisa zep exec cskburn -s COMx -C 6 0x18400000 ./resource/cp.bin -b 748800
-lisa zep exec cskburn -s COMx -C 6 0x18500000 ./resource/res.bin -b 748800
+lisa zep exec cskburn -s \\.\COMx -C 6 0x400000 .\resource\cp.bin -b 748800
+lisa zep exec cskburn -s \\.\COMx -C 6 0x500000 .\resource\res.bin -b 748800
 ```
 
 其中的 `COMx` 代表开发套件连接到 PC 上对应的串口号。例如：`COM3`
+
+  </TabItem>
+
+  <TabItem value="unix">
+
+```bash
+lisa zep exec cskburn -s COMx -C 6 0x400000 ./resource/cp.bin -b 748800
+lisa zep exec cskburn -s COMx -C 6 0x500000 ./resource/res.bin -b 748800
+```
+
+其中的 `COMx` 代表开发套件连接到 PC 上对应的串口号。例如：`COM3`
+
+  </TabItem>
+
+</Tabs>
+</div>
+
 
 ### 使用 JLink 烧录
 
