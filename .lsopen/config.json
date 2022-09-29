@@ -1,7 +1,7 @@
 {
     "hiddenInProd": false,
     "subNavbar": {
-        "to": "overview/chips",
+        "to": "overview/read_guide",
         "label": "CSK6开发指南"
     }
 }
