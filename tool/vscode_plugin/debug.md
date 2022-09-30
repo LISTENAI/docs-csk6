@@ -1,4 +1,4 @@
-# 调试
+# Cortex Debug
 
 #### VSCode 安装 `Cortex-Debug`  插件
 在 VSCode 应用商店中搜索 `Cortex-Debug` 扩展插件，并完成安装，如下图所示：
