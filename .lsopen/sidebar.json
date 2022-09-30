@@ -21,6 +21,7 @@
             "label": "NanoKit开发板",
             "items": [
               "overview/nanokit/csk6011_nanokit",
+              "overview/nanokit/csk6012_nanokit",
               "overview/nanokit/nanokit_csk6002_9s_nano",
               "overview/nanokit/nanokit_csk6011a_9s_nano"
             ],
@@ -310,7 +311,14 @@
   {
     "type": "category",
     "label": "FAQ",
-    "items": ["FAQ/index", "quick_start/doc_issue"],
+    "items": [
+      "FAQ/faq_env",
+      "FAQ/faq_build_flash", 
+      "FAQ/faq_application", 
+      "FAQ/faq_board",
+      "FAQ/faq_hardware",
+      "quick_start/doc_issue"
+    ],
     "collapsed": true
   },
   {

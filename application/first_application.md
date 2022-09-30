@@ -99,8 +99,8 @@ zephyr类似于Linux通过设备树来管理硬件，把硬件配置信息放在
 #define SLEEP_TIME_MS   1000
 
 /* 通过label获取board_led_2的GPIO配置信息 */
-#define LED0	DT_GPIO_LABEL(DT_NODELABEL(board_led_2), gpios)
-#define PIN	DT_GPIO_PIN(DT_NODELABEL(board_led_2), gpios)
+#define LED0	DT_GPIO_LABEL(DT_NODELABEL(board_led_2_label), gpios)
+#define PIN	DT_GPIO_PIN(DT_NODELABEL(board_led_2_label), gpios)
 
 void main(void)
 {

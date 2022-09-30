@@ -1,19 +1,19 @@
-# CSK6011-NanoKit V1
+# CSK6012-NanoKit V1
 
 ## 开发板简介
 
-CSK6011-NanoKit V1 是一款板载了CSK6011A纯离线模组的NanoKit开发板，您可以通过本开发板快速基于CSK6011A芯片进行应用开发，并搭配其他功能扩展板搭建更加完整的硬件原型。
+CSK6012-NanoKit V1 是一款板载了CSK6012纯离线模组的NanoKit开发板，您可以通过本开发板快速基于CSK6012芯片进行应用开发，并搭配其他功能扩展板搭建更加完整的硬件原型。
 
-> 本开发板的版本丝印标注为 CSK6011-NanoKit V1。
+> 本开发板的版本丝印标注为 CSK6012-NanoKit V1。
 
 <div  align="center"><img
-  src={require('./images/csk6011_nanokit_1.jpg').default}
+  src={require('./images/csk6012_nanokit_1.jpg').default}
   width="70%"
   alt="Example banner"
 /></div>
 
 <div  align="center"><img
-  src={require('./images/csk6011_nanokit_2.jpg').default}
+  src={require('./images/csk6012_nanokit_2.jpg').default}
   width="70%"
   alt="Example banner"
 /></div>
@@ -22,18 +22,18 @@ CSK6011-NanoKit V1 是一款板载了CSK6011A纯离线模组的NanoKit开发板�
 
 开发板具备以下主要特性：
 
-- 板载**CSK6011A**芯片模组，集成16MB Flash
+- 板载**CSK6012**芯片模组，集成16MB Flash
 - 板载**网络扩展插槽**，支持外接网络模块进行 WIFI&BLE 联网
 - 芯片所有可用管脚引出至两侧2.54mm间距排针，方便使用
 - 板载按键与LED，可快速进行基础功能验证
 - 板载DAPLink调试器IC，外接一条USB 线即可实现供电、烧录、调试、串口监控
 - 搭配扩展板可衍生丰富玩法
-- 对应SDK板型 **csk6011a_nano**、**csk6011a_c3_nano**（连接C3网络模块时）
+- 对应SDK板型 **csk6012_nano**、**csk6012_c3_nano**（连接C3网络模块时）
 
 ### 板载资源
 
 <div  align="center"><img
-  src={require('./images/csk6011_nanokit_boardres.jpg').default}
+  src={require('./images/csk6012_nanokit_boardres.jpg').default}
   width="100%"
   alt="Example banner"
 /></div>
@@ -105,5 +105,5 @@ CSK6系芯片引脚的功能配置指引请参照《CSK6系芯片引脚功能表
 
 | 文件 | 操作 |
 | -------------- | -------------|
-| CSK6011-NanoKit V1 硬件原理图 | [下载](./_downloads/CSK6011-NanoKit_v1_sch.pdf) |
-| 板载CSK6011A纯离线模组 硬件原理图 | [下载](./_downloads/CSK6011_OFFLINE.pdf) |
+| CSK6012-NanoKit V1 硬件原理图 | [下载](./_downloads/CSK6012-NanoKit_v1_sch.pdf) |
+| 板载CSK6012纯离线模组 硬件原理图 | [下载](./_downloads/CSK6012_OFFLINE.pdf) |
