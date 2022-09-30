@@ -24,7 +24,7 @@
 
 | 成员类型 | 型号 | 说明 |
 | -------- | ------ | ------ |
-| NanoKit开发板 | [CSK6011-NanoKit](../csk6011_nanokit) | 开发板主体，板载CSK6011A模组 |
+| NanoKit开发板 | [CSK6011-NanoKit](../csk6011_nanokit) | 开发板主体，板载CSK6011A芯片模组 |
 | 功能扩展模块 |  [视觉功能模块](../nanokit_vision) | 兼容DVP&SPI双接口设计，默认配套DVP摄像头模组，即插即用 |
 | 功能扩展模块 | [引脚扩展板](../nanokit_extend) | 提供三组排针扩展，方便硬件调试或接入其他扩展板 |
 

@@ -27,12 +27,14 @@ NanoKit开发板是套件中的开发板主体，板载CSK6核心模组以及上
 /></div>
 
 
-当前套件中的NanoKit开发板(含模组)型号有：
+当前套件方案中的NanoKit开发板(含模组)型号有：
 
 | 型号 | 特性 |
 | -------- | ------ |
-| [csk6002-9s-nano](./nanokit_csk6002_9s_nano) | 板载CSK6002+XR819S模组，CSK6002内置8MB Flash |
-| [csk6011a-9s-nano](./nanokit_csk6011a_9s_nano) | 板载CSK6011A+XR819S模组，模组集成16MB Flash |
+| [CSK6011-NanoKit](./csk6011_nanokit) | 板载CSK6011芯片模组(外置16M Flash)，具备网络扩展插槽 |
+| [CSK6012-NanoKit](./csk6012_nanokit) | 板载CSK6012芯片模组(外置16M Flash)，具备网络扩展插槽 |
+| [csk6002-9s-nano](./nanokit_csk6002_9s_nano) | 早期发布的开发板，板载CSK6002+XR819S模组，CSK6002内置8MB Flash |
+| [csk6011a-9s-nano](./nanokit_csk6011a_9s_nano) | 早期发布的开发板，板载CSK6011A+XR819S模组，模组集成16MB Flash |
 
 ### 功能扩展模块
 
@@ -49,4 +51,11 @@ NanoKit开发板是套件中的开发板主体，板载CSK6核心模组以及上
 | 型号 | 特性 |
 | -------- | ------ |
 | [语音功能模块](./nanokit_audio.md) | 集成麦克风、喇叭电路，方便进行语音业务的开发 |
+| [视觉功能模块](./nanokit_vision.md) | 集成DVP、SPI摄像头电路，方便进行CV类业务的开发 |
 | [引脚扩展板](./nanokit_extend.md) | 提供三组排针扩展，方便硬件调试与接入其他扩展板 |
+
+:::tip
+为了方便开发者更便捷地开发**语音类**与**视觉类**应用，我们通过套件成员的组成提供了[语音开发套件](./kit/audio_kit)与[视觉开发套件](./kit/vision_kit)两款方案套件，有兴趣的小伙伴可点击对应文档链接进行了解。
+
+
+:::
