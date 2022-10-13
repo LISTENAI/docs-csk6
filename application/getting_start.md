@@ -84,7 +84,7 @@ sudo apt install --no-install-recommends git wget
 
   </TabItem>
   <TabItem value="windows">
-参考 <a href="https://git-scm.com/download/win">下载 Windows 上的 Git</a> 中的说明进行安装。
+参考 <a href="https://cdn.iflyos.cn/public/lstatic/Git-2.38.0-64-bit.exe">下载 Windows 上的 Git</a> 中的说明进行安装。
   </TabItem>
   <TabItem value="mac">
 
