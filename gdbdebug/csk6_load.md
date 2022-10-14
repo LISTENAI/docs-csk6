@@ -151,13 +151,17 @@ DAPLink 在电脑设备管理器中的虚拟串口为`USB串行设备(COMXX)`如
 
 
 **烧录指令：**
+以烧录默认应用程序为例：
 
 ```
-lisa zep flash --runner csk --port  \\.\COMXX
+lisa zep exec cskburn -s \\.\COMxx -C 6 0x0 .\build\zephyr\zephyr.bin -b 748800
 ```
-COMXX 为被电脑所识别到的COM编号。
+> 参数说明
+- COMxx: 为被电脑所识别到的COM编号，如COM13
+- 0x00：默认应用程序的烧录地址，后面跟待烧录固件的路径
+- b 748800：使用748800的波特率
 
 烧录过程日志：
-![](./files/burn_uart.png)
+![](./files/burn_uart.jpg)
 
 
