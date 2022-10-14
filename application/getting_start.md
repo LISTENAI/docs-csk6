@@ -57,7 +57,7 @@ sudo apt upgrade
 
 ## 安装依赖
 
-接下来，你需要安装一些主机上必要的依赖。
+首先，需要安装一些主机上必要的依赖。
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -84,7 +84,16 @@ sudo apt install --no-install-recommends git wget
 
   </TabItem>
   <TabItem value="windows">
-参考 <a href="https://cdn.iflyos.cn/public/lstatic/Git-2.38.0-64-bit.exe">下载 Windows 上的 Git</a> 中的说明进行安装。
+<p>参考 <a href="https://cdn.iflyos.cn/public/lstatic/Git-2.38.0-64-bit.exe">下载 Windows 上的 Git</a> 中的说明进行安装。</p>
+
+  可在命令行终端输入``git --version``以检查git已安装成功，如图：
+
+  <div  align="left"><img
+  src={require('./images/check_git.jpg').default}
+  width="40%"
+  alt="Example banner"
+  /></div>
+
   </TabItem>
   <TabItem value="mac">
 
@@ -101,7 +110,7 @@ xcode-select --install
 
 ## 搭建开发环境
 
-接着，安装 lisa zep 工具，并通过工具初始化 CSK6 SDK 所需的开发环境。
+接着，安装 lisa zep 工具，并初始化 CSK6 SDK 所需的开发环境。
 
 <div style={{
     border: 'solid 1px #80808080',
@@ -120,6 +129,12 @@ xcode-select --install
   <TabItem value="windows">
     
 <p>下载 <a href="https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=windows">CSK6一键安装包</a> 并运行，根据安装引导进行安装。</p>
+
+ <div  align="left"><img
+  src={require('./images/install_lisa.png').default}
+  width="80%"
+  alt="Example banner"
+  /></div>
 
 > **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一系列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
@@ -206,8 +221,12 @@ __2、通过离线安装包__
  ```bash
 lisa info zep
 ```
+该指令将输出当前开发环境的安装情况，如图：
 
-`lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决。
+![](./images/check_env.jpg)
+
+`lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决或查阅[环境搭建常见问题](../FAQ/faq_env)。
+
 
 ## 编译 Hello world 示例
 
