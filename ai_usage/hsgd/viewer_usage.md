@@ -24,7 +24,7 @@ lisa zep flash
 拉取 [PC 工具项目](https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd) 的 **csk6** 分支到本地
 
 ```bash
-git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git -b csk6
+git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 ```
 
 ### 第三步：打开工具
