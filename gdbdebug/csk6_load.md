@@ -164,4 +164,6 @@ lisa zep exec cskburn -s \\.\COMxx -C 6 0x0 .\build\zephyr\zephyr.bin -b 748800
 烧录过程日志：
 ![](./files/burn_uart.jpg)
 
-
+:::tip
+若在使用虚拟串口查看日志后使用此方式烧录方式失败，请尝试一下重新拔插USB线。
+:::
