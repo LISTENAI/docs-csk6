@@ -5,14 +5,16 @@ import TabItem from '@theme/TabItem';
 
 ## 导读
 
-开始接触本章节之前，需要先学习 CSK6 [快速开始](../../application/getting_start)，完成 CSK6 的环境搭建和熟悉基本开发方式，再进行本章节的操作。
+开始接触本章节之前，需要先学习 CSK6 [环境搭建](../../application/getting_start)，完成 CSK6 的环境搭建和熟悉基本开发方式，再进行本章节的操作。
 
 
 ## 硬件准备
 
 1. 硬件准备
 
-   6011A-Nanokit 开发板，视觉模组，引脚扩展板，USB-C 数据线 x 2
+   [视觉开发套件](/chips/600X/overview/nanokit/kit/vision_kit)(6011A-Nanokit 开发板，视觉功能模块，引脚扩展板，USB-C 数据线)
+   > 套件购买链接：[聆思CSK6视觉开发套件](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail)
+   
 
 2. 硬件组装与连接
 
