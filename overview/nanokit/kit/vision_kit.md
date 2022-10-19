@@ -74,5 +74,5 @@
 ---
 ### 套件购买链接
 
-[聆思科技淘宝官方店](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail)
+[聆思科技淘宝官方店-视觉开发套件](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail)
 
