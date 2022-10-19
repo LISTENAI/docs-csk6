@@ -70,3 +70,9 @@
 | 头肩&手势识别 | 检测图像中的头肩位置，识别手势，可返回目标位置与得分 | [阅读指引文档](../../../ai_usage/hsgd/intro) |
 
 更多视觉AI能力敬请期待。
+
+---
+### 套件购买链接
+
+[聆思科技淘宝官方店]([../../../ai_usage/hsgd/intro](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail))
+
