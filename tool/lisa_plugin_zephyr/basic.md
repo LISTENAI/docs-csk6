@@ -40,14 +40,17 @@ lisa zep sdk
 
 该命令为 sdk 的管理命令，执行后会根据当前环境，提供 sdk 的拉取安装和版本切换等操作.
 
+![image](./images/sdkversion.gif)
+
 ## 创建项目
+
 通过上述的步骤，你终于完成应用开发的前步骤了，接下来就是创建项目进行开发了，命令如下：
 
 ```bash
 lisa zep create
 ```
 
-![image](./images/create_1.png)
+![image](./images/create.gif)
 
 使用 上下键 操作，左右键/空格键 打开/关闭 文件夹， 回车键 确认选择。
 

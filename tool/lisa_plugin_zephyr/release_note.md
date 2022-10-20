@@ -1,6 +1,18 @@
 # lisa zep 更新日志
 
-## v1.6.3 (latest)
+## v1.6.5(latest)
+
+#### New features:
+
+* `lisa zep create` --from-git 支持带 dirpath
+
+* `lisa zep create` 增加操作提示
+
+#### Bug fixes:
+
+* 修复执行 `lisa zep exec` 报错时，丢了最后一条日志的问题
+
+## v1.6.3
 
 #### New features:
 
@@ -43,6 +55,7 @@
 
 * 应用级提货单：修复 `init-app` 时，`.west/config` 缺少 `zephyr base` 的问题。
 
+<!-- 
 ## v1.5.0
 
 #### New features:
@@ -84,9 +97,9 @@
 #### Bug fixes:
 
 
-* 修复windows下openocd的问题导致flash失败。
+* 修复windows下openocd的问题导致flash失败。 -->
 
-## v1.3.1
+<!-- ## v1.3.1
 
 #### New features:
 
@@ -122,4 +135,4 @@ Bug fixes:
 #### Bug fixes:
 
 
-* 修复了文件系统打包时遇到not JSON serializable 异常缺陷。
+* 修复了文件系统打包时遇到not JSON serializable 异常缺陷。 -->
