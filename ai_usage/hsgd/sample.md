@@ -173,7 +173,7 @@ CONFIG_SHARED_MULTI_HEAP=y
             label = "GC032A";
             reg = <0x21>;
             reset-gpios = <&gpioa 6 0>;
-
+            /* 关联gc30a2和dvp */
             port {
                 gc032a_ep_out: endpoint {
                     remote-endpoint = <&dvp_ep_in>;
@@ -213,6 +213,7 @@ CONFIG_SHARED_MULTI_HEAP=y
                 >; 
     pinctrl-names = "default";
 
+  /* 关联gc30a2和dvp */
 	port {
 		dvp_ep_in: endpoint {
 			remote-endpoint = <&gc032a_ep_out>;
