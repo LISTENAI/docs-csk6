@@ -224,12 +224,11 @@ CONFIG_SHARED_MULTI_HEAP=y
 
 ```
 
-## 主函数实现
-### 应用实现流程图
+## 软件实现流程图
 
 ![](./_images/flowchart.png)
 
-### 主函数实现
+## 代码实现
 
 ```c
 ...
@@ -333,7 +332,7 @@ void main(void) {
 
 #### HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 
 
-**参数说明：**
+**参数说明：**   
 头肩检测阈值，大于该阈值认为是有效头肩框并输出头肩框结果。
 
 **调优方向：**  
@@ -362,7 +361,7 @@ void main(void) {
 | 头肩跟随距离               | 参考参数                          |
 | -------------------------- | --------------------------------- |
 | 头肩跟随有效范围0~5m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES  0.35<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 15~30 |
-| 头肩跟随有效范围0~3m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 0.5<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 40~60 |
+| 头肩跟随有效范围0~3m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 0.35<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 40~60 |
 
 :::tip
 以上参数仅供参考，HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE的值可根据PC端预览工具显示的头肩框的w，h来确定，HSD_PARAM_HEAD_SHOULDER_DETECT_THRES则建议使用推荐值0.35。
