@@ -10,15 +10,10 @@ import TabItem from '@theme/TabItem';
 
 ## 硬件准备
 
-1. 硬件准备
-
-   [视觉开发套件](/chips/600X/overview/nanokit/kit/vision_kit)(6011A-Nanokit 开发板，视觉功能模块，引脚扩展板，USB-C 数据线)
+   本指引所用的硬件实验平台为 [视觉开发套件](/chips/600X/overview/nanokit/kit/vision_kit)(6011A-Nanokit 开发板，视觉功能模块，引脚扩展板，USB-C 数据线)
    > 套件购买链接：[聆思CSK6视觉开发套件](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail)
-   
 
-2. 硬件组装与连接
-
-    按以下方式组装好开发套件，并同时接入两个USB口，如红灯和蓝灯亮起则表示连接正常；
+    如图，组装好开发套件后，使用USB数据线对开发板进行供电，若红灯和蓝灯亮起则表示套件可正常工作：
 
 <img
   width="60%"
