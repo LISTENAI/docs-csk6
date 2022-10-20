@@ -224,13 +224,11 @@ CONFIG_SHARED_MULTI_HEAP=y
 
 ```
 
-## 主函数实现
-### 应用实现流程图
+## 软件实现流程图
 
 ![](./_images/flowchart.png)
 
-### 主函数实现
-
+## 代码实现
 ```c
 ...
 /* 获取识别结果 */
@@ -328,33 +326,34 @@ void main(void) {
 **参数说明:**    
 像素值大小，头肩检测框 w，h 要大于该像素值才返回头肩框。
 
-**调优方向：**  
+**调优方向：**    
 像素值越小，检测距离越远。
 
 #### HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 
 
-**参数说明：**
+
+**参数说明：**     
 头肩检测阈值，大于该阈值认为是有效头肩框并输出头肩框结果。
 
-**调优方向：**  
+**调优方向：**    
 由于算法鲁棒性问题，阈值太低可能产生较多虚警。
 
 
 #### HSD_PARAM_HEAD_SHOULDER_DETECT_LOSS_CNT
 
-**参数说明：**    
+**参数说明：**     
 头肩跟踪允许丢失的次数，主要是指允许容忍检测算法无法连续检测到目标的次数，如果超过允许连续检测丢失的次数，则会删掉跟踪目标。
 
-**调优方向：**    
+**调优方向：**     
 由于有时头肩检测不一定检测成功，需要通过改参数容忍丢失的次数，下次触发检测时候保证跟踪帧连续。
 
 
 #### HSD_PARAM_HEAD_SHOULDER_DETECT_TIMEOUT
 
-**参数说明：**   
+**参数说明：**    
 头肩检测超时时间，是指的跟踪目标在遮挡情况下，允许消失的的最长时。如果在这个时间如果超时，无法再次识别。
 
-**调优方向：**   
+**调优方向：**    
 在快速移动或者遮挡物的环境下，可根据需要设置超时时间，其他场景下可用默认值或不设置。
 
 ## 参数配置参考
@@ -362,7 +361,7 @@ void main(void) {
 | 头肩跟随距离               | 参考参数                          |
 | -------------------------- | --------------------------------- |
 | 头肩跟随有效范围0~5m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES  0.35<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 15~30 |
-| 头肩跟随有效范围0~3m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 0.5<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 40~60 |
+| 头肩跟随有效范围0~3m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 0.35<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 40~60 |
 
 :::tip
 以上参数仅供参考，HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE的值可根据PC端预览工具显示的头肩框的w，h来确定，HSD_PARAM_HEAD_SHOULDER_DETECT_THRES则建议使用推荐值0.35。
