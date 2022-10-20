@@ -299,6 +299,10 @@
         "type": "category",
         "label": "vscode开发插件推荐",
         "items": [
+          "tool/vscode_plugin/index",
+          "tool/vscode_plugin/develop",
+          "tool/vscode_plugin/deviceTree",
+          "tool/vscode_plugin/terminal",
           "tool/vscode_plugin/code_completion",
           "tool/vscode_plugin/debug"
         ],
