@@ -2,7 +2,7 @@
 本章节对 CSK6S视觉SDK示例 app_algo_hsd_sample_for_csk6 进行说明，让开发者能够更快速了解示例的实现逻辑。
 
 ## 概述
-该 Sample 展示了对SDK接口的基本调用，实现了获取Sensor图像并将算法处理后的结果传输至PC上位机实时预览。
+该 Sample 展示了对SDK接口的基本调用，实现了获取Sensor图像并将算法处理后的结果传输到PC端实时预览。
 
 ## 获取 Sample
 
@@ -75,21 +75,20 @@ CONFIG_WEBUSB_LOG_LEVEL_DBG=y
 CONFIG_STDOUT_CONSOLE=y
 CONFIG_USB_DEVICE_STACK=y
 CONFIG_USB_DEVICE_BOS=y
-CONFIG_SERIAL=y
-CONFIG_UART_INTERRUPT_DRIVEN=y
-CONFIG_UART_LINE_CTRL=y
-
+# 日志相关
 CONFIG_LOG_PRINTK=y
 CONFIG_USB_DRIVER_LOG_LEVEL_ERR=y
 CONFIG_USB_DEVICE_LOG_LEVEL_ERR=y
 CONFIG_CONSOLE=y
-
 CONFIG_FPU=y
 CONFIG_NEWLIB_LIBC=y
 CONFIG_NEWLIB_LIBC_NANO=n
 
+# 仅运行图像采集监视
 CONFIG_CAMERA_MONITOR=n
+# 固件编译优化提速
 CONFIG_SPEED_OPTIMIZATIONS=y
+# 分块内存分配提升效率
 CONFIG_SHARED_MULTI_HEAP=y
 ```
 :::tip
@@ -183,18 +182,11 @@ CONFIG_SHARED_MULTI_HEAP=y
 		};
 
 };
-/* 串口0配置 */
+/* 串口配置 */
 &uart0 {
         current-speed = <921600>;
 };
 
-/* 串口1配置 */
-&uart1 {
-        pinctrl-0 = <&pinctrl_uart1_tx_default>; 
-        pinctrl-names = "default";
-        current-speed = <921600>;
-        status = "okay";
-};
 /* 摄像头dvp配置 */
 &dvp {
     status = "okay";
@@ -232,9 +224,14 @@ CONFIG_SHARED_MULTI_HEAP=y
 ```
 
 ## 主函数实现
+### 应用实现流程图
+
+![](./_images/flowchart.png)
+
+### 主函数实现
+
 ```c
 ...
-
 /* 获取识别结果 */
 void on_receive_hsd_result(hsd_t *hsd, hsd_event event, void *data,
     void *user_data) {
@@ -312,83 +309,60 @@ void main(void) {
 ...
 
 ```
-## 算法参数配置说明
+## 算法参数及配置说明
+### 算法开放配置的参数
+当前视觉SDK，针对头肩检测与手势识别，算法层面支持以下参数参数的配置：
 
 | 参数                                    | type  | 功能说明                                                     | 取值范围 |
 | --------------------------------------- | ----- | ------------------------------------------------------------ | -------- |
-| HSD_PARAM_HEAD_SHOULDER_DETECT_THRES    | float | **头肩检测阈值**     <br />大于该阈值认为是有效头肩框并输出头肩框结果。<br />注意：由于算法鲁棒性问题，阈值太低肯能产生较多虚警 | (0, 1)   |
-| HSD_PARAM_HEAD_SHOULDER_DETECT_LOSS_CNT | int   | **头肩跟踪允许丢失的次数。** <br /> 由于有时头肩检测不一定检测成功，需要通过改参数容忍丢失的次数，下次触发检测时候保证跟踪帧连续 | (1, 10)  |
-| HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE | int   | **像素值大小。**  <br />头肩检测框 w,h 要大于该像素值才返回头肩框。 | (1, 480) |
+| HSD_PARAM_HEAD_SHOULDER_DETECT_THRES    | float | **头肩检测阈值**     <br /> | (0, 1)   |
+| HSD_PARAM_HEAD_SHOULDER_DETECT_LOSS_CNT | int   | **头肩跟踪允许丢失的次数。** <br />  | (1, 10)  |
+| HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE | int   | **像素值大小。**  <br /> | (1, 480) |
 | HSD_PARAM_HEAD_SHOULDER_DETECT_TIMEOUT  | int   | **头肩检测超时时间。**                                       | (1, 100) |
 
-### 调优方向
+### 参数说明
 
-#### 像素值大小 
+#### HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE  
 
-HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE  
+**参数说明:**    
+像素值大小，头肩检测框 w，h 要大于该像素值才返回头肩框。
 
-调优参考：像素值越小，检测距离越远。
+**调优方向：**  
+像素值越小，检测距离越远。
 
-#### 头肩检测阈值 
+#### HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 
 
-HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 
+**参数说明：**
+头肩检测阈值，大于该阈值认为是有效头肩框并输出头肩框结果。
 
-头肩检测阈值越小，越容易输出头框结果，可能会出现误识别的情况，反之则识别准确度越高，在快速移动场景下头肩跟随可能出现不连贯，需要在识别连贯性和准确度直接寻找平衡点。
+**调优方向：**  
+由于算法鲁棒性问题，阈值太低可能产生较多虚警。
+
+
+#### HSD_PARAM_HEAD_SHOULDER_DETECT_LOSS_CNT
+
+**参数说明：**    
+头肩跟踪允许丢失的次数，主要是指允许容忍检测算法无法连续检测到目标的次数，如果超过允许连续检测丢失的次数，则会删掉跟踪目标。
+
+**调优方向：**    
+由于有时头肩检测不一定检测成功，需要通过改参数容忍丢失的次数，下次触发检测时候保证跟踪帧连续。
+
+
+#### HSD_PARAM_HEAD_SHOULDER_DETECT_TIMEOUT
+
+**参数说明：**   
+头肩检测超时时间，是指的跟踪目标在遮挡情况下，允许消失的的最长时。如果在这个时间如果超时，无法再次识别。
+
+**调优方向：**   
+在快速移动或者遮挡物的环境下，可根据需要设置超时时间，其他场景下可用默认值或不设置。
 
 ## 参数配置参考
 
-| 头肩跟随距离               | 推荐参数                          |
+| 头肩跟随距离               | 参考参数                          |
 | -------------------------- | --------------------------------- |
-| 头肩跟随有效范围0~5m<br /> | DETECT_THRES 0.5<br />PIXESIZE 15 |
-| 头肩跟随有效范围0~3m<br /> | DETECT_THRES 0.5<br />PIXESIZE 30 |
+| 头肩跟随有效范围0~5m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES  0.35<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 15~30 |
+| 头肩跟随有效范围0~3m<br /> | HSD_PARAM_HEAD_SHOULDER_DETECT_THRES 0.5<br />HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE 40~60 |
 
-
-
-## 编译
-
-在sample根目录下通过以下指令完成编译：
-```
-lisa zep build -b csk6011a_nano
-```
-## 烧录
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令烧录：
-```
-lisa zep flash
-```
-
-## 查看结果
-连接开发板的 DAPLink USB ，使用串口调试工具打开 COM 口（波特率为 921600 ），使用开发板上的 reset 按键进行复位后，即可看到以下日志输出。
-
-```c
-*** Booting Zephyr OS build 36309bca986d  ***
-[00:00:03.185,000] <inf> hsd: Setup resource [head_shoulder] which in <0x18500031,0xa6ce0>
-[00:00:03.187,000] <inf> hsd: Setup resource [gesture] which in <0x185a6d11,0x132448>
-- Device name: DVPI
-[00:00:03.315,000] <inf> hsd: fmt: [VYUY] width [640] height [480]
-[00:00:03.316,000] <inf> hsd: Alloc video buffer: 614400
-[00:00:03.317,000] <inf> hsd: Alloc video buffer: 614400
-[00:00:03.318,000] <inf> hsd: Alloc video buffer: 614400
-Heap at 0x305c9530 contains 42841 units in 16 buckets
-
-  bucket#    min units        total      largest      largest
-             threshold       chunks      (units)      (bytes)
-  -----------------------------------------------------------
-       15        32769            1        42831       342640
-
-342640 free bytes, 0 allocated bytes, overhead = 96 bytes (0.0%)
-[00:00:03.515,000] <inf> main: head shoulder cnt: 1
-[00:00:03.516,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:03.608,000] <inf> main: head shoulder cnt: 1
-[00:00:03.609,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:03.700,000] <inf> main: head shoulder cnt: 1
-[00:00:03.701,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:03.792,000] <inf> main: head shoulder cnt: 1
-[00:00:03.793,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:03.884,000] <inf> main: head shoulder cnt: 1
-[00:00:03.885,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:03.976,000] <inf> main: head shoulder cnt: 1
-[00:00:03.976,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:04.068,000] <inf> main: head shoulder cnt: 1
-[00:00:04.069,000] <inf> main: gesture result id: 0 ,state: 0
-[00:00:04.159,000] <inf> main: head shoulder cnt: 1
-```
+:::tip
+以上参数仅供参考，HSD_PARAM_HEAD_SHOULDER_DETECT_PIXESIZE的值可根据PC端预览工具显示的头肩框的w，h来确定，HSD_PARAM_HEAD_SHOULDER_DETECT_THRES则建议使用推荐值0.35。
+:::
