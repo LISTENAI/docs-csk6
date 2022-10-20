@@ -24,7 +24,7 @@ lisa zep flash
 拉取 [PC 工具项目](https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd) 的 **csk6** 分支到本地
 
 ```bash
-git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git -b csk6
+git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 ```
 
 ### 第三步：打开工具
@@ -34,13 +34,13 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 ### 第四步：安装驱动
 
 - 如果你使用的是 Windows 系统，请点击网页上的【 Windows 系统，使用必读】按钮，按照步骤安装驱动；安装驱动过程，需将 CSK6 USB 接口连接电脑；
-- 如果你使用的是 Mac/Linux 系统，可忽略本步骤。
+- 如果你使用的是 Mac/Linux 系统，请忽略本步骤。
 
 ## 开始使用
 
 ### 使用工具查看
 
-1. 先插入 DAPLink USB，再插入 CSK6 USB 接口，按顺序连接 USB 接口，若在PC端可看到如下图提示，说明设备已被识别成功
+1. 使用TypeC数据线连接 CSK6 USB 接口至电脑，若在PC端可看到如下图提示，说明设备已被识别成功
 
 ![](./_images/webusb_detected.png)
 

@@ -291,7 +291,6 @@
           "tool/lisa_plugin_zephyr/filesystem",
           "tool/lisa_plugin_zephyr/manifest",
           "tool/lisa_plugin_zephyr/application_project",
-          "tool/lisa_plugin_zephyr/trouble_shooting",
           "tool/lisa_plugin_zephyr/release_note"
         ],
         "collapsed": true
@@ -300,6 +299,10 @@
         "type": "category",
         "label": "vscode开发插件推荐",
         "items": [
+          "tool/vscode_plugin/index",
+          "tool/vscode_plugin/develop",
+          "tool/vscode_plugin/deviceTree",
+          "tool/vscode_plugin/terminal",
           "tool/vscode_plugin/code_completion",
           "tool/vscode_plugin/debug"
         ],

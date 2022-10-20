@@ -14,22 +14,32 @@
 
 当你的本机已经存在`lisa zep`命令行工具，并想更新到较新的版本来使用新版本带来的特性，可以通过以下命令进行。
 
-
-
-- 更新 `lisa zep` 工具到最新 `latest` 版本
+#### 更新 `lisa zep` 工具到最新 `latest` 版本
 
 ```bash
 lisa update zephyr
 ```
 
-- 更新 `lisa zep` 工具到最新 `beta` 版本
+#### 更新 `lisa zep` 工具到最新 `beta` 版本
 
-```bash
-lisa install @lisa-plugin/zephyr@beta -g
+配置环境变量 `LISA_ENV` 的值为 `debug`。
+
+- windows系统:
+
+当前使用的终端为cmd时
+```
+set LISA_ENV="debug"
+lisa update zephyr
 ```
 
-- 更新 `lisa zep` 工具到指定的版本
+当前使用的终端为powershell时
+```
+$env:LISA_ENV="debug"
+lisa update zephyr
+```
 
-```bash
-lisa install @lisa-plugin/zephyr@1.6.0 -g
+- macOS或者Linux系统:
+```
+export LISA_ENV="debug" 
+lisa update zephyr
 ```
