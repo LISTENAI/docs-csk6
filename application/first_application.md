@@ -12,15 +12,15 @@
 在开始软件开发前，需要确认手上的开发板的板型，不同的板型在硬件设计上可能存在差异，开发者可以在开发套件章节查看手上的开发板所对应的板型。
 
 NanoKit开发板板型：
-- [csk6002-9s-nano](../overview/nanokit/nanokit_csk6002_9s_nano.md)   
+- [CSK6011-NanoKit](../overview/nanokit/csk6011_nanokit) 
 
-- [csk6011a-9s-nano](../overview/nanokit/nanokit_csk6002_9s_nano.md)
+- [CSK6012-NanoKit](../overview/nanokit/csk6012_nanokit)
 
-本章节以CSK-6-NanoKit `csk6002-9s-nano`板型为例。
+本章节以**视觉开发套件**中配套的CSK6011-NanoKit 开发板为硬件平台进行演示，编译时使用的板型为 ``csk6011a_nano``。
 
 ## 查看硬件板型原理图
 本章节目标是实现开发板LED灯亮灭的控制，因此需要确认LED所对应的GPIO引脚，开发者可在NanoKit开发板章节下载对应开发板的原理图。
-本章节以`csk6002-9s-nano`为例，LED灯对应的控制引脚为GPIOA_5：
+本章节以[CSK6011-NanoKit开发板](../overview/nanokit/csk6011_nanokit)为例，LED灯对应的控制引脚为GPIOB_05：
 ![](../application/peripheral/samples/files/led_pin.png)
 ## 应用开发
 ### 新建项目
@@ -55,7 +55,7 @@ target_sources(app PRIVATE src/main.c)
 :::
 
 ### 设备树配置
-在`app/boards/`目录下增加`csk6002_9s_nano.overlay`文件并添加led的GPIO配置，具体内容如下：
+在`app/boards/`目录下增加`csk6011a_nano.overlay`文件并添加led的GPIO配置，具体内容如下：
 ```c
 
  / 
@@ -63,7 +63,7 @@ target_sources(app PRIVATE src/main.c)
     leds {
             compatible = "gpio-leds";
             board_led_2_label: board_led_2_nodeid {
-                    gpios = <&gpioa 5 0>;
+                    gpios = <&gpiob 5 0>;
                     label = "User BOARD_LED_2";
             };
     };
@@ -77,7 +77,7 @@ target_sources(app PRIVATE src/main.c)
 | -------------------------- | ------------------------------------------------------------ |
 | board_led_2_label          | led2 设备树的 node label，可通过 node label 获取 led2 设备树的配置信息 |
 | board_led_2_nodeid         | led2 设备树的 node id，可通过 node id获取 led2 设备树的配置信息 |
-| gpios = <&gpioa 5 0>       | &gpioa 5：gpioa_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
+| gpios = <&gpiob 5 0>       | &gpiob 5：gpiob_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
 | label = "User BOARD_LED_2" | led2 节点 的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
 
 :::note
@@ -150,11 +150,11 @@ void main(void)
 #### 编译
 在sample根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
--b 后的参数为开发板对应的板型，本章节使用的开发板对应的板型为：csk6002_9s_nano。
+-b 后的参数为开发板对应的板型，本章节使用的开发板对应的板型为：**csk6011a_nano** 。
 #### 烧录
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令烧录：
+将开发板的DAPLink USB通过USB数据线连接PC，通过烧录指令烧录：
 ```
 lisa zep flash --runner pyocd
 ```
