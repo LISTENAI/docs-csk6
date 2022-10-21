@@ -251,12 +251,12 @@ lisa zep create
 
 ```bash
 cd hello_world
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 
 ## 烧录示例程序
 
-以使用 **CSK-6-NanoKit 开发板** 为例，使用 Type-C 数据线连接开发板的 **DAPLINK USB** 。
+以使用 [CSK6011-NanoKit 开发板](../overview/nanokit/csk6011_nanokit) 为例，使用 Type-C 数据线连接开发板的 **DAPLINK USB** 。
 
 执行以下指令：
 
