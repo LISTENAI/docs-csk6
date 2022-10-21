@@ -43,6 +43,7 @@
 * 由于PowerShell执行.ps1文件导致。
 
 **解决方法**
+
 powershell运行一下指令：  
 ```c
 set-executionpolicy -Scope CurrentUser remotesigned
