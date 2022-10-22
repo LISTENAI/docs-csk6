@@ -1,7 +1,7 @@
 # 第一个应用
 
 ## 概述
-通过[快速开始](./getting_start.md)章节的学习，开发者已经完成了 CSK6 开发环境的搭建、SDK源码的拉取，并成功在开发板上运行了最简示例 HelloWord 。在完成基础环境搭建之后，开发者似乎已经迫不及待的开启CSK6的应用开发之路，本章节将基于CSK6开发板为开发者提供第一个应用的开发指引，实现LED灯亮灭的控制，小试牛刀，体验CSK6的开发乐趣。
+通过[快速开始](./getting_start.md)章节的学习，开发者已经完成了 CSK6 开发环境的搭建、SDK源码的拉取，并成功在开发板上运行了最简示例 HelloWorld 。在完成基础环境搭建之后，开发者似乎已经迫不及待的开启CSK6的应用开发之路，本章节将基于CSK6开发板为开发者提供第一个应用的开发指引，实现LED灯亮灭的控制，小试牛刀，体验CSK6的开发乐趣。
 
 ## 准备开发板
 在上手第一个应用开发前，开发者需要准备一块CSK6开发板 CSK-6-NanoKit，可以通过以下方式获取：
@@ -24,7 +24,7 @@ NanoKit开发板板型：
 ![](../application/peripheral/samples/files/led_pin.png)
 ## 应用开发
 ### 新建项目
-本章节在 HelloWord 最简项目的基础上实现LED灯的控制操作，因此开发者需要新建一个 HelloWord 项目，创建项目指令：
+本章节在 HelloWorld 最简项目的基础上实现LED灯的控制操作，因此开发者需要新建一个 HelloWorld 项目，创建项目指令：
 ```
 lisa zep create
 ```
@@ -88,7 +88,7 @@ zephyr类似于Linux通过设备树来管理硬件，把硬件配置信息放在
 :::
 
 ### LED灯控制代码实现
-基于 HelloWord 应用增加LED灯的控制逻辑，具体如下：
+基于 HelloWorld 应用增加LED灯的控制逻辑，具体如下：
 ```c
 #include <Zephyr.h>
 #include <device.h>
