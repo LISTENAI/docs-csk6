@@ -33,6 +33,7 @@
             "items": [
               "overview/nanokit/nanokit_audio",
               "overview/nanokit/nanokit_vision",
+              "overview/nanokit/nanokit_c3_net",
               "overview/nanokit/nanokit_extend"
             ],
             "collapsed": true

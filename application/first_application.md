@@ -4,24 +4,28 @@
 通过[快速开始](./getting_start.md)章节的学习，开发者已经完成了 CSK6 开发环境的搭建、SDK源码的拉取，并成功在开发板上运行了最简示例 HelloWorld 。在完成基础环境搭建之后，开发者似乎已经迫不及待的开启CSK6的应用开发之路，本章节将基于CSK6开发板为开发者提供第一个应用的开发指引，实现LED灯亮灭的控制，小试牛刀，体验CSK6的开发乐趣。
 
 ## 准备开发板
-在上手第一个应用开发前，开发者需要准备一块CSK6开发板 CSK-6-NanoKit，可以通过以下方式获取：
+在上手第一个应用开发前，开发者需要准备一块CSK6开发板 CSK60XX-NanoKit，可以通过以下方式获取：
 - 联系商务申请；
-- 通过官网购买链接购买。
+- 通过[官方商城购买链接](https://shop292274035.taobao.com/?spm=a1z10.3-c.0.0.27bb2c11KnG7SK)购买。
 
 ## 确定开发板硬件板型
 在开始软件开发前，需要确认手上的开发板的板型，不同的板型在硬件设计上可能存在差异，开发者可以在开发套件章节查看手上的开发板所对应的板型。
 
-NanoKit开发板板型：
-- [CSK6011-NanoKit](../overview/nanokit/csk6011_nanokit) 
+CSK6开发板与板型：
 
-- [CSK6012-NanoKit](../overview/nanokit/csk6012_nanokit)
+| 开发板型号 | 编译所用板型 |
+| --------- | ------------ |
+| [CSK6011-NanoKit](../overview/nanokit/csk6011_nanokit)  | ``csk6011a_nano`` |
+| [CSK6012-NanoKit](../overview/nanokit/csk6012_nanokit)  | ``csk6012_nano`` |
 
-本章节以**视觉开发套件**中配套的CSK6011-NanoKit 开发板为硬件平台进行演示，编译时使用的板型为 ``csk6011a_nano``。
+本章节以**视觉开发套件**中配套的 **CSK6011-NanoKit** 开发板为硬件平台进行演示，编译时使用的板型为 ``csk6011a_nano``。
 
 ## 查看硬件板型原理图
 本章节目标是实现开发板LED灯亮灭的控制，因此需要确认LED所对应的GPIO引脚，开发者可在NanoKit开发板章节下载对应开发板的原理图。
 本章节以[CSK6011-NanoKit开发板](../overview/nanokit/csk6011_nanokit)为例，LED灯对应的控制引脚为GPIOB_05：
+
 ![](../application/peripheral/samples/files/led_pin.png)
+
 ## 应用开发
 ### 新建项目
 本章节在 HelloWorld 最简项目的基础上实现LED灯的控制操作，因此开发者需要新建一个 HelloWorld 项目，创建项目指令：
@@ -113,7 +117,7 @@ void main(void)
     printk("LED0 %s \n", LED0);
     printk("PIN %d \n", PIN);
 
-    /* 获取GPIOA设备实例 */
+    /* 获取GPIO设备实例 */
 	dev = device_get_binding(LED0);
 	if (dev == NULL) {
 		return;
