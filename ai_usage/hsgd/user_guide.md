@@ -51,7 +51,7 @@ lisa zep update         # 初始化环境
 ## 修改配置
 
 ### 打开PC端图像预览功能
-打开 项目的根目录下找到 的 `prj.conf` 文件，将 `CONFIG_WEBUSB_ENABLE=n` 改为`CONFIG_WEBUSB_ENABLE=y` 。
+打开 项目的根目录下找到 的 `prj.conf` 文件，将 `CONFIG_WEBUSB=n` 改为`CONFIG_WEBUSB=y` 。
 
 
 
