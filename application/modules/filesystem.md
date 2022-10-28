@@ -332,7 +332,7 @@ debug等级， 0 表示没有debug输出。
 ```
 
 :::note
-文件系统bin文件制作完成后，在下文烧录固件时烧录到flash对应的偏移地址上。
+开发者也可以通过该连接下载已经打包好的空系统文件:[littlefs_image.bin](./images/littlefs_imge.bin)。文件系统bin文件制作完成后，在下文烧录固件时烧录到flash对应的偏移地址上。
 :::
 
 #### 步骤二：应用实现
