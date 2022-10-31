@@ -275,7 +275,7 @@ int gpio_pin_get_raw(const struct device *port, gpio_pin_t pin)
 ### 示例1：GPIO作为输出引脚
 本示例将通过一个简单的应用程序，展示如何通过GPIO引脚控制LED灯的亮灭的操作。
 #### 准备工作
-实现Blinky示例的预期效果需要硬件开发板上必须有一个GPIO连接了一个LED灯，在`csk6011a_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_05
+实现Blinky示例的预期效果需要硬件开发板上必须有一个GPIO连接了一个LED灯，在`csk6011a_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_06
 ![](./files/led_pin.png)
 
 #### 获取sample项目
@@ -297,6 +297,7 @@ CSK6 SDK中`csk6011a_nano`板型已经默认适配了led的 GPIO 设备树配置
 ```c
 
  / 
+    /*定义别名为led0的gpio设备树*/ 
     aliases {
         led0 = &green_led;
         ...
@@ -315,10 +316,10 @@ CSK6 SDK中`csk6011a_nano`板型已经默认适配了led的 GPIO 设备树配置
 
 | 字段                       | 说明                                                         |
 | -------------------------- | ------------------------------------------------------------ |
-| green_led          | led0 设备树的 node label，可通过 node label 获取 led1 设备树的配置信息 |
-| led1         | led0 设备树的 node id，可通过 node id获取 led1 设备树的配置信息 |
+| green_led          | led 设备树的 node label，可通过 node label 获取 led 设备树的配置信息 |
+| led1         | led 设备树的 node id，可通过 node id获取 led 设备树的配置信息 |
 | gpios = <&gpiob 6 GPIO_ACTIVE_LOW>;       | &gpiob 6：GPIO引脚；<br /> GPIO_ACTIVE_LOW gpio flag配置,当GPIO被配置为 GPIO_ACTIVE_LOW 时，GPIO上出现低电平时表示逻辑电平1 |
-| label = "User LED1" | led0 节点的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的设备实例 |
+| label = "User LED1" | led 节点的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的设备实例 |
 
 :::tip
 
@@ -338,7 +339,7 @@ CSK6 SDK中`csk6011a_nano`板型已经默认适配了led的 GPIO 设备树配置
 /* 通过别名获取 "led0" 设备树 node id */
 #define LED0_NODE DT_ALIAS(led0)
 
- /* 通过 node id 获取 led0 设备树信息 */
+ /* 通过 node id 获取 led 设备树信息 */
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 void main(void)

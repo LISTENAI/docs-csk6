@@ -86,10 +86,10 @@ target_sources(app PRIVATE src/main.c)
 
 | 字段                       | 说明                                                         |
 | -------------------------- | ------------------------------------------------------------ |
-| board_led_0_label          | led0 设备树的 node label，可通过 node label 获取 led1 设备树的配置信息 |
-| board_led_0_nodeid         | led0 设备树的 node id，可通过 node id获取 led1 设备树的配置信息 |
+| board_led_0_label          | led 设备树的 node label，可通过 node label 获取 led 设备树的配置信息 |
+| board_led_0_nodeid         | led 设备树的 node id，可通过 node id获取 led 设备树的配置信息 |
 | gpios = <&gpiob 6 GPIO_ACTIVE_LOW>;       | &gpiob 6：GPIO引脚；<br /> GPIO_ACTIVE_LOW gpio flag配置,当GPIO被配置为 GPIO_ACTIVE_LOW 时，GPIO上出现低电平时表示逻辑电平1 |
-| label = "User LED1" | led0 节点的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的设备实例 |
+| label = "User LED1" | led 节点的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的设备实例 |
 
 :::note
 
