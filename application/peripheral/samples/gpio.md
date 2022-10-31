@@ -20,7 +20,7 @@ GPIO的使用是我们最常用的外设操作之一，本章节主要介绍GPIO
 #define GPIO_ACTIVE_HIGH        (0 << 0)
 ```
 
-在Zephyr开发中通过`gpio_config(struct device *port, gpio_pin_t pin, gpio_flags_t flags)`接口的flags标志对GPIO进行逻辑电平的模式配置，根据宏flag的定义，GPIO逻辑电平和物理电平的对应关系如下：
+在Zephyr开发中通过`gpio_pin_config(struct device *port, gpio_pin_t pin, gpio_flags_t flags)`接口的flags标志对GPIO进行逻辑电平的模式配置，根据宏flag的定义，GPIO逻辑电平和物理电平的对应关系如下：
 
 **当GPIO被配置为GPIO_ACTIVE_LOW时：GPIO上出现低电平时表示逻辑电平1**
 
@@ -275,7 +275,7 @@ int gpio_pin_get_raw(const struct device *port, gpio_pin_t pin)
 ### 示例1：GPIO作为输出引脚
 本示例将通过一个简单的应用程序，展示如何通过GPIO引脚控制LED灯的亮灭的操作。
 #### 准备工作
-实现Blinky示例的预期效果需要硬件开发板上必须有一个GPIO连接了一个LED灯，在`csk6002_9s_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_05
+实现Blinky示例的预期效果需要硬件开发板上必须有一个GPIO连接了一个LED灯，在`csk6011a_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_06
 ![](./files/led_pin.png)
 
 #### 获取sample项目
@@ -283,43 +283,43 @@ int gpio_pin_get_raw(const struct device *port, gpio_pin_t pin)
 ```
 lisa zep create
 ```
-![](./files/liza_zep_create.png)
-> boards→ csk6 → gpio_led
+> samples → basic → blinky
 
-gpio_led sample创建成功。
+blinky sample创建成功。
 #### 组件配置
-在prj.conf文件中添加项目基础组件配置配置:
+在prj.conf文件中添加项目基础组件配置:
 ```shell
 # 打开GPIO配置
 CONFIG_GPIO=y
 ```
 #### 设备树配置
-在`app/boards/`目录下增加`csk6002_9s_nano.overlay`文件并添加led的GPIO配置，具体内容如下：
+CSK6 SDK中`csk6011a_nano`板型已经默认适配了led的 GPIO 设备树配置，开发者无需另外配置。具体内容在：`csk-sdk\zephyr\boards\arm\csk6011a_nano\csk6011a_nano.dts`文件中：
 ```c
 
  / 
- {
-    leds {
-            compatible = "gpio-leds";
-            board_led_2_label: board_led_2_nodeid {
-                    gpios = <&gpioa 5 0>;
-                    label = "User BOARD_LED_2";
-            };
+    /*定义别名为led0的gpio设备树*/ 
+    aliases {
+        led0 = &green_led;
+        ...
     };
- 
- };
+
+    leds {
+        compatible = "gpio-leds";
+        green_led: led1 {
+                gpios = <&gpiob 6 GPIO_ACTIVE_LOW>;
+                label = "User LED1";
+        };
+    };
 ```
-
-
 
 **设备树配置说明：**  
 
 | 字段                       | 说明                                                         |
 | -------------------------- | ------------------------------------------------------------ |
-| board_led_2_label          | led2 设备树的 node label，可通过 node label 获取 led2 设备树的配置信息 |
-| board_led_2_nodeid         | led2 设备树的 node id，可通过 node id获取 led2 设备树的配置信息 |
-| gpios = <&gpioa 5 0>       | &gpioa 5：gpioa_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
-| label = "User BOARD_LED_2" | led2 节点 的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
+| green_led          | led 设备树的 node label，可通过 node label 获取 led 设备树的配置信息 |
+| led1         | led 设备树的 node id，可通过 node id获取 led 设备树的配置信息 |
+| gpios = <&gpiob 6 GPIO_ACTIVE_LOW>;       | &gpiob 6：GPIO引脚；<br /> GPIO_ACTIVE_LOW gpio flag配置,当GPIO被配置为 GPIO_ACTIVE_LOW 时，GPIO上出现低电平时表示逻辑电平1 |
+| label = "User LED1" | led 节点的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的设备实例 |
 
 :::tip
 
@@ -330,54 +330,52 @@ CONFIG_GPIO=y
 #### 应用逻辑实现
 
 ```c
-#include <Zephyr.h>
-#include <device.h>
-#include <devicetree.h>
-#include <drivers/gpio.h>
+#include <zephyr/zephyr.h>
+#include <zephyr/drivers/gpio.h>
 
 /* 1000 msec = 1 sec */
 #define SLEEP_TIME_MS   1000
 
-/* 通过label获取board_led_2的GPIO配置信息 */
-#define LED0	DT_GPIO_LABEL(DT_NODELABEL(board_led_2), gpios)
-#define PIN	DT_GPIO_PIN(DT_NODELABEL(board_led_2), gpios)
+/* 通过别名获取 "led0" 设备树 node id */
+#define LED0_NODE DT_ALIAS(led0)
+
+ /* 通过 node id 获取 led 设备树信息 */
+static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 void main(void)
 {
-	const struct device *dev;
-	bool led_is_on = true;
-	int ret;
-
-    printk("LED0 %s \n", LED0);
-    printk("PIN %d \n", PIN);
-
-    /* 获取GPIOA设备实例 */
-	dev = device_get_binding(LED0);
-	if (dev == NULL) {
-		return;
-	}
+    printk("Hello World! %s\n", CONFIG_BOARD);
     
-	/* 将GPIO配置为输出并将其初始化为逻辑电平1 */
-	ret = gpio_pin_configure(dev, PIN, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		return;
-	}
+    int ret;
+    /* 检查硬件设备是否就绪 */
+    if (!device_is_ready(led.port)) {
+        return;
+    }
 
-	while (1) {
-		gpio_pin_set(dev, PIN, (int)led_is_on);
-		led_is_on = !led_is_on;
-		k_msleep(SLEEP_TIME_MS);
-	}
+    /* 将GPIO配置为输出并将其初始化为逻辑电平1 */
+    ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+    if (ret < 0) {
+        return;
+    }
+
+    while (1) {
+        /* GPIO电平反转控制 */
+        ret = gpio_pin_toggle_dt(&led);
+        if (ret < 0) {
+            return;
+        }
+        k_msleep(SLEEP_TIME_MS);
+    }
 }
 ```
 #### 编译和烧录
 ##### 编译
 在sample根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 ##### 烧录
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令烧录：
+`csk6011a_nano`通过USB连接PC，通过烧录指令烧录：
 ```
 lisa zep flash --runner pyocd
 ```
@@ -385,12 +383,7 @@ lisa zep flash --runner pyocd
 ![](./files/flash.png)
 
 ##### 查看结果
-预期的效果应如下两个图片所示，开发板上的LED灯(绿)在不断的闪烁，如果在你的开发板上实现了这个效果，那么恭喜，你顺利的完成了LED的控制，在CSK6的开发上又迈出了一步！
-
-![](./files/led_on.png)
-![](./files/led_off.png)
-
-
+预期的效果:开发板上的LED灯(绿)在不断的闪烁，如果在你的开发板上实现了这个效果，那么恭喜，你顺利的完成了LED的控制，在CSK6的开发上又迈出了一步！
 
 ### 示例2：GPIO作为输入引脚
 
@@ -400,7 +393,8 @@ lisa zep flash --runner pyocd
 - 准备一个CSK6-NanoKit开发板
 - 通过串口连接PC端查看日志，日志串口`GPIOA_03 TX GPIOA_02 RX`
 
-CSK6-NanoKit开发板的按键电路：
+**CSK6-NanoKit开发板的按键电路：**
+
 ![](./files/key_pin.png)
 
 #### 获取sample项目
@@ -408,13 +402,12 @@ CSK6-NanoKit开发板的按键电路：
 ```
 lisa zep create
 ```
-![](./files/liza_zep_create.png)
-> basic → button
+> samples → basic → button
 
 Button sample创建成功。
 
 #### 设备树配置
-在`csk6002_9s_nano`这个板型dts文件中已经默认添加了按键的配置，配置信息如下：
+CSK6 SDK中`csk6011a_nano`板型已经默认适配了 button 的 GPIO 设备树配置，开发者无需另外配置。具体内容在：`csk-sdk\zephyr\boards\arm\csk6011a_nano\csk6011a_nano.dts`文件中：
 ```c
         gpio_keys {
                 compatible = "gpio-keys";
@@ -430,7 +423,7 @@ Button sample创建成功。
 | -------------------- | ------------------------------------------------------------ |
 | user_button_0        | button0 设备树的 node label，可通过 node label 获取 button0 设备树的配置信息 |
 | button_0             | button0 设备树的 node id，可通过 node id获取 button0 设备树的配置信息 |
-| gpios = <&gpiob 5 0> | &gpiob 5：gpiob_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
+| gpios = <&gpiob 5 0> | &gpiob 5：gpiob_5；<br />0：gpio flag配置，当GPIO被配置为 GPIO_ACTIVE_LOW 时，GPIO上出现低电平时表示逻辑电平1 |
 | label = "User SW0";  | button0 节点 的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
 
 
@@ -548,7 +541,8 @@ ret = gpio_pin_interrupt_configure_dt(&button,
                             GPIO_INT_EDGE_TO_ACTIVE
 ```
 
-以上代码段通过gpio_pin_interrupt_configure_dt接口将按键检测的GPIO配置为GPIO_INT_EDGE_TO_ACTIVE，即：将GPIO中断配置为引脚变高电平时触发。未配置GPIO_ACTIVE_LOW或GPIO_ACTIVE_HIGH，则默认电平模式为GPIO_ACTIVE_HIGH，逻辑电平和物理电平一致。
+以上代码段通过gpio_pin_interrupt_configure_dt接口将按键检测的GPIO配置为GPIO_INT_EDGE_TO_ACTIVE，即：  
+将GPIO中断配置为引脚变高电平时触发。未配置GPIO_ACTIVE_LOW或GPIO_ACTIVE_HIGH，则默认电平模式为GPIO_ACTIVE_HIGH，逻辑电平和物理电平一致。
 
 从硬件电路可看到，按键检测GPIO默认为逻辑高电平，当按键按下时接地，GPIO被拉低，此时gpio_pin_get_dt获取的按键逻辑电平为0，通过`gpio_pin_set_dt(&led, val)`接口可将LED点亮，当按键松开时逻辑电平由0变为1，按照gpio config的flag配置：GPIO_INT_EDGE_TO_ACTIVE(引脚电平由低至高触发中断)触发中断回调button_pressed，开发者可在回调函数中做相应的按键事件处理。
 
@@ -558,21 +552,20 @@ ret = gpio_pin_interrupt_configure_dt(&button,
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 ##### 烧录
 
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
 ##### 查看结果
 
-**查看串口日志**
+###### 查看串口日志
 
 CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
-- 通过lisa提供的`lisa term`命令查看日志
-- 或者在电脑端使用串口调试助手查看日志，默认波特率为115200。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 按下按键后的日志：
 ```

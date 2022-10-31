@@ -214,14 +214,15 @@ lisa zep create
 
 按以下目录选择完成sample创建：  
 
-> sample → boards → csk6 → subsys → fs → littlefs
+> sample → subsys → fs → littlefs
 
 ### 组件配置
 
 ```shell
-CONFIG_MAIN_STACK_SIZE=8192
+CONFIG_MAIN_STACK_SIZE=2048
 CONFIG_DEBUG=y
 CONFIG_LOG=y
+CONFIG_LOG_MODE_MINIMAL=y
 # 启用flash
 CONFIG_FLASH=y
 CONFIG_FLASH_MAP=y
@@ -233,20 +234,12 @@ CONFIG_FILE_SYSTEM_LITTLEFS=y
 
 ### 设备树配置
 
-在设备树配置文件`csk6002_9s_nano.overlay`中配置挂载点并指定文件系统在flash的偏移地址。
+在设备树配置文件`csk6011a_nano.overlay`中配置挂载点并指定文件系统在flash的偏移地址。
 
 ```c
 /delete-node/ &storage_partition;
 
 / {
-	chosen {
-		/*
-		 * shared memory reserved for the inter-processor communication
-		 */
-		zephyr,flash_sysfs_storage = &filesystem_part;
-		zephyr,flash_controller = &flash;
-	};
-	
 	/* 配置挂载点/lfs1 */
 	fstab {
 		compatible = "zephyr,fstab";
@@ -274,17 +267,16 @@ CONFIG_FILE_SYSTEM_LITTLEFS=y
 		compatible = "fixed-partitions";
 		#address-cells = <1>;
 		#size-cells = <1>;
-		
-		/* /lfs1在 flash 的偏移地址0x160000，空间大小 0x00300000 */
-		filesystem_part: partition@160000 {
-			label = "filesystem";
-			reg = <0x160000 0x00300000>;
+
+		/* storage: 1MB for storage */
+		storage_partition: partition@700000 {
+			label = "storage";
+			reg = <0x700000 0x100000>; /* 文件系统在flash的偏移地址0x700000，大小0x100000(1MB) */
 		};
+
 	};
 };
 ```
-
-
 
 ### 应用实现
 
@@ -339,245 +331,169 @@ debug等级， 0 表示没有debug输出。
 文件系统镜像bin文件的大小，以字节为单位。（注意：不要超过dts给文件系统partition分配的flash空间）     
 ```
 
+:::note
+开发者也可以通过该连接下载已经打包好的空系统文件:[littlefs_image.bin](./images/littlefs_imge.bin)。文件系统bin文件制作完成后，在下文烧录固件时烧录到flash对应的偏移地址上。
+:::
+
 #### 步骤二：应用实现
 
 ```c
 #include <stdio.h>
+#include <zephyr/zephyr.h>
+#include <zephyr/device.h>
+#include <zephyr/fs/fs.h>
+#include <zephyr/fs/littlefs.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/storage/flash_map.h>
 
-#include <zephyr.h>
-#include <device.h>
-#include <fs/fs.h>
-#include <fs/littlefs.h>
-#include <storage/flash_map.h>
+LOG_MODULE_REGISTER(main);
 
-/* 对于 LFS_NAME_MAX 值 */
+/* Matches LFS_NAME_MAX */
 #define MAX_PATH_LEN 255
+#define TEST_FILE_SIZE 547
 
-#define PARTITION_NODE DT_NODELABEL(lfs1)
+static uint8_t file_test_pattern[TEST_FILE_SIZE];
 
-#if DT_NODE_EXISTS(PARTITION_NODE)
-FS_FSTAB_DECLARE_ENTRY(PARTITION_NODE);
-#else /* 分区节点 PARTITION_NODE */
-FS_LITTLEFS_DECLARE_DEFAULT_CONFIG(storage);
-static struct fs_mount_t lfs_storage_mnt = {
-	.type = FS_LITTLEFS,
-	.fs_data = &storage,
-	.storage_dev = (void *)FLASH_AREA_ID(storage),
-	.mnt_point = "/lfs",
-};
-#endif /* 分区节点 PARTITION_NODE */
+...
 
 void main(void)
 {
-	struct fs_mount_t *mp =
-#if DT_NODE_EXISTS(PARTITION_NODE)
-		&FS_FSTAB_ENTRY(PARTITION_NODE)
-#else
-		&lfs_storage_mnt
-#endif
-		;
-	unsigned int id = (uintptr_t)mp->storage_dev;
-	char fname[MAX_PATH_LEN];
+	char fname1[MAX_PATH_LEN];
+	char fname2[MAX_PATH_LEN];
 	struct fs_statvfs sbuf;
-	const struct flash_area *pfa;
 	int rc;
-	
-    	/* 构建待操作文件的绝对路径（文件名为boot_count）*/
-	snprintf(fname, sizeof(fname), "%s/boot_count", mp->mnt_point);
-	
-    	/* 从flash_ map中检索flash分区。 */
-	rc = flash_area_open(id, &pfa);
+
+	LOG_PRINTK("Sample program to r/w files on littlefs\n");
+
+	/* 挂载文件系统 */
+	rc = littlefs_mount(mp);
 	if (rc < 0) {
-		printk("FAIL: unable to find flash area %u: %d\n",
-		       id, rc);
 		return;
 	}
+	/* 构建待操作文件的绝对路径（文件名为 lfs1/boot_count 和 lfs1/pattern.bin）*/
+	snprintf(fname1, sizeof(fname1), "%s/boot_count", mp->mnt_point); // 
+	snprintf(fname2, sizeof(fname2), "%s/pattern.bin", mp->mnt_point); //
 
-	printk("Area %u at 0x%x on %s for %u bytes\n",
-	       id, (unsigned int)pfa->fa_off, pfa->fa_dev_name,
-	       (unsigned int)pfa->fa_size);
-
-	/* 可选擦除flash内容 */
-	if (IS_ENABLED(CONFIG_APP_WIPE_STORAGE)) {
-		printk("Erasing flash area ... ");
-		rc = flash_area_erase(pfa, 0, pfa->fa_size);
-		printk("%d\n", rc);
-	}
-
-	flash_area_close(pfa);
-
-	/* 如果已启用自动挂载，则不要手动挂载 */
-#if !DT_NODE_EXISTS(PARTITION_NODE) ||						\
-	!(FSTAB_ENTRY_DT_MOUNT_FLAGS(PARTITION_NODE) & FS_MOUNT_FLAG_AUTOMOUNT)
-	rc = fs_mount(mp);
-	if (rc < 0) {
-		printk("FAIL: mount id %" PRIuPTR " at %s: %d\n",
-		       (uintptr_t)mp->storage_dev, mp->mnt_point, rc);
-		return;
-	}
-	printk("%s mount: %d\n", mp->mnt_point, rc);
-#else
-	printk("%s automounted\n", mp->mnt_point);
-#endif
-	
-    	/* 检索文件系统信息 */
+	/* 检索文件系统的信息,返回文件系统中的总空间和可用空间。 */
 	rc = fs_statvfs(mp->mnt_point, &sbuf);
 	if (rc < 0) {
-		printk("FAIL: statvfs: %d\n", rc);
+		LOG_PRINTK("FAIL: statvfs: %d\n", rc);
 		goto out;
 	}
 
-	printk("%s: bsize = %lu ; frsize = %lu ;"
-	       " blocks = %lu ; bfree = %lu\n",
-	       mp->mnt_point,
-	       sbuf.f_bsize, sbuf.f_frsize,
-	       sbuf.f_blocks, sbuf.f_bfree);
+	LOG_PRINTK("%s: bsize = %lu ; frsize = %lu ;"
+		   " blocks = %lu ; bfree = %lu\n",
+		   mp->mnt_point,
+		   sbuf.f_bsize, sbuf.f_frsize,
+		   sbuf.f_blocks, sbuf.f_bfree);
 
-	struct fs_dirent dirent;
-	
-    	/* 获取boot_count文件状态 */
-	rc = fs_stat(fname, &dirent);
-	printk("%s stat: %d\n", fname, rc);
-	if (rc >= 0) {
-		printk("\tfn '%s' size %zu\n", dirent.name, dirent.size);
-	}
-
-	struct fs_file_t file;
-
-	fs_file_t_init(&file);
-	
-    	/* 打开boot_count文件 */
-	rc = fs_open(&file, fname, FS_O_CREATE | FS_O_RDWR);
+	/* 检索文件系统的目录 */
+	rc = lsdir(mp->mnt_point);
 	if (rc < 0) {
-		printk("FAIL: open %s: %d\n", fname, rc);
+		LOG_PRINTK("FAIL: lsdir %s: %d\n", mp->mnt_point, rc);
 		goto out;
 	}
 
-	uint32_t boot_count = 0;
-
-	if (rc >= 0) {
-        /* 读boot_count文件内容 */
-		rc = fs_read(&file, &boot_count, sizeof(boot_count));
-		printk("%s read count %u: %d\n", fname, boot_count, rc);
-		rc = fs_seek(&file, 0, FS_SEEK_SET);
-		printk("%s seek start: %d\n", fname, rc);
-
+	/* 读写 lfs1/boot_count 文件 */
+	rc = littlefs_increase_infile_value(fname1);
+	if (rc) {
+		goto out;
 	}
-
-	boot_count += 1;
-    	/* 写boot_count文件，内容为读取boot_count内容的递增 */
-	rc = fs_write(&file, &boot_count, sizeof(boot_count));
-	printk("%s write new boot count %u: %d\n", fname,
-	       boot_count, rc);
-	/* 关闭boot_count文件*/
-	rc = fs_close(&file);
-	printk("%s close: %d\n", fname, rc);
-
-	struct fs_dir_t dir;
-
-	fs_dir_t_init(&dir);
-
-	rc = fs_opendir(&dir, mp->mnt_point);
-	printk("%s opendir: %d\n", mp->mnt_point, rc);
-
-	while (rc >= 0) {
-		struct fs_dirent ent = { 0 };
-
-		rc = fs_readdir(&dir, &ent);
-		if (rc < 0) {
-			break;
-		}
-		if (ent.name[0] == 0) {
-			printk("End of files\n");
-			break;
-		}
-		printk("  %c %zu %s\n",
-		       (ent.type == FS_DIR_ENTRY_FILE) ? 'F' : 'D',
-		       ent.size,
-		       ent.name);
+	/* 读写 lfs1/pattern.bin 文件 */
+	rc = littlefs_binary_file_adj(fname2);
+	if (rc) {
+		goto out;
 	}
-
-	(void)fs_closedir(&dir);
 
 out:
-    	/* 卸载文件系统 */
+	/* 卸载文件系统 */
 	rc = fs_unmount(mp);
-	printk("%s unmount: %d\n", mp->mnt_point, rc);
+	LOG_PRINTK("%s unmount: %d\n", mp->mnt_point, rc);
 }
 
 ```
 
 ### 编译烧录
 
-#### **编译** 
+#### 编译 
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
-#### **烧录**  
+#### 烧录  
 
 -  烧录应用项目固件
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
-- 烧录`littlefs_image.bin`文件
+- 烧录文件系统bin文件
 
+这里提供串口烧录的指令示例，开发可根据实际的硬件环境选择对应的烧录方式，需要注意偏移地址是正确的。
 ```
-lisa zep flash --runner pyocd --flash-opt="--base-address=0x18160000" --bin-file C:\Users\xiaoqingqin\Desktop\littlefs_image.bin -d E:\csk6\littlefs\build
+lisa zep exec cskburn -s \\.\COMx -C 6 0x700000 xxx\littlefs_imge.bin -b 748800
 ```
+COMx: DAPlink虚拟的串口
 
-偏移地址：0x18160000
+文件地址:`xxx`为文件系统文件`littlefs_imge.bin`实际的路径。
 
-littlefs应用项目build路径：E:\csk6\littlefs\build(开发者需要修改为实际的路径)
+偏移地址：0x700000
 
-#### **查看结果**  
+#### 查看结果 
 
 ```shell
-*** Booting Zephyr OS build v1.0.4-alpha.1  ***
-Area 0 at 0x160000 on FLASH_CTRL for 3145728 bytes
+*** Booting Zephyr OS build v1.1.1-alpha.1-3-g45e3cda44212  ***
+Sample program to r/w files on littlefs
+Area 0 at 0x700000 on FLASH_CTRL for 1048576 bytes
 /lfs1 automounted
-/lfs1: bsize = 16 ; frsize = 4096 ; blocks = 768 ; bfree = 766
-/lfs1/boot_count stat: 0
-	fn 'boot_count' size 4
-/lfs1/boot_count read count 2: 4
-/lfs1/boot_count seek start: 0
-/lfs1/boot_count write new boot count 3: 4
-/lfs1/boot_count close: 0
-/lfs1 opendir: 0
-  F 4 boot_count
-End of files
+/lfs1: bsize = 16 ; frsize = 4096 ; blocks = 256 ; bfree = 253
+
+Listing dir /lfs1 ...
+[FILE] boot_count (size = 1)
+[FILE] pattern.bin (size = 547)
+/lfs1/boot_count read count:3 (bytes: 1)
+/lfs1/boot_count write new boot count 4: [wr:1]
+------ FILE: /lfs1/pattern.bin ------
+04 55 55 55 55 55 55 55 05 55 55 55 55 55 55 55
+06 55 55 55 55 55 55 55 07 55 55 55 55 55 55 55
+08 55 55 55 55 55 55 55 09 55 55 55 55 55 55 55
+0a 55 55 55 55 55 55 55 0b 55 55 55 55 55 55 55
+0c 55 55 55 55 55 55 55 0d 55 55 55 55 55 55 55
+0e 55 55 55 55 55 55 55 0f 55 55 55 55 55 55 55
+10 55 55 55 55 55 55 55 11 55 55 55 55 55 55 55
+12 55 55 55 55 55 55 55 13 55 55 55 55 55 55 55
+14 55 55 55 55 55 55 55 15 55 55 55 55 55 55 55
+16 55 55 55 55 55 55 55 17 55 55 55 55 55 55 55
+18 55 55 55 55 55 55 55 19 55 55 55 55 55 55 55
+1a 55 55 55 55 55 55 55 1b 55 55 55 55 55 55 55
+1c 55 55 55 55 55 55 55 1d 55 55 55 55 55 55 55
+1e 55 55 55 55 55 55 55 1f 55 55 55 55 55 55 55
+20 55 55 55 55 55 55 55 21 55 55 55 55 55 55 55
+22 55 55 55 55 55 55 55 23 55 55 55 55 55 55 55
+24 55 55 55 55 55 55 55 25 55 55 55 55 55 55 55
+26 55 55 55 55 55 55 55 27 55 55 55 55 55 55 55
+28 55 55 55 55 55 55 55 29 55 55 55 55 55 55 55
+2a 55 55 55 55 55 55 55 2b 55 55 55 55 55 55 55
+2c 55 55 55 55 55 55 55 2d 55 55 55 55 55 55 55
+2e 55 55 55 55 55 55 55 2f 55 55 55 55 55 55 55
+30 55 55 55 55 55 55 55 31 55 55 55 55 55 55 55
+32 55 55 55 55 55 55 55 33 55 55 55 55 55 55 55
+34 55 55 55 55 55 55 55 35 55 55 55 55 55 55 55
+36 55 55 55 55 55 55 55 37 55 55 55 55 55 55 55
+38 55 55 55 55 55 55 55 39 55 55 55 55 55 55 55
+3a 55 55 55 55 55 55 55 3b 55 55 55 55 55 55 55
+3c 55 55 55 55 55 55 55 3d 55 55 55 55 55 55 55
+3e 55 55 55 55 55 55 55 3f 55 55 55 55 55 55 55
+40 55 55 55 55 55 55 55 41 55 55 55 55 55 55 55
+42 55 55 55 55 55 55 55 43 55 55 55 55 55 55 55
+44 55 55 55 55 55 55 55 45 55 55 55 55 55 55 55
+46 55 55 55 55 55 55 55 47 55 55 55 55 55 55 55
+48 55 ad 
+I: /lfs1 unmounted
 /lfs1 unmount: 0
-[00:00:00.000,000] [0m<inf> littlefs: littlefs partition at /lfs1[0m
-[00:00:00.000,000] [0m<inf> littlefs: LittleFS version 2.2, disk version 2.0[0m
-[00:00:00.000,000] [0m<inf> littlefs: FS at FLASH_CTRL:0x160000 is 768 0x1000-byte blocks with 512 cycle[0m
-[00:00:00.000,000] [0m<inf> littlefs: sizes: rd 16 ; pr 16 ; ca 64 ; la 32[0m
-[00:00:00.001,000] [0m<inf> littlefs: /lfs1 mounted[0m
-[00:00:00.001,000] [0m<inf> littlefs: Automount /lfs1 succeeded[0m
-[00:00:00.039,000] [0m<inf> littlefs: /lfs1 unmounted[0m
-*** Booting Zephyr OS build v1.0.4-alpha.1  ***
-Area 0 at 0x160000 on FLASH_CTRL for 3145728 bytes
-/lfs1 automounted
-/lfs1: bsize = 16 ; frsize = 4096 ; blocks = 768 ; bfree = 766
-/lfs1/boot_count stat: 0
-	fn 'boot_count' size 4
-/lfs1/boot_count read count 3: 4
-/lfs1/boot_count seek start: 0
-/lfs1/boot_count write new boot count 4: 4
-/lfs1/boot_count close: 0
-/lfs1 opendir: 0
-  F 4 boot_count
-End of files
-/lfs1 unmount: 0
-[00:00:00.000,000] [0m<inf> littlefs: littlefs partition at /lfs1[0m
-[00:00:00.000,000] [0m<inf> littlefs: LittleFS version 2.2, disk version 2.0[0m
-[00:00:00.000,000] [0m<inf> littlefs: FS at FLASH_CTRL:0x160000 is 768 0x1000-byte blocks with 512 cycle[0m
-[00:00:00.000,000] [0m<inf> littlefs: sizes: rd 16 ; pr 16 ; ca 64 ; la 32[0m
-[00:00:00.001,000] [0m<inf> littlefs: /lfs1 mounted[0m
-[00:00:00.001,000] [0m<inf> littlefs: Automount /lfs1 succeeded[0m
-[00:00:00.039,000] [0m<inf> littlefs: /lfs1 unmounted[0m
+
 ```
 

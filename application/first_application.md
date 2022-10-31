@@ -59,16 +59,23 @@ target_sources(app PRIVATE src/main.c)
 :::
 
 ### 设备树配置
-在`app/boards/`目录下增加`csk6011a_nano.overlay`文件并添加led的GPIO配置，具体内容如下：
+在`app/boards/`目录下增加`csk6011a_nano.overlay`设备树配置文件并添加led的GPIO配置，具体内容如下：
 ```c
 
- / 
- {
-    leds {
-            compatible = "gpio-leds";
-            board_led_2_label: board_led_2_nodeid {
-                    gpios = <&gpiob 5 0>;
-                    label = "User BOARD_LED_2";
+ / /*根节点*/ 
+
+    /*定义别名为led0的gpio设备树*/ 
+    {
+        aliases {
+            led0 = &board_led_0_label;/* led0别名映射到led0设备树node label */
+    };
+
+    {
+        leds {
+            compatible = "gpio-leds";/* 设置led设备树的ymal绑定文件 */
+            board_led_0_label: board_led_0_nodeid { /* node label和node id，皆可自定义命名 */
+                    gpios = <&gpiob 6 GPIO_ACTIVE_LOW>; /* GPIO逻辑电平模式设置 */
+                    label = "User LED1"; /* 节点的 label 属性，通过传入device_get_binding()接口可以获取gpio设备实例 */
             };
     };
  
@@ -79,10 +86,10 @@ target_sources(app PRIVATE src/main.c)
 
 | 字段                       | 说明                                                         |
 | -------------------------- | ------------------------------------------------------------ |
-| board_led_2_label          | led2 设备树的 node label，可通过 node label 获取 led2 设备树的配置信息 |
-| board_led_2_nodeid         | led2 设备树的 node id，可通过 node id获取 led2 设备树的配置信息 |
-| gpios = <&gpiob 5 0>       | &gpiob 5：gpiob_5；<br />0：gpio flag配置为0，在本示例中没有用到该flag |
-| label = "User BOARD_LED_2" | led2 节点 的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的实例 |
+| board_led_0_label          | led 设备树的 node label，可通过 node label 获取 led 设备树的配置信息 |
+| board_led_0_nodeid         | led 设备树的 node id，可通过 node id获取 led 设备树的配置信息 |
+| gpios = <&gpiob 6 GPIO_ACTIVE_LOW>;       | &gpiob 6：GPIO引脚；<br /> GPIO_ACTIVE_LOW gpio flag配置,当GPIO被配置为 GPIO_ACTIVE_LOW 时，GPIO上出现低电平时表示逻辑电平1 |
+| label = "User LED1" | led 节点的 label 属性(Label propert)，通过传入device_get_binding()接口可以获取gpio设备的设备实例 |
 
 :::note
 
@@ -94,49 +101,48 @@ zephyr类似于Linux通过设备树来管理硬件，把硬件配置信息放在
 ### LED灯控制代码实现
 基于 HelloWorld 应用增加LED灯的控制逻辑，具体如下：
 ```c
-#include <Zephyr.h>
-#include <device.h>
-#include <devicetree.h>
-#include <drivers/gpio.h>
+#include <zephyr/zephyr.h>
+#include <zephyr/drivers/gpio.h>
 
 /* 1000 msec = 1 sec */
 #define SLEEP_TIME_MS   1000
 
-/* 通过label获取board_led_2的GPIO配置信息 */
-#define LED0	DT_GPIO_LABEL(DT_NODELABEL(board_led_2_label), gpios)
-#define PIN	DT_GPIO_PIN(DT_NODELABEL(board_led_2_label), gpios)
+/* 通过别名获取 "led0" 设备树 node id */
+#define LED0_NODE DT_ALIAS(led0)
+
+ /* 通过 node id 获取 led0 设备树信息 */
+static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 void main(void)
 {
-	printk("Hello World! %s\n", CONFIG_BOARD);
+    printk("Hello World! %s\n", CONFIG_BOARD);
     
-    const struct device *dev;
-	bool led_is_on = true;
-	int ret;
+    int ret;
+    /* 检查硬件设备是否就绪 */
+    if (!device_is_ready(led.port)) {
+        return;
+    }
 
-    printk("LED0 %s \n", LED0);
-    printk("PIN %d \n", PIN);
+    /* 将GPIO配置为输出并将其初始化为逻辑电平1 */
+    ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+    if (ret < 0) {
+        return;
+    }
 
-    /* 获取GPIO设备实例 */
-	dev = device_get_binding(LED0);
-	if (dev == NULL) {
-		return;
-	}
-    
-	/* 将GPIO配置为输出并将其初始化为逻辑电平1 */
-	ret = gpio_pin_configure(dev, PIN, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		return;
-	}
-
-    /* LED输出控制 */
-	while (1) {
-		gpio_pin_set(dev, PIN, (int)led_is_on);
-		led_is_on = !led_is_on;
-		k_msleep(SLEEP_TIME_MS);
-	}
+    while (1) {
+        /* GPIO电平反转控制 */
+        ret = gpio_pin_toggle_dt(&led);
+        if (ret < 0) {
+            return;
+        }
+        k_msleep(SLEEP_TIME_MS);
+    }
 }
 ```
+
+:::note
+更多的 gpio 接口可以在SDK `zephyr\include\zephyr\drivers\gpio.h`头文件里查看。
+:::
 
 **开发者可能对以上某些代码段感到疑惑？**
 
@@ -149,7 +155,7 @@ void main(void)
   - [音频组件及使用示例](./audio/overview)
   - [网络模块及使用示例](./network/overview)
 
-:::
+
 ### 编译和烧录
 #### 编译
 在sample根目录下通过以下指令完成编译：
@@ -171,12 +177,8 @@ lisa zep flash --runner pyocd
 
 :::
 ### 预期结果
-![](../application/peripheral/samples/files/led_on.png)
-![](../application/peripheral/samples/files/led_off.png)
 
-预期的效果如上图片所示，开发板上的LED灯(绿)以1S的周期循环亮灭。
-
-如果您在本章节的指引下顺利的完成了LED灯控制应用的开发，那么恭喜您在CSK6应用开发的道路上又走出了坚实的一步！
+开发板上的LED灯(绿)以1S的周期循环亮灭。如果您在本章节的指引下顺利的完成了LED灯控制应用的开发，那么恭喜您在CSK6应用开发的道路上又走出了坚实的一步！
 
 ## 请求帮助
 如果在开发过程中遇到问题，可联系FAE提供支持，或者在聆思维护的代码仓库托管站点 LSCloud 中反馈你所遇到的问题或提交特性适配请求。
