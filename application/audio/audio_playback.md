@@ -220,7 +220,7 @@ generate_inc_file_for_target(
 
 ### 设备树配置
 
-在`csk6002_9s_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，因此需要在sample中重写`board overlay`完成设备树配置。
+在`csk6011a_nano`开发板上系统默认通过LINE_L_N/LINE_L_P输出音频，并且使用`GPIOA_04`作为功放的使能引脚，因此需要在sample中重写`board overlay`完成设备树配置。
 ```c
  / {
     chosen {
@@ -380,11 +380,11 @@ void main(void)
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 ### 烧录   
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```

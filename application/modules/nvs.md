@@ -381,13 +381,13 @@ void main(void)
 
 在app根目录下通过以下指令完成编译：
 ```shell
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 ### 烧录
 
 CSK6-NanoKit通过USB连接PC，通过烧录指令开始烧录：
 ```shell
-lisa zep flash --runner pyocd
+lisa zep flash 
 ```
 
 ### 查看结果

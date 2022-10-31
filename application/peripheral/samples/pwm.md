@@ -28,7 +28,7 @@ int pwm_pin_set_usec(const struct device * dev, uint32_t channel, uint32_t perio
 ## 使用示例
 
 ### 准备工作
-首先，实现Blinky_pwm示例的预期效果需要硬件开发板上必须有一个GPIO(带pwm输出功能)连接了一个LED灯，在`csk6002_9s_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_05，GPIOA_05可复用为pwm输出功能。
+首先，实现Blinky_pwm示例的预期效果需要硬件开发板上必须有一个GPIO(带pwm输出功能)连接了一个LED灯，在`csk6011a_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_06，GPIOA_06可复用为pwm输出功能。
 ![](./files/led_pin.png)
 
 ### 获取sample项目
@@ -56,32 +56,36 @@ CONFIG_LOG_MODE_IMMEDIATE=y
 CONFIG_PWM_LOG_LEVEL_DBG=y
 ```
 ### 设备树配置
-`csk6002_9s_nano.dts`设备树配置文件中已经实现了`pwmled`的配置，具体如下:
+`csk6011a_nano.dts`设备树配置文件中已经实现了`pwmled`的配置，具体如下:
 
 ```c
 {
-    model = "csk6002 9s nano";
-    compatible = "csk,csk6002_9s_nano";
+    model = "csk6011a nano";
+    compatible = "csk,csk6011a_nano";
+	/* 定义别名为 pwm-led0 的 pwmled 设备树 */
     aliases {
             pwm-led0 = &green_pwm_led;
 
     };
 
-    pwmleds {
-		compatible = "pwm-leds";
-		green_pwm_led: green_pwm_led {
-			pwms = <&pwm5 5 PWM_POLARITY_NORMAL>;
-			label = "User BOARD_LED_2 - PWM0";
-		};
+	pwmleds {
+			compatible = "pwm-leds";
+			green_pwm_led: green_pwm_led {
+					/* PWM LED will conflict with User LED1 since using the same gpio pin */
+					pwms = <&pwm2 2 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+					label = "User BOARD_LED_2 - PWM0";
+			};
+
+	};
 };
 ```
 **pwmled 设备树配置说明：**
 
 | 字段                                  | 说明                                                         |
 | ------------------------------------- | ------------------------------------------------------------ |
-| green_pwm_led(green_pwm_led:)                         | pwm_led 设备树的 node label，可通过 node label 获取 pwm_led设备树的配置信息 |
-| green_pwm_led(:green_pwm_led)                         | pwm_led 设备树的 node id，可通过 node id获取 pwm_led设备树的配置信息 |
-| gpios = <&pwm5 5 PWM_POLARITY_NORMAL> | &pwm5 ：pwm _5<br />5：通道<br />PWM_POLARITY_NORMAL： pwm 引脚 flag |
+| green_pwm_led(第一个)                         | pwm_led 设备树的 node label，可通过 node label 获取 pwm_led设备树的配置信息 |
+| green_pwm_led(第二个)                         | pwm_led 设备树的 node id，可通过 node id获取 pwm_led设备树的配置信息 |
+|pwms = <&pwm2 2 PWM_MSEC(20) PWM_POLARITY_NORMAL>; | &pwm2 ：pwm_2<br />2：通道<br />PWM_POLARITY_NORMAL： pwm 引脚 flag |
 | User BOARD_LED_2 - PWM0               | pwm_led 节点的 label 属性[(Label propert)](https://docs.Zephyrproject.org/latest/build/dts/intro.html#important-properties)，通过传入device_get_binding()接口可以获取pwm的设备实例 |
 
 
@@ -96,68 +100,55 @@ CONFIG_PWM_LOG_LEVEL_DBG=y
 
 ### 示例实现 
 ```c
-#include <zephyr.h>
-#include <sys/printk.h>
-#include <device.h>
-#include <drivers/pwm.h>
-
-#define PWM_LED0_NODE	DT_ALIAS(pwm_led0)
-
+#include <zephyr/zephyr.h>
+#include <zephyr/sys/printk.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/pwm.h>
 /* 获取设备树配置 */
-#define PWM_CTLR	DT_PWMS_CTLR(PWM_LED0_NODE)
-#define PWM_CHANNEL	DT_PWMS_CHANNEL(PWM_LED0_NODE)
-#define PWM_FLAGS	DT_PWMS_FLAGS(PWM_LED0_NODE)
+static const struct pwm_dt_spec pwm_led0 = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led0));
 
-#define MIN_PERIOD_USEC	(USEC_PER_SEC / 64U)
-#define MAX_PERIOD_USEC	USEC_PER_SEC
+#define MIN_PERIOD PWM_SEC(1U) / 128U
+#define MAX_PERIOD PWM_SEC(1U)
 
 void main(void)
 {
-	const struct device *pwm;
 	uint32_t max_period;
 	uint32_t period;
 	uint8_t dir = 0U;
 	int ret;
 
 	printk("PWM-based blinky\n");
-	
-    /* 获取`pwm_led0`设备实例 */
-	pwm = DEVICE_DT_GET(PWM_CTLR);
-	if (!device_is_ready(pwm)) {
-		printk("Error: PWM device %s is not ready\n", pwm->name);
+
+	if (!device_is_ready(pwm_led0.dev)) {
+		printk("Error: PWM device %s is not ready\n",
+		       pwm_led0.dev->name);
 		return;
 	}
 
 	/*
-	 * In case the default MAX_PERIOD_USEC value cannot be set for
-	 * some PWM hardware, decrease its value until it can.
-	 *
-	 * Keep its value at least MIN_PERIOD_USEC * 4 to make sure
-	 * the sample changes frequency at least once.
+	 * 如果默认的 MAX_PERIOD 值无法匹配一些 PWM 硬件，则降低其值直到可以。
+	 * 保持其值至少为 MIN_PERIOD*4，以确保样本改变频率至少是一次。
 	 */
-	printk("Calibrating for channel %d...\n", PWM_CHANNEL);
-	max_period = MAX_PERIOD_USEC;
-    /* 对硬件进行校准，适当减小最大PWM周期，到找匹配的值 */
-	while (pwm_pin_set_usec(pwm, PWM_CHANNEL,
-				max_period, max_period / 2U, PWM_FLAGS)) {
+	printk("Calibrating for channel %d...\n", pwm_led0.channel);
+	max_period = MAX_PERIOD;
+	/* 对硬件进行校准，适当减小最大PWM周期，到找匹配的值 */
+	while (pwm_set_dt(&pwm_led0, max_period, max_period / 2U)) {
 		max_period /= 2U;
-		if (max_period < (4U * MIN_PERIOD_USEC)) {
+		if (max_period < (4U * MIN_PERIOD)) {
 			printk("Error: PWM device "
-			       "does not support a period at least %u\n",
-			       4U * MIN_PERIOD_USEC);
+			       "does not support a period at least %lu\n",
+			       4U * MIN_PERIOD);
 			return;
 		}
 	}
 
-	printk("Done calibrating; maximum/minimum periods %u/%u usec\n",
-	       max_period, MIN_PERIOD_USEC);
+	printk("Done calibrating; maximum/minimum periods %u/%lu usec\n",
+	       max_period, MIN_PERIOD);
 
 	period = max_period;
-    /* pwm输出配置实现LED闪烁频率控制 */
 	while (1) {
-        /* 设置pwm参数，通道、频率(max_period=125000HZ)、脉宽(50%)、标志(PWM_POLARITY_NORMAL) */
-		ret = pwm_pin_set_usec(pwm, PWM_CHANNEL,
-				       period, period / 2U, PWM_FLAGS);
+		 /* 设置pwm参数，通道、频率(max_period=125000HZ)、脉宽(50%)、标志(PWM_POLARITY_NORMAL) */
+		ret = pwm_set_dt(&pwm_led0, period, period / 2U);
 		if (ret) {
 			printk("Error %d: failed to set pulse width\n", ret);
 			return;
@@ -167,13 +158,14 @@ void main(void)
 		if (period > max_period) {
 			period = max_period / 2U;
 			dir = 0U;
-		} else if (period < MIN_PERIOD_USEC) {
-			period = MIN_PERIOD_USEC * 2U;
+		} else if (period < MIN_PERIOD) {
+			period = MIN_PERIOD * 2U;
 			dir = 1U;
 		}
 
 		k_sleep(K_SECONDS(4U));
 	}
+
 }
 
 ```
@@ -182,13 +174,13 @@ void main(void)
 #### 编译
 在sample根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`通过USB连接PC，通过烧录指令开始烧录：
 
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 完成烧录后，可看到终端输出 “烧录成功” 的提示，如图：
 ![](./files/flash.png)

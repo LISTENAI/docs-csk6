@@ -10,7 +10,7 @@
 
 - 上手使用一个外设驱动的方法
 
-## 外设驱动及sample章节目录：
+## 外设及使用示例章节目录：
 * 章节一:[GPIO](./samples/gpio)
 * 章节二:[PWM](./samples/pwm)
 * 章节三:[UART](./samples/uart)

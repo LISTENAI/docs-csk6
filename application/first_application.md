@@ -22,7 +22,7 @@ CSK6开发板与板型：
 
 ## 查看硬件板型原理图
 本章节目标是实现开发板LED灯亮灭的控制，因此需要确认LED所对应的GPIO引脚，开发者可在NanoKit开发板章节下载对应开发板的原理图。
-本章节以[CSK6011-NanoKit开发板](../overview/nanokit/csk6011_nanokit)为例，LED灯对应的控制引脚为GPIOB_05：
+本章节以[CSK6011-NanoKit开发板](../overview/nanokit/csk6011_nanokit)为例，LED灯对应的控制引脚为GPIOB_06：
 
 ![](../application/peripheral/samples/files/led_pin.png)
 

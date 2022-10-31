@@ -16,20 +16,20 @@
 你可以通过为你的板型构建 [Hello World](https://docs.zephyrproject.org/latest/samples/hello_world/README.html#hello-world) 查看“基础”设备树，因为这一结果没有受任何 [overlay 文件](./intro.md#输入文件) 影响。
 :::
 
-例如，使用 `csk6002_9s_nano` 构建 [Hello World](https://docs.zephyrproject.org/latest/samples/hello_world/README.html#hello-world) ：
+例如，使用 `csk6011a_nano` 构建 [Hello World](https://docs.zephyrproject.org/latest/samples/hello_world/README.html#hello-world) ：
 
 ```
 # 此处的 --cmake-only 目的是为了节省时间，
 # 它会强制让 CMake 运行，并跳过构建过程。
-lisa zep build -b csk6002_9s_nano samples/hello_world --cmake-only
+lisa zep build -b csk6011a_nano samples/hello_world --cmake-only
 ```
 
-你也可以将 `csk6002_9s_nano` 替换成你的板型。
+你也可以将 `csk6011a_nano` 替换成你的板型。
 
 CMake 将打印输入和输出文件的位置，如下所示：
 
 ```
--- Found BOARD.dts: .../zephyr/boards/arm/csk6002_9s_nano/csk6002_9s_nano.dts
+-- Found BOARD.dts: .../zephyr/boards/arm/csk6011a_nano/csk6011a_nano.dts
 -- Generated zephyr.dts: .../build/zephyr/zephyr.dts
 -- Generated devicetree_unfixed.h: .../build/zephyr/include/generated/devicetree_unfixed.h
 ```

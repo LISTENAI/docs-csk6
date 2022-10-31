@@ -80,8 +80,8 @@ int wdt_install_timeout(const struct device *dev,  const struct wdt_timeout_cfg 
 
 ## 使用示例
 ### 准备工作  
-本示例基于 `csk6002_9s_nano`开发板来实现，需要做如下准备：
-- 准备一个`csk6002_9s_nano`开发板
+本示例基于 `csk6011a_nano`开发板来实现，需要做如下准备：
+- 准备一个`csk6011a_nano`开发板
 - 通过串口连接PC端查看日志
 
 ### 获取sample项目
@@ -173,11 +173,11 @@ static void wdt_callback(const struct device *wdt_dev, int channel_id)
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录   
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指完成烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```

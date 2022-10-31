@@ -138,7 +138,7 @@ void main(void)
 
 ```shell
 *** Booting Zephyr OS build v1.0.4-alpha.1  ***
-work queue sample! csk6002_9s_nano
+work queue sample! csk6011a_nano
 execute on device FOO_dev
 ```
 
