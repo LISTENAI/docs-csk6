@@ -52,7 +52,7 @@ void uart_poll_out(const struct device *dev, unsigned char out_char)
 ### 使用示例
 
 #### 准备工作
-本示例基于 `csk6002_9s_nano`开发板实现，使用了`uart0(GPIO_A_03, GPIO_A_06)`这组串口，在开发之前需要做如下准备工作：
+本示例基于 `csk6011a_nano`开发板实现，使用了`uart0(GPIO_A_03, GPIO_A_06)`这组串口，在开发之前需要做如下准备工作：
 - 将开发板上的uart0通过串口转接板接入PC端。
 
 ![](./files/uart_pin_conect.png)
@@ -87,17 +87,17 @@ CONFIG_UART_CSK6=y
 
 #### 设备树配置
 
-`csk6002_9s_nano`开发板提供了多组UART。本示例使用`uart0(GPIO_A_03, GPIO_A_06)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`board overlay`的方式完成，具体实现如下：
+`csk6011a_nano`开发板提供了多组UART。本示例使用`uart0(GPIO_A_03, GPIO_A_02)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`board overlay`的方式完成，具体实现如下：
 
-- 在sample/boards目录下的`csk6002_9s_nano.overlay`文件并添加如下串口配置：
+- 在sample/boards目录下的`csk6011a_nano.overlay`文件并添加如下串口配置：
 ```c
-&csk6002_9s_nano_pinctrl{
+&pinctrl{
     pinctrl_uart0_rx_default: uart0_rx_default{
-        pinctrls = <&pinmuxa 6 2>;
+        pinctrls = <UART0_RXD_GPIOA_02>;              //rx pin
     };
     
     pinctrl_uart0_tx_default: uart0_tx_default{
-        pinctrls = <&pinmuxa 3 2>;
+        pinctrls = <UART0_TXD_GPIOA_03>;              //tx pin
     };
 };
 ```
@@ -148,11 +148,11 @@ void main(void)
 #### 编译
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
@@ -270,7 +270,7 @@ int uart_fifo_fill(const struct device *dev,
 
 #### 准备工作
 
-本示例基于 `csk6002_9s_nano`开发板实现，使用了`uart0(GPIO_A_03, GPIO_A_06)`这组串口，在开发之前需要做如下准备工作：
+本示例基于 `csk6011a_nano`开发板实现，使用了`uart0(GPIO_A_03, GPIO_A_02)`这组串口，在开发之前需要做如下准备工作：
 
 - 使用杜邦线将开发板上的uart0的TX、RX、GND和串口转接板接入PC。
 
@@ -310,18 +310,35 @@ CONFIG_UART_CSK6=y
 
 #### 设备树配置
 
-`csk6002_9s_nano`开发板提供了多组UART。本示例使用`uart0(GPIO_A_03, GPIO_A_06)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`board overlay`的方式完成，具体实现如下：
+`csk6011a_nano`开发板提供了多组UART。本示例使用`uart1(GPIO_A_04, GPIO_A_05)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`board overlay`的方式完成，具体实现如下：
 
-- 在sample/boards目录下的`csk6002_9s_nano.overlay`文件并添加如下串口配置：
+- 在sample/boards目录下的`csk6011a_nano.overlay`文件并添加如下串口配置：
 
 ```c
-&csk6002_9s_nano_pinctrl{
+/* 串口1 波特率、引脚等配置 */
+&uart1 {
+    pinctrl-0 = <&pinctrl_uart1_rx_default &pinctrl_uart1_tx_default>; 
+    pinctrl-names = "default";
+    current-speed = <115200>;
+    status = "okay";
+};
+
+/* 串口 引脚配置 */
+&pinctrl{
     pinctrl_uart0_rx_default: uart0_rx_default{
-        pinctrls = <&pinmuxa 6 2>;
+        pinctrls = <UART0_RXD_GPIOA_02>;              //rx pin
     };
     
     pinctrl_uart0_tx_default: uart0_tx_default{
-        pinctrls = <&pinmuxa 3 2>;
+        pinctrls = <UART0_TXD_GPIOA_03>;              //tx pin
+    };
+
+    pinctrl_uart1_rx_default: uart1_rx_default{
+        pinctrls = <UART0_TXD_GPIOA_05>;              //rx pin
+    };
+    
+    pinctrl_uart1_tx_default: uart1_tx_default{
+        pinctrls = <UART0_RXD_GPIOA_04>;              //tx pin
     };
 };
 ```
@@ -396,12 +413,12 @@ void main(void)
 在app根目录下通过以下指令完成编译：
 
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 
 #### 烧录
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 
 ```
 lisa zep flash --runner pyocd

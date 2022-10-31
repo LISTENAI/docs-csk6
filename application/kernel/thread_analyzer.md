@@ -78,32 +78,32 @@ CONFIG_THREAD_ANALYZER_AUTO_INTERVAL=5
 
 ```shell
 *** Booting Zephyr OS build v1.0.4-alpha.1  ***
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
 Thread analyze:
  thread_b            : STACK: unused 880 usage 144 / 1024 (14 %); CPU: 0 %
  thread_a            : STACK: unused 644 usage 380 / 1024 (37 %); CPU: 95 %
  thread_analyzer     : STACK: unused 556 usage 468 / 1024 (45 %); CPU: 0 %
  idle 00             : STACK: unused 288 usage 32 / 320 (10 %); CPU: 0 %
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
 Thread analyze:
  thread_b            : STACK: unused 644 usage 380 / 1024 (37 %); CPU: 8 %
  thread_a            : STACK: unused 644 usage 380 / 1024 (37 %); CPU: 10 %
  thread_analyzer     : STACK: unused 556 usage 468 / 1024 (45 %); CPU: 0 %
  idle 00             : STACK: unused 272 usage 48 / 320 (15 %); CPU: 81 %
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
-thread_b: Hello World from cpu 0 on csk6002_9s_nano!
-thread_a: Hello World from cpu 0 on csk6002_9s_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
+thread_b: Hello World from cpu 0 on csk6011a_nano!
+thread_a: Hello World from cpu 0 on csk6011a_nano!
 ```
 

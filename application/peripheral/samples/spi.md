@@ -81,7 +81,7 @@ const struct spi_buf_set *rx_bufs);
 ### 准备工作
 本示例基于两个CSK6-NanoKit开发板实现SPI数据的通信，其中一个作为SPI主设备，另一设备作为从设备，实现该示例需要以下准备工作:
 - 2个CSK6-NanoKit开发板
-- 使用杜邦线将`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`连接，接线方式如下图示：<br/>![](./files/SPI_connect.png)
+- 使用杜邦线将`spi0(GPIO_A_19 sclk, GPIO_A_20 cs, GPIO_A_17 miso, GPIO_A_18 mosi)`和`spi1(GPIO_B_00 sclk, GPIO_B_03 cs, GPIO_B_02 miso, GPIO_A_01 mosi)`连接，接线方式如下图示：<br/>![](./files/SPI_connect.png)
 
 ### 获取sample项目
 通过Lisa命令创建项目：
@@ -104,29 +104,46 @@ CONFIG_HEAP_MEM_POOL_SIZE=10240
 CONFIG_SPI_COMPLETION_TIMEOUT_TOLERANCE=10000
 ```
 ### SPI设备树配置
-CSK6-NanoKit开发板提供了两组SPI外设。本示例使用`spi1(GPIO_A_04 sclk, GPIO_A_05 cs, GPIO_A_06 miso, GPIO_A_07 mosi)`作为SPI通讯接口，因此需要在设备树中将这GPIO引脚复用为SPI功能，可通过`board overlay`的方式完成，具体如下：
-在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
+CSK6-NanoKit开发板提供了两组SPI外设。本示例使用`spi0(GPIO_A_19 sclk, GPIO_A_20 cs, GPIO_A_17 miso, GPIO_A_18 mosi)`和`spi1(GPIO_B_00 sclk, GPIO_B_03 cs, GPIO_B_02 miso, GPIO_A_01 mosi)`作为SPI通讯接口，因此需要在设备树中将这GPIO引脚复用为SPI功能，可通过`board overlay`的方式完成，具体如下：
+在app目录下增加`csk6011a_nano.overlay`文件并添加如下配置：
 ```c
-&csk6002_9s_nano_pinctrl{
-            /* SPIC alternate function */
+&pinctrl{
+            /* SPI0引脚配置 */
+            pinctrl_spi0_cs_default: spi0_cs_default{
+                    pinctrls = <SPI0_CS_N_GPIOA_20>;
+            };
+
+            pinctrl_spi0_miso_default: spi0_miso_default{
+                    pinctrls = <SPI0_MISO_GPIOA_17>;
+            };
+
+            pinctrl_spi0_mosi_default: spi0_mosi_default{
+                    pinctrls = <SPI0_MOSI_GPIOA_18>;
+            };
+
+            pinctrl_spi0_sclk_default: spi0_sclk_default{
+                    pinctrls = <SPI0_CLK_GPIOA_19>;
+            };
+            /* SPI1引脚配置 */
             pinctrl_spi1_sclk_default: spi1_sclk_default{
-                    pinctrls = <&pinmuxa 4 7>;
+                    pinctrls = <SPI1_CLK_GPIOB_00>;
             };
             
             pinctrl_spi1_mosi_default: spi1_mosi_default{
-                    pinctrls = <&pinmuxa 7 7>;
+                    pinctrls = <SPI1_MOSI_GPIOB_01>;
             };
 
             pinctrl_spi1_miso_default: spi1_miso_default{
-                    pinctrls = <&pinmuxa 6 7>;
+                    pinctrls = <SPI1_MISO_GPIOB_02>;
             };    
 
             pinctrl_spi1_cs_default: spi1_cs_default{
-                    pinctrls = <&pinmuxa 5 7>;
+                    pinctrls = <SPI1_CS_N_GPIOB_03>;
             };
             
 };
 
+/* SPI1 配置 */
 &spi1{
     pinctrl-0 = <&pinctrl_spi1_sclk_default &pinctrl_spi1_mosi_default &pinctrl_spi1_miso_default &pinctrl_spi1_cs_default>; 
     pinctrl-names = "default";
@@ -354,13 +371,13 @@ void main(void)
 分别配置`MASTER_MODE`为1和0并烧录到两个CSK6-NanoKit开发板上。
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录
 
 CSK6-NanoKit通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 #### 查看结果 
 

@@ -172,7 +172,7 @@ lisa zep create
 
 
 ### 设备树配置
-本示例基于`csk6002_9s_nano`开发板，使用到了共享内存，因此需要在sample中重写`board overlay`完成设备树配置。
+本示例基于`csk6011a_nano`开发板，使用到了共享内存，因此需要在sample中重写`board overlay`完成设备树配置。
 ```c
 / {
 	chosen {
@@ -427,11 +427,11 @@ _END:
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录   
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
 lisa zep flash --runner pyocd
 ```

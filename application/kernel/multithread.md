@@ -200,27 +200,27 @@ void main(void)
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 - **烧录**   
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash 
 ```
 - **查看结果**  
 
-将`csk6002_9s_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
+将`csk6011a_nano`的日志串口`A03 TX A02 RX`接串口板连接电脑，在电脑端使用串口调试助手查看日志，波特率为115200。
 
 预期日志输出结果：
 ```shell
 *** Booting Zephyr OS build fd53c115d07a  ***
-threadA: Hello World on csk6002_9s_nano!
-threadB: Hello World on csk6002_9s_nano!
-threadA: Hello World on csk6002_9s_nano!
-threadA: Hello World on csk6002_9s_nano!
-threadB: Hello World on csk6002_9s_nano!
-threadA: Hello World on csk6002_9s_nano!
-threadA: Hello World on csk6002_9s_nano!
-threadB: Hello World on csk6002_9s_nano!
+threadA: Hello World on csk6011a_nano!
+threadB: Hello World on csk6011a_nano!
+threadA: Hello World on csk6011a_nano!
+threadA: Hello World on csk6011a_nano!
+threadB: Hello World on csk6011a_nano!
+threadA: Hello World on csk6011a_nano!
+threadA: Hello World on csk6011a_nano!
+threadB: Hello World on csk6011a_nano!
 ```

@@ -422,7 +422,7 @@ dts/<ARCH>/.../<SOC>.dtsi
 dts/bindings/.../binding.yaml
 ```
 
-一般来说，每个支持的板都有一个 `BOARD.dts` 文件来描述它的硬件。例如， `csk6002_9s_nano` 对应 [boards/arm/csk6002_9s_nano/csk6002_9s_nano.dts](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/boards/arm/csk6002_9s_nano/csk6002_9s_nano.dts) 。
+一般来说，每个支持的板都有一个 `BOARD.dts` 文件来描述它的硬件。例如， `csk6011a_nano` 对应 [boards/arm/csk6011a_nano/csk6011a_nano.dts](https://cloud.listenai.com/zephyr/zephyr/-/blob/master/boards/arm/csk6011a_nano/csk6011a_nano.dts) 。
 
 `BOARD.dts` 可包含一个或多个 `.dtsi` 文件。这些 `.dtsi` 文件描述了 Zephyr 运行的 CPU 或板载系统，可能包含其他 `.dtsi` 文件。它们还可以描述多个板共享的其他常见硬件功能。除了这些包含文件之外，`BOARD.dts` 还描述了板型上的特定硬件。
 

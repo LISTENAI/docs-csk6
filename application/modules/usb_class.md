@@ -104,10 +104,10 @@ usb cdc class是usb device class的一种，经常被用来模拟为串口。
 
 ### 编译烧录
 #### 编译
-执行 ``lisa zep build -b csk6002_9s_nano`` 指令，指定我们使用的开发板板型进行编译。
+执行 ``lisa zep build -b csk6011a_nano`` 指令，指定我们使用的开发板板型进行编译。
 
 #### 烧录
-执行 ``lisa zep flash --runner pyocd`` 指令进行固件烧录。
+执行 `lisa zep flash ` 指令进行固件烧录。
 
 #### 观察实验结果
 - 连接开发板的usb到PC

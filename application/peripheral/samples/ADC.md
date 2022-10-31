@@ -104,8 +104,8 @@ int adc_raw_to_millivolts(int32_t ref_mv, enum adc_gain gain, uint8_t resolution
 
 ## 使用示例
 ### 准备工作
-本示例基于 `csk6002_9s_nano`开发板的`adc0 ch1(gpiob_7)`引脚实现外部电压检测，在运行示例前需要做如下准备：
-- 准备一个`csk6002_9s_nano`开发板，并将`adc0 ch1(gpiob_7)`引脚接稳压电源(或者把`gpiob_7`接到开发板的3.3V电源脚)。如下图示：  
+本示例基于 `csk6011a_nano`开发板的`adc0 ch1(gpiob_7)`引脚实现外部电压检测，在运行示例前需要做如下准备：
+- 准备一个`csk6011a_nano`开发板，并将`adc0 ch1(gpiob_7)`引脚接稳压电源(或者把`gpiob_7`接到开发板的3.3V电源脚)。如下图示：  
 ![](./files/adc_connect.png)
 
 ### 获取sample项目
@@ -120,17 +120,19 @@ lisa zep create
 
 
 ### 设备树配置
-在`csk6002_9s_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`board overlay`的方式完成ADC引脚和通道的配置。
-`app/board/csk6002_9s_nano.overlay`详细配置：
+在`csk6011a_nano`开发板上使用到了`adc0 ch1(gpiob_7)`，因此需要在sample中完成设备树配置，通过重写`board overlay`的方式完成ADC引脚和通道的配置。
+`app/board/csk6011a_nano.overlay`详细配置：
 ```c
 /*给pinctrl_adc0_ch1_default配置对应的gpio pin脚*/
-&csk6002_9s_nano_pinctrl{
+
+&pinctrl {
+                /* ADC alternate function */
                 pinctrl_adc0_ch0_default: adc0_ch0_default{
 
                 };
                 /* 将gpiob7复用为adc0功能*/
                 pinctrl_adc0_ch1_default: adc0_ch1_default{
-					pinctrls = <&pinmuxb 7 16>;
+					pinctrls = <GPADC_1_GPIOB_07>;
                 };
 
                 pinctrl_adc0_ch2_default: adc0_ch2_default{
@@ -247,13 +249,13 @@ mv_value = raw_value - 2048;
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录     
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash 
 ```
 #### 查看结果 
 

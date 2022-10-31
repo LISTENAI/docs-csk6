@@ -15,7 +15,7 @@ lisa zep build [opts] <args>
 在CSK工程项目目录下，执行:
 
 ```bash
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 
 该命令会对当前CSK工程项目进行编译，基于 `-b` 参数选填的开发板。另外是否支持所填的开发板，需要由 CSK SDK 支持。执行完毕后，编译产物会存放在当前目录下的 `build` 文件夹里。
@@ -27,7 +27,7 @@ lisa zep build -b csk6002_9s_nano
 你可以在 `E:\\my-zephyr-project` 目录下执行：
 
 ```bash
-lisa zep build ./blinky -b csk6002_9s_nano
+lisa zep build ./blinky -b csk6011a_nano
 ```
 
 注意：编译产物会存放在 `E:\\my-zephyr-project\\build`
@@ -37,7 +37,7 @@ lisa zep build ./blinky -b csk6002_9s_nano
 在执行编译命令时，可带上 `--build-dir` 参数，带上相对路径。引用上面例子，执行命令：
 
 ```bash
-lisa zep build ./blinky -b csk6002_9s_nano --build-dir ./blinky/build
+lisa zep build ./blinky -b csk6011a_nano --build-dir ./blinky/build
 ```
 
 该命令执行后，编译产物会存放到 `E:\\my-zephyr-project\\blinky\\build`
@@ -59,10 +59,10 @@ lisa zep config build.dir-fmt "{source_dir}/build"
 执行：
 
 ```bash
-lisa zep config build.board csk6002_9s_nano
+lisa zep config build.board csk6011a_nano
 ```
 
-设置好后，后续执行 `lisa zep build` 编译时，可以不带 `-b` 参数，默认会基于 `csk6002_9s_nano` 来进行编译。
+设置好后，后续执行 `lisa zep build` 编译时，可以不带 `-b` 参数，默认会基于 `csk6011a_nano` 来进行编译。
 
 ### 原始编译
 
@@ -71,7 +71,7 @@ lisa zep config build.board csk6002_9s_nano
 在执行编译命令时，带上 `--pristine` 或 `-p` 参数，比如：
 
 ```bash
-lisa zep build -b csk6002_9s_nano -p
+lisa zep build -b csk6011a_nano -p
 ```
 
 该参数是一个赋值参数，当不赋值时，默认值为 `always`，可选值和解释如下：
@@ -83,7 +83,7 @@ lisa zep build -b csk6002_9s_nano -p
 执行例子：
 
 ```bash
-lisa zep build -b csk6002_9s_nano -p=auto
+lisa zep build -b csk6011a_nano -p=auto
 ```
 
 ### 详细编译
@@ -91,7 +91,7 @@ lisa zep build -b csk6002_9s_nano -p=auto
 要在终端打印 `CMake 和编译器` 命令，可以使用 `-v` 参数:
 
 ```bash
-lisa zep -v build -b csk6002_9s_nano
+lisa zep -v build -b csk6011a_nano
 ```
 
 ## 烧录

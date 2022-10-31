@@ -162,9 +162,9 @@ target_sources(app PRIVATE src/main.c)
 add_subdirectory(drivers)
 ```
 ### 设备树配置
-在应用根目录`/boards/csk6002_9s_nano.overlay`添加摄像头I2C和SPI引脚对应的设备树配置：
+在应用根目录`/boards/csk6011a_nano.overlay`添加摄像头I2C和SPI引脚对应的设备树配置：
 ```c
-&csk6002_9s_nano_pinctrl{
+&csk6011a_nano_pinctrl{
                 pinctrl_i2c0_scl_default: i2c0_scl_default{
                         pinctrls = <&pinmuxb 2 8>;
                 };
@@ -277,10 +277,10 @@ bf30a2 sample创建成功。
 ##### 编译
 在sample根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 ##### 烧录
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令烧录：
+`csk6011a_nano`通过USB连接PC，通过烧录指令烧录：
 ```
 lisa zep flash --runner pyocd
 ```

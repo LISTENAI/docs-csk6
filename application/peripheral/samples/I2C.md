@@ -92,7 +92,7 @@ static int i2c_read(const struct device * dev, uint8_t *buf, uint32_t num_bytes,
 
 ### 准备工作
 
-本示例基于 `csk6002_9s_nano`开发板实现，使用了两组I2C作为主从设备进行数据的通讯，其中
+本示例基于 `csk6011a_nano`开发板实现，使用了两组I2C作为主从设备进行数据的通讯，其中
 - `i2c0(GPIO_A_04, GPIO_A_05)`作为主设备(master)
 - `i2c1(GPIO_A_06, GPIO_A_07)`作为从设备(slave)
 使用杜邦线将`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`通连接，如下图示：
@@ -126,9 +126,9 @@ CONFIG_PRINTK=y
 CONFIG_I2C=y
 ```
 ### I2C设备树配置
-`csk6002_9s_nano`开发板提供了多组I2C。本示例使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可通过`board overlay`的方式完成I2C引脚的配置。
+`csk6011a_nano`开发板提供了多组I2C。本示例使用`i2c0(GPIO_A_04, GPIO_A_05)`和`i2c1(GPIO_A_06, GPIO_A_07)`两组GPIO口，因此需要在设备树中将这两组GPIO复用为I2C引脚功能，可通过`board overlay`的方式完成I2C引脚的配置。
 
-在app目录下增加`csk6002_9s_nano.overlay`文件并添加如下配置：
+在app目录下增加`csk6011a_nano.overlay`文件并添加如下配置：
 ```c
 /*
  * SPDX-License-Identifier: Apache-2.0
@@ -136,7 +136,7 @@ CONFIG_I2C=y
  * Copyright (c) 2022 Listenai
  */
 
-&csk6002_9s_nano_pinctrl{
+&csk6011a_nano_pinctrl{
                 /* 将GPIOA_4配置为i2c0 scl*/
                 pinctrl_i2c0_scl_default: i2c0_scl_default{
                 /* 将pa4 设置function为8 复用I2C引脚功能 */
@@ -277,11 +277,11 @@ void i2c_slave_thread(void *v1, void *v2, void *v3)
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 #### 烧录
 
-`csk6002_9s_nano`通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`通过USB连接PC，通过烧录指令开始烧录：
 ```
 lisa zep flash --runner pyocd
 ```
