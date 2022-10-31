@@ -124,13 +124,15 @@ lisa zep create
 `app/board/csk6011a_nano.overlay`详细配置：
 ```c
 /*给pinctrl_adc0_ch1_default配置对应的gpio pin脚*/
-&csk6011a_nano_pinctrl{
+
+&pinctrl {
+                /* ADC alternate function */
                 pinctrl_adc0_ch0_default: adc0_ch0_default{
 
                 };
                 /* 将gpiob7复用为adc0功能*/
                 pinctrl_adc0_ch1_default: adc0_ch1_default{
-					pinctrls = <&pinmuxb 7 16>;
+					pinctrls = <GPADC_1_GPIOB_07>;
                 };
 
                 pinctrl_adc0_ch2_default: adc0_ch2_default{
@@ -253,7 +255,7 @@ lisa zep build -b csk6011a_nano
 
 `csk6011a_nano`开发板通过USB连接PC，通过烧录指令完成烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash 
 ```
 #### 查看结果 
 

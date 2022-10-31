@@ -206,7 +206,7 @@ lisa zep build -b csk6011a_nano
 
 `csk6011a_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash 
 ```
 - **查看结果**  
 

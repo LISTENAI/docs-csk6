@@ -310,7 +310,7 @@ CONFIG_UART_CSK6=y
 
 #### 设备树配置
 
-`csk6011a_nano`开发板提供了多组UART。本示例使用`uart0(GPIO_A_03, GPIO_A_06)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`board overlay`的方式完成，具体实现如下：
+`csk6011a_nano`开发板提供了多组UART。本示例使用`uart1(GPIO_A_04, GPIO_A_05)`，因此需要在设备树中将这组GPIO复用为UART0引脚功能，可通过`board overlay`的方式完成，具体实现如下：
 
 - 在sample/boards目录下的`csk6011a_nano.overlay`文件并添加如下串口配置：
 
