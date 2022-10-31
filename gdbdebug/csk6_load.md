@@ -11,11 +11,14 @@ CSK6 Lisa 开发环境集成了烧录工具，开发者可通过指令完成烧�
 | SWD烧录  | 可使用JLink、DAPLink等仿真调试器进行烧录。                   | PA0(SWDCLK)、PA1(SWDIO)、RESETN、GND |
 | 串口烧录 | 在PB01引脚外部拉低时对芯片进行上电，可使芯片进入串口烧录模式，此模式下可通过指定的UART接口写入固件。 | PB01(CBT_1)、PA15(RX)、PA18(TX)   |
 
+:::tip
+CSK6 烧录经常会遇到需要指定烧录地址和指定烧录文件的场景，推荐使用串口烧录方式。
+:::
 ## 编译产物
 基于 csk6 sdk 创建的 app 项目生成编译产物的方式是在该 app 项目根目录下执行编译指令:
 
 ```bash
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 编译产物为 `zephyr.bin`，默认生成路径：`app\build\zephyr\zephyr.bin`。
 
@@ -23,7 +26,7 @@ lisa zep build -b csk6002_9s_nano
 在执行编译命令时，带上 `--build-dir` 和 `path` 相对路径或绝对路径可指定编译产物生成的路径，如下示例：
 
 ```bash
-lisa zep build -b csk6002_9s_nano --build-dir C:\Users\xxx\Desktop\build
+lisa zep build -b csk6011a_nano --build-dir C:\Users\xxx\Desktop\build
 ```
 该命令执行后，编译产物会存放到 `C:\Users\xxx\Desktop\build` 目录下。
 
@@ -78,7 +81,7 @@ debug-runner: pyocd
 
 ## 烧录方式
 
-### 指定 pyocd 烧录方式
+### pyocd 烧录
 
 ![](./files/nano.png)
 
@@ -89,7 +92,7 @@ debug-runner: pyocd
 将 DAPLink USB 接口连接至PC。
 
 
-**烧录指令：**
+#### 烧录指令
 
 ```bash
 lisa zep flash --runner pyocd
@@ -102,11 +105,11 @@ lisa zep flash --runner pyocd
 本烧录方式仅支持带 DAPLink 调试器芯片的开发板，若无 DAPLink 的硬件请选择其他烧录工具进行烧录。
 :::
 
-### 指定 J-Link 烧录方式
+### J-Link 烧录
 
 CSK6-NanoKit 开发板预留了 SWD 烧录接口，开发者可以通过 SWD 接口将 J-Link 仿真器和开发板连接。
 
-**烧录指令：**
+#### 烧录指令
 
 ```bash
 lisa zep flash --runner jlink
@@ -128,10 +131,10 @@ lisa zep flash --runner jlink
 :::
 
 
-### 指定 CSK 串口烧录方式
+### CSK 串口烧录
 
 #### CSK6-NanoKit 串口烧录有两种方式：
-- **通过板载`DAPLink`虚拟串口烧录**
+##### 通过板载`DAPLink`虚拟串口烧录
 
 通过上文`指定 pyocd 作为烧录工具`小节可知，`CSK6-NanoKit` 板载了 `DAPLink` 调试器芯片，`DAPLink` 默认接到了`CSK6`的烧录串口`PA15(RX)`、 `PA18(TX)`，开发者可通过指定参数的方式通过 `DAPLink` 对 `CSK6` 进行烧录，该方式仅需要将 `DAPLink` 的 USB 接口接 PC 端即可。
 
@@ -145,21 +148,21 @@ DAPLink 在电脑设备管理器中的虚拟串口为`USB串行设备(COMXX)`如
 
 :::
 
-- **外接串口烧录**
+##### 外接串口烧录
 
 通过串口转接板接 CSK6 的`PA15(RX)`、`PA18(TX)`串口烧录，该方式需要让 `CSK6` 先进入烧录模式后才能开始烧录，CSK6 进入烧录模式的方法：拉低PB1引脚上电即可进入烧录模式。
 
 
-**烧录指令：**
+#### 串口烧录指令
 以烧录默认应用程序为例：
 
 ```
 lisa zep exec cskburn -s \\.\COMxx -C 6 0x0 .\build\zephyr\zephyr.bin -b 748800
 ```
-> 参数说明
+**参数说明：**  
 - COMxx: 为被电脑所识别到的COM编号，如COM13
 - 0x00：默认应用程序的烧录地址，后面跟待烧录固件的路径
-- b 748800：使用748800的波特率
+- b 748800：使用748800的波特率，748800为DAPlink支持的最高烧录波特率。
 
 烧录过程日志：
 ![](./files/burn_uart.jpg)
