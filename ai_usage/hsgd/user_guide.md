@@ -26,21 +26,12 @@ import TabItem from '@theme/TabItem';
 
 ## 获取源码
 
-### 获取 Sample
+### 获取并初始化 Sample 与 SDK
 
-执行以下命令拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6) 到本地，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
-
-```bash
-git clone https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6.git
-```
-
-### 拉取项目 SDK
-
-在 `app_algo_hsd_sample_for_csk6` 目录下，执行以下命令；
+执行以下命令后，将拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6) 和SDK到本地并自动完成初始化，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
 
 ```bash
-lisa zep init-app       # 拉取SDK
-lisa zep update         # 初始化环境
+lisa zep create --from-git https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6.git
 ```
 
 <img
@@ -52,7 +43,6 @@ lisa zep update         # 初始化环境
 
 ### 打开PC端图像预览功能
 打开 项目的根目录下找到 的 `prj.conf` 文件，将 `CONFIG_WEBUSB=n` 改为`CONFIG_WEBUSB=y` 。
-
 
 
 ## 编译固件
