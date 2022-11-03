@@ -26,7 +26,7 @@ import TabItem from '@theme/TabItem';
 
 ## 获取源码
 
-### 获取并初始化 Sample 与 SDK
+### 获取并初始化Sample与SDK
 
 执行以下命令后，将拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_hsd_sample_for_csk6) 和SDK到本地并自动完成初始化，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
 
