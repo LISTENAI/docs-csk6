@@ -270,20 +270,11 @@ void button_callback(uint32_t event){
                     }
 
                     LOG_INF("feature_compare score = %f", result.score);
+                    /* 特征值比对得分大于0.95则认为同一个人 */
                     if(result.score > 0.95){
                         done = 1;
                     }
-                }
-                if(done){
-                    webusb_send_message("face_calc_similar: success");
-
-                }else{
-                    webusb_send_message("face_calc_similar: fail");
-                } 
-            }else{
-                webusb_send_message("face_calc_similar: fail");
-                LOG_INF("not detected face feature");
-            }      
+              ...   
             break;
         /* 按键长按：人脸特征值保存 */
         case BUTTON_LONG_PRESS:
@@ -293,19 +284,7 @@ void button_callback(uint32_t event){
                 char *txt = csk_malloc(64);
                 
                 storage_write((void *)fr.feature, sizeof(fr.feature));
-
-                storage_get_data_cnt(&cnt);
-                sprintf(txt, "face_recognize: success, count:%d", cnt);
-                webusb_send_message(txt);
-                csk_free(txt);
-
-				LOG_INF("face feature save success");
-            }else{
-                webusb_send_message("face_recognize: fail");
-
-                LOG_INF("not detected face feature");
-            }  
-            break;
+                ...
         /* 按键双击：清除已存储的人脸特征值 */
         case BUTTON_DOUBLE_CLICK:
             storage_clear_data();
