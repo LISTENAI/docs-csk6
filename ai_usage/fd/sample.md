@@ -243,6 +243,79 @@ CONFIG_SHARED_MULTI_HEAP=y
 
 #define MOCK_DATA (0)
 
+void button_callback(uint32_t event){
+    int ret = 0;
+
+    switch(event){
+        /* 按键单击：人脸特征值比对 */
+        case BUTTON_SINGLE_CLICK:
+            if(fr.get_new_feature){
+                uint16_t cnt = 0;
+                uint8_t done = 0;
+                fr.get_new_feature = false;
+                
+                fd_cmd_compare_feature_data_t data;
+                fd_cmd_compare_feature_result_t result;
+                data.feature_dim = FD_MAX_FEATURE_DIMS;
+                data.feature_src = fr.feature_nvs;//本地特征值
+                data.feature_dst = fr.feature;//待比较的人脸特征值
+
+                storage_get_data_cnt(&cnt);
+                for(uint32_t i = 0; i < cnt; i++){
+                    storage_read_data(i, (void *)fr.feature_nvs, sizeof(fr.feature));
+                    /* 人脸特征值比对 */
+                    ret = fd_control(fr.fd, FD_CMD_COMPARE_FEATURE, &data, &result);
+                    if(ret != 0){
+                        LOG_ERR("feature_compare faild %d", ret);
+                    }
+
+                    LOG_INF("feature_compare score = %f", result.score);
+                    if(result.score > 0.95){
+                        done = 1;
+                    }
+                }
+                if(done){
+                    webusb_send_message("face_calc_similar: success");
+
+                }else{
+                    webusb_send_message("face_calc_similar: fail");
+                } 
+            }else{
+                webusb_send_message("face_calc_similar: fail");
+                LOG_INF("not detected face feature");
+            }      
+            break;
+        /* 按键长按：人脸特征值保存 */
+        case BUTTON_LONG_PRESS:
+            if(fr.get_new_feature){
+                uint16_t cnt = 0;
+                fr.get_new_feature = false;
+                char *txt = csk_malloc(64);
+                
+                storage_write((void *)fr.feature, sizeof(fr.feature));
+
+                storage_get_data_cnt(&cnt);
+                sprintf(txt, "face_recognize: success, count:%d", cnt);
+                webusb_send_message(txt);
+                csk_free(txt);
+
+				LOG_INF("face feature save success");
+            }else{
+                webusb_send_message("face_recognize: fail");
+
+                LOG_INF("not detected face feature");
+            }  
+            break;
+        /* 按键双击：清除已存储的人脸特征值 */
+        case BUTTON_DOUBLE_CLICK:
+            storage_clear_data();
+            webusb_send_message("clear_face _data: success, count: 0");
+            break;
+        default:
+            break;
+    }
+}
+
 void main(void) {
 
   ...
