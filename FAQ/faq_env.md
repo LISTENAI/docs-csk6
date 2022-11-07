@@ -35,7 +35,7 @@
 
 ---
 
-### lisa info zep 命令报错
+### lisa info zep 命令报错 “无法加载文件”
 
 **现象描述**
 
@@ -49,11 +49,11 @@ powershell运行一下指令：
 set-executionpolicy -Scope CurrentUser remotesigned
 ```
 ---
-### lisa zep 命令报错
+### lisa zep 命令报错 “Unable to …”
 
 **现象描述**
 
-* windows平台下出现 `Unable to create process using xxx`
+windows平台下出现 `Unable to create process using xxx`
 
 **解决方法**
 
@@ -67,3 +67,32 @@ lisa zep doctor
 lisa info zep
 ```
 
+---
+### Linux系统下无法识别到CSK USB设备
+
+**现象描述**
+
+Linux平台下，连接开发板后无法识别到CSK USB设备(如：CSK View Finder)
+
+**可能原因**
+
+需要先为USB设备添加udev规则
+
+**解决方法**
+
+1.在 **/etc/udev/rules.d** 目录下创建一个名为 ``99-listenai.rules`` 的文件，在文件中添加以下内容并保存：
+
+```bash
+KERNEL=="ttyACM[0-9]*",MODE="0666"
+KERNEL=="ttyUSB[0-9]*",MODE="0666"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0666"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="0483", ATTR{idProduct}=="7918", MODE="0666"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="77a1", ATTR{idProduct}=="7919", MODE="0666"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="2fe3", ATTR{idProduct}=="000a", MODE="0666"
+```
+
+2.执行一次以下指令：
+
+```bash
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
