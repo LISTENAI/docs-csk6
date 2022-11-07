@@ -321,7 +321,6 @@
       "FAQ/faq_build_flash", 
       "FAQ/faq_application", 
       "FAQ/faq_board",
-      "FAQ/faq_hardware",
       "quick_start/doc_issue"
     ],
     "collapsed": true

@@ -106,3 +106,12 @@ CSK6 是聆思科技新一代的 AI 芯片 SoC 产品系列，采用多核异构
 ### 样片购买链接
 
 [聆思科技淘宝官方店-CSK6芯片样片](https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-24537349320.9.50a32c114bZdOS&id=684096246720)
+
+
+### CSK6技术交流QQ群
+您可以使用 QQ APP 扫描以下二维码加入交流群，与我们建立联系。
+<div  align="left"><img
+  src={require('./images/chips/QRCode.png').default}
+  width="30%"
+  alt="Example banner"
+/></div>

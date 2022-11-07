@@ -44,7 +44,10 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 ![](./_images/webusb_detected.png)
 
+
 2. 点击“选择设备”按钮，选择“CSK View Finder”选项，点击“连接”，即可看到预览图和识别结果；
+
+若你使用的是Linux系统，且发现无法识别到USB设备，先请尝试[为USB添加udev规则](/chips/600X/FAQ/faq_env#Linux系统下无法识别到CSK-USB设备)后重试。
 
 ![](./_images/webusb_choose_device.png)
 
