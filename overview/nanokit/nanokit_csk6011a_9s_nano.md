@@ -49,7 +49,8 @@ csk6011a-9s-nano 是一款板载了CSK6011A+XR819S模组的NanoKit开发板，�
 | 按键跳帽 | 当需要将**GPIOB_5**当做普通GPIO使用时，可通过断开跳帽以断开按键自带的下拉电阻。 |
 | 用户LED[D1-绿] | 连接芯片 **GPIOB_6** 引脚，用户可通过编程进行控制。|
 | 电源LED[D2-红] | 开发板正常接通电源后，该指示灯亮起。|
-| DAPLink LED[D3/D4]| 用于指示DAPLink调试器工作状态的LED灯。 |
+| DAPLink 数据LED[D3-橙] | DAPLink调试器进行数据传输时，该指示灯闪烁。|
+| DAPLink 工作LED[D4-蓝] |  DAPLink调试器正常上电运行时，该指示灯亮起。|
 | DAPLink USB | 调试器USB接口，可同时作为开发板供电接口、串口查看接口、烧录与调试接口。<br/> (若需外接调试器至SWD接口，请勿使用此USB接口) |
 | CSK6 USB | CSK6的USB接口，可进行CSK6芯片USB接口的调试，支持对开发板进行供电。|
 

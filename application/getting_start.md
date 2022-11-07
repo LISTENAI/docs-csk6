@@ -202,7 +202,7 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 __2、通过离线安装包__
 
-- 下载[Ubuntu 离线安装包](https://castor.iflyos.cn/castor/v3/lisaPluginZephyr/download?platform=linux-snap)，建议使用 Ubuntu 18.04 版本及以上。
+- 下载[Ubuntu 离线安装包](https://cdn.iflyos.cn/public/cskTools/csk6_integration_installer_linux_v1.6.5.tar.xz)，建议使用 Ubuntu 18.04 版本及以上。
 
 - 解压后执行：
 
@@ -253,6 +253,11 @@ lisa zep create
 cd hello_world
 lisa zep build -b csk6011a_nano
 ```
+
+> 若需抛弃已有编译产物，进行全量编译(Rebuild)，可在上述编译命令中增加 ``-p`` 参数。
+>
+> 编译参数的使用，详见 [命令行工具-编译](/chips/600X/tool/lisa_plugin_zephyr/build_flash_debug#原始编译)
+
 
 ## 烧录示例程序
 
