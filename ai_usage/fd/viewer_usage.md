@@ -71,7 +71,8 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 1. 快速双击开发板上的“用户按钮”，日志信息处出现`clear_face _data: success`，则表示人脸库已清除。
 
-
+#### 人脸识别功能演示 
+<video src="https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E6%96%87%E6%A1%A3%E8%A7%86%E9%A2%91%E4%BB%93/fd.mp4" controls="controls" width="600" height="500">您的浏览器不支持播放该视频！</video>
 
 ### 使用工具记录
 

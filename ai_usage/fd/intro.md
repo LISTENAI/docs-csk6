@@ -21,22 +21,7 @@
 
 
 ## 功能演示
-### PC端预览工具
 <video src="https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E6%96%87%E6%A1%A3%E8%A7%86%E9%A2%91%E4%BB%93/fd.mp4" controls="controls" width="600" height="500">您的浏览器不支持播放该视频！</video>
-
-### 按键操作
-
-- **按键长按**：注册人脸，注意注册人脸操作必须在算法检测到人脸特征值(人脸框变成黄色)后才能成功保存。
-
-- **按键短按**：人脸比对，将检测到的人脸和保持的人脸特征值进行对比，返回比对结果。
-
-- **按键双击**：清除本地保存的人脸特征值
-
-
-### 按键位置
-用户按键在核心板的位置如下图示：
-
-![](https://docs.listenai.com/assets/images/csk6011_nanokit_boardres-b784def6a9f249e8e36b19204d8e9007.jpg)
 
 ## 应用场景
 
