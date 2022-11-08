@@ -17,10 +17,10 @@ runs:
       run: sed -i 's/github:ataft\/plugin-image-zoom/git+https:\/\/github.com\/flexanalytics\/plugin-image-zoom.git/' ~/lsopenweb/package.json
       shell: bash
     - name: "[Main Doc] prepared"
-      run: cd ~/lsopenweb && yarn
+      run: cd ~/lsopenweb && npm install
       shell: bash
     - name: "[Main Doc] predeploy"
-      run: cd ~/lsopenweb && yarn predeploy 
+      run: cd ~/lsopenweb && npm run predeploy 
       shell: bash
     - name: "[Main Doc] Find submodule path"
       id: find-submodule
@@ -32,5 +32,5 @@ runs:
       run: cd ~/lsopenweb/${{ steps.find-submodule.outputs.submodule_path }} && git checkout "$GITHUB_SHA"
       shell: bash
     - name: "[Main Doc] Test build"
-      run: cd ~/lsopenweb && yarn build
+      run: cd ~/lsopenweb && npm run build
       shell: bash
