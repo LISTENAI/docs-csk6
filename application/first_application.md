@@ -62,21 +62,21 @@ target_sources(app PRIVATE src/main.c)
 在`app/boards/`目录下增加`csk6011a_nano.overlay`设备树配置文件并添加led的GPIO配置，具体内容如下：
 ```c
 
- / /*根节点*/ 
-
+ /  /*根节点*/
+ {
     /*定义别名为led0的gpio设备树*/ 
-    {
-        aliases {
+    
+    aliases {
             led0 = &board_led_0_label;/* led0别名映射到led0设备树node label */
     };
 
-    {
-        leds {
+    
+    leds {
             compatible = "gpio-leds";/* 设置led设备树的ymal绑定文件 */
             board_led_0_label: board_led_0_nodeid { /* node label和node id，皆可自定义命名 */
                     gpios = <&gpiob 6 GPIO_ACTIVE_LOW>; /* GPIO逻辑电平模式设置 */
                     label = "User LED1"; /* 节点的 label 属性，通过传入device_get_binding()接口可以获取gpio设备实例 */
-            };
+        };
     };
  
  };

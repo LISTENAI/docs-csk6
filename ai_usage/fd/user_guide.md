@@ -26,7 +26,7 @@ import TabItem from '@theme/TabItem';
 
 ## 项目概述
 
-我们提供了视觉SDK与配套的头肩&手势识别Sample。这个Sample展示了对SDK接口的基本调用，实现了获取Sensor图像并将算法处理后的结果传输至PC上位机。
+我们提供了视觉SDK与配套的人脸识别Sample。这个Sample展示了对SDK接口的基本调用，实现了获取Sensor图像并将算法处理后的结果传输至PC上位机。
 
 ## 获取源码
 
