@@ -20,8 +20,8 @@ app_algo_fd_sample_for_csk6
 ├─remote 
 ├─resource //资源文件
 ├─src    //sample 代码
-├─CMakeLists.txt
-└─prj.conf
+├─CMakeLists.txt //CMake 编译文件
+└─prj.conf  //项目配置文件
 ```
 ## 组件配置
 项目基础组件配置配置,在prj.conf文件:
@@ -105,12 +105,6 @@ CONFIG_SHARED_MULTI_HEAP=y
 ## 设备树配置
 设备树配置文件`csk6011a_nano.overlay`，在`/boards`目录下：
 ```c
-/delete-node/ &psram_ap;
-/delete-node/ &psram_cp;
-/delete-node/ &psram_share;
-/delete-node/ &wifi_driver_storage;
-/delete-node/ &wifi_nvs_storage;
-/delete-node/ &storage_partition;
 
 / {
 	chosen {
@@ -358,50 +352,53 @@ void main(void) {
 
 | 参数                                    | type  | 功能说明                                                     | 取值范围 |
 | --------------------------------------- | ----- | ------------------------------------------------------------ | -------- |
-| FD_PARAM_FACE_DETECT_THRES    | float | **检测框最终门限**     <br /> | 0~1  |
-| FD_PARAM_FACE_DETECT_PROBTHRES | float   | **检测框初选门限** <br />  | 0~1  |
-| FD_PARAM_FACE_ALIGN_YAWTHRES | float   | **质量检测偏航角门限**  <br /> | 0~ |
-| FD_PARAM_FACE_ALIGN_PITCHTHRES  | float   | **质量检测俯仰角门限**                                       | 0~ |
-| FD_PARAM_FACE_ALIGN_ROLLTHRES  | float   | **质量检测翻滚角门限**                                       | 0~ |
-| FD_PARAM_ANTI_SPOOFING_THRES  | float   | **活体识别门限**                                       | 0~1 |
-|   | float   |                                        |  |
+| FD_PARAM_FACE_DETECT_THRES    | float | **人脸检测框门限** | 0~1  |
+| FD_PARAM_FACE_DETECT_PIXESIZE | float   | **检测框最小像素值门限**  | 0~640  |
+| FD_PARAM_FACE_ALIGN_YAWTHRES | float   | **头姿检测偏航角门限** | 0~180 |
+| FD_PARAM_FACE_ALIGN_PITCHTHRES  | float   | **头姿检测俯仰角门限** | 0~180 |
+| FD_PARAM_FACE_ALIGN_ROLLTHRES  | float   | **头姿检测翻滚角门限** | 0~180 |
+| FD_PARAM_ANTI_SPOOFING_THRES  | float   | **活体识别门限**          | 0~1 |
 
 ### 参数说明
 
 #### FD_PARAM_FACE_DETECT_THRES  
 
-**参数说明:**    
+**参数说明:**    人脸检测框门限，检测画面中是否存在人脸，数值越大对人脸的置信度要求更高；
 
-**调优方向：**    
+**参数建议：**0.4，不允许为0
 
-#### FD_PARAM_FACE_DETECT_PROBTHRES 
+#### FD_PARAM_FACE_DETECT_PIXESIZE  
 
+**参数说明:**    检测框最小像素值门限，画面中人脸框宽高的最小像素，小于该像素值则不进行人脸检测；
 
-**参数说明：**     
-
-**调优方向：**    
-
+**参数建议：**11，不允许为0
 
 #### FD_PARAM_FACE_ALIGN_YAWTHRES
 
-**参数说明：**     
+**参数说明：**yaw 偏航角，绕Y轴（指向脸下方）转动的角度，参数设置为绝对值，表现为头向左侧或右侧水平转动。建议允许偏转的角度不大于30度，否则影响正脸的特征提取；
 
-**调优方向：**     
+**参数建议：**30，不允许为0
 
+#### FD_PARAM_FACE_ALIGN_PITCHTHRES
+
+**参数说明：**pitch 俯仰角，绕X轴（指向脸右侧）转动的角度参数设置为绝对值，，表现为头俯、仰。建议允许偏转的角度不大于30度，否则影响正脸的特征提取；
+
+**参数建议：**30，不允许为0
 
 #### FD_PARAM_FACE_ALIGN_ROLLTHRES
 
-**参数说明：**    
+**参数说明**：roll 滚动角，绕Z轴（指向脸正前）转动的角度，参数设置为绝对值，表现为正面看到的人脸照片旋转。建议允许偏转的角度不大于30度，否则影响正脸的特征提取；
 
-**调优方向：**    
+**参数建议：**30，不允许为0
 
 #### FD_PARAM_ANTI_SPOOFING_THRES
 
-**参数说明：**    
+**参数说明：**活体检测功能，通过搭配红外摄像头和红外激光模块，可抵御基于屏幕/照片成像的假脸攻击。如果使用普通摄像头，则需要将此功能关闭，否则会影响识别效果。
 
-**调优方向：**    
+**参数建议：**建议值0.7，默认为0关闭状态
 
 ## 参数配置参考
 
 :::tip
 以上参数仅供参考
+:::

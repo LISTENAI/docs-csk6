@@ -13,12 +13,16 @@ import TabItem from '@theme/TabItem';
    本指引所用的硬件实验平台为 [视觉开发套件](/chips/600X/overview/nanokit/kit/vision_kit)(6011A-Nanokit 开发板，视觉功能模块，引脚扩展板，USB-C 数据线)
    > 套件购买链接：[聆思CSK6视觉开发套件](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail)
 
-    如图，组装好开发套件后，使用USB数据线对开发板进行供电，若红灯和蓝灯亮起则表示套件可正常工作：
+在本实验中，我们将使用到开发板上的**两个USB接口**，分别用于**连接PC预览工具输出预览图像**和**烧录固件、查看日志**。
+
+实验中请使用两条USB数据线分别连接开发板的两个USB接口到电脑。
 
 <img
   width="60%"
   src={require('./images/board_desc.jpg').default}
   /> 
+
+如图，组装好开发套件后，使用USB数据线对开发板进行供电后，若电源LED D2(红)和DAPLink LED D4(蓝)亮起则表示套件可正常工作。
 
 ## 项目概述
 
@@ -50,6 +54,10 @@ lisa zep create --from-git https://cloud.listenai.com/zephyr/applications/app_al
 ```
 lisa zep build -b csk6011a_nano
 ```
+
+> 若需抛弃已有编译产物，进行全量编译(Rebuild)，可在上述编译命令中增加 ``-p`` 参数。
+>
+> 编译参数的使用，详见 [命令行工具-编译](/chips/600X/tool/lisa_plugin_zephyr/build_flash_debug#原始编译)
 
 ## 烧录应用程序
 
@@ -133,7 +141,7 @@ lisa zep -v flash --runner jlink --bin-file resource/res.bin --flash-opt="--base
 
 ## 查看结果
 
-连接开发板的 DAPLink USB ，使用串口调试工具打开 COM 口（波特率为 921600 ），使用开发板上的 reset 按键进行复位后，即可看到以下日志输出。
+连接开发板的 DAPLink USB ，使用串口调试工具打开 COM 口（波特率为 115200 ），使用开发板上的 reset 按键进行复位后，即可看到以下日志输出。
 
 ```c
 *** Booting Zephyr OS build 959efbd0bd28  ***
