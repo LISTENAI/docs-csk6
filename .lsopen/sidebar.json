@@ -173,6 +173,7 @@
             "label": "头肩&手势识别",
             "items": [
               "ai_usage/hsgd/intro",
+              "ai_usage/hsgd/version_history",
               "ai_usage/hsgd/user_guide",
               "ai_usage/hsgd/viewer_usage",
               "ai_usage/hsgd/api",
