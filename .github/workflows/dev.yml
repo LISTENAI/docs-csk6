@@ -42,6 +42,7 @@ jobs:
         run: |
           sed -i "s/projectName: 'LSOpenWeb'/projectName: 'docs-csk6'/" ~/lsopenweb/default.config.js
           sed -i "s/baseUrl: '\/'/baseUrl: '\/docs-csk6\/'/" ~/lsopenweb/default.config.js
+          sed -i "s/trailingSlash: false,/ /" ~/lsopenweb/default.config.js
           sed -i "s/staging-docs.listenai.com/listenai.github.io/" ~/lsopenweb/static/CNAME
         shell: bash
       - name: Release to GitHub Pages
