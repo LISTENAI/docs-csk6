@@ -179,6 +179,18 @@
               "ai_usage/hsgd/sample",
               "ai_usage/hsgd/faq"
             ]
+          },
+          {
+            "type": "category",
+            "label": "人脸识别",
+            "items": [
+              "ai_usage/fd/intro",
+              "ai_usage/fd/user_guide",
+              "ai_usage/fd/viewer_usage",
+              "ai_usage/fd/api",
+              "ai_usage/fd/sample",
+              "ai_usage/fd/faq"
+            ]
           }
         ]
       }
