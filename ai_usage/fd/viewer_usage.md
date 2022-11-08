@@ -20,7 +20,7 @@ lisa zep flash
 拉取 [PC 工具项目](https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd) 到本地
 
 ```bash
-git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git -b feature/face
+git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 ```
 
 ### 第三步：打开工具
@@ -60,7 +60,7 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 1. 长按开发板上的“用户按钮”，直到日志信息处出现`face_recognize: success`即表示当前人脸注册成功；
 2. 当前Sample支持人脸库最多10个，注册超过10个将从头开始对人脸库进行覆盖。
 
-![](https://docs.listenai.com/assets/images/csk6011_nanokit_boardres-b784def6a9f249e8e36b19204d8e9007.jpg)
+![](./images/button.png)
 
 #### 特征比较
 
