@@ -197,21 +197,6 @@ typedef enum {
     FD_PARAM_FACE_DETECT_PIXESIZE			= 20002,    
 
     /**
-	 * 检测框初选门限
-	 * 数据类型: float
-     * 范围:(0, 1)
-     * 备注：建议和检测框最终门限设定同样的值
-	 */    
-    FD_PARAM_FACE_DETECT_PROBTHRES		    = 20003,    
-
-    /**
-	 * 检测框极大值抑制门限
-	 * 数据类型: float
-     * 范围:(0, 1)
-	 */   
-    FD_PARAM_FACE_DETECT_NSMTHRES			= 20004,    
-
-    /**
 	 * 质量检测偏航角门限
 	 * 数据类型: float
      * 范围: (-180, 180)
@@ -231,29 +216,6 @@ typedef enum {
      * 范围: (-180, 180)
 	 */  
     FD_PARAM_FACE_ALIGN_ROLLTHRES		    = 30004,	
-  
-    /**
-	 * REGU_A参数
-	 * 数据类型: float
-     * 范围: 无
-     * 备注：不建议修改
-	 */  
-    FD_PARAM_FACE_VERIFY_REGU_A			    = 40002,    
-
-    /**
-	 * REGU_B参数
-	 * 数据类型: float
-     * 范围: 无
-     * 备注：不建议修改
-	 */  
-	FD_PARAM_FACE_VERIFY_REGU_B			    = 40003,    
-
-	/**
-	 * ROI外扩比例
-	 * 数据类型: float
-     * 范围: (0, 1)
-	 */
-    FD_PARAM_ANTI_SPOOFING_ENLARGE_SCALE	= 50001,   
 
     /**
 	 * 活体识别门限
@@ -271,6 +233,10 @@ typedef enum {
 float value = 0.4;
 fd_set_params(fd, FD_PARAM_FACE_DETECT_THRES, &value);  
 ```
+
+:::tip
+未在此处列出的参数，暂时不需要设置。
+:::
 
 ### `fd_exec`
 
