@@ -15,15 +15,19 @@ CONFIG_LICAK_MODULES_ALG_FD=y
 
 ```c
 licak_init();
-fd = fd_create();
-ret = fd_control(fd, FD_CMD_COMPARE_FEATURE, &data, &result);
+fd = fd_create(*cfg);
+fd_set_params(fd, param, *value);
+fd_exec(fd, *pic, *result)
+fd_control(fd, FD_CMD_COMPARE_FEATURE, &data, &result);
 ```
 
 其中代表的含义为
 
 1. 加载 DSP 固件；
 2. 创建对应算法引擎实例；
-3. 人脸特征值比对。
+3. 设置算法参数；
+4. 执行单次人脸检测；
+5. 人脸特征值比对。
 
 对于一个完整的使用流程示例，请参考 [app_algo_fd_sample_for_csk6](https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6.git) 项目。
 
@@ -102,12 +106,10 @@ typedef struct {
 | ----------------------------------------------- | ------------------------ |
 | [`fd_create`](#fd_create)                       | 创建实例                 |
 | [`fd_set_params`](#fd_set_params)               | 设置参数值   |
+| [`fd_get_params`](#fd_get_params) | 获取参数值   |
 | [`fd_exec`](#fd_exec)                          | 传输图像数据获取人脸检测结果 |
 | [`fd_control`](#fd_set_params)                  | 人脸特征值比对   |
 
-:::info 注意
-下文中提及的 `video.h` 指的是 zephyr 中对应的 video 驱动
-:::
 
 ### `fd_create`
 ```c
@@ -169,59 +171,60 @@ fd = fd_create((void *)&cfg);
 extern int fd_set_params(fd_t *fd, fd_param param, void *value);
 ```
 
-设置算法参数。不同参数有不同范围限制，若设置参数值不合法，则返回将返回非 0 值表示设置错误。
+设置算法参数。不同参数有不同范围限制，需严格按约束设置。
 
 | 参数  | 类型        | 含义                               |
 | ----- | ----------- | ---------------------------------- |
 | fd    | `fd_t*`     | FD 实例指针，从 `fd_create` 创建  |
 | param | `fd_param`  | 参数类型，定义与范围见下方定义     |
-| value | `float`     | 参数值，取值应符合参数定义         |
+| value | `void *`     | 参数值指针         |
 
 参数类型：
 
 ```c
 /* 算法参数类型 */
 typedef enum {
-	/**
-	 * 检测框最终门限
-	 * 数据类型: float
-     * 范围: (0, 1)
-	 */
+    /**
+    * 检测框最终门限
+    * 数据类型: float
+    * 范围: (0, 1)
+    */
     FD_PARAM_FACE_DETECT_THRES				= 20001,    
 
     /**
-	 * 检测框最小像素值门限
-	 * 数据类型: float
-     * 范围: (0, 640)
-	 */
+    * 检测框最小像素值门限
+    * 数据类型: float
+    * 范围: (0, 640)
+    */
     FD_PARAM_FACE_DETECT_PIXESIZE			= 20002,    
 
     /**
-	 * 质量检测偏航角门限
-	 * 数据类型: float
-     * 范围: (-180, 180)
-	 */  
+    * 质量检测偏航角门限
+    * 数据类型: float
+    * 范围: (0, 180)
+    */  
     FD_PARAM_FACE_ALIGN_YAWTHRES		    = 30002,	
 
     /**
-	 * 质量检测俯仰角门限
-	 * 数据类型: float
-     * 范围: (-180, 180)
-	 */  
+    * 质量检测俯仰角门限
+    * 数据类型: float
+    * 范围: (0, 180)
+    */  
     FD_PARAM_FACE_ALIGN_PITCHTHRES	        = 30003,	
 
     /**
-	 * 质量检测翻滚角门限
-	 * 数据类型: float
-     * 范围: (-180, 180)
-	 */  
+    * 质量检测翻滚角门限
+    * 数据类型: float
+    * 范围: (0, 180)
+    */  
     FD_PARAM_FACE_ALIGN_ROLLTHRES		    = 30004,	
 
     /**
-	 * 活体识别门限
-	 * 数据类型: float
-     * 范围: (0, 1)
-	 */
+    * 活体识别门限
+    * 数据类型: float
+    * 范围: [0, 1)
+    * 备注：0表示关闭活体检测
+    */
     FD_PARAM_ANTI_SPOOFING_THRES            = 50002,   
 
 } fd_param;
@@ -237,6 +240,42 @@ fd_set_params(fd, FD_PARAM_FACE_DETECT_THRES, &value);
 :::tip
 未在此处列出的参数，暂时不需要设置。
 :::
+
+### `fd_get_params`
+
+```c
+/**
+ * @brief 获取当前参数值
+ * 
+ * @param fd 实例
+ * @param param 参数类型
+ * @param value [out] 参数值指针，数据类型依赖不同的参数类型
+ * @return int 执行结果，0 为成功，其他为失败
+ */
+extern int fd_get_params(fd_t *fd, fd_param param, void *value);
+```
+
+获取参数值。
+
+| 参数  | 类型       | 含义                             |
+| ----- | ---------- | -------------------------------- |
+| fd    | `fd_t *`   | FD 实例指针，从 `fd_create` 创建 |
+| param | `fd_param` | 参数类型                         |
+| value | `void *`   | 参数值指针                       |
+
+使用示例：
+
+```c
+float value;
+
+fd_get_params(fd, FD_PARAM_FACE_DETECT_THRES，&value);
+printk("FD_PARAM_FACE_DETECT_THRES value: %f\n", value);
+```
+
+:::info
+fd_get_params 参数参考 [`fd_set_params`](#fd_set_params) 
+:::
+
 
 ### `fd_exec`
 
