@@ -26,7 +26,7 @@ fd_control(fd, FD_CMD_COMPARE_FEATURE, &data, &result);
 1. 加载 DSP 固件；
 2. 创建对应算法引擎实例；
 3. 设置算法参数；
-4. 执行单次人脸检测；
+4. 执行单次人脸识别；
 5. 人脸特征值比对。
 
 对于一个完整的使用流程示例，请参考 [app_algo_fd_sample_for_csk6](https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6.git) 项目。
@@ -297,7 +297,7 @@ extern int fd_exec(fd_t *fd, pic_buffer_t *buf, fd_face_recog_result_t *result);
 | ------ | ----------------------- | ------------------------------------ |
 | fd    | `fd_t*`                | FD 实例指针，从 `fd_create` 创建   |
 | buf   | `struct pic_buffer_t*` | 图像数据 buffer  |
-| result    | `struct fd_face_recog_result_t*`   | 人脸检测结果   |
+| result    | `struct fd_face_recog_result_t*`   | 人脸识别结果   |
 
 使用示例：
 
