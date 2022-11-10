@@ -39,7 +39,7 @@
 
 **现象描述**
 
-* windows平台下安装csk6开发环境后，在powershell运行 Lisa info zep 查询环境安装是否成功时出现 `lisa:无法加载文件 D:\LSITENAI\LISA\lisa\bin\lisa.ps1,因此在系统上进制进制运行脚本。xxxxxx`。
+* windows平台下安装csk6开发环境后，在powershell运行 Lisa info zep 查询环境安装是否成功时出现 `lisa:无法加载文件 D:\LSITENAI\LISA\lisa\bin\lisa.ps1,因此在系统上禁止运行脚本。xxxxxx`。
 * 由于PowerShell执行.ps1文件导致。
 
 **解决方法**
