@@ -15,7 +15,27 @@
 
 具体如下：
 
-1. `boards/csk6011a_nano.overlay` 更新，搜索 `&psram0` ，更新节点内容为
+1. `west.yml` 需更新，将其中的 
+
+  ```yaml {3}
+    - name: licak
+      remote: listenai
+      revision: v1.0.1-alpha.2
+      path: modules/lib/licak
+  ```
+
+  修改为 
+
+  ```yaml {3}
+    - name: licak
+      remote: listenai
+      revision: v1.1.1
+      path: modules/lib/licak
+  ```
+
+  而后在 sample 目录下执行 `lisa zep update` 更新对应 SDK 源码。
+
+2. `boards/csk6011a_nano.overlay` 更新，搜索 `&psram0` ，更新节点内容为
 
   ```c
   &psram0 {
@@ -38,7 +58,7 @@
   };
   ```
 
-2. `prj.conf` 中，修改以下配置
+3. `prj.conf` 中，修改以下配置
 
   ```conf
   CONFIG_VIDEO_BUFFER_POOL_SZ_MAX=921800
@@ -50,5 +70,5 @@
   CONFIG_LICAK_MODULES_ALG_HSD_DISABLE_MULTI_HEAP_INIT=y
   ```
 
-3. 算法资源有更新，需要重新烧录 cp.bin 和 res.bin 。
+4. 算法资源有更新，需要重新烧录 cp.bin 和 res.bin 。
 :::
