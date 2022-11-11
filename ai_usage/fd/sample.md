@@ -2,11 +2,11 @@
 本章节对 CSK6S视觉SDK示例 app_algo_fd_sample_for_csk6 进行说明，让开发者能够更快速了解示例的实现逻辑。
 
 ## 概述
-该 Sample 展示了对SDK接口的基本调用，实现了获取Sensor图像并将图像数据输入算法进行人脸识别、人脸特征值比对，配合按键实现人脸注册、人脸特征值比对、清除本地人脸特征值本地等功能。
+该 Sample 展示了对SDK接口的基本调用，实现了获取Sensor图像并将图像数据输入算法进行人脸识别、人脸特征值比对，配合按键实现人脸注册、人脸特征值比对、清除本地人脸特征值等功能。
 
 ## 获取 Sample
 
-执行以下命令拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6) 到本地，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
+执行以下命令拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6) 到本地，并完成SDK的拉取。注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
 ```bash
 git clone https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6.git
 ```
