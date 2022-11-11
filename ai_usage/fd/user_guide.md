@@ -72,7 +72,7 @@ lisa zep flash
 | 资源           | 分区配置              |
 | -------------- | --------------------- |
 | 音视频框架资源 | `<0x400000 0x100000>` |
-| 算法模型资源   | `<0x500000 0x1ee000>` |
+| 算法模型资源   | `<0x500000 0x800000>` |
 
 我们提供了串口、JLink两种烧录方式，可根据情况选择合适的烧录方式。
 
@@ -153,8 +153,8 @@ lisa zep -v flash --runner jlink --bin-file resource/res.bin --flash-opt="--base
 [00:00:00.279,000] [ <inf> fd: Setup resource [face_detect] which in <0x18500060,0x683232> type: 1 
 [00:00:00.280,000] [ <inf> fd: Setup resource [face_verify] which in <0x1881bfa0,0x3911360> type: 2 
 [00:00:00.281,000] [ <inf> fd: Setup resource [anti_spoofing] which in <0x18720c20,0x1028976> type: 3
-[00:00:50.749,000]  [ <inf> main: not detected face feature [ 
-[00:01:06.099,000]  [ <inf> main: face feature save success [ 
-[00:01:14.699,000]  [ <inf> main: feature_compare score = 0.999192 [ 
-[00:01:16.663,000]  [ <inf> main: feature_compare score = 0.998432 [ 
+[00:00:50.749,000] [ <inf> main: not detected face feature [ 
+[00:01:06.099,000] [ <inf> main: face feature save success [ 
+[00:01:14.699,000] [ <inf> main: feature_compare score = 0.999192 [ 
+[00:01:16.663,000] [ <inf> main: feature_compare score = 0.998432 [ 
 ```
