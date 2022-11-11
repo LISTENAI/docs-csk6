@@ -6,7 +6,7 @@
 
 ## 获取 Sample
 
-执行以下命令拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6) 到本地，注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
+执行以下命令拉取 [Sample 项目](https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6) 到本地，并完成SDK的拉取。注意代码仓在本地存放的路径不能有中文名称，否则容易引起错误；
 ```bash
 git clone https://cloud.listenai.com/zephyr/applications/app_algo_fd_sample_for_csk6.git
 ```
