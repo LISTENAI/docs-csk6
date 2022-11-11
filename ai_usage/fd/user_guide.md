@@ -26,7 +26,7 @@ import TabItem from '@theme/TabItem';
 
 ## 项目概述
 
-我们提供了视觉SDK与配套的人脸识别Sample。这个Sample展示了对SDK接口的基本调用，实现了获取Sensor图像并将算法处理后的结果传输至PC上位机。
+我们提供了视觉SDK与配套的人脸识别Sample。该 Sample 展示了对SDK接口的基本调用，实现了获取Sensor图像并将图像数据输入算法进行人脸识别、人脸特征值比对，配合按键实现人脸注册、人脸特征值比对、清除本地人脸特征值等功能。
 
 ## 获取源码
 
