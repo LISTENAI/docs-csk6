@@ -36,3 +36,15 @@
 
 - 检查是否使用了Jlink的VCC输出对板子供电，若是，请使用USB供电；
 - 若使用USB供电问题未解决，请使用非扩展坞的USB接口进行供电。
+
+### WSL2环境下无法进行烧录
+
+**原因**
+
+WSL2默认情况下不支持使用USB设备。
+
+**解决方法**
+
+参照微软官方提供的[WSL2连接USB指引文档](https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb)进行配置。
+
+---

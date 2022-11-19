@@ -35,6 +35,27 @@
 
 ---
 
+### 安装 CSK6一键安装包 时被360软件阻止
+
+**可能原因**
+
+部分杀毒软件对安装操作处理策略较为敏感。
+
+**解决方法**
+
+您可考虑暂时关闭该安全软件，或根据以下指引为安装目标添加白名单。
+
+360安全卫士白名单添加
+- 1.在主界面中打开设置；
+- 2.在设置中点击"安全防护中心"->"开发者模式"，勾选"将编译程序及编译输出...提高开发效率。"，并添加计划安装CSK6一键安装包的路径。
+
+360杀毒白名单添加
+- 1.在主界面中打开设置；
+- 2.在设置中点击"文件白名单"，取消勾选"定期扫描白名单中...的文件"选项；
+- 3.点击"新增路径"，并选择计划安装CSK6一键安装包的路径，点击确定。
+
+---
+
 ### lisa info zep 命令报错 “无法加载文件”
 
 **现象描述**
@@ -78,7 +99,7 @@ Linux平台下，连接开发板后无法识别到CSK USB设备(如：CSK View F
 
 需要先为USB设备添加udev规则
 
-**解决方法**
+**解决方法一**
 
 1.在 **/etc/udev/rules.d** 目录下创建一个名为 ``99-listenai.rules`` 的文件，在文件中添加以下内容并保存：
 
@@ -95,4 +116,17 @@ SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="2fe3", ATTR{idPro
 
 ```bash
 sudo udevadm control --reload-rules && sudo udevadm trigger
+```
+**解决方法二**
+
+通过一键脚本实现udev规则添加，执行以下命令：
+
+```bash
+wget -qO- https://cdn.iflyos.cn/public/cskTools/udev/install.sh | sudo bash
+```
+
+若需卸载上述添加的udev规则，可执行以下命令：
+
+```bash
+wget -qO- https://cdn.iflyos.cn/public/cskTools/udev/uninstall.sh | sudo bash
 ```
