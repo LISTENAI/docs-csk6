@@ -6,7 +6,7 @@
 当遇到拉取的 SDK 和 sample 编译后烧录到开发板上出现黑屏的情况，或者可通过以下命令尝试重新初始化 SDK 环境：
 
 ```c
-lisa zep inti-app 
+lisa zep init-app 
 lisa zep update
 ```
 更多关于`lisa zep update`介绍请查看 Lisa 内置命令：[lisa zep update](https://docs.listenai.com/chips/600X/tool/lisa_plugin_zephyr/command_detail)
