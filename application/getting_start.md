@@ -138,6 +138,12 @@ xcode-select --install
 
 > **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一系列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
+:::tip
+windows 下环境安装常见问题及解决办法：
+
+[csk6一键安装包-时被360软件阻止。](../FAQ/faq_env.md#安装-csk6一键安装包-时被360软件阻止)
+:::
+
   </TabItem>
   <TabItem value="mac">
 
@@ -209,6 +215,29 @@ __2、通过离线安装包__
 ```bash
 ./install.sh
 ```
+
+__3、在Linux下docker环境中安装csk6集成环境__
+
+我们基于Linux下的docker环境提供了csk6的容器化编译环境。
+
+操作步骤：
+
+- docker 拉取csk6集成开发环境的指令：
+```bash
+docker pull listenai/csk6   
+```
+
+- [为USB设备添加udev规则](../FAQ/faq_env.md#linux系统下无法识别到csk-usb设备)
+
+
+- 启动docker csk6集成开发环境：
+
+```bash
+docker run --privileged -v /dev:/dev -v /run/udev:/run/udev -it listenaiofficial/csk6:版本tag bash
+```
+
+- [docker csk6集成开发环境常见问题及解决方法](../FAQ/faq_env.md#linux-系统docker环境csk6集成开发环境常见问题及解决方法)
+
 
   </TabItem>
 </Tabs>
