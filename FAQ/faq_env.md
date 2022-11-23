@@ -130,3 +130,42 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/udev/install.sh | sudo bash
 ```bash
 wget -qO- https://cdn.iflyos.cn/public/cskTools/udev/uninstall.sh | sudo bash
 ```
+
+---
+### Linux 系统docker环境csk6集成开发环境常见问题及解决方法
+   
+**1.Docker镜像中的工作用户名、用户ID、组ID是什么？**
+
+**解决办法：**   
+用户名: lisa UID: 1000 组名: lisa GID: 1000
+
+**2.Docker 镜像中无法看到设备怎么办？**
+
+**解决办法：**   
+请先在宿主机中安装udev包，然后按照 Linux系统下无法识别到CSK USB设备 在宿主机中添加规则
+然后使用docker run --privileged -v /dev:/dev -v /run/udev:/run/udev -it listenai/csk6:版本tag bash启动docker进行开发
+
+
+**3.在 docker 镜像中如何提权运行命令？**
+
+**解决办法**    
+使用sudo command进行
+
+**4.如何在 docker 镜像中访问宿主机的目录？**
+
+**解决办法：**    
+需要在 docker run 时使用 -v 宿主机路径:镜像内路径 参数映射（例子：-v /home/user/project:/home/lisa/project）
+
+**4.镜像系统及预装的软件包**
+```bash
+Ubuntu 22.04
+git
+bash
+libusb-1.0-0
+udev
+ca-certificates
+locales
+sudo
+```
+
+---

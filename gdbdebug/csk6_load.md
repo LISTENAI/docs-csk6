@@ -89,8 +89,7 @@ debug-runner: pyocd
 
 **准备工作：**
 
-将 DAPLink USB 接口连接至PC。
-
+将 DAPLink USB 接口连接至PC。该烧录方式仅支持带 DAPLink 调试器芯片的开发板，若无 DAPLink 的硬件请选择其他烧录工具进行烧录。
 
 #### 烧录指令
 
@@ -101,9 +100,6 @@ lisa zep flash --runner pyocd
 烧录过程日志：
 ![](./files/burn_pyocd.png)
 
-:::tip
-本烧录方式仅支持带 DAPLink 调试器芯片的开发板，若无 DAPLink 的硬件请选择其他烧录工具进行烧录。
-:::
 
 ### J-Link 烧录
 
@@ -114,21 +110,25 @@ CSK6-NanoKit 开发板预留了 SWD 烧录接口，开发者可以通过 SWD 接
 ```bash
 lisa zep flash --runner jlink
 ```
+:::tip
+Lisa默认安装了J-flash，开发者也可以通过J-flash来烧录，通常在以下路径：
+
+J-flash路径:`Users\xxx\.listenai\lisa-zephyr\packages\node_modules\@binary\jlink-venus\binary`
+
+J-flash所需要的flm文件路径:`.Users\xxx\.listenai\lisa-zephyr\packages\node_modules\@lisa-env\csk6\jlink\Venus.jflash`
+
+:::
 准备工作：
 - `J-Link` 仿真器，并成功安装驱动，[J-Link 驱动下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%B7%A5%E5%85%B7/JLink_Windows_V630d.exe)。
 
 - 将 J-Link 仿真器和 CSK6-NanoKit 通过 SWD 接口连接，接线方式如下：
 
+- 该烧录方式需要PCBA预留 SWD 接口，若您使用的是NanoKit开发板，请不要使用 DAPLink USB 接口对开发板进行供电，已避免板载调试芯片对SWD接口造成占用。
+
 ![](./files/connect.png)
 
 烧录过程日志：
 ![](./files/burn_jlink.png)
-
-:::info
-该烧录方式需要PCBA预留 SWD 接口。
-
-若您使用的是NanoKit开发板，请不要使用 DAPLink USB 接口对开发板进行供电，已避免板载调试芯片对SWD接口造成占用。
-:::
 
 
 ### CSK 串口烧录
