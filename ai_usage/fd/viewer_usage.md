@@ -44,7 +44,7 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 <img
   width="100%"
-  src={require('./_images/webusb_choose_device.png').default}
+  src={require('./images/webusb_choose_device.png').default}
   /> 
 
 :::tip 提示
