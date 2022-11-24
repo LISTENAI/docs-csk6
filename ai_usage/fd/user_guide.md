@@ -43,6 +43,12 @@ lisa zep create --from-git https://cloud.listenai.com/zephyr/applications/app_al
   src={require('./images/lisa_zep_update_succeed.png').default}
   />
 
+:::tip
+常见拉取SDK异常问题及解决办法：
+
+[一键拉取-sample-和-sdk-异常解决方法。](../../FAQ/faq_application.md#一键拉取-sample-和-sdk-异常解决方法)
+:::
+
 ## 修改配置
 
 ### 打开PC端图像预览功能
@@ -101,7 +107,13 @@ lisa zep exec cskburn -s \\.\COMx -C 6 0x500000 .\resource\res.bin -b 748800
 ```
 
 其中的 `COMx` 代表开发套件连接到 PC 上对应的串口号。例如：`COM3`
+:::tip
+Windows 下常见异常及解决办法：
 
+[1.Windows WSL2环境下无法识别USB设备问题](../../FAQ/faq_build_flash.md#wsl2环境下无法进行烧录)
+
+[2.执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+:::
   </TabItem>
 
   <TabItem value="unix">
@@ -112,6 +124,14 @@ lisa zep exec cskburn -s PORT -C 6 0x500000 ./resource/res.bin -b 748800
 ```
 
 其中的 `PORT` 代表开发套件连接到 PC 上对应的串口号。例如：`/dev/ttyACM0`
+
+:::tip
+Linux系统下常见问题及解决方法：
+
+[1.Linux系统下无法识别到CSK USB设备解决方法。](https://docs.listenai.com/chips/600X/FAQ/faq_env#linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB%E5%88%B0csk-usb%E8%AE%BE%E5%A4%87)
+
+[2.执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+:::
 
   </TabItem>
 

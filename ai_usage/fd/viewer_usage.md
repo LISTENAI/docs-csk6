@@ -29,7 +29,7 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 ### 第四步：安装驱动
 
-- 如果你使用的是 Windows 系统，请点击网页上的【 Windows 系统，使用必读】按钮，按照步骤安装驱动；安装驱动过程，需将 CSK6 USB 接口连接电脑；
+- 如果你使用的是 Windows 系统，请点击网页上的【 Windows 系统，使用必读】按钮，按照步骤安装驱动；在安装驱动的过程，需保持 CSK6 USB 接口与电脑的连接；
 - 如果你使用的是 Mac/Linux 系统，请忽略本步骤。
 
 ## 开始使用
@@ -42,7 +42,10 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 2. 点击“选择设备”按钮，选择“CSK View Finder”选项，点击“连接”，即可看到预览图和识别结果；
 
-![](./images/webusb_choose_device.png)
+<img
+  width="100%"
+  src={require('./images/webusb_choose_device.png').default}
+  /> 
 
 :::tip 提示
 为了保证算法与PC预览的帧率一致，我们会将发送至PC工具的预览图进行缩小，因此你在PC工具所看到的画面质量会有所降低。但这并不影响算法的识别，算法所接收到的是640x480px图像。
@@ -77,5 +80,4 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 点击“开始记录”按钮，工具则开始记录预览图和识别结果；
 
-点击“停止记录”按钮，工具则会将刚才记录的图像和识别结果进行打包压缩；
-
+点击“停止记录”按钮，工具则会将刚才记录的图像和识别结果进行打包压缩。
