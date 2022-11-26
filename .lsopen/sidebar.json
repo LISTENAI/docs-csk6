@@ -204,6 +204,7 @@
             "label": "语音合成",
             "items": [
               "ai_usage/xtts/intro",
+              "ai_usage/xtts/user_guide",
               "ai_usage/xtts/text_mark_guide",
               "ai_usage/xtts/api",
               "ai_usage/xtts/sample"

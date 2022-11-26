@@ -4,7 +4,7 @@
 
 ## 概述
 
-该 Sample 展示了对SDK接口的基本调用，实现了可通过 shell 传递文本调用语音合成并通过语音套件播放的能力。
+该 Sample 展示了对 SDK 接口的基本调用，实现了可通过 shell 传递文本调用语音合成并通过语音套件播放的能力。
 
 ## 获取 Sample
 
@@ -140,9 +140,12 @@ void main(void) {
 ### 使用示例
 
 ```shell
-tts play hello
-tts play 'hello world'
+uart:~$ tts play hello
+TTS play 'hello' success!
+uart:~$ tts play 'hello world'
+TTS play 'hello world' success!
 ```
+
 :::info 注意
 上述命令的 `<text>` ，若合成文本为英文，可直接使用，例如 `tts play hello` ，表示播放「`hello`」；若合成文本为中文，需要先转换为十六进制再传，例如「你好」的十六进制表示为 `0xe4 0xbd 0xa0 0xe5 0xa5 0xbd` ，那么在命令中调用则为 `tts play '\xe4\xbd\xa0\xe5\xa5\xbd'` 。
 :::
