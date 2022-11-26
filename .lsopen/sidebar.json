@@ -166,7 +166,7 @@
     "items": [
       {
         "type": "category",
-        "label": "图像识别",
+        "label": "视觉",
         "items": [
           {
             "type": "category",
@@ -191,6 +191,22 @@
               "ai_usage/fd/api",
               "ai_usage/fd/sample",
               "ai_usage/fd/faq"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "语音",
+        "items": [
+          {
+            "type": "category",
+            "label": "语音合成",
+            "items": [
+              "ai_usage/xtts/intro",
+              "ai_usage/xtts/text_mark_guide",
+              "ai_usage/xtts/api",
+              "ai_usage/xtts/sample"
             ]
           }
         ]
