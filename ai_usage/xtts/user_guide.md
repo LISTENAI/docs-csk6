@@ -84,10 +84,13 @@ lisa zep flash
 
 ```bash
 lisa zep exec cskburn -s \\.\COMx -C 6 0x100000 .\resource\cp.bin -b 748800
-lisa zep exec cskburn -s \\.\COMx -C 6 0x300000 .\resource\res.bin -b 748800
+lisa zep exec cskburn -s \\.\COMx -C 6 0x300000 .\resource\res_xxx.bin -b 748800
 ```
 
 其中的 `COMx` 代表开发套件连接到 PC 上对应的串口号。例如：`COM3`
+
+`res_xxx.bin` 代表发音人资源文件名称，例如：`res_qianqian.bin`。详细可参考 [《发音人资源》](./speak_flavor_res.md) 说明。
+
 :::tip
 Windows 下常见异常及解决办法：
 
