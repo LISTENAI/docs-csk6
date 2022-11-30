@@ -51,7 +51,7 @@ lisa zep build -b csk6012_c3_nano
 ## 烧录应用程序
 
 ```
-lisa zep flash
+lisa zep flash --runner pyocd
 ```
 
 ## 烧录资源
