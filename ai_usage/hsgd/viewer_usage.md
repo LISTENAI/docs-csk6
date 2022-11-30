@@ -21,6 +21,12 @@ lisa zep flash
 
 ### 第二步：PC 工具获取
 
+获取方式一：
+
+访问在线[PC工具网页](https://tool.listenai.com/csk-view-finder-spd)
+
+获取方式二：
+
 拉取 [PC 工具项目](https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd) 到本地
 
 ```bash
