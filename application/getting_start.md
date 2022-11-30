@@ -139,9 +139,9 @@ xcode-select --install
 > **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一系列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
 :::tip
-windows 下环境安装常见问题及解决办法：
+windows 下安装CSK6开发环境可能会遇到杀毒软件阻止的情况，可尝试通过以下FAQ指引解决：
 
-[csk6一键安装包-时被360软件阻止。](../FAQ/faq_env.md#安装-csk6一键安装包-时被360软件阻止)
+[csk6一键安装包-时被杀毒软件阻止的解决方案。](../FAQ/faq_env.md#安装-csk6一键安装包-时被360软件阻止)
 :::
 
   </TabItem>
@@ -178,7 +178,7 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 对于Ubuntu平台的开发者，你可以选用以下方式之一进行搭建：
 
-__1、通过脚本在线安装__
+__方式1、通过脚本在线安装__
 
 在 **用户权限** 下执行：
 
@@ -206,7 +206,8 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 > 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
-__2、通过离线安装包__
+
+__方式2、通过离线安装包__
 
 - 下载[Ubuntu 离线安装包](https://cdn.iflyos.cn/public/cskTools/csk6_integration_installer_linux_v1.6.5.tar.xz)，建议使用 Ubuntu 18.04 版本及以上。
 
@@ -215,8 +216,8 @@ __2、通过离线安装包__
 ```bash
 ./install.sh
 ```
-
-__3、在Linux下docker环境中安装csk6集成环境__
+   
+__方式3、在Linux下docker环境中安装csk6集成环境__
 
 我们基于Linux下的docker环境提供了csk6的容器化编译环境。
 

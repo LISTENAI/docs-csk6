@@ -113,9 +113,11 @@ lisa zep flash --runner jlink
 :::tip
 Lisa默认安装了J-flash，开发者也可以通过J-flash来烧录，通常在以下路径：
 
-J-flash路径:`Users\xxx\.listenai\lisa-zephyr\packages\node_modules\@binary\jlink-venus\binary`
+J-flash 图形界面工具路径:`.listenai\lisa-zephyr\packages\node_modules\@binary\jlink-venus\binary`
 
-J-flash所需要的flm文件路径:`.Users\xxx\.listenai\lisa-zephyr\packages\node_modules\@lisa-env\csk6\jlink\Venus.jflash`
+J-flash Venus_flashloader.FLM [文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/Venus_flashloader.FLM)
+
+J-flash 项目配置文件Venus.jflash [ 文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/Venus.jflash)
 
 :::
 准备工作：

@@ -32,6 +32,15 @@ CSK6开发板与板型：
 ```
 lisa zep create
 ```
+
+创建项目后目录结构如下：   
+```c
+hello_world
+├─src    //项目代码主目录
+├─CMakeLists.txt //CMake 编译文件
+└─prj.conf  //项目配置文件
+```
+
 :::note
 
 lisa zep 命令行工具 (lisa-zephyr-cli-tool) 是基于 Lisa 生态的一个命令行插件。使用它你能更便捷地对 CSK6 应用程序进行 构建、 烧录、 调试 等等功能，是CSK6开发必需的工具，开发者可在完成本章节的学习后认真查阅 [lisa zephyr 命令行工具](../tool/lisa_plugin_zephyr/index.md) 章节，了解更多关于 `Lisa zephyr` 命令。
@@ -59,9 +68,16 @@ target_sources(app PRIVATE src/main.c)
 :::
 
 ### 设备树配置
-在`app/boards/`目录下增加`csk6011a_nano.overlay`设备树配置文件并添加led的GPIO配置，具体内容如下：
-```c
+在`hello_world`根目录下创建`boards`目录，并增加`csk6011a_nano.overlay`设备树配置文件：
 
+```c
+hello_world
+├─boards //设备树板型文件
+    └─csk6011a_nano.overlay  //设备树配置文件
+...
+```
+在`csk6011a_nano.overlay`文件中添加控制 led 的 GPIO 配置，具体内容如下：
+```c
  /  /*根节点*/
  {
     /*定义别名为led0的gpio设备树*/ 
