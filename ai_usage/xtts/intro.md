@@ -12,7 +12,7 @@
 
 ## 功能演示
 
-<video src="https://cdn.iflyos.cn/public/lsopen/xtts_trial/xtts_qianqian_showcase.mp4" controls="controls">您的浏览器不支持播放该视频！</video>
+<video src="https://cdn.iflyos.cn/public/lsopen/xtts_trial/xtts_qianqian_showcase.mp4" controls="controls" width="80%">您的浏览器不支持播放该视频！</video>
 
 
 ## 应用场景
