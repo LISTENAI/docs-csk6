@@ -57,6 +57,10 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
   width="100%"
   src={require('./_images/webusb_choose_device.png').default}
   /> 
+<img
+  width="100%"
+  src={require('./_images/hsd.png').default}
+  /> 
 
 :::tip 提示
 **PC端图像预览常见问题：**
@@ -68,6 +72,7 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 若你使用的是Linux系统，且发现无法识别到USB设备，先请尝试[为USB添加udev规则](/chips/600X/FAQ/faq_env#Linux系统下无法识别到CSK-USB设备)后重试。
 
 :::
+
 ### 使用工具记录
 
 点击“开始记录”按钮，工具则开始记录预览图和识别结果；

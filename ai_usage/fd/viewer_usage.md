@@ -51,10 +51,22 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
   width="100%"
   src={require('./images/webusb_choose_device.png').default}
   /> 
+<img
+  width="100%"
+  src={require('./images/fd3.png').default}
+  /> 
+
 
 :::tip 提示
-为了保证算法与PC预览的帧率一致，我们会将发送至PC工具的预览图进行缩小，因此你在PC工具所看到的画面质量会有所降低。但这并不影响算法的识别，算法所接收到的是640x480px图像。
-::: 
+**PC端图像预览常见问题：**
+
+**1.分辨率问题**   
+为了保证算法与PC预览的帧率一致，我们会将发送至PC工具的预览图进行缩小，因此你在PC工具所看到的画面质量会有所降低。但这并不影响算法的识别，算法实际所接收到的图像分辨率为 640x480 px。
+
+**2.Linux系统下无法识别USB设备问题**   
+若你使用的是Linux系统，且发现无法识别到USB设备，先请尝试[为USB添加udev规则](/chips/600X/FAQ/faq_env#Linux系统下无法识别到CSK-USB设备)后重试。
+
+:::
 
 ### 使用人脸识别功能
 

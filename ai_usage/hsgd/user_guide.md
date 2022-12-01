@@ -39,14 +39,17 @@ lisa zep create --from-git https://cloud.listenai.com/zephyr/applications/app_al
 ```
 
 <img
-  width="80%"
+  width="90%"
   src={require('./_images/lisa_zep_update_succeed.png').default}
   />
 
 :::tip
-常见拉取SDK异常问题及解决办法：
-
-[一键拉取-sample-和-sdk-异常解决方法。](../../FAQ/faq_application.md#一键拉取-sample-和-sdk-异常解决方法)
+当初次拉取 SDK 和 sample 后出现以下情况时，可尝试通过FAQ指引解决：   
+1.拉取SDK操作中断   
+2.编译烧录到开发板上出现预览图像黑屏   
+ 
+FAQ指引：     
+[1.一键拉取-sample-和-sdk-异常解决方法。](../../FAQ/faq_application.md#一键拉取-sample-和-sdk-异常解决方法)
 :::
 
 ## 修改配置
@@ -77,8 +80,15 @@ lisa zep flash
 
 | 资源           | 分区配置              |
 | -------------- | --------------------- |
-| 音视频框架资源 | `<0x400000 0x100000>` |
+| DSP固件资源 | `<0x400000 0x100000>` |
 | 算法模型资源   | `<0x500000 0x1ee000>` |
+
+:::note
+
+DSP固件资源是运行在csk6 DSP和NPU上的程序，包含视觉算法程序等；
+算法模型资源是视觉算法运行所需要的模型资源文件。
+
+:::
 
 我们提供了串口、JLink两种烧录方式，可根据情况选择合适的烧录方式。
 
@@ -108,11 +118,19 @@ lisa zep exec cskburn -s \\.\COMx -C 6 0x500000 .\resource\res.bin -b 748800
 
 其中的 `COMx` 代表开发套件连接到 PC 上对应的串口号。例如：`COM3`
 :::tip
-Windows 下常见异常及解决办法：
+1.当您在 Windows WSL2 环境下对csk6 进行固件烧录时无法找到设备且出现以下错误信息时：   
+`waiting for a debug probe to be connect...`    
+可尝试通过以下FAQ指引解决：  
 
-[1.Windows WSL2环境下无法识别USB设备问题](../../FAQ/faq_build_flash.md#wsl2环境下无法进行烧录)
+[Windows WSL2环境下无法识别USB设备问题](../../FAQ/faq_build_flash.md#wsl2环境下无法进行烧录)
 
-[2.执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+2.当您遇到无法烧录且有以下提示时：    
+`entering-update-mode...`    
+`ERRO：Failed entering update mode `   
+可尝试以下FAQ指引尝试解决：   
+
+[执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+
 :::
   </TabItem>
 
@@ -126,11 +144,19 @@ lisa zep exec cskburn -s PORT -C 6 0x500000 ./resource/res.bin -b 748800
 其中的 `PORT` 代表开发套件连接到 PC 上对应的串口号。例如：`/dev/ttyACM0`
 
 :::tip
-Linux系统下常见问题及解决方法：
+下常见问题及解决方法：    
+1.当您在 Linux 系统环境下对 csk6 进行固件烧录时无法找到设备且出现以下错误信息时：   
+`waiting for a debug probe to be connect...`    
+可尝试通过以下FAQ指引解决：  
 
-[1.Linux系统下无法识别到CSK USB设备解决方法。](https://docs.listenai.com/chips/600X/FAQ/faq_env#linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB%E5%88%B0csk-usb%E8%AE%BE%E5%A4%87)
+[Linux系统下无法识别到CSK USB设备解决方法。](https://docs.listenai.com/chips/600X/FAQ/faq_env#linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB%E5%88%B0csk-usb%E8%AE%BE%E5%A4%87)
 
-[2.执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+
+2.当您遇到无法烧录且有以下提示时：    
+`ERRO：Failed entering update mode `   
+可尝试以下FAQ指引尝试解决：  
+
+[执行串口烧录时提示entering-update-mode-但无法正常完成烧录。](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
 :::
 
   </TabItem>
