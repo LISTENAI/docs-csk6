@@ -5,12 +5,12 @@ import TabItem from '@theme/TabItem';
 
 ## 导读
 
-开始接触本章节之前，需要先学习 CSK6 [环境搭建](../../application/getting_start)，完成 CSK6 的环境搭建和熟悉基本开发方式，再进行本章节的操作。
+开始接触本章节之前，需要先学习CSK6 <a href="../../application/getting_start" target="_blank">[环境搭建]</a> ，完成 CSK6 的环境搭建和熟悉基本开发方式，再进行本章节的操作。
 
 
 ## 硬件准备
 
-本指引所用的硬件实验平台为 [语音开发套件](/chips/600X/overview/nanokit/kit/audio_kit)(6012-Nanokit 开发板，语音功能模块，引脚扩展板，USB-C 数据线) 。
+本指引所用的硬件实验平台为 <a href="/chips/600X/overview/nanokit/kit/audio_kit" target="_blank">语音开发套件</a>(6012-Nanokit 开发板，语音功能模块，引脚扩展板，USB-C 数据线) 。
 
 <img
   width="80%"
@@ -38,9 +38,10 @@ lisa zep create --from-git https://cloud.listenai.com/zephyr/applications/app_al
   />
 
 :::tip
-常见拉取SDK异常问题及解决办法：
-
-[一键拉取-sample-和-sdk-异常解决方法。](../../FAQ/faq_application.md#一键拉取-sample-和-sdk-异常解决方法)
+当初次拉取 SDK 和 sample 后出现以下情况时，可尝试通过FAQ指引解决：   
+1.拉取SDK操作中断   
+FAQ指引：     
+- <a href="../../FAQ/faq_application#一键拉取-sample-和-sdk-异常解决方法" target="_blank">一键拉取-sample-和-sdk-异常解决方法。</a>
 :::
 
 ## 编译固件
@@ -49,9 +50,11 @@ lisa zep create --from-git https://cloud.listenai.com/zephyr/applications/app_al
 lisa zep build -b csk6012_c3_nano
 ```
 
-> 若需抛弃已有编译产物，进行全量编译(Rebuild)，可在上述编译命令中增加 ``-p`` 参数。
+> 当您需要重新编译所有链接(如更换版型)时，可选择Rebuild整个项目工程，可在上述编译命令> 中增加 -p 参数，即
 >
-> 编译参数的使用，详见 [命令行工具-编译](/chips/600X/tool/lisa_plugin_zephyr/build_flash_debug#原始编译)
+> ` lisa zep build -b csk6011a_nano -p ` 
+> 
+> 更多编译参数的使用，详见 <a href="/chips/600X/tool/lisa_plugin_zephyr/build_flash_debug#原始编译" target="_blank">命令行工具-编译。</a>
 
 ## 烧录应用程序
 
@@ -65,8 +68,16 @@ lisa zep flash --runner pyocd
 
 | 资源           | 分区配置              |
 | -------------- | --------------------- |
-| XTTS 框架资源  | `<0x100000 0x200000>` |
+| DSP固件资源  | `<0x100000 0x200000>` |
 | 算法模型资源   | `<0x300000 0x800000>` |
+:::note
+
+DSP固件资源是运行在csk6 DSP和NPU上的程序，包含视觉算法程序等；
+算法模型资源是视觉算法运行所需要的模型资源文件。
+
+:::
+
+我们提供了串口、JLink两种烧录方式，可根据情况选择合适的烧录方式。
 
 ### 使用串口烧录
 
@@ -97,12 +108,18 @@ lisa zep exec cskburn -s \\.\COMx -C 6 0x300000 .\resource\res_xxx.bin -b 748800
 `res_xxx.bin` 代表发音人资源文件名称，例如：`res_qianqian.bin`。详细可参考 [《发音人资源》](./speak_flavor_res.md) 说明。
 
 :::tip
-Windows 下常见异常及解决办法：
+1.当您在 Windows WSL2 环境下对csk6 进行固件烧录时无法找到设备且出现以下错误信息时：   
+`waiting for a debug probe to be connect...`    
+可尝试通过以下FAQ指引解决：  
 
-[1.Windows WSL2环境下无法识别USB设备问题](../../FAQ/faq_build_flash.md#wsl2环境下无法进行烧录)
+- <a href="../../FAQ/faq_build_flash#wsl2环境下无法进行烧录" target="_blank">Windows WSL2环境下无法识别USB设备问题。</a>
 
-[2.执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+2.当您遇到无法烧录且有以下提示时：    
+`entering-update-mode...`    
+`ERRO：Failed entering update mode `   
+可尝试以下FAQ指引尝试解决：   
 
+- <a href="../../FAQ/faq_build_flash#执行串口烧录时提示entering-update-mode-但无法正常完成烧录" target="_blank">执行串口烧录时提示entering-update-mode-但无法正常完成烧录。</a>
 :::
   </TabItem>
 
@@ -119,11 +136,22 @@ lisa zep exec cskburn -s PORT -C 6 0x300000 ./resource/res_xxx.bin -b 748800
     
 
 :::tip
-Linux系统下常见问题及解决方法：
+下常见问题及解决方法：    
+1.当您在 Linux 系统环境下对 csk6 进行固件烧录时无法找到设备且出现以下错误信息时：   
+`waiting for a debug probe to be connect...`    
+可尝试通过以下FAQ指引解决：  
 
-[1.Linux系统下无法识别到CSK USB设备解决方法。](https://docs.listenai.com/chips/600X/FAQ/faq_env#linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB%E5%88%B0csk-usb%E8%AE%BE%E5%A4%87)
+- <a href="../../FAQ/faq_env#linux系统下无法识别到csk-usb设备" target="_blank">Linux系统下无法识别到CSK USB设备解决方法。</a>    
 
-[2.执行串口烧录时提示entering-update-mode-但无法正常完成烧录](../../FAQ/faq_build_flash.md#执行串口烧录时提示entering-update-mode-但无法正常完成烧录)
+
+
+2.当您遇到无法烧录且有以下提示时：    
+`ERRO：Failed entering update mode `   
+可尝试以下FAQ指引尝试解决：  
+
+
+- <a href="../../FAQ/faq_build_flash#执行串口烧录时，提示entering-update-mode-但无法正常完成烧录" target="_blank">执行串口烧录时提示entering-update-mode-但无法正常完成烧录。</a>
+
 :::
 
   </TabItem>
