@@ -129,11 +129,4 @@ typedef struct {
 | xtts | `licak_xtts_t *` | XTTS 实例 | 
 | callback | `xtts_event_callback_t` | 回调函数指针 |
 
-### `xtts_destroy`
-
-销毁 XTTS 实例。
-
-| 参数 | 类型 | 含义 |
-| --- | --- | --- |
-| xtts | `licak_xtts_t *` | XTTS 实例 | 
 

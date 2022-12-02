@@ -12,6 +12,11 @@ import TabItem from '@theme/TabItem';
 
 本指引所用的硬件实验平台为 [语音开发套件](/chips/600X/overview/nanokit/kit/audio_kit)(6012-Nanokit 开发板，语音功能模块，引脚扩展板，USB-C 数据线) 。
 
+<img
+  width="80%"
+  src={require('../_images/xtts_prepare_device.png').default}
+  /> 
+
 在本实验中，我们将使用到开发板上的 **DAPLink USB 接口**，用于**烧录固件、查看日志、shell 交互**。
 
 ## 项目概述
@@ -51,7 +56,7 @@ lisa zep build -b csk6012_c3_nano
 ## 烧录应用程序
 
 ```
-lisa zep flash
+lisa zep flash --runner pyocd
 ```
 
 ## 烧录资源
