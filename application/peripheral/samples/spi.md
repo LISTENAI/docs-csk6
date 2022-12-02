@@ -81,7 +81,7 @@ const struct spi_buf_set *rx_bufs);
 ### 准备工作
 本示例基于两个CSK6-NanoKit开发板实现SPI数据的通信，其中一个作为SPI主设备，另一设备作为从设备，实现该示例需要以下准备工作:
 - 2个CSK6-NanoKit开发板
-- 使用杜邦线将`spi0(GPIO_A_19 sclk, GPIO_A_20 cs, GPIO_A_17 miso, GPIO_A_18 mosi)`和`spi1(GPIO_B_00 sclk, GPIO_B_03 cs, GPIO_B_02 miso, GPIO_A_01 mosi)`连接，接线方式如下图示：<br/>![](./files/SPI_connect.png)
+- 使用杜邦线将`spi0(GPIO_A_19 sclk, GPIO_A_20 cs, GPIO_A_17 miso, GPIO_A_18 mosi)`和`spi1(GPIO_B_00 sclk, GPIO_B_03 cs, GPIO_B_02 miso, GPIO_A_01 mosi)`连接。
 
 ### 获取sample项目
 通过Lisa命令创建项目：
@@ -89,7 +89,7 @@ const struct spi_buf_set *rx_bufs);
 lisa zep create
 ```
 ![](./files/uart_create01.png)
-依次按以下目录选择完成adc sample创建：  
+依次按以下目录选择完成spi sample创建：  
 > boards → csk6 → driver → spi_master_slave
 
 

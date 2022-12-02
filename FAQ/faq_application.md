@@ -1,6 +1,19 @@
 # 应用开发常见问题
 
 ---
+### 视觉sample修改PC端图像预览分辨率的方法
+- 头肩追踪和手势识别`app_algo_hsd_sample_for_csk6`示例在`webusb_render.c`文件中修改；   
+- 人脸识别`app_algo_fd_sample_for_csk6`示例则在`main.c`中修改。   
+
+修改的参数为：  
+```c
+#define WEBUSB_IMAGE_DOWNSAMPLING (2)
+#define WEBUSB_IMAGE_SCALE (1.0f / WEBUSB_IMAGE_DOWNSAMPLING)
+```
+其中：   
+`WEBUSB_IMAGE_DOWNSAMPLING`为压缩的倍数，目前仅支持设置为2的倍数(2、4、6、8)。   
+`WEBUSB_IMAGE_SCALE`表示PC预览图像压缩率，该值为1时代表不压缩，也就是传输原始图像。   
+
 
 ### 一键拉取 sample 和 SDK 异常解决方法
 当遇到拉取的 SDK 和 sample 编译后烧录到开发板上出现黑屏的情况，或者可通过以下命令尝试重新初始化 SDK 环境：
