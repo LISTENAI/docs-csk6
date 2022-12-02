@@ -118,7 +118,7 @@ lisa zep create
 ```
 
 ![](./files/uart_create01.png)
-依次按以下目录选择完成adc sample创建：  
+依次按以下目录选择完成rtc sample创建：  
 > boards → csk6 → driver → rtc
 
 ### 组件配置
