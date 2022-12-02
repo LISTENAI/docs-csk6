@@ -7,7 +7,6 @@ import TabItem from '@theme/TabItem';
 
 开始接触本章节之前，需要先学习CSK6 <a href="../../application/getting_start" target="_blank">环境搭建</a> ，完成 CSK6 的环境搭建和熟悉基本开发方式，再进行本章节的操作。
 
-
 ## 硬件准备
 
    本指引所用的硬件实验平台为 <a href="/chips/600X/overview/nanokit/kit/vision_kit" target="_blank">视觉开发套件</a>(6011A-Nanokit 开发板，视觉功能模块，引脚扩展板，USB-C 数据线)
