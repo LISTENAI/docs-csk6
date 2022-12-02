@@ -1,7 +1,7 @@
 # 第一个应用
 
 ## 概述
-通过[快速开始](./getting_start.md)章节的学习，开发者已经完成了 CSK6 开发环境的搭建、SDK源码的拉取，并成功在开发板上运行了最简示例 HelloWorld 。在完成基础环境搭建之后，开发者似乎已经迫不及待的开启CSK6的应用开发之路，本章节将基于CSK6开发板为开发者提供第一个应用的开发指引，实现LED灯亮灭的控制，小试牛刀，体验CSK6的开发乐趣。
+通过<a href="./getting_start." target="_blank">快速开始</a>章节的学习，开发者已经完成了 CSK6 开发环境的搭建、SDK源码的拉取，并成功在开发板上运行了最简示例 HelloWorld 。在完成基础环境搭建之后，开发者似乎已经迫不及待的开启CSK6的应用开发之路，本章节将基于CSK6开发板为开发者提供第一个应用的开发指引，实现LED灯亮灭的控制，小试牛刀，体验CSK6的开发乐趣。
 
 ## 准备开发板
 在上手第一个应用开发前，开发者需要准备一块CSK6开发板 CSK60XX-NanoKit，可以通过以下方式获取：
@@ -15,14 +15,14 @@ CSK6开发板与板型：
 
 | 开发板型号 | 编译所用板型 |
 | --------- | ------------ |
-| [CSK6011-NanoKit](../overview/nanokit/csk6011_nanokit)  | ``csk6011a_nano`` |
-| [CSK6012-NanoKit](../overview/nanokit/csk6012_nanokit)  | ``csk6012_nano`` |
+| <a href="../overview/nanokit/csk6011_nanokit" target="_blank">CSK6011-NanoKit</a>  | ``csk6011a_nano`` |
+| <a href="../overview/nanokit/csk6012_nanokit" target="_blank">CSK6012-NanoKit</a>  | ``csk6012_nano`` |
 
 本章节以**视觉开发套件**中配套的 **CSK6011-NanoKit** 开发板为硬件平台进行演示，编译时使用的板型为 ``csk6011a_nano``。
 
 ## 查看硬件板型原理图
 本章节目标是实现开发板LED灯亮灭的控制，因此需要确认LED所对应的GPIO引脚，开发者可在NanoKit开发板章节下载对应开发板的原理图。
-本章节以[CSK6011-NanoKit开发板](../overview/nanokit/csk6011_nanokit)为例，LED灯对应的控制引脚为GPIOB_06：
+本章节以 <a href="../overview/nanokit/csk6011_nanokit" target="_blank">CSK6011-NanoKit开发板</a> 为例，LED灯对应的控制引脚为GPIOB_06：
 
 ![](../application/peripheral/samples/files/led_pin.png)
 
@@ -43,7 +43,7 @@ hello_world
 
 :::note
 
-lisa zep 命令行工具 (lisa-zephyr-cli-tool) 是基于 Lisa 生态的一个命令行插件。使用它你能更便捷地对 CSK6 应用程序进行 构建、 烧录、 调试 等等功能，是CSK6开发必需的工具，开发者可在完成本章节的学习后认真查阅 [lisa zephyr 命令行工具](../tool/lisa_plugin_zephyr/index.md) 章节，了解更多关于 `Lisa zephyr` 命令。
+lisa zep 命令行工具 (lisa-zephyr-cli-tool) 是基于 Lisa 生态的一个命令行插件。使用它你能更便捷地对 CSK6 应用程序进行 构建、 烧录、 调试 等等功能，是CSK6开发必需的工具，开发者可在完成本章节的学习后认真查阅 <a href="../tool/lisa_plugin_zephyr/index" target="_blank">lisa zephyr 命令行工具</a> 章节，了解更多关于 `Lisa zephyr` 命令。
 
 :::
 ### 组件配置 
@@ -64,7 +64,7 @@ target_sources(app PRIVATE src/main.c)
 ```
 :::note
 
-开发者可在完成本章节的学习后认真查阅 [构建系统CMake](../build/cmake/index.md) 章节，了解更多关于 CMake 配置信息。
+开发者可在完成本章节的学习后认真查阅 <a href="../build/cmake/index" target="_blank">构建系统CMake</a> 章节，了解更多关于 CMake 配置信息。
 :::
 
 ### 设备树配置
@@ -110,7 +110,7 @@ hello_world
 :::note
 
 zephyr类似于Linux通过设备树来管理硬件，把硬件配置信息放在设备树的配置文件`dts`中,在应用程序中获取硬件的配置信息。   
-设备树是CSK6开发必备的知识，开发者可在完成本章节的学习后认真查阅 [设备树](../build/dts/intro.md) 章节，以掌握设备树配置的精髓。
+设备树是CSK6开发必备的知识，开发者可在完成本章节的学习后认真查阅 <a href="../build/dts/intro" target="_blank">设备树</a> 章节，以掌握设备树配置的精髓。
 
 :::
 
@@ -163,13 +163,13 @@ void main(void)
 **开发者可能对以上某些代码段感到疑惑？**
 
 为此，CSK6 SDK提供了丰富的示例和实现过程的讲解，在完成本章节的LED灯控制应用的开发之后，开发者可通过示例的学习更进一步掌握CSK6的开发技巧：
-  - [应用开发](./application_development.md)
+  - <a href="./application_development" target="_blank">应用开发</a>
 
-  - [外设驱动说明及使用示例](./peripheral/overview)
-  - [系统内核及使用示例](./kernel/overview)
-  - [系统组件及使用示例](./modules/overview)
-  - [音频组件及使用示例](./audio/overview)
-  - [网络模块及使用示例](./network/overview)
+  - <a href="./peripheral/overview" target="_blank">外设驱动说明及使用示例</a>
+  - <a href="./kernel/overview" target="_blank">系统内核及使用示例</a>
+  - <a href="./modules/overview" target="_blank">系统组件及使用示例</a>
+  - <a href="./audio/overview" target="_blank">音频组件及使用示例</a>
+  - <a href="./network/overview" target="_blank">网络模块及使用示例</a>
 
 
 ### 编译和烧录
@@ -189,7 +189,7 @@ lisa zep flash --runner pyocd
 
 :::note
 
-开发者可在完成本章节的学习后认真查阅 [CSK6烧录](../gdbdebug/csk6_load.md) 章节，以掌握更多关于CSK6烧录的内容。
+开发者可在完成本章节的学习后认真查阅 <a href="../gdbdebug/csk6_load" target="_blank">CSK6烧录</a> 章节，以掌握更多关于CSK6烧录的内容。
 
 :::
 ### 预期结果
@@ -199,4 +199,4 @@ lisa zep flash --runner pyocd
 ## 请求帮助
 如果在开发过程中遇到问题，可联系FAE提供支持，或者在聆思维护的代码仓库托管站点 LSCloud 中反馈你所遇到的问题或提交特性适配请求。
 
-- **在 LSCloud 中提交工单** ： 请参考 [反馈章节](../quick_start/doc_issue.md) 更详尽地了解如何使用 [工单](https://cloud.listenai.com/zephyr/zephyr/-/issues) 来提交问题。
+- **在 LSCloud 中提交工单** ： 请参考 <a href="../quick_start/doc_issue" target="_blank">反馈章节</a> 更详尽地了解如何使用 [工单](https://cloud.listenai.com/zephyr/zephyr/-/issues) 来提交问题。
