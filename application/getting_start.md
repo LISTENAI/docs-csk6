@@ -138,6 +138,12 @@ xcode-select --install
 
 > **CSK6一键安装包** 是面向 Windows 操作系统的 CSK6 开发环境集成安装包，本安装包会完成CSK6开发环境搭建、SDK部署等一系列操作，方便您快速拥有一个可以即刻进入业务开发阶段的环境。
 
+:::tip
+windows 下安装CSK6开发环境可能会遇到杀毒软件阻止的情况，可尝试通过以下FAQ指引解决：
+
+[csk6一键安装包-时被杀毒软件阻止的解决方案。](../FAQ/faq_env.md#安装-csk6一键安装包-时被360软件阻止)
+:::
+
   </TabItem>
   <TabItem value="mac">
 
@@ -172,7 +178,7 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 对于Ubuntu平台的开发者，你可以选用以下方式之一进行搭建：
 
-__1、通过脚本在线安装__
+__方式1、通过脚本在线安装__
 
 在 **用户权限** 下执行：
 
@@ -200,7 +206,8 @@ wget -qO- https://cdn.iflyos.cn/public/cskTools/lisa-zephyr-install.sh | bash
 
 > 该命令会在 `~/.listenai` 目录下，安装 CSK6 的集成开发环境以及 CSK SDK 的拉取，执行完毕后开发者能快速进行 CSK6 的应用开发。
 
-__2、通过离线安装包__
+
+__方式2、通过离线安装包__
 
 - 下载[Ubuntu 离线安装包](https://cdn.iflyos.cn/public/cskTools/csk6_integration_installer_linux_v1.6.5.tar.xz)，建议使用 Ubuntu 18.04 版本及以上。
 
@@ -209,6 +216,28 @@ __2、通过离线安装包__
 ```bash
 ./install.sh
 ```
+   
+__方式3、在Linux下docker环境中安装csk6集成环境__
+
+我们基于Linux下的docker环境提供了csk6的容器化编译环境。
+
+操作步骤：
+
+- docker 拉取csk6集成开发环境的指令：
+```bash
+docker pull listenai/csk6   
+```
+
+- <a href="../FAQ/faq_env#linux系统下无法识别到csk-usb设备" target="_blank">为USB设备添加udev规则</a>
+
+- 启动docker csk6集成开发环境：
+
+```bash
+docker run --privileged -v /dev:/dev -v /run/udev:/run/udev -it listenaiofficial/csk6:版本tag bash
+```
+
+- <a href="../FAQ/faq_env#linux-系统docker环境csk6集成开发环境常见问题及解决方法" target="_blank">docker csk6集成开发环境常见问题及解决方法</a>
+
 
   </TabItem>
 </Tabs>
@@ -225,7 +254,7 @@ lisa info zep
 
 ![](./images/check_env.jpg)
 
-`lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决或查阅[环境搭建常见问题](../FAQ/faq_env)。
+`lisa info zep` 指令用于查看当前 Zephyr 的环境。在后续的开发上，该命令也可作为环境自检的一个方式。若在环境检测过中存在工具缺失的情况，请参照[安装过程疑难解答](#安装过程疑难解答)进行解决或查阅<a href="../FAQ/faq_env" target="_blank">环境搭建常见问题</a>。
 
 
 ## 编译 Hello world 示例
@@ -254,14 +283,16 @@ cd hello_world
 lisa zep build -b csk6011a_nano
 ```
 
-> 若需抛弃已有编译产物，进行全量编译(Rebuild)，可在上述编译命令中增加 ``-p`` 参数。
+> 当您需要重新编译所有链接(如更换版型)时，可选择Rebuild整个项目工程，可在上述编译命令> 中增加 -p 参数，即
 >
-> 编译参数的使用，详见 [命令行工具-编译](/chips/600X/tool/lisa_plugin_zephyr/build_flash_debug#原始编译)
+> ` lisa zep build -b csk6011a_nano -p ` 
+> 
+> 更多编译参数的使用，详见 <a href="/chips/600X/tool/lisa_plugin_zephyr/build_flash_debug#原始编译" target="_blank">命令行工具-编译。</a>
 
 
 ## 烧录示例程序
 
-以使用 [CSK6011-NanoKit 开发板](../overview/nanokit/csk6011_nanokit) 为例，使用 Type-C 数据线连接开发板的 **DAPLINK USB** 。
+以使用 <a href="../overview/nanokit/csk6011_nanokit" target="_blank">CSK6011-NanoKit 开发板</a> 为例，使用 Type-C 数据线连接开发板的 **DAPLINK USB** 。
 
 执行以下指令：
 
@@ -277,7 +308,7 @@ $ lisa zep flash
 
 ![](./images/hello_world_output.png)
 
-> 如果你需要了解关于可用开发板的更多说明，可参考 [NanoKit 开发套件](../overview/nanokit/nanokit_introduction) 。
+> 如果你需要了解关于可用开发板的更多说明，可参考 <a href="../overview/nanokit/nanokit_introduction" target="_blank">NanoKit 开发套件</a>。
 
 ## 进阶路线
 
@@ -286,27 +317,29 @@ $ lisa zep flash
 #### 阶段一：了解 CSK 应用开发基础及示例
 
 - 尝试其他的使用示例
-  - [外设驱动说明及使用示例](./peripheral/overview)
-  - [系统内核及使用示例](./kernel/overview)
-  - [系统组件及使用示例](./modules/overview)
-  - [音频组件及使用示例](./audio/overview)
-  - [网络模块及使用示例](./network/overview)
-- 学习有关 [应用开发](./application_development.md) 和 [lisa zep 工具使用](../tool/lisa_plugin_zephyr/index.md)
-- 学习基于 `lisa zep` 的 [烧录与调试](../tool/lisa_plugin_zephyr/build_flash_debug.md) 特性，或者更多关于 [烧录与硬件调试](../gdbdebug/overview.md) 的内容
+  - <a href="./peripheral/overview" target="_blank">外设驱动说明及使用示例</a>
+  - <a href="./kernel/overview" target="_blank">系统内核及使用示例</a>
+  - <a href="./modules/overview" target="_blank">系统组件及使用示例</a>
+  - <a href="./audio/overview" target="_blank">音频组件及使用示例</a>
+  - <a href="./network/overview" target="_blank">网络模块及使用示例</a>
+
+- 学习有关 <a href="./application_development" target="_blank">应用开发</a> 和 学习有关 <a href="../tool/lisa_plugin_zephyr/index" target="_blank">lisa zep 工具使用</a>
+
+- 学习基于 `lisa zep` 的 <a href="../tool/lisa_plugin_zephyr/build_flash_debug" target="_blank">烧录与调试</a> 特性，或者更多关于 <a href="../gdbdebug/overview" target="_blank">烧录与硬件调试</a> 的内容
 
 #### 阶段二：了解构建系统及配置系统
 
-- [构建系统](../build/cmake/index.md)
-- [Kconfig 配置系统](../build/kconfig/index.md)
+- <a href="../build/cmake/index" target="_blank">构建系统</a>
+- <a href="../build/kconfig/index" target="_blank">Kconfig 配置系统</a>
 
 #### 阶段三：了解设备树原理和使用方法
 
-- [设备树概述](../build/dts/intro.md)
+- <a href="../build/dts/intro" target="_blank">设备树概述</a>
 
 #### 阶段四：掌握自定义板型的添加、自定义驱动等功能开发
 
-- [自定义板型及示例](./board)
-- [自定义驱动及示例](./customdriver/custom-driver-video.md)
+- <a href="./board" target="_blank">自定义板型及示例</a>
+- <a href="./customdriver/custom-driver-video" target="_blank">自定义驱动及示例</a>
 
 ## 安装过程疑难解答
 

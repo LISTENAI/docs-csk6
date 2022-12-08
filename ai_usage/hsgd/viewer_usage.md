@@ -21,6 +21,12 @@ lisa zep flash
 
 ### 第二步：PC 工具获取
 
+获取方式一：
+
+访问在线[PC工具网页](https://tool.listenai.com/csk-view-finder-spd)
+
+获取方式二：
+
 拉取 [PC 工具项目](https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd) 到本地
 
 ```bash
@@ -47,14 +53,24 @@ git clone https://cloud.listenai.com/zephyr/applications/csk_view_finder_spd.git
 
 2. 点击“选择设备”按钮，选择“CSK View Finder”选项，点击“连接”，即可看到预览图和识别结果；
 
-若你使用的是Linux系统，且发现无法识别到USB设备，先请尝试[为USB添加udev规则](/chips/600X/FAQ/faq_env#Linux系统下无法识别到CSK-USB设备)后重试。
-
-![](./_images/webusb_choose_device.png)
-
-
+<img
+  width="100%"
+  src={require('./_images/webusb_choose_device.png').default}
+  /> 
+<img
+  width="100%"
+  src={require('./_images/hsd.png').default}
+  /> 
 
 :::tip 提示
+**PC端图像预览常见问题：**
+
+**1.分辨率问题**   
 为了保证算法与PC预览的帧率一致，我们会将发送至PC工具的预览图进行缩小，因此你在PC工具所看到的画面质量会有所降低。但这并不影响算法的识别，算法实际所接收到的图像分辨率为 640x480 px。
+
+**2.Linux系统下无法识别USB设备问题**   
+若你使用的是Linux系统，且发现无法识别到USB设备，先请尝试[为USB添加udev规则](/chips/600X/FAQ/faq_env#Linux系统下无法识别到CSK-USB设备)后重试。
+
 :::
 
 ### 使用工具记录

@@ -21,9 +21,7 @@
             "label": "NanoKit开发板",
             "items": [
               "overview/nanokit/csk6011_nanokit",
-              "overview/nanokit/csk6012_nanokit",
-              "overview/nanokit/nanokit_csk6002_9s_nano",
-              "overview/nanokit/nanokit_csk6011a_9s_nano"
+              "overview/nanokit/csk6012_nanokit"
             ],
             "collapsed": true
           },
@@ -166,7 +164,7 @@
     "items": [
       {
         "type": "category",
-        "label": "图像识别",
+        "label": "视觉",
         "items": [
           {
             "type": "category",

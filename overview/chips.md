@@ -95,9 +95,9 @@ CSK6 是聆思科技新一代的 AI 芯片 SoC 产品系列，采用多核异构
 
 | 标题 | 版本 | 发布日期 | 操作 |
 | ---- | ---- | ---- | ---- |
-| CSK6002 技术规格书 | V1.4 | 2022.8.16 | [下载](./_downloads/6002_datasheet_V1.4_listenAI.pdf) |
-| CSK6011A 技术规格书 | V1.4 | 2022.8.16 | [下载](./_downloads/6011A_datasheet_V1.4_listenAI.pdf) |
-| CSK6012 技术规格书 | V1.4 | 2022.8.17 | [下载](./_downloads/6012_datasheet_V1.4_listenAI.pdf) |
+| CSK6002 技术规格书 | V1.5 | 2022.11.17 | [下载](./_downloads/6002_datasheet_V1.5_listenAI.pdf) |
+| CSK6011A 技术规格书 | V1.5 | 2022.11.17 | [下载](./_downloads/6011A_datasheet_V1.5_listenAI.pdf) |
+| CSK6012 技术规格书 | V1.5 | 2022.11.17 | [下载](./_downloads/6012_datasheet_V1.5_listenAI.pdf) |
 | CSK6系芯片引脚功能表 | V1.0 | 2022.9.2 | [下载](./_downloads/60XX_IOMUX_V1.0.xlsx) |
 | CSK6硬件开发指南 | V1.1 | 2022.9.30 | [下载](./_downloads/csk6_hardware_guide_V1.1.pdf) |
 

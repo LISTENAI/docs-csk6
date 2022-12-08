@@ -72,6 +72,12 @@ CSK6011-NanoKit V1 是一款板载了CSK6011A纯离线模组的NanoKit开发板�
 
 * 通过排针座5V与GND排针进行供电
 
+:::tip
+
+开发板输入电源参数为5V/1A，可通过符合功率要求的充电宝等设备对开发板进行供电以完成在特定场景下的使用。
+
+:::
+
 ### DAPLink USB口的使用
 
 开发板板载了DAPLink调试器芯片，开发者可通过DAPLink USB接口对CSK6芯片进行 **固件烧录** 、**代码仿真** 与 **串口查看**。
@@ -99,6 +105,25 @@ CSK6011-NanoKit V1 是一款板载了CSK6011A纯离线模组的NanoKit开发板�
 :::tip
 CSK6系芯片引脚的功能配置指引请参照《CSK6系芯片引脚功能表》，详见[芯片资料下载](../chips#准备工作)。
 :::
+
+### DAPLink U盘设备
+使用TypeC数据线连接电脑USB与开发板DAPLink USB后，电脑将识别到一个名为 **LISTENAI** 的U盘设备，如图：
+
+<div  align="left"><img
+  src={require('./images/daplink_U.jpg').default}
+  width="30%"
+  alt="Example banner"
+/></div>
+
+此设备为DAPLink虚拟出来的U盘设备，支持通过往U盘中拖拽固件(.bin或.hex格式)实现对CSK6芯片的固件烧录，默认的烧录地址如下：
+- .bin文件：默认烧录至绝对地址0x18000000（偏移地址0x00），即默认APP固件(zephyr.bin)的地址
+- .hex文件：按hex文件规划的地址进行烧录
+
+:::info
+ - 本磁盘显示的存储空间为虚拟数据，与芯片的实际存储资源大小无关
+ - 由于部分操作系统拖拽操作存在限制，若失败请尝试将文件名(不含后缀)改至长度不小于5。
+:::
+
 
 
 ## 开发板资料下载
