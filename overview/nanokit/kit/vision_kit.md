@@ -77,3 +77,8 @@
 
 [聆思科技淘宝官方店-视觉开发套件](https://item.taobao.com/item.htm?spm=a230r.1.14.1.3ce31674ICib4M&id=687851402211&ns=1&abbucket=5#detail)
 
+### 开发套件快速体验
+
+视觉开发套件默认配备头肩&手势识别AI能力，开箱即可快速完成产品体验。
+<video src="https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/video-6.mp4" controls="controls" width="600" height="500">您的浏览器不支持播放该视频！</video>
+

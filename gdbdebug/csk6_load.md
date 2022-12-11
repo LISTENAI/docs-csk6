@@ -115,9 +115,15 @@ Lisa默认安装了J-flash，开发者也可以通过J-flash来烧录，通常�
 
 J-flash 图形界面工具路径:`.listenai\lisa-zephyr\packages\node_modules\@binary\jlink-venus\binary`
 
-J-flash Venus_flashloader.FLM [文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/Venus_flashloader.FLM)
+J-flash 16M flash 烧录 FLM 文件，Venus_flashloader.FLM [文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/Venus_flashloader.FLM)
+
+J-flash 32M flash 烧录 FLM 文件 Venus_flashloader_32M.FLM [文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/Venus_flashloader_32MB.FLM)
+
+J-flash 烧录设备列表xml文件。[文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/JLinkDevices.xml)
 
 J-flash 项目配置文件Venus.jflash [ 文件下载](https://iflyos-external.oss-cn-shanghai.aliyuncs.com/public/lsopen/zephyr/%E5%8A%9F%E8%83%BD%E6%96%87%E4%BB%B6/Venus.jflash)
+
+
 
 :::
 准备工作：
