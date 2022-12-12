@@ -93,13 +93,13 @@ CSK6 是聆思科技新一代的 AI 芯片 SoC 产品系列，采用多核异构
 
 ## 芯片资料下载
 
-| 标题 | 版本 | 发布日期 | 操作 |
-| ---- | ---- | ---- | ---- |
-| CSK6002 技术规格书 | V1.5 | 2022.11.17 | [下载](./_downloads/6002_datasheet_V1.5_listenAI.pdf) |
-| CSK6011A 技术规格书 | V1.5 | 2022.11.17 | [下载](./_downloads/6011A_datasheet_V1.5_listenAI.pdf) |
-| CSK6012 技术规格书 | V1.5 | 2022.11.17 | [下载](./_downloads/6012_datasheet_V1.5_listenAI.pdf) |
-| CSK6系芯片引脚功能表 | V1.0 | 2022.9.2 | [下载](./_downloads/60XX_IOMUX_V1.0.xlsx) |
-| CSK6硬件开发指南 | V1.1 | 2022.9.30 | [下载](./_downloads/csk6_hardware_guide_V1.1.pdf) |
+| 文件 | 说明 | 版本 | 发布日期 | 操作 |
+| ---- | ---- | ---- | ---- | ---- |
+| CSK6002 Datasheet | 描述芯片功能特性、详细参数的技术规格书。 | V1.6 | 2022.12.8 | [下载](./_downloads/CSK6002_Datasheet_V1.6.pdf) |
+| CSK6011A Datasheet |  描述芯片功能特性、详细参数的技术规格书。 | V1.6 | 2022.12.8 | [下载](./_downloads/CSK6011A_Datasheet_V1.6.pdf) |
+| CSK6012 Datasheet |  描述芯片功能特性、详细参数的技术规格书。 | V1.6 | 2022.12.8 | [下载](./_downloads/CSK6012_Datasheet_V1.6.pdf) |
+| CSK6系芯片引脚功能表 | 描述了芯片各个GPIO的可映射功能。 | V1.0 | 2022.9.2 | [下载](./_downloads/60XX_IOMUX_V1.0.xlsx) |
+| CSK6硬件设计指南 | 对基于CSK6芯片的硬件设计进行说明，包含常见外围电路的设计指引与硬件生产制造的注意事项说明。 |V1.1 | 2022.9.30 |  [下载](./_downloads/csk6_hardware_guide_V1.1.pdf) |
 
 ---
 
