@@ -163,6 +163,8 @@ typedef enum {
 | [`hsd_event_unregister`](#hsd_event_unregister) | 取消注册事件回调         |
 | [`hsd_set_params`](#hsd_set_params)             | 设置参数值               |
 | [`hsd_get_params`](#hsd_get_params)             | 获取参数值               |
+| [`hsd_set_track`](#hsd_get_params)              | 设置头肩追踪 id          |
+| [`hsd_clear_track`](#hsd_get_params)            | 取消头肩追踪 id          |
 | [`hsd_exec`](#hsd_exec)                         | 传输图像数据获取单次结果 |
 
 :::info 注意
@@ -448,6 +450,67 @@ float value;
 hsd_get_params(hsd, HSD_PARAM_HEAD_SHOULDER_DETECT_THRES, &value);
 printk("HSD_PARAM_HEAD_SHOULDER_DETECT_THRES value: %f\n", value);
 ```
+
+### `hsd_set_track`
+
+```c
+/**
+ * @brief 设置追踪 id 。id 为算法回调中返回的头肩 id 。
+ *
+ * @param hsd 实例
+ * @param traci_id 要追踪的 id
+ */
+extern int hsd_set_track(hsd_t *hsd, int track_id);
+```
+
+设置追踪 id 。id 为算法回调中返回的头肩 id 。
+
+| 参数     | 类型     | 含义                                                                  |
+| -------- | -------- | --------------------------------------------------------------------- |
+| hsd      | `hsd_t*` | HSD 实例指针，从 `hsd_create` 创建                                    |
+| track_id | `int`    | 要追踪的 id ，从回调中的头肩结果中获得，即 `head_shoulder_detect->id` |
+
+设置追踪 id 建议在算法回调获取到结果后，再根据业务需求设置。这里是一个根据得分最高设置追踪 id 的示例：
+
+```c
+void on_receive_hsd_result(hsd_t *hsd, hsd_event event, void *data, void *user_data)
+{
+	// 在回调中处理
+	if (event == HSD_EVENT_HEAD_SHOULDER) {
+		hsd_head_shoulder_detect *result = (hsd_head_shoulder_detect *)data;
+		// LOG_INF("head shoulder cnt: %d", result->track_count);
+
+		if (result->track_count > 0) {
+			int max_index = 0;
+			for (int i = 0; i < result->track_count; i++) {
+				if (result->result[i].score > result->result[max_index].score) {
+					max_index = i;
+				}
+			}
+			hsd_set_track(hsd, result->result[max_index].id);
+		} else {
+			hsd_clear_track(hsd);
+		}
+	}
+}
+```
+
+### `hsd_clear_track`
+
+```c
+/**
+ * @brief 清除追踪 id 。
+ *
+ * @param hsd 实例
+	*/
+extern int hsd_clear_track(hsd_t *hsd);
+```
+
+清除追踪 id 。
+
+| 参数 | 类型     | 含义                               |
+| ---- | -------- | ---------------------------------- |
+| hsd  | `hsd_t*` | HSD 实例指针，从 `hsd_create` 创建 |
 
 ### `hsd_exec`
 
