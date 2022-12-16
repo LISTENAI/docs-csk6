@@ -120,6 +120,7 @@
           "application/shell_sample",
           "application/modules/nvs",
           "application/modules/filesystem",
+          "service/storage/howtouse_psram.md",
           {
             "type": "category",
             "label": "音频",
