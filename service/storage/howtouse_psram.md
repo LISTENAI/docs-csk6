@@ -4,7 +4,7 @@
 
 CSK6内置1MB SRAM，8MB PSRAM和 8MB Flash，其中部分 CSK6 型号 支持外置Flash ，CSK6 的系统默认运行在 SRAM 上。
 
-由于 CSK6 是采用多核异构的架构，DSP 和 MUC都需要使用到 SRAM 的内存资源，那么就需要对内存空间进行合理分配，因此在CSK6系统中，我们给 DSP 预分配了 680K 的内存空间，给 MUC 预分配了 320K 的内存空间。在实际项目开发中，往往会遇到 SRAM 内存紧张的情况，此时就需要将一部分程序或者是内存的申请放到 PSRAM 上，以解决内存不足的问题。
+由于 CSK6 是采用多核异构的架构，DSP 和 MCU都需要使用到 SRAM 的内存资源，那么就需要对内存空间进行合理分配，因此在CSK6系统中，我们给 DSP 预分配了 680K 的内存空间，给 MCU 预分配了 320K 的内存空间。在实际项目开发中，往往会遇到 SRAM 内存紧张的情况，此时就需要将一部分程序或者是内存的申请放到 PSRAM 上，以解决内存不足的问题。
 
 本章节通过示例讲解 PSRAM 内存空间的使用方法，包括 PSRAM 静态内存申请、PSRAM 动态内存申请、PSRAM 内存使用情况等内容。
 
@@ -15,7 +15,7 @@ CSK6内置1MB SRAM，8MB PSRAM和 8MB Flash，其中部分 CSK6 型号 支持外
   src={require('./files/clipboard.png').default}
   /> 
 
-从CSK6 的存储器分布图可以看到，PSRAM 的起始地址是 30000000~307f0000，总共8M 的空间，由于DSP 和 MUC都可能会使用到 PSRAM 的内存资源，所以 PSRAM 内存空间需要约定并通过起始地址来划分区域，下面我们来看CSK6 SDK 设备树 dts 文件中 PSRAM 内存空间的分配，以`csk6011a_nano` 板型为例：
+从CSK6 的存储器分布图可以看到，PSRAM 的起始地址是 30000000~307f0000，总共8M 的空间，由于DSP 和 MCU都可能会使用到 PSRAM 的内存资源，所以 PSRAM 内存空间需要约定并通过起始地址来划分区域，下面我们来看CSK6 SDK 设备树 dts 文件中 PSRAM 内存空间的分配，以`csk6011a_nano` 板型为例：
 
 ```shell
 &psram0 {
@@ -54,9 +54,9 @@ CSK6内置1MB SRAM，8MB PSRAM和 8MB Flash，其中部分 CSK6 型号 支持外
 | ----------- | ------------------------- | ---------- | -------- | -------- |
 | psram_cp    | DSP 预分配内存            | 0x30000000 | 0x600000 | 6MB      |
 | psram_ap    | MCU 预分配内存            | 0x30600000 | 0x100000 | 1M       |
-| psram_share | DSP 和 MUC 通讯的共享内存 | 0x30700000 | 0x80000  | 0.5M     |
+| psram_share | DSP 和 MCU 通讯的共享内存 | 0x30700000 | 0x80000  | 0.5M     |
 
-从配置中可以看到，系统给 DSP 分配了6M 的内存空间，给 MCU 预分配了1M的内存空间，给DSP 和 MUC 通讯的共享内存预分配了512K 内存空间，该配置是根据系统 DSP 核和 MUC 核实际使用需求来分配，在实际项目中往往需要调整，假设实际项目中 DSP 和MCU 实际的使用需求为 DSP 4M，MCU 3M，那么我们可以在应用项目的`boards/csk6011a_nano.overlay` 中将 PSRAM 的内存配置做如下调整：
+从配置中可以看到，系统给 DSP 分配了6M 的内存空间，给 MCU 预分配了1M的内存空间，给DSP 和 MCU 通讯的共享内存预分配了512K 内存空间，该配置是根据系统 DSP 核和 MCU 核实际使用需求来分配，在实际项目中往往需要调整，假设实际项目中 DSP 和MCU 实际的使用需求为 DSP 4M，MCU 3M，那么我们可以在应用项目的`boards/csk6011a_nano.overlay` 中将 PSRAM 的内存配置做如下调整：
 
 ```shell
 /* 删除掉系统dts默认配置的参数 */
