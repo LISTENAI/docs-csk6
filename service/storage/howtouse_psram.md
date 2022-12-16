@@ -275,7 +275,7 @@ CONFIG_SHELL=y
 
 :::note
 
-更多关于shell的使用请查阅<a href="../../application/shell_sample.md" target="_blank">shell 的使用</a>章节。
+更多关于shell的使用请查阅<a href="../../application/shell_sample" target="_blank">shell 的使用</a>章节。[]()
 
 :::
 
