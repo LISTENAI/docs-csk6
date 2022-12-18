@@ -125,7 +125,7 @@ NanoKit开发板出厂时已为DAPLink调试器烧录了固件，当需要对DAP
 - Step1：按住NanoKit开发板的 Rset 按键；
 - Step2：连接NanoKit开发板的 DAPLink USB，为开发板进行上电；
 - Step3：观察到电脑出现一个名为 **MAINTENANCE** 的U盘设备；
-- Step4：将 [DAPLink固件](./_downloads/daplink_v0258_9.hex) 拖拽进U盘设备中；
+- Step4：将 [DAPLink固件](./_downloads/daplink_hex.zip) 降压后的hex文件拖拽进U盘设备中；
 - Step5：等待设备重启，若观察到电脑识别到名为 **LISTENAI** 的U盘设备，说明升级成功。
 
 ## 开发板资料下载
