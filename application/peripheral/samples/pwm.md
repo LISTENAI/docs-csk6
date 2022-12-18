@@ -28,7 +28,7 @@ int pwm_pin_set_usec(const struct device * dev, uint32_t channel, uint32_t perio
 ## 使用示例
 
 ### 准备工作
-首先，实现Blinky_pwm示例的预期效果需要硬件开发板上必须有一个GPIO(带pwm输出功能)连接了一个LED灯，在`csk6011a_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOA_06，GPIOA_06可复用为pwm输出功能。
+首先，实现Blinky_pwm示例的预期效果需要硬件开发板上必须有一个GPIO(带pwm输出功能)连接了一个LED灯，在`csk6011a_nano`开发板上是有这个设计的，通过查看开发板底板原理图，你可以看到LED对应的电路设计如下图所示，我们可以看到LED1(Green)对应的控制引脚为:GPIOB_06，GPIOB_06可复用为pwm输出功能。
 ![](./files/led_pin.png)
 
 ### 获取sample项目

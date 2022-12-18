@@ -286,7 +286,7 @@ WiFi回调事件列表：
 
 在app根目录下通过以下指令完成编译：
 ```shell
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_c3_nano
 ```
 #### 烧录
 
