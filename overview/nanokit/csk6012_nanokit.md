@@ -102,10 +102,31 @@ CSK6012-NanoKit V1 是一款板载了CSK6012纯离线模组的NanoKit开发板�
 若未能识别到设备，请检查所用的TypeC数据线是否具备数据传输功能，部分TypeC线只具备供电功能。
 :::
 
-:::tip
-CSK6系芯片引脚的功能配置指引请参照《CSK6系芯片引脚功能表》，详见[芯片资料下载](../chips#准备工作)。
+### DAPLink U盘拖拽烧录
+使用TypeC数据线连接电脑USB与开发板DAPLink USB后，电脑将识别到一个名为 **LISTENAI** 的U盘设备，如图：
+
+<div  align="left"><img
+  src={require('./images/daplink_U.jpg').default}
+  width="30%"
+  alt="Example banner"
+/></div>
+
+此设备为DAPLink虚拟出来的U盘设备，支持通过往U盘中拖拽固件(.bin或.hex格式)实现对CSK6芯片的固件烧录，默认的烧录地址如下：
+- .bin文件：默认烧录至绝对地址0x18000000（偏移地址0x00），即默认APP固件(zephyr.bin)的地址
+- .hex文件：按hex文件规划的地址进行烧录
+
+:::info
+ - 本磁盘显示的存储空间为虚拟数据，与芯片的实际存储资源大小无关
+ - 由于部分操作系统拖拽操作存在限制，若失败请尝试将文件名(不含后缀)改至长度不小于5。
 :::
 
+### DAPLink 固件升级
+NanoKit开发板出厂时已为DAPLink调试器烧录了固件，当需要对DAPLink调试器固件进行更换或更新时，可遵循以下方式进行：
+- Step1：按住NanoKit开发板的 Rset 按键；
+- Step2：连接NanoKit开发板的 DAPLink USB，为开发板进行上电；
+- Step3：观察到电脑出现一个名为 **MAINTENANCE** 的U盘设备；
+- Step4：将 [DAPLink固件](./_downloads/daplink_hex.zip) 降压后的hex文件拖拽进U盘设备中；
+- Step5：等待设备重启，若观察到电脑识别到名为 **LISTENAI** 的U盘设备，说明升级成功。
 
 ## 开发板资料下载
 

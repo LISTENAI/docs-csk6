@@ -50,7 +50,9 @@ lisa zep flash --build-dir .\blinky\build
 :::
 
 ### 指定烧录工具
-通过指定烧录工具如：jlink、pyocd、串口等工具来实现`zephyr.bin`编译产物的烧录。例如：
+通过指定烧录工具如：jlink、pyocd、串口等工具来实现对芯片的烧录。
+
+例如：
 ```bash
 lisa zep flash --runner pyocd
 ```
@@ -58,9 +60,9 @@ lisa zep flash --runner pyocd
 ```bash
 # Available runners configured by board.cmake.
 runners:
-- jlink
-- pyocd
-- csk
+- pyocd：使用NanoKit开发板板载的DAPLink调试器通过芯片SWD接口进行烧录
+- jlink：通过外接Jlink调试器通过芯片SWD接口进行烧录，建议手头有Jlink调试器的用户选用此方式，可获得较稳定的烧录速度体验
+- csk：使用NanoKitt开发板板载的DAPLink调试器通过芯片串口(A15/A18)进行烧录，烧录时将占用开发板的虚拟日志串口。
 
 # Default flash runner if --runner is not given.
 flash-runner: pyocd
