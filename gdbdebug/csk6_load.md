@@ -60,9 +60,9 @@ lisa zep flash --runner pyocd
 ```bash
 # Available runners configured by board.cmake.
 runners:
-- pyocd：使用NanoKit开发板板载的DAPLink调试器通过芯片SWD接口进行烧录
-- jlink：通过外接Jlink调试器通过芯片SWD接口进行烧录，建议手头有Jlink调试器的用户选用此方式，可获得较稳定的烧录速度体验
-- csk：使用NanoKitt开发板板载的DAPLink调试器通过芯片串口(A15/A18)进行烧录，烧录时将占用开发板的虚拟日志串口。
+- pyocd
+- jlink
+- csk
 
 # Default flash runner if --runner is not given.
 flash-runner: pyocd
@@ -73,11 +73,11 @@ debug-runner: pyocd
 
 从 `runners.yaml` 配置文件中可以看到，CSK-6-NanoKit 开发板支持以下几种烧录方式:
 
-- jlink
+- pyocd：使用NanoKit开发板板载的DAPLink调试器通过芯片SWD接口进行烧录
 
-- pyocd
+- jlink：通过外接Jlink调试器通过芯片SWD接口进行烧录，建议手头有Jlink调试器的用户选用此方式，可获得较稳定的烧录速度体验
 
-- csk(串口)
+- csk(串口)：使用NanoKitt开发板板载的DAPLink调试器通过芯片串口(A15/A18)进行烧录，烧录时将占用开发板的虚拟日志串口，但可以获得较快的烧录速度
 
 从配置文件可以看到，当不指定烧录工具时默认 pyocd 作为烧录工具。
 
@@ -87,7 +87,7 @@ debug-runner: pyocd
 
 ![](./files/nano.png)
 
-从上图系统框图可看到，CSK6-NanoKit 板载了 DAPLink 调试器芯片，DAPLink和CSK芯片模组通过SWD和串口两种方式连接，开发者可通过指定烧录工具(pyocd或csk)的方式来选择SWD或者是串口烧录，两者是二选一的关系，
+从上图系统框图可看到，CSK6-NanoKit 板载了 DAPLink 调试器芯片，DAPLink和CSK芯片模组通过SWD和串口两种方式连接，开发者可通过指定烧录工具(pyocd或csk)的方式来选择SWD或者是串口烧录。
 
 **准备工作：**
 
@@ -102,6 +102,7 @@ lisa zep flash --runner pyocd
 烧录过程日志：
 ![](./files/burn_pyocd.png)
 
+> 当前此方式在部分WIN11和部分WIN10可能存在烧录缓慢的问题，若出现此问题，建议选择其他烧录方式(runner)。
 
 ### J-Link 烧录
 
@@ -154,7 +155,7 @@ DAPLink 在电脑设备管理器中的虚拟串口为`USB串行设备(COMXX)`如
 
 :::tip
 
-通过此方式进行串口烧录时，请确保该串口未被其他串口调试工具占用。
+通过此方式进行串口烧录时，请确保该串口未被其他串口调试工具占用，若关闭串口调试工具后依旧无法正常烧录，请尝试重新拔插USB数据线。
 
 :::
 
