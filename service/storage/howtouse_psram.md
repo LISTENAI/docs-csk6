@@ -1,4 +1,4 @@
-# CSK6 PSRAM 内存空间使用方法
+# CSK6 PSRAM内存空间使用
 
 ## 概述
 
