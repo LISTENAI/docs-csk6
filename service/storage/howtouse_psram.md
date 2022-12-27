@@ -2,7 +2,7 @@
 
 ## 概述
 
-CSK6内置1MB SRAM，8MB PSRAM和 8MB Flash，其中部分 CSK6 型号 支持外置Flash ，CSK6 的系统默认运行在 SRAM 上。
+CSK6内置1MB SRAM，8MB PSRAM和 8MB Flash，其中部分 CSK6 型号支持外置Flash 。
 
 由于 CSK6 是采用多核异构的架构，DSP 和 MCU都需要使用到 SRAM 的内存资源，那么就需要对内存空间进行合理分配，因此在CSK6系统中，我们给 DSP 预分配了 680K 的内存空间，给 MCU 预分配了 320K 的内存空间。在实际项目开发中，往往会遇到 SRAM 内存紧张的情况，此时就需要将一部分程序或者是内存的申请放到 PSRAM 上，以解决内存不足的问题。
 
@@ -106,7 +106,7 @@ CSK6 基础 SDK 封装了 psram 的使用接口，应用项目中需要使用 PS
 ```
 # psram 内存配置
 CONFIG_CSK_HEAP=y
-# 应用项目在 psram 上预申请的内存池
+# 应用项目在 psram 上预申请的内存池大小（单位是Byte）
 CONFIG_CSK_HEAP_MEM_POOL_SIZE=4096
 ```
 
@@ -152,19 +152,19 @@ csk_heap_info();
 
 void main(void)
 {
-	/* 动态内存申请 */
-	char* ptr = NULL;
-	char* ptr_calloc = NULL;
-    /* 动态内存申请 */
-    ptr = csk_malloc(MALLOC_SIZE);
-    printk("After malloc %d bytes ,heap info:\n",MALLOC_SIZE);
-    /* 动态内存使用情况查询 */
-    csk_heap_info();
-    
-    /* 释放内存 */
-    csk_free(ptr);
-	printk("After free all ,heap info:\n");
-	csk_heap_info();
+        /* 动态内存申请 */
+        char* ptr = NULL;
+        char* ptr_calloc = NULL;
+        /* 动态内存申请 */
+        ptr = csk_malloc(MALLOC_SIZE);
+        printk("After malloc %d bytes ,heap info:\n",MALLOC_SIZE);
+        /* 动态内存使用情况查询 */
+        csk_heap_info();
+
+        /* 释放内存 */
+        csk_free(ptr);
+        printk("After free all ,heap info:\n");
+        csk_heap_info();
 }
 ```
 
@@ -236,7 +236,7 @@ __attribute__((section(".psram_section"))) static const char venus_system_tag[] 
 
 #### 通过编译结果查看：
 
-基于上文 psram 分配方式，假设在一个应用项目在`csk6011a_nano.overlay`文件中给 DSP 预分配 4M psram 内存空间，给 MCU 预分配 3M psram 内存空间，在`prj.conf文件中`打开psram的动态内存申请配置，并预分配 4096B 的动态内存池。
+基于上文 psram 分配方式，假设在一个应用项目在`csk6011a_nano.overlay`文件中给 DSP 预分配 4M psram 内存空间，给 MCU 预分配 3M psram 内存空间，在`prj.conf文件中`打开psram的动态内存申请配置，并预分配 4096 （单位是Byte）的动态内存池。
 通过编译可获取应用项目整体内存使用情况，在项目编译后输出如下信息：
 
 ```shell
@@ -321,7 +321,7 @@ Threads:
 
 在 main 主线程的信息中，我们可以得到以下信息：
 
-- 预分配的动态内存池的总大小为：stack size 4096；主线程动态内存池的大小在哪里设置呢？它是由`proj.conf`文件中的`CONFIG_MAIN_STACK_SIZE=4096` 配置决定的，如果不配置，那么默认是`2048`（单位是B）。
+- 预分配的动态内存池的总大小为：stack size 4096（单位是Byte）；主线程动态内存池的大小在哪里设置呢？它是由`proj.conf`文件中的`CONFIG_MAIN_STACK_SIZE=4096` 配置决定的，如果不配置，那么默认是`2048`（单位是Byte）。
 - 未使用的内存大小：unused 3656；
 - 已使用的内存大小和占比：usage 440 / 4096 (10 %)。
 
