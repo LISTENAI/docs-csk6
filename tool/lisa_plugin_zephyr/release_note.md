@@ -1,6 +1,32 @@
 # lisa zep 更新日志
 
-## v1.6.5(latest)
+## v1.6.11 (latest)
+
+#### Bug fixes:
+
+* 修复 lisa zep ide 因编译工具链更新导致的 vscode debug 配置异常。
+
+* 修复 lisa zep ide 因python版本问题导致的vscode debug 配置异常。
+
+## v1.6.9
+
+#### New features:
+
+* 非windows平台下，增加应用级项目 sdk 的 cache 机制。
+
+## v1.6.8
+
+#### New features:
+
+* 新增 lisa zep pack --lpk ，支持多资源打包。详情查看 [对应章节](../lisa_plugin_zephyr/pack) 。
+
+* `lisa zep create` 增加操作提示
+
+#### Improvement:
+
+* 优化sdk版本切换时tag异常的问题
+
+## v1.6.5
 
 #### New features:
 
