@@ -304,6 +304,7 @@
           "tool/lisa_plugin_zephyr/filesystem",
           "tool/lisa_plugin_zephyr/manifest",
           "tool/lisa_plugin_zephyr/application_project",
+          "tool/lisa_plugin_zephyr/pack",
           "tool/lisa_plugin_zephyr/release_note"
         ],
         "collapsed": true
