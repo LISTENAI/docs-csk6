@@ -1,4 +1,26 @@
 # 应用开发常见问题
+---
+### 系统常用接口查询
+CSK6 SDK 系统接口的.h文件在`csk-sdk\zephyr\include\zephyr`目录下。            
+例如:     
+系统重启接口在`csk-sdk\zephyr\include\zephyr\sys\reboot.h` 文件中可以找到：
+
+```c
+extern FUNC_NORETURN void sys_reboot(int type);
+```
+
+系统延迟的接口在`csk-sdk\zephyr\include\zephyr\kernel.h`文件中可以找到：    
+```c
+static inline int32_t k_msleep(int32_t ms)
+{
+	return k_sleep(Z_TIMEOUT_MS(ms));
+}
+```
+CSK6 SDK 第三方库接口的.h文件通常在modules目录下。    
+例如:     
+LVGL 接口.h文件在modules的`csk-sdk\modules\lib\gui\lvgl\lvgl.h`路径下。
+
+littlefs 文件系统接口.h文件在modules的`csk-sdk\modules\fs\littlefs\lfs.h`路径下。
 
 ---
 ### 视觉sample修改PC端图像预览分辨率的方法
