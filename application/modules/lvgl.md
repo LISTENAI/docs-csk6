@@ -110,7 +110,7 @@ lv_obj_t * lv_label_create(lv_obj_t * par, const lv_obj_t * copy)
 
 LVGL支持丰富的界面开发接口，这里不一一列举，更多接口请查阅csk6sdk中lv头文件：
 
-`csk-sdk\modules\lib\gui\lvgl8\src\widgets\lv_label.h`。
+`csk-sdk\modules\lib\gui\lvgl\src\widgets\lv_label.h`。
 
 
 
@@ -123,34 +123,12 @@ LVGL支持丰富的界面开发接口，这里不一一列举，更多接口请�
 lisa zep create
 ```
 依次按以下目录选择完成lvgl sample的创建：  
-> boards → csk6 → subsys → display → lvgl8 → SimpleShow
+> boards → csk6 → subsys → display → lvgl → SimpleShow
 
 ### 组件配置
 
-针对csk6002_9s_nano开发板的硬件配置：
-``lvgl`` 工程目录下`boards/csk6002_9s_nano.conf`增加如下配置：   
-
-```shell
-# 启用KSCAN配置
-CONFIG_KSCAN=y
-CONFIG_LVGL_POINTER_KSCAN_SWAP_XY=y
-CONFIG_LVGL_POINTER_KSCAN=y
-CONFIG_LVGL_POINTER_KSCAN_DEV_NAME="BL6XXX"
-
-CONFIG_DISPLAY=y
-# 开发板使用的屏幕是 ST7789V
-CONFIG_LVGL_DISPLAY_DEV_NAME="ST7789V"
-# 开发板使用的屏幕宽
-CONFIG_LVGL_HOR_RES_MAX=320
-# 开发板使用的屏幕高
-CONFIG_LVGL_VER_RES_MAX=170
-# 屏幕的DPI值
-CONFIG_LVGL_DPI=100
-CONFIG_LV_COLOR_DEPTH_16=y
-CONFIG_LV_COLOR_16_SWAP=y
-```
-
-``lvgl`` 工程通用配置文件 ``prj.conf`` ，在文件中增加以下配置选项：
+针对csk6011a_nano开发板的硬件配置：
+``lvgl`` 工程目录下`boards/csk6011a_nano.conf`增加如下配置：   
 
 ```shell
 CONFIG_HEAP_MEM_POOL_SIZE=16384
@@ -162,11 +140,6 @@ CONFIG_DISPLAY_LOG_LEVEL_ERR=y
 CONFIG_LOG=y
 CONFIG_LOG_STRDUP_BUF_COUNT=16
 
-# LVGL8配置
-CONFIG_LVGL8=y
-CONFIG_LV_USE_LABEL=y
-CONFIG_LV_USE_BTN=y
-
 # 启用GPIO驱动(屏幕控制引脚使用)
 CONFIG_GPIO=y
 # 启用SPI驱动(屏幕使用SPI作为数据总线)
@@ -175,29 +148,45 @@ CONFIG_SPI=y
 CONFIG_ST7789V=y
 # 启用I2C配置
 CONFIG_I2C=y
-# 启用BL6XX KSCAN触摸设备驱动
-CONFIG_KSCAN_BL6XXX=y
+
+# 启用KSCAN配置
+CONFIG_KSCAN=y
+# 启用 FT5336 KSCAN触摸设备驱动
+CONFIG_KSCAN_FT5336=y
+CONFIG_KSCAN_FT5336_INTERRUPT=y
+
+# LVGL配置
+CONFIG_LVGL=y
+CONFIG_LV_Z_DISPLAY_DEV_NAME="ST7789V"
+# 开发板使用的屏幕宽
+CONFIG_LV_Z_HOR_RES_MAX=320
+# 开发板使用的屏幕高
+CONFIG_LV_Z_VER_RES_MAX=480
+CONFIG_LV_Z_POINTER_KSCAN=y
+CONFIG_LV_Z_POINTER_KSCAN_DEV_NAME="FT5336"
+CONFIG_LV_COLOR_16_SWAP=y
+CONFIG_LV_COLOR_16_SWAP=y
+CONFIG_LV_Z_POINTER_KSCAN_INVERT_X=y
 ```
 ### 设备树配置
 
 #### **LCD 显示屏SPI设备树配置：**
 
 ```c
-&csk6002_9s_nano_pinctrl{
-				/* SPI pin 脚配置 */
-                pinctrl_spi0_sclk_default: spi0_sclk_default {
-                        pinctrls = < &pinmuxa 15 6 >;
-                };
-                pinctrl_spi0_mosi_default: spi0_mosi_default {
-                        pinctrls = < &pinmuxa 10 6 >;
-                };
-                pinctrl_spi0_miso_default: spi0_miso_default {
-                        pinctrls = < &pinmuxa 17 6 >;
-                };
-                pinctrl_spi0_cs_default: spi0_cs_default {
-                        pinctrls = < &pinmuxa 12 6 >;
-                }; 
-};
+&csk6011a_nano_pinctrl{
+    /* SPI pin 脚配置 */
+    pinctrl_spi0_sclk_default: spi0_sclk_default {
+        pinctrls = <&pinmuxb 1 6>;
+    };
+    pinctrl_spi0_mosi_default: spi0_mosi_default {
+        pinctrls = <&pinmuxb 10 6>;
+    };
+    pinctrl_spi0_miso_default: spi0_miso_default {
+        pinctrls = <&pinmuxa 17 6>;
+    };
+    pinctrl_spi0_cs_default: spi0_cs_default {
+        pinctrls = <&pinmuxb 0 6>;
+    };
 /* st7789v spi设备树配置 */
 &spi0 {
         status = "okay";
@@ -255,14 +244,15 @@ CONFIG_KSCAN_BL6XXX=y
 
 ```c
 
-...				/* 触控屏i2c pin脚配置 */
-                pinctrl_i2c0_scl_default: i2c0_scl_default{
-                        pinctrls = <&pinmuxb 2 8>;
-                };
-                
-                pinctrl_i2c0_sda_default: i2c0_sda_default{
-                        pinctrls = <&pinmuxb 3 8>;
-                };    
+...
+    /* 触控屏i2c pin脚配置 */
+    pinctrl_i2c0_scl_default: i2c0_scl_default{
+        pinctrls = <I2C0_SCL_GPIOB_04>;
+    };
+
+    pinctrl_i2c0_sda_default: i2c0_sda_default{
+        pinctrls = <I2C0_SDA_GPIOB_03>;
+    }; 
 ...
 
 /* 触控屏i2c配置 */
@@ -270,13 +260,12 @@ CONFIG_KSCAN_BL6XXX=y
         status = "okay";
         pinctrl-0 = <&pinctrl_i2c0_scl_default &pinctrl_i2c0_sda_default>; 
         pinctrl-names = "default";
-        bl6xxx@0 {
-                compatible = "betterlife,bl6xxx";
-                reg = <0>;
-                label = "BL6XXX";
+        ft5336@0 {
+                compatible = "focaltech,ft5336";
+                reg = <56>;
+                label = "FT5336";
                 status = "okay";
-                int-gpios = <&gpioa 3 0>;
-                reset-gpios = <&gpioa 2 0>;
+                int-gpios = <&gpiob 11 0>;
         };
 };
 ```
@@ -361,7 +350,7 @@ void main(void)
 在当前工程目录中执行 以下指令进行编译：
 
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build -b csk6011a_nano
 ```
 
 #### 烧录
@@ -369,7 +358,7 @@ lisa zep build -b csk6002_9s_nano
 编译完成后，执行以下指令进行固件烧录：
 
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 
 #### 查看结果
@@ -377,6 +366,8 @@ lisa zep flash --runner pyocd
 烧录完成后，可观察到设备显示屏出现图像，中央有一个txt内容为"Hello world!"的button，下方为一个不断递增的计数值，如图：
 ![image](./images/lvgl_helloworld.png)
 
+CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 本章节Sample仅简单展示了LVGL的GUI功能，更多的控件、高级功能应用用户可以自行阅读LVGL库接口说明或前往 [LVGL官方文档](https://docs.lvgl.io/7.11/overview/index.html) 进行了解。
 

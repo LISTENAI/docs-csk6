@@ -5,7 +5,7 @@
 
 - Zephyr中显示设备驱动、触屏设备驱动等相关知识。
 - 驱动ST7789V SPI屏幕进行内容显示。
-- 使用I2C接口，获取BL6XXX 触控屏用户输入状态。
+- 使用I2C接口，获取 FT5336 触控屏用户输入状态。
 ### LCD屏显示实现
 csk6 sdk 驱动模型中定义了可供上层应用调用的关键接口，如 读/写framebuffer 、开/关屏幕 、获取屏幕设备信息 、 设置亮度/对比度/像素格式/方向等。
 在csk6 sdk的`\drivers\display`目录中可看到sdk已完成了屏显设备驱动的适配，其中包含本示例中使用的`ST7789V (display_st7789v.c/.h)`，只需要在示例中完成驱动的配置即可使用该显示屏。
@@ -68,7 +68,7 @@ int display_blanking_off(const struct device *dev)
 
 ### 触摸屏功能实现 
 
-Zephyr具备kscan（keyboard scan matrix）驱动模型，其驱动程序用于检测矩阵键盘或带有按钮的设备中的按键。由于kscan驱动模型并不定义键值，而是通过按键的行列坐标来标识按键，而用户触碰触摸屏本质上也是生成一个行列坐标，因此kscan驱动模型也适用于触摸屏。csk6sdk中默认适配的触摸IC:BL6XXX(kscan_bl6xxx.c)
+Zephyr具备kscan（keyboard scan matrix）驱动模型，其驱动程序用于检测矩阵键盘或带有按钮的设备中的按键。由于kscan驱动模型并不定义键值，而是通过按键的行列坐标来标识按键，而用户触碰触摸屏本质上也是生成一个行列坐标，因此kscan驱动模型也适用于触摸屏。csk6sdk中默认适配的触摸IC:FT5336(kscan_ft5336.c)
 
 与display驱动类似，kscan驱动模型位于SDK的 `\include\drivers\kscan.h` 文件，kscan驱动模型中定义了一组很简洁的接口和回调。
 
@@ -157,29 +157,39 @@ lisa zep create
 
 本示例显示屏使用到了`CSK6-NanoKit`开发板的SPI0接口，具体为：
 
-`spi0_sclk(pa15)、spi0_mosi(pa10)、spi0_miso(pa17)、 spi0_cs(pa12)`。
+`spi0_sclk(pb1)、spi0_mosi(pb10)、spi0_miso(pa17)、 spi0_cs(pb0)`。
 
 因此需要在 `.overlay`中完成外设接口的配置，具体实现如下：
 
-在应用项目下的`boards/csk6002_9s_nano.overlay`文件添加如下设备树配置：
+在应用项目下的`boards/csk6011a_nano.overlay`文件添加如下设备树配置：
 
 ```c
-&csk6002_9s_nano_pinctrl{
-  			...
-            /* 显示屏SPI接口配置 */
-            pinctrl_spi0_sclk_default: spi0_sclk_default {
-                    pinctrls = < &pinmuxa 15 6 >;
-            };
-            pinctrl_spi0_mosi_default: spi0_mosi_default {
-                    pinctrls = < &pinmuxa 10 6 >;
-            };
-            pinctrl_spi0_miso_default: spi0_miso_default {
-                    pinctrls = < &pinmuxa 17 6 >;
-            };
-            pinctrl_spi0_cs_default: spi0_cs_default {
-                    pinctrls = < &pinmuxa 12 6 >;
-            }; 
-};
+&csk6011a_nano_pinctrl{
+    /* 显示屏SPI接口配置 */
+    pinctrl_spi0_sclk_default: spi0_sclk_default {
+        pinctrls = <&pinmuxb 1 6>;
+    };
+    pinctrl_spi0_mosi_default: spi0_mosi_default {
+        pinctrls = <&pinmuxb 10 6>;
+    };
+    pinctrl_spi0_miso_default: spi0_miso_default {
+        pinctrls = <&pinmuxa 17 6>;
+    };
+    pinctrl_spi0_cs_default: spi0_cs_default {
+        pinctrls = <&pinmuxb 0 6>;
+    };
+
+
+&spi0 {
+    status = "okay";
+    pinctrl-0 = <&pinctrl_spi0_sclk_default &pinctrl_spi0_mosi_default &pinctrl_spi0_miso_default &pinctrl_spi0_cs_default>;
+    pinctrl-names = "default";
+
+    st7789v@0 {
+        compatible = "sitronix,st7789v";
+        label = "ST7789V";
+        status = "okay";
+...
 ```
 
 
@@ -187,23 +197,22 @@ lisa zep create
 
 触摸屏使用到了i2c0接口，具体为：
 
-`i2c0_scl(pb2)、i2c0_sda(pb3)`。
+`i2c0_scl(pb4)、i2c0_sda(pb3)`。
 
 因此需要在 `.overlay`中完成外设接口的配置，具体实现如下：
 
-在`app/boards/`目录下的`csk6002_9s_nano.overlay`文件并添加如下设备树配置：
+在`app/boards/`目录下的`csk6011a_nano.overlay`文件并添加如下设备树配置：
 
 ```shell
-&csk6002_9s_nano_pinctrl{
-   // ...
+&csk6011a_nano_pinctrl{
     /* 触摸屏I2C接口配置 */
     pinctrl_i2c0_scl_default: i2c0_scl_default{
-            pinctrls = <&pinmuxb 2 8>;
+        pinctrls = <I2C0_SCL_GPIOB_04>;
     };
-    
+
     pinctrl_i2c0_sda_default: i2c0_sda_default{
-            pinctrls = <&pinmuxb 3 8>;
-    }; 
+        pinctrls = <I2C0_SDA_GPIOB_03>;
+    };
 };
 
 &i2c0 {
@@ -212,30 +221,12 @@ lisa zep create
         pinctrl-names = "default";
         ft5336@0 {
                 compatible = "focaltech,ft5336";
-                reg = <0x38>;
+                reg = <56>;
                 label = "FT5336";
                 status = "okay";
-                int-gpios = <&gpioa 3 0>;
+                int-gpios = <&gpiob 11 0>;
         };
 };
-```
-
-#### 日志串口设备树配置
-
-本示例中将SDK默认的日志串口(GPIOA_2、GPIOA_3)中的GPIOA_3复用为触控屏的int使能脚，因此将日志输出串口配置为`GPIOb_10` 、`GPIOb_11`，具体如下：
-
-```c
-&csk6002_9s_nano_pinctrl{  
-			/* 日志串口配置 */
-            pinctrl_uart0_rx_default: uart0_rx_default{
-                    pinctrls = <&pinmuxb 10 2>;
-            };
-            
-            pinctrl_uart0_tx_default: uart0_tx_default{
-                    pinctrls = <&pinmuxb 11 2>;
-            };
-    		...
-}
 ```
 
 ### 组件配置
@@ -249,7 +240,8 @@ CONFIG_KSCAN=y
 # I2C功能配置
 CONFIG_I2C=y
 # 触摸屏屏驱动配置
-CONFIG_KSCAN_BL6XXX=y
+CONFIG_KSCAN_FT5336=y
+CONFIG_KSCAN_FT5336_INTERRUPT=y
 ```
 
 #### 显示屏组件配置
@@ -459,20 +451,21 @@ void main(void)
 
 在app根目录下通过以下指令完成编译：
 ```
-lisa zep build -b csk6002_9s_nano
+lisa zep build
 ```
 - **烧录**   
 
-`csk6002_9s_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
+`csk6011a_nano`开发板通过USB连接PC，通过烧录指令开始烧录：
 ```
-lisa zep flash --runner pyocd
+lisa zep flash
 ```
 - **查看结果**  
 
 烧录完成后，可观察到设备显示屏出现【白色背景+三静态方块+一动态方块】的图像，如图：
 ![](./images/display_screen.png)
 
-日志串口(`GPIOB_10`、`GPIOB_11`)接到PC端，通过串口调试助手可看到输出日志，当用手触摸屏幕时，屏幕会实时输出触摸点的坐标与状态，日志信息如下：
+CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit的日志串口`A03 TX A02 RX`外接串口板并连接电脑。
+- 在电脑端使用串口调试助手查看日志，默认波特率为115200。
 
 ```shell
 *** Booting Zephyr OS build fd53c115d07a  ***
