@@ -103,6 +103,30 @@ config BOARD
 endif # BOARD_csk6002_myboard
 ```
 
+- board.cmake文件
+
+本文件用于配置板型支持的runner，即板型支持的烧录器与调试器。
+
+原文件内容如下：
+
+```
+board_runner_args(jlink "--device=Venus")
+board_runner_args(pyocd "--target=csk6001")
+board_runner_args(csk "--chip=6")
+
+set_ifndef(BOARD_DEBUG_RUNNER pyocd)
+set_ifndef(BOARD_FLASH_RUNNER pyocd)
+
+include(${ZEPHYR_BASE}/boards/common/jlink.board.cmake)
+include(${ZEPHYR_BASE}/boards/common/pyocd.board.cmake)
+include(${ZEPHYR_BASE}/boards/common/csk.board.cmake)
+```
+由于开发板上板载了调试器芯片，因此除了支持Jlink外，还支持DAPLink(pyocd)烧录、调试和串口(csk)烧录。
+
+你可以根据自己板型具备的硬件，自行删减不需要的runner。
+
+`set_ifndef` 用于设置默认的调试器runner (BOARD_DEBUG_RUNNER) 和烧录runner (BOARD_FLASH_RUNNER)，即指定执行 `lisa zep flash` 不带 `--runner` 参数时默认使用的硬件。
+
 ### 步骤三：CMake文件修改
 
 在`app/CMakeLists.txt`(注意不是boards目录下的`CMakeLists.txt`)文件中添加`set(BOARD_ROOT ${CMAKE_CURRENT_LIST_DIR})`编译配置，指定项目编译时引用app目录下的board配置：
