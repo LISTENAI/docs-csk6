@@ -200,14 +200,18 @@ CONFIG_LOG_BACKEND_UART=y
 CONFIG_LOG_BACKEND_UART_OUTPUT_TEXT=y
 CONFIG_MAIN_STACK_SIZE=2048
 
-# 给系统动态内存分配的内存空间
-# sof峰值占用大概40k，所以这个值应该大于40k，具体设置为多少需要根据app本身对于内存的需求来确定。
-CONFIG_HEAP_MEM_POOL_SIZE=250000
+# 给系统动态内存分配的内存空间,具体设置为多少需要根据app本身对于内存的需求来确定。
+CONFIG_HEAP_MEM_POOL_SIZE=92160
 
 # 打开avf配置项
 CONFIG_SOF_HOST=y
 CONFIG_AVF_DEBUG_LEVEL=1
 CONFIG_AVF_USE_BINARY_ARRAY=y
+
+# 打开licak配置
+CONFIG_LICAK=y
+CONFIG_LICAK_MODULES_AUDIO_CAPTURE=y
+CONFIG_LICAK_DISABLE_MULTI_HEAP_INIT=y
 
 # 底层硬件通讯配置
 CONFIG_IPM=y
@@ -215,49 +219,16 @@ CONFIG_IPM=y
 # 打开cache配置
 CONFIG_CACHE_MANAGEMENT=y
 ```
+### 音频框架资源
 
-:::tip
-名词说明：   
-avf 全称：audio video framework，系统音视频框架   
-sof 全称：sound open firmware，系统音频框架  
-
-avf和sof的关系：avf是一个host端的业务框架，avf的底层驱动会引用sof提供的接口。
-:::
-
-### AVF底层固件和拓扑配置引用
-CSK6采用双核异构架构，通过ARM核给DSP加载音频固件，并通过topology(拓扑)文件定义DSP的业务逻辑。ARM核通过IPC和共享内存控制和读取DSP的数据，在ARM调用对应的API接口即可轻松在DSP端进行录播音功能，因此需要在应用项目中增加以下配置，将DSP固件和拓扑结构加载到二进制数组文件中，并在应用开发中调用：
-`dsp_resource.h`内容如下：
 ```c
-/* dsp固件 */
-static const unsigned char dsp_firmware[] = {
-#include "dsp_firmware.inc"
-};
-
-/* dsp拓扑文件 */
-static const unsigned char dsp_tplg[] = {
-#include "dsp_tplg.inc"
-};
+cp.bin      //DSP 固件
+res.conf    //应用资源配置项
+res.overlay //应用资源设备树配置
 ```
-在main函數中引用
-```c
-#include "dsp_resource.h"
-```
-在sample项目的根目录下`/resource`文件夹，包含DSP固件和拓扑文件:
 
-- csk6_default.tplg     
-AVF拓扑配置文件
-
-- zephyr.bin    
-AVF底层架构固件
-
-该两个文件为音频架构的基础固件，在sample编译时被打包到编译产物中。目前开发者无法进行配置，在当前阶段，开发者有以下改动需求时需要联系FAE提供支持：
-
-- 修改音频采样率16K/48K或通道数量1ch~4ch。
-
-- 配置录音mic的顺序
-
-:::tip
-DSP部分音频框架的实现逻辑和工作原理本章节不展开讲解，开发者在本章节中只需要会用音频框架所提供的接口完成录音即可，后续的章节将对DSP部分内容进行讲解，敬请期待。
+:::note
+编译时音频框架资源将会被打包到zephyr.bin固件中，开发者只需要通过lisa zep flash烧录zephyr.bin即可。
 :::
 
 ### sample实现逻辑
@@ -265,11 +236,11 @@ DSP部分音频框架的实现逻辑和工作原理本章节不展开讲解，�
 
 ### sample实现
 ```c
-#include <zephyr.h>
 #include <avf/framework/avf_platform.h>
-#include <avf/modules/audio/acapture.h>
 #include <avf/slogger.h>
-#include "dsp_resource.h"
+#include <licak/licak.h>
+#include <licak/modules/audio/acapture.h>
+#include <zephyr.h>
 
 /* 音频数据回调的触发线，当硬件fifo数据超过1024时触发回调 */
 #define ACAPTURE_DATA_EVENT_THRES (1024)
@@ -338,9 +309,8 @@ void main(void)
     static char buffer[sizeof(msgq_data_t) * ACAPTURE_MSGQ_NUMBER];
     msgq_data_t msgq_data;
 
-    /* 注册并初始化AVF框架 */
-    avf_stream_platform_register(dsp_firmware, sizeof(dsp_firmware), dsp_tplg,
-                                 sizeof(dsp_tplg));
+    /* 注册并初始化音频框架 */
+    licak_init();
 
     /* 初始化一个工作队列，用于缓存音频数据，队列的长度为50(可根据实际需求设置长度) */
     k_msgq_init(&acapture_msgq, buffer, sizeof(msgq_data_t), ACAPTURE_MSGQ_NUMBER);
@@ -381,23 +351,15 @@ void main(void)
     printk("Trigger capture start success.\n");
 
     /* step5: 获取音频数据 */
-    for (;;)
-    {
-        /* 从队列获取音频数据 */
-        iret = k_msgq_get(&acapture_msgq, &msgq_data, K_MSEC(500));
-        if (iret != 0)
-        {
-            printk("Get audio data timeout.\n");
-            goto _END;
-        }
-        printk("Get audio data length %d \n", msgq_data.datalen);
-        k_free(msgq_data.pdata);
-        recv_bytes += msgq_data.datalen;
-        if (recv_bytes >= ACAPTURE_DATA_TOTAL_LENGTH)
-        {
-            break;
-        }
-    }
+	for (;;) {
+		k_msgq_get(&acapture_msgq, &msgq_data, K_FOREVER);
+		printk("Get audio data length %d \n", msgq_data.datalen);
+		k_free(msgq_data.pdata);
+		recv_bytes += msgq_data.datalen;
+		if (recv_bytes >= ACAPTURE_DATA_TOTAL_LENGTH) {
+			break;
+		}
+	}
     
     /* step6: 停止acapture */
     acap_stop(acapture);
@@ -444,7 +406,7 @@ CSK6-NanoKit通过板载DAPlink虚拟串口连接电脑，或者将CSK6-NanoKit�
 
 日志结果：
 ```shell
-*** Booting Zephyr OS build v1.0.3-alpha.1  ***
+*** Booting Zephyr OS build v1.2.0 ***
 Create acapture success
 Register data event callback success.
 Set audio fmt<16000 1 16> to acapture success

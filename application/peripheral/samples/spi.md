@@ -103,6 +103,10 @@ CONFIG_HEAP_MEM_POOL_SIZE=10240
 # SPI接收处理超时时间 
 CONFIG_SPI_COMPLETION_TIMEOUT_TOLERANCE=10000
 ```
+
+:::tip
+当CSK6 SPI做slave模式时，需要将CONFIG_SPI_SLAVE=y配置打开。
+:::
 ### SPI设备树配置
 本示例使用CSK6-NanoKit开发板提供的`spi1(GPIO_B_00 sclk, GPIO_B_01 mosi,GPIO_B_02 miso, GPIO_B_03 cs)`作为SPI通讯接口，因此需要在设备树中将这GPIO引脚复用为SPI功能，可通过`board overlay`的方式完成，具体如下：
 在app目录下增加`csk6011a_nano.overlay`文件并添加如下配置：

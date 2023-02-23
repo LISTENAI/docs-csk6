@@ -282,12 +282,17 @@ CONFIG_GPIO=y
 CONFIG_CACHE_MANAGEMENT=y
 ```
 
-:::tip
-名词说明：   
-avf 全称：audio video framework，系统音视频框架   
-sof 全称：sound open firmware，系统音频框架  
+### 音频框架资源
 
-avf和sof的关系：avf是一个host端的业务框架，avf的底层驱动会引用sof提供的接口。
+```c
+audio.wav   //本地音频资源
+cp.bin      //DSP 固件
+res.conf    //应用资源配置项
+res.overlay //应用资源设备树配置
+```
+
+:::note
+编译时音频框架资源将会被打包到zephyr.bin固件中，开发者只需要通过lisa zep flash烧录zephyr.bin即可。
 :::
 
 ### 主程序实现逻辑
@@ -296,6 +301,15 @@ avf和sof的关系：avf是一个host端的业务框架，avf的底层驱动会�
 ### 主程序实现过程
 
 ```c
+#include "dsp_resource.h"
+
+#include "pwr_amp.c"
+#include <avf/framework/avf_platform.h>
+#include <avf/slogger.h>
+#include <licak/licak.h>
+#include <licak/modules/audio/aplay.h>
+#include <zephyr.h>
+
 /*拆分音频数据，以便循环写入aplay*/
 #define PERIOD_BYTES(fmt) amedia_frames_to_bytes(fmt, 1000)
 
@@ -303,8 +317,9 @@ void main(void)
 {
     ...
 
-    /*在调用aplay之前，需要注册avf流框架到系统*/
-    avf_stream_platform_register(dsp_firmware, sizeof(dsp_firmware), dsp_tplg, sizeof(dsp_tplg));
+    /*在调用aplay之前，需要初始化音频框架*/
+    licak_init();
+    
     memset(&fmt, 0, sizeof(amedia_fmt_t));
     /*解析音频数据*/
     pcm_data = prase_wav_fmt(test_audio, sizeof(test_audio), &fmt);
@@ -332,6 +347,10 @@ void main(void)
     }
     printk("Set audio fmt to aplay success\n");
 
+	/*Enable audio power-amp*/
+	audio_pwr_amp_init();
+	audio_pwr_amp_enbale();
+
     /*step3: 开始播放*/
     if (0 != (iret = aplay_start(aplay)))
     {
@@ -340,21 +359,20 @@ void main(void)
     }
     printk("Trigger play start success.\n");
 
-    buffer_end = test_audio + sizeof(test_audio);
-    pstart = pcm_data;
-    while (pcm_data < buffer_end)
-    {
-        /*按1000个周期拆分音频数据，每次写入固定长度数据，直到写完*/
-        write_bytes = buffer_end - (uint32_t)pcm_data > PERIOD_BYTES(&fmt) ? PERIOD_BYTES(&fmt) : buffer_end - (uint32_t)pcm_data;
-        /*step4: 向aplay写入音频数据*/
-        iret = aplay_writei(aplay, pcm_data, write_bytes);
-        if (iret != write_bytes)
-        {
-            printk("aplay_writei failed ret %d.\n", iret);
-            break;
-        }
-        pcm_data += iret;
-    }
+	buffer_end = (uint32_t)test_audio + sizeof(test_audio);
+	pstart = pcm_data;
+	while ((uint32_t)pcm_data < buffer_end) {
+		write_bytes = buffer_end - (uint32_t)pcm_data > PERIOD_BYTES(&fmt)
+				      ? PERIOD_BYTES(&fmt)
+				      : buffer_end - (uint32_t)pcm_data;
+		/*step4: write data to aplayer*/
+		iret = aplay_writei(aplay, (char *)pcm_data, write_bytes);
+		if (iret != write_bytes) {
+			printk("aplay_writei failed ret %d.\n", iret);
+			break;
+		}
+		pcm_data += iret;
+	}
     printk("Write play audio data compelete total size %d with timestamp %lld ms\n", (uint32_t)(pcm_data - pstart), k_uptime_get());
     
     /*step5: 等待aplay播放完成后停止*/
